@@ -1,11 +1,11 @@
 # transformation test result artefact
 # ARTEFACT: TRANSFORM_CUSTOMER
-# CREATED DATE: 2014-06-09T142556
+# CREATED DATE: 2014-06-09T143710
 
-2014-06-09 14:25:56	PASSED	source[0].MIDDLENAME.should.equal(destination[0].MIDDLE_NAME)	{"obj":"MIDDLENAME1","params":{"operator":"to be","expected":"MIDDLENAME1","showDiff":true},"negate":false}
-2014-06-09 14:25:56	PASSED	source[0].SURNAME.should.equal(destination[0].LAST_NAME)	{"obj":"SURNAME1","params":{"operator":"to be","expected":"SURNAME1","showDiff":true},"negate":false}
-2014-06-09 14:25:56	PASSED	source[0].FIRSTNAME.should.equal(destination[0].FIRST_NAME)	{"obj":"FIRST_NAME1","params":{"operator":"to be","expected":"FIRST_NAME1","showDiff":true},"negate":false}
-2014-06-09 14:25:56	PASSED	source[0].UPDATED_DATETIME.toString().should.equal(destination[0].UPDATED_DT.toString())	{"obj":"Wed Jan 01 2014 00:00:00 GMT+1100 (EST)","params":{"operator":"to be","expected":"Wed Jan 01 2014 00:00:00 GMT+1100 (EST)","showDiff":true},"negate":false}
-2014-06-09 14:25:57	PASSED	source[0].NUMBER.should.equal(destination[0].NUMBER)	{"obj":"NUMBER1","params":{"operator":"to be","expected":"NUMBER1","showDiff":true},"negate":false}
-2014-06-09 14:25:57	PASSED	source[0].ACCOUNT_ID.should.equal(destination[0].ACCOUNT_ID)	{"obj":"ACCOUNT1","params":{"operator":"to be","expected":"ACCOUNT1","showDiff":true},"negate":false}
-2014-06-09 14:25:57	PASSED	source[0].ACCOUNT_NAME.should.equal(destination[0].ACCOUNT_NAME)	{"obj":"MY ACCOUNT NAME1","params":{"operator":"to be","expected":"MY ACCOUNT NAME1","showDiff":true},"negate":false}
+2014-06-09 14:37:10	PASSED	source[0].FIRSTNAME.should.equal(destination[0].FIRST_NAME)	{"obj":"FIRST_NAME1","params":{"operator":"to be","expected":"FIRST_NAME1","showDiff":true},"negate":false}
+2014-06-09 14:37:10	PASSED	source[0].SURNAME.should.equal(destination[0].LAST_NAME)	{"obj":"SURNAME1","params":{"operator":"to be","expected":"SURNAME1","showDiff":true},"negate":false}
+2014-06-09 14:37:10	PASSED	source[0].NUMBER.should.equal(destination[0].NUMBER)	{"obj":"NUMBER1","params":{"operator":"to be","expected":"NUMBER1","showDiff":true},"negate":false}
+2014-06-09 14:37:10	PASSED	source[0].ACCOUNT_ID.should.equal(destination[0].ACCOUNT_ID)	{"obj":"ACCOUNT1","params":{"operator":"to be","expected":"ACCOUNT1","showDiff":true},"negate":false}
+2014-06-09 14:37:10	PASSED	source[0].ACCOUNT_NAME.should.equal(destination[0].ACCOUNT_NAME)	{"obj":"MY ACCOUNT NAME1","params":{"operator":"to be","expected":"MY ACCOUNT NAME1","showDiff":true},"negate":false}
+2014-06-09 14:37:10	PASSED	source[0].ACCOUNT_TYPE_ID.substring(0,1).should.equal(destination[0].ACCOUNT_TYPE_ID)	{"obj":"A","params":{"operator":"to be","expected":"A","showDiff":true},"negate":false}
+2014-06-09 14:37:10	PASSED	source[0].MIDDLENAME.should.equal(destination[0].MIDDLE_NAME)	{"obj":"MIDDLENAME1","params":{"operator":"to be","expected":"MIDDLENAME1","showDiff":true},"negate":false}
