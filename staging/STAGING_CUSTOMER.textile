@@ -1,0 +1,7 @@
+h2. ARTEFACT: STAGING_CUSTOMER
+
+DESCRIPTION: Customer table from the CRM system
+
+|COLUMN	|DESC	|TYPE	|LENGTH	|DEFAULT	|NOT_NULL	|PK	|AUTO_INCREMENT	|
+|id	|UID	|column	|int	|11	|TRUE	|TRUE	|TRUE	|
+|NUMBER	|customer	|number	|varchar	|45	|TRUE	|FALSE	|FALSE|
