@@ -55,13 +55,13 @@ function test_generate_doc(artefactName, schema, design, sourceTables, destinati
         var table = forTable.trim().replace(/\t/g, '\t|').replace(/\n/g, '\t|\n|')+'|\n';
 
         var regex = new RegExp(destinationTable, 'g');
-        table = table.replace(regex, '"'+destinationTable+'":../DATASTORE/'+destinationTable+'.textile ');
+        table = table.replace(regex, '"'+destinationTable+'":../datastore/'+destinationTable+'.textile ');
 
         sourceTables = sourceTables.split(',');
         for (var x=0; x<sourceTables.length; x++) {
             sourceTable = sourceTables[x];
             var regex = new RegExp(sourceTable, 'g');
-            table = table.replace(regex, '"'+sourceTable+'":../STAGING/'+sourceTable+'.textile ');
+            table = table.replace(regex, '"'+sourceTable+'":../staging/'+sourceTable+'.textile ');
 
         }
 
