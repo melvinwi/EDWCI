@@ -1,9 +1,16 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> FETCH_HEAD
 h2. ARTEFACT: STAGING_CUSTOMER
 
 DESCRIPTION: Customer table from the CRM system
 
+<<<<<<< HEAD
 |*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+=======
+|COLUMN	|DESC	|TYPE	|LENGTH	|DEFAULT	|NOT_NULL	|PK	|AUTO_INCREMENT	|
+>>>>>>> FETCH_HEAD
 |id	|UID column	|int	|11	|	|TRUE	|TRUE	|TRUE	|
 |NUMBER	|customer number	|varchar	|45	|	|TRUE	|FALSE	|FALSE	|
 |FIRSTNAME	|customer first name	|varchar	|45	|	|FALSE	|FALSE	|FALSE	|
@@ -11,4 +18,7 @@ DESCRIPTION: Customer table from the CRM system
 |MIDDLENAME	|customer middlename	|varchar	|45	|	|FALSE	|FALSE	|FALSE	|
 |CREATED_DATETIME	|	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
 |UPDATED_DATETIME	|	|datetime	|	|	|FALSE	|FALSE	|FALSE|
+<<<<<<< HEAD
 
+=======
+>>>>>>> FETCH_HEAD
