@@ -5,7 +5,7 @@ var fs = require('fs');
 var db = require('./lib/db.js');
 
 
-function test_build(artefactName, object, schema) // Constructor
+function test_build(artefactName, object, schema, design) // Constructor
 {
 
     // RUN TESTS
@@ -26,7 +26,7 @@ function test_build(artefactName, object, schema) // Constructor
             // GENERATE ARTEFACT         
             var GenerateTest = require('./test_generate.js');
             var generateBuild = new GenerateTest(artefactName, object, schema); 
-            process.exit();
+
         }
     });
 
@@ -51,6 +51,11 @@ function test_build(artefactName, object, schema) // Constructor
                 if (wasSuccessful==true) {
                     logger.OK(artefactName, 'PASSED BUILD tests');
                     loadTestData(artefactName, object, schema, function(res) {
+
+                        // GENERATE DOCUMENATION         
+                        var GenerateDoc = require('./test_generate_doc.js');
+                        var generateDoc = new GenerateDoc(artefactName, schema, design); 
+
                         process.exit();
                     });
                 }

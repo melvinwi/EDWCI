@@ -1,0 +1,15 @@
+
+h2. ARTEFACT: STAGING_CUSTOMER
+
+DESCRIPTION: Customer table from the CRM system and ACCOUNT system
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|NUMBER	|customer number	|varchar	|45	|	|TRUE	|TRUE	|FALSE	|
+|FIRST_NAME	|customer first name	|varchar	|45	|	|FALSE	|	|FALSE	|
+|LAST_NAME	|customer surname	|varchar	|45	|	|FALSE	|	|FALSE	|
+|MIDDLE_NAME	|customer middlename	|varchar	|45	|	|FALSE	|	|FALSE	|
+|UPDATED_DT	|	|datetime	|	|	|TRUE	|	|FALSE	|
+|ACCOUNT_ID	|the customer account Id	|varchar	|45	|	|TRUE	|	|FALSE	|
+|ACCOUNT_NAME	|customer account name	|varchar	|45	|	|FALSE	|	|FALSE	|
+|ACCOUNT_TYPE_ID	|the customer account type Id (fk)	|varchar	|45	|	|FALSE	|	|FALSE|
+

@@ -5,7 +5,7 @@ var fs = require('fs');
 var db = require('./lib/db.js');
 
 
-function test_build(artefactName, object, schema) // Constructor
+function test_build(artefactName, object, schema, design) // Constructor
 {
 
     // RUN TESTS
@@ -50,6 +50,11 @@ function test_build(artefactName, object, schema) // Constructor
 
                 if (wasSuccessful==true) {
                     logger.OK(artefactName, 'PASSED BUILD tests');
+                    
+                    // GENERATE DOCUMENATION         
+                    var GenerateDoc = require('./test_generate_doc.js');
+                    var generateDoc = new GenerateDoc(artefactName, schema, design); 
+
                     process.exit();
                     
                 }

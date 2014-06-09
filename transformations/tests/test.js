@@ -22,6 +22,8 @@ if (program.file && program.schema) {
 
 	parser.parse(input, true, function(object) {
 		
+		var design = fs.readFileSync(input);
+
 		if (input.indexOf('/')!=-1) { 
 			input = input.split('/')[1] 
 		}
@@ -83,7 +85,7 @@ if (program.file && program.schema) {
 
 		// RUN BUILD ARTEFACT TESTS			
 		var BuildTest = require('./test_build.js');
-		var runBuild = new BuildTest(artefactName, object, schema);	
+		var runBuild = new BuildTest(artefactName, object, schema, design);	
 		
 
 

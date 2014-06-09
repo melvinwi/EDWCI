@@ -9,7 +9,7 @@ var sys = require('sys')
 var exec = require('child_process').exec;
 
 
-function test_build(artefactName, object, schema) // Constructor
+function test_build(artefactName, object, schema, design) // Constructor
 {
 
     // RUN TESTS

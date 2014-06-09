@@ -33,10 +33,9 @@ if (program.artefactName && program.sourceTables && program.destinationTable && 
 	sourceColumns = ('%s',program.sourceColumns);
 	destinationColumns = ('%s',program.destinationColumns);
 	schema = ('%s',program.schema);
+	design = fs.readFileSync('../'+artefactName+'.csv').toString();
 
 	
-
-
 	var SOURCE_SQL_FILE = 'RESULT-sql-source_.csv'
 	var DESTINATION_SQL_FILE = 'RESULT-sql-destination_.csv'
 	var SOURCE_SQL_RESULTS = 'RESULT-sql-source_resultset.csv'
@@ -76,7 +75,7 @@ if (program.artefactName && program.sourceTables && program.destinationTable && 
 	fs.writeFileSync(TEST_RESULTS, header);
 
 
-	run(artefactName, sourceTables, destinationTable, sourceColumns, destinationColumns, schema);
+	run(artefactName, sourceTables, destinationTable, sourceColumns, destinationColumns, schema, design);
 
 }
 else {
@@ -96,7 +95,7 @@ function logIt(artefactName, data, isResult) {
 	});
 }
 
-function run(artefactName, sourceTables, destinationTable, sourceColumns, destinationColumns, schema) {
+function run(artefactName, sourceTables, destinationTable, sourceColumns, destinationColumns, schema, design) {
 	
 	sourceTables = sourceTables.split(',');
 	var sourceTablesFrom = '';
@@ -194,7 +193,7 @@ function run(artefactName, sourceTables, destinationTable, sourceColumns, destin
 						logIt(SOURCE_SQL_FILE, sourceSQL+'\n');
 						logIt(DESTINATION_SQL_FILE, destinationSQL+'\n');
 
-						runTest(sourceSQL, destinationSQL, test, i, artefactName, object.length)
+						runTest(sourceSQL, destinationSQL, test, i, artefactName, object.length, schema, design, sourceTables, destinationTable)
 						
 					}
 
@@ -217,7 +216,7 @@ function run(artefactName, sourceTables, destinationTable, sourceColumns, destin
 
 var counter = 1;
 var passedOverall = true;
-function runTest(sourceSQL, destinationSQL, test, index, artefactName, test_length) {
+function runTest(sourceSQL, destinationSQL, test, index, artefactName, test_length, schema, design, sourceTables, destinationTable) {
 
 	
 	if (test.trim().length>0) {
@@ -274,7 +273,7 @@ function runTest(sourceSQL, destinationSQL, test, index, artefactName, test_leng
 
 		            	logIt(TEST_RESULTS, result+'\n', true);
 		            	counter++;
-		            	areTestsFinished(counter, test_length)
+		            	areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTable)
 		            }
 
 	        	});
@@ -283,14 +282,14 @@ function runTest(sourceSQL, destinationSQL, test, index, artefactName, test_leng
 	}
 	else {
 		counter++;
-		areTestsFinished(counter, test_length)
+		areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTable)
 	}
 		
 }
 
 
 
-function areTestsFinished(counter, test_length) {
+function areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTable) {
 	
     if (counter==test_length) {
 
@@ -300,6 +299,11 @@ function areTestsFinished(counter, test_length) {
     	}
     	else {
     		logger.OK(artefactName, 'PASSED TESTS');
+
+    		// GENERATE DOCUMENATION         
+            var GenerateDoc = require('./test_generate_doc.js');
+            var generateDoc = new GenerateDoc(artefactName, schema, design, sourceTables, destinationTable); 
+
     		process.exit();
     	}
     	console.log('\n-- see the following files for further details')
