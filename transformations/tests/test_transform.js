@@ -33,14 +33,14 @@ if (program.artefactName && program.sourceTables && program.destinationTable && 
 	sourceColumns = ('%s',program.sourceColumns);
 	destinationColumns = ('%s',program.destinationColumns);
 	schema = ('%s',program.schema);
-	design = fs.readFileSync('../'+artefactName+'.csv').toString();
+	design = fs.readFileSync('../'+artefactName+'.tsv').toString();
 
 	
-	var SOURCE_SQL_FILE = 'RESULT-sql-source_.csv'
-	var DESTINATION_SQL_FILE = 'RESULT-sql-destination_.csv'
-	var SOURCE_SQL_RESULTS = 'RESULT-sql-source_resultset.csv'
-	var DESTINATION_SQL_RESULTS = 'RESULT-sql-destination_resultset.csv'
-	var TEST_RESULTS = 'RESULT-'+artefactName+'-'+'TESTS.csv'
+	var SOURCE_SQL_FILE = 'RESULT-sql-source_.tsv'
+	var DESTINATION_SQL_FILE = 'RESULT-sql-destination_.tsv'
+	var SOURCE_SQL_RESULTS = 'RESULT-sql-source_resultset.tsv'
+	var DESTINATION_SQL_RESULTS = 'RESULT-sql-destination_resultset.tsv'
+	var TEST_RESULTS = 'RESULT-'+artefactName+'-'+'TESTS.tsv'
 
 	// refresh
 	try {
@@ -87,7 +87,7 @@ function logIt(artefactName, data, isResult) {
 	if (isResult==true) { // else this is debug
 		console.log(data.trim());
 	}
-	//fs.appendFile('result-'+moment().format(DATE_FORMAT)+'-'+artefactName+'.csv', data, function(err) {
+	//fs.appendFile('result-'+moment().format(DATE_FORMAT)+'-'+artefactName+'.tsv', data, function(err) {
 	fs.appendFile(artefactName, data, function(err) {	
 		if (err) {
 			console.log(err);
@@ -173,16 +173,16 @@ function run(artefactName, sourceTables, destinationTable, sourceColumns, destin
 
 	        logger.info(artefactName, 'running TESTS', true);
 
-			var exists = fs.existsSync(artefactName+'_tests.csv');
+			var exists = fs.existsSync(artefactName+'_tests.tsv');
 			
 			if (exists==false) {
 
-				logger.error(artefactName, 'FAILED TESTS: missing test file ('+artefactName+'_tests.csv)');
+				logger.error(artefactName, 'FAILED TESTS: missing test file ('+artefactName+'_tests.tsv)');
 
 			}
 			else {
 
-				parser.parse(artefactName+'_tests.csv', true, function(object) {
+				parser.parse(artefactName+'_tests.tsv', true, function(object) {
 
 					for (var i=1; i<object.length; i++) {
 

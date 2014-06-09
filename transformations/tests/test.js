@@ -48,7 +48,7 @@ if (program.file && program.schema) {
 				if (row.SOURCE_FUNCTION_PREFIX.indexOf('SELECTION_CRITERIA')==-1) { // not the last row
 
 					// check source artefact exists
-					var source = row.SOURCE.split('.')[0]+'.csv';
+					var source = row.SOURCE.split('.')[0]+'.tsv';
 
 					if (fs.existsSync('../../staging/'+source)!=true)
 						throw 'missing SOURCE ../../staging/'+source;
@@ -56,7 +56,7 @@ if (program.file && program.schema) {
 
 
 					// check destination artefact exists
-					var destination = row.DESTINATION.split('.')[0]+'.csv';
+					var destination = row.DESTINATION.split('.')[0]+'.tsv';
 					
 					if (fs.existsSync('../../datastore/'+destination)!=true)
 						throw 'missing SOURCE ../../datastore/'+destination;

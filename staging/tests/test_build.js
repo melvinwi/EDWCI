@@ -75,9 +75,9 @@ function loadTestData(artefactName, object, schema, callback) {
     logger.info(artefactName, 'running TEST DATA load');
 
     // load test data
-    if (fs.existsSync(artefactName+'_data.csv')==false) {
+    if (fs.existsSync(artefactName+'_data.tsv')==false) {
         // ERROR
-        logger.error(artefactName, 'missing test data: '+artefactName+'_data.csv');
+        logger.error(artefactName, 'missing test data: '+artefactName+'_data.tsv');
 
         var testDataHeader = '';
         object.forEach(function(row, index) {
@@ -95,7 +95,7 @@ function loadTestData(artefactName, object, schema, callback) {
                 
                 // now parse data file
                 var parser = require('./lib/parser.js');
-                parser.parse(artefactName+'_data.csv', false, function(data) {
+                parser.parse(artefactName+'_data.tsv', false, function(data) {
 
                     var insertCounter = 0;
                     var wasSuccessful = true;

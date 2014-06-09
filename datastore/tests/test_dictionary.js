@@ -14,14 +14,14 @@ function test_dictionary(artefactName, object, schema, callback) // Constructor
     // RUN TESTS
     logger.info(artefactName, 'running DICTIONARY tests');
 
-    fs.exists('../DICTIONARY.csv', function(res) {
+    fs.exists('../DICTIONARY.tsv', function(res) {
         if (res!=true) {
-            logger.error(artefactName, 'FAILED DICTIONARY tests: missing file DICTIONARY.csv - example contents\n');
+            logger.error(artefactName, 'FAILED DICTIONARY tests: missing file DICTIONARY.tsv - example contents\n');
             console.log('NAME\tDESCRIPTION\tEXAMPLE_VALUES\nFIRST_NAME\tFirst name of customers or contacts\tJohn\n...\n')
             process.exit();
         }
         else {
-            parser.parse('../DICTIONARY.csv', true, function(dictionary) {
+            parser.parse('../DICTIONARY.tsv', true, function(dictionary) {
 
             var wasSuccessfulInner = false;
             listOfColsThatDidNotMatchDictionary = '';

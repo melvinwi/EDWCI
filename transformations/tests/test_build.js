@@ -188,9 +188,9 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
 
 
             // check test document exists, otherwise generate skeleton
-            if (fs.existsSync(artefactName+'_tests.csv')==false) {
+            if (fs.existsSync(artefactName+'_tests.tsv')==false) {
                 // ERROR
-                logger.error(artefactName, 'missing transform test artefact: '+artefactName+'_tests.csv');
+                logger.error(artefactName, 'missing transform test artefact: '+artefactName+'_tests.tsv');
 
                 // GENERATE ARTEFACT         
                 var GenerateTest = require('./test_generate.js');
@@ -241,9 +241,9 @@ function loadTestData(artefactNameTable, schema, callback) {
 
 
     // load test data
-    if (fs.existsSync('../../staging/tests/'+artefactNameTable+'_data.csv')==false) {
+    if (fs.existsSync('../../staging/tests/'+artefactNameTable+'_data.tsv')==false) {
         // ERROR
-        logger.error(artefactNameTable, 'missing test data: '+artefactNameTable+'_data.csv');
+        logger.error(artefactNameTable, 'missing test data: '+artefactNameTable+'_data.tsv');
     }
     else {
 
@@ -254,7 +254,7 @@ function loadTestData(artefactNameTable, schema, callback) {
                 
                 // now parse data file
                 var parser = require('./lib/parser.js');
-                parser.parse('../../staging/tests/'+artefactNameTable+'_data.csv', false, function(data) {
+                parser.parse('../../staging/tests/'+artefactNameTable+'_data.tsv', false, function(data) {
 
                 
                     data.forEach(function(row, index) {

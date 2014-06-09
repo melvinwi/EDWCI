@@ -152,7 +152,7 @@ function test_generate(artefactName, object, generateOnlyTest, schema) // Constr
 
 
         // read source data to get first line, first matching row
-        var data = (fs.readFileSync('../../staging/tests/'+object[0].SOURCE.split('.')[0]+'_data.csv').toString().split('\n'))
+        var data = (fs.readFileSync('../../staging/tests/'+object[0].SOURCE.split('.')[0]+'_data.tsv').toString().split('\n'))
         var header = data[0].split('\t');
         var firstRow = data[1].split('\t');
 

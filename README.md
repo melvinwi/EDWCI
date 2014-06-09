@@ -2,6 +2,4 @@ CI
 ==
 
 TODO!
-* in Transformation, toString() every item in the result objects so string tests are performed 
-* check Data Store against vocabulary standard
-* Add Issue integration when new Data Store object uses vocabulary that is not in the vocab list
+* change all design files to .tsv for automatic git rendering
