@@ -1,0 +1,9 @@
+# design artefact							
+# ARTEFACT: STAGING_SALES_ORDER							
+# DESCRIPTION: SALES ORDERS table from Sales system							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+SALESORDERID	UID	int	11		TRUE	TRUE	FALSE
+DATETIME	Date time of transaction	datetime			FALSE	FALSE	FALSE
+ACCOUNTID	Customer Account Id	varchar	12		FALSE	FALSE	FALSE
+STATUS	Sales Order status	varchar	12		FALSE	FALSE	FALSE
+PRICE	Price in cents	int	8		FALSE	FALSE	FALSE
