@@ -1,0 +1,17 @@
+NAME	DESCRIPTION	EXAMPLE_VALUES
+FIRST_NAME	First name of customers or contacts	John
+LAST_NAME	Surname of customers or contacts	Smith
+MIDDLE_NAME	Middle name of customers or contacts	Tony
+UPDATED_DT	Updated date and time	
+ACCOUNT_ID	The customer account identifier	XX112233
+ACCOUNT_NAME	The customer account name	Adams and Co
+ACCOUNT_TYPE_ID	The customer account type identifier	A,B
+ACCOUNT_TYPE_NAME	The customer account type name	Major,Minor
+NUMBER	The customer nubmer	ABC123	
+		
+		
+		
+		
+		
+		
+		
