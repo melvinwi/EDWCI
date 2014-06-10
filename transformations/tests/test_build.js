@@ -90,54 +90,8 @@ function test_build(artefactName, object, schema, design) // Constructor
 
 
 
-/* function testDestination() {
-
-    // -- enter tests below here --
-    
-    logger.info(artefactName, 'running BUILD test for destination');
-
-    // check destination exists
-    var counter = 0;
-    var wasSuccessful = true;
-
-    for (var i=0; i<destinationTables.length; i++) {
-            
-        db.sql('SELECT * FROM `CI`.`'+destinationTables[i]+'`', function(err, result) {
-            try {
-
-                should.not.exist(err);
-
-            } catch(e) {
-                // ERROR
-                logger.error(destinationTables[i], e)
-                wasSuccessful = false;
-            }
-
-            counter++;
-
-            if (counter==destinationTables.length) {
-
-                if (wasSuccessful==true) {
-                    logger.OK(artefactName, 'PASSED BUILD test for destination');
-                    loadTestData(artefactName, object, function(res) {
-                        process.exit();
-                    });
-                }
-                else {
-                    logger.error(artefactName, 'FAILED BUILD test for destination');
-                    process.exit();
-                }
-            }
-        });
-    }
-
-} */
-
 
 function testProcedure(artefactName, sourceTables, destinationTables, object, sourceColumnsString, destinationColumnsString, schema) {
-
-    //console.log('sourceColumnsString: '+sourceColumnsString);
-    //console.log('destinationColumnsString: '+destinationColumnsString);
 
     logger.info(artefactName, 'running BUILD test for procedure');
 
@@ -150,40 +104,32 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
             result1.length.should.equal(1);
 
             logger.OK(artefactName, 'PASSED BUILD test for procedure');
-            //logger.OK(artefactName, 'EXISTS `CI`.`'+artefactName+'`');
-
-
+            
             var count = 0;
 
             // load source test data
             for (var i=0; i<sourceTables.length; i++) {
 
-                //try {
-                    loadTestData(sourceTables[i], schema, function(res) { 
+                loadTestData(sourceTables[i], object, schema, function(res) { 
 
-                        count++
+                    count++
 
-                        if (res=='OK') {
-                            
-                            if (count==sourceTables.length) { // all data is loaded...
+                    if (res=='OK') {
+                        
+                        if (count==sourceTables.length) { // all data is loaded...
 
-                                // execute proc then check mapping was successfully applied to each destination column
-                                // check each column contains source data
-                                runTests(artefactName, sourceTables, destinationTables, sourceColumnsString, destinationColumnsString, schema);
+                            // execute proc then check mapping was successfully applied to each destination column
+                            // check each column contains source data
+                            runTests(artefactName, sourceTables, destinationTables, sourceColumnsString, destinationColumnsString, schema);
 
-                            }
                         }
-                        else {
-                            
-                            process.exit();
-                        }
+                    }
+                    else {
+                        
+                        process.exit();
+                    }
 
-                    });
-                // }
-                // catch(e) {
-                //     // ERROR
-                //     logger.error(sourceTables[i], 'procedure does not exist: '+e)   
-                // }
+                });
             }
 
 
@@ -199,18 +145,6 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
             }
             else {
 
-                // execte transform test - check mapping was successfully applied to each destination column
-                try {
-                    setTimeout(function() {
-
-                        //var TestTransform = require('./test_transform.js');
-                        //var testtransform = new TestTransform(artefactName, sourceTablesString, destinationTablesString); 
-                    }, 1000);
-                }
-                catch (eee) {
-                    // ERROR
-                    logger.error(artefactName, 'error with test_transform: '+eee)
-                }
             }
 
 
@@ -232,58 +166,63 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
 }
     
 
-function loadTestData(artefactNameTable, schema, callback) {
+function loadTestData(artefactName, object, schema, callback) {
 
-    var success = true;
-    var count = 1;
-
-    logger.info(artefactNameTable, 'running TEST DATA load');
-
+    logger.info(artefactName, 'running TEST DATA load');
 
     // load test data
-    if (fs.existsSync('../../staging/tests/'+artefactNameTable+'_data.tsv')==false) {
+    if (fs.existsSync('../../staging/tests/'+artefactName+'_data.tsv')==false) {
         // ERROR
-        logger.error(artefactNameTable, 'missing test data: '+artefactNameTable+'_data.tsv');
+        logger.error(artefactName, 'missing test data: '+artefactName+'_data.tsv');
+
+        var testDataHeader = '';
+        object.forEach(function(row, index) {
+            testDataHeader += row.COLUMN+'\t';
+        });
+        logger.info(artefactName, 'generating header for test data...');
+        console.log(testDataHeader);
     }
     else {
 
         // first drop existing data
-        db.sql('DELETE FROM '+schema+'.'+artefactNameTable, function(err, result) {
+        db.sql('DELETE FROM '+schema+'.'+artefactName, function(err, result) {
             try {
-                should.not.exist(err);
+                if (err) {
+                    logger.error(artefactName, 'failed to execute "DELETE FROM '+schema+'.'+artefactName+'" - '+err);
+                }
                 
                 // now parse data file
                 var parser = require('./lib/parser.js');
-                parser.parse('../../staging/tests/'+artefactNameTable+'_data.tsv', false, function(data) {
+                parser.parse('../../staging/tests/'+artefactName+'_data.tsv', false, function(data) {
 
-                
+                    var insertCounter = 0;
+                    var wasSuccessful = true;
                     data.forEach(function(row, index) {
-
+                        
                         if (index!=0) { // first row are the column names
 
-                            db.sqlSubstitution('INSERT INTO '+schema+'.'+artefactNameTable+' VALUES (??)', row, function(err, result) {
+                            db.sqlSubstitution('INSERT INTO '+schema+'.'+artefactName+' VALUES (??)', row, function(err, result) {
                                 try {
                                     should.not.exist(err);
                                 } catch(e) {
                                     // ERROR
-                                    logger.error(artefactNameTable, 'error loading test data: '+err);
-                                    success = false;
-                                }
-
-                                count++;
-
-                                if (data.length==count) {
-                                    if (success==true) {
-                                        logger.OK(artefactNameTable, 'PASSED TEST DATA load');
-                                        callback('OK')
-                                    }
-                                    else {
-                                        logger.error(artefactNameTable, 'FAILED TEST DATA load'); 
-                                        callback('FAIL');
-                                        process.exit();
-                                    }
+                                    logger.error(artefactName, 'failed to load test data: '+err);
                                 }
                             });
+                        }
+
+                        insertCounter++;
+
+                        if (insertCounter==data.length) {
+                            if (wasSuccessful==true) {
+                                logger.OK(artefactName, 'PASSED TEST DATA load');
+                                callback ('OK')
+                            }
+                            else 
+                            {
+                                logger.error(artefactName, 'FAILED TEST DATA load'); 
+                                callback('OK') 
+                            } 
                         }
                     });
 
@@ -292,13 +231,13 @@ function loadTestData(artefactNameTable, schema, callback) {
 
             } catch(e) {
                 // ERROR
-                logger.error(artefactNameTable, 'FAILED TEST DATA load: '+e);
-                process.exit();
+                logger.error(artefactName, e);
             }
         });                
     }
 
 }
+
 
 Array.prototype.contains = function(v) {
     for(var i = 0; i < this.length; i++) {
@@ -321,7 +260,11 @@ Array.prototype.unique = function() {
 
 function runTests(artefactName, sourceTables, destinationTable, sourceColumnsString, destinationColumnsString, schema) {
     // executes command
-    child = exec('node test_transform.js --artefactName '+artefactName+' --sourceTables '+sourceTables+' --destinationTable '+destinationTable+' --sourceColumns "'+sourceColumnsString+'" --destinationColumns '+destinationColumnsString+' --schema '+schema, function (error, stdout, stderr) {
+    var cmd = 'node test_transform.js --artefactName '+artefactName+' --sourceTables '+sourceTables+' --destinationTable '+destinationTable+' --sourceColumns "'+sourceColumnsString+'" --destinationColumns '+destinationColumnsString+' --schema '+schema;
+
+    console.log(cmd);
+
+    child = exec(cmd, function (error, stdout, stderr) {
       if (stdout) {
         console.log(stdout);
       }

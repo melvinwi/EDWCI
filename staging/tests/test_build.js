@@ -100,7 +100,7 @@ function loadTestData(artefactName, object, schema, callback) {
                     var insertCounter = 0;
                     var wasSuccessful = true;
                     data.forEach(function(row, index) {
-
+                        
                         if (index!=0) { // first row are the column names
 
                             db.sqlSubstitution('INSERT INTO '+schema+'.'+artefactName+' VALUES (??)', row, function(err, result) {

@@ -40,26 +40,66 @@ if (program.file && program.schema) {
 		object.forEach(function(row, index) { // check every line
 			try {
 				row.should.have.properties('COLUMN', 'TYPE', 'DESC', 'LENGTH', 'DEFAULT', 'NOT_NULL', 'PK', 'AUTO_INCREMENT');
-
+			} catch(e) {
+				// ERROR
+				logger.error('FAILED DESIGN tests', 'missing one or more column headers - should have: COLUMN, TYPE, DESC, LENGTH, DEFAULT, NOT_NULL, PK, AUTO_INCREMENT');
+				success = false;
+				process.exit();
+			}
+			
+			try {	
 				row.TYPE.toLowerCase().should.match(/int|varchar|datetime/)
+			}
+			catch(e) {
+				// ERROR
+				logger.error('error with TYPE', 'incorrect TYPE in row '+(index+1)+' - value: "'+row.TYPE+'" should be one of: int|varchar|datetime');
+				success = false;
+			}
 
+			try {
 				if (row.TYPE!='datetime') {
 					row.LENGTH.should.be.a.Number;
 				}
-
-				row.NOT_NULL.toLowerCase().should.match(/true|false/)
-
-				row.PK.toLowerCase().should.match(/true|/)
-
-				
-				row.AUTO_INCREMENT.toLowerCase().should.match(/true|false/)
-
-
-			} catch(e) {
+			}
+			catch(e) {
 				// ERROR
-				logger.error(JSON.stringify(row), e);
+				logger.error('ERROR with LENGTH', 'incorrect LENGTH in row '+(index+1)+' - value: "'+row.LENGTH+'" must contain an integer');
 				success = false;
 			}
+
+			try {
+				row.NOT_NULL.toLowerCase().should.match(/true|false|^$/)
+			}
+			catch(e) {
+				// ERROR
+				logger.error('ERROR with NOT_NULL', 'incorrect NOT_NULL in row '+(index+1)+' - value: "'+row.NOT_NULL+'" must contain: true|false|^$ (i.e. true|false or empty == false)');
+				success = false;
+			}	
+
+			try {
+				row.PK.toLowerCase().should.match(/true|false|^$/)
+			}
+			catch(e) {
+				// ERROR
+				logger.error('ERROR with PK', 'incorrect PK in row '+(index+1)+' - value: "'+row.PK+'" must contain: true|false|^$ (i.e. true|false or empty == false)');
+				success = false;
+			}		
+
+			try {	
+				row.AUTO_INCREMENT.toLowerCase().should.match(/true|false|^$/)
+			}
+			catch(e) {
+				// ERROR
+				logger.error('ERROR with AUTO_INCREMENT', 'incorrect AUTO_INCREMENT in row '+(index+1)+' - value: "'+row.AUTO_INCREMENT+'" must contain: true|false|^$ (i.e. true|false or empty == false)');
+				success = false;
+			}		
+
+
+			// } catch(e) {
+			// 	// ERROR
+			// 	logger.error(JSON.stringify(row), JSON.stringify(e));
+			// 	success = false;
+			// }
 
 			counter++;
 

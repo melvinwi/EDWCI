@@ -1,0 +1,13 @@
+
+h2. ARTEFACT: DATASTORE_SALES_T
+
+DESCRIPTION: Customer table from the CRM system and ACCOUNT system
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|SOURCE_UID	|customer number	|varchar	|45	|	|TRUE	|TRUE	|FALSE	|
+|SALE_DT	|	|datetime	|	|	|	|	|	|
+|ACCOUNT_ID	|	|varchar	|20	|	|	|	|	|
+|STATUS	|	|varchar	|20	|	|	|	|	|
+|VALUE	|	|varchar	|20	|	|	|	|	|
+|UPDATED_DT	|	|datetime|
+

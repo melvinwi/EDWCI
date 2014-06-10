@@ -1,3 +1,6 @@
+# standards artefact
+# ARTEFACT: DICTIONARY							
+# DESCRIPTION: a valid list of valid business attribute names, descriptions and sample values 
 NAME	DESCRIPTION	EXAMPLE_VALUES
 FIRST_NAME	First name of customers or contacts	John
 LAST_NAME	Surname of customers or contacts	Smith

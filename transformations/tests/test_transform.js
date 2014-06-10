@@ -85,7 +85,7 @@ else {
 
 function logIt(artefactName, data, isResult) {
 	if (isResult==true) { // else this is debug
-		console.log(data.trim());
+		console.log('\n'+data.trim());
 	}
 	//fs.appendFile('result-'+moment().format(DATE_FORMAT)+'-'+artefactName+'.tsv', data, function(err) {
 	fs.appendFile(artefactName, data, function(err) {	
@@ -163,7 +163,7 @@ function run(artefactName, sourceTables, destinationTable, sourceColumns, destin
 
 	// execute procedure
     db.sql('CALL `'+schema+'`.`'+artefactName+'`', function(err, result) {
-        //console.log(result);
+        
         try {
             should.not.exist(err);
 
@@ -172,7 +172,7 @@ function run(artefactName, sourceTables, destinationTable, sourceColumns, destin
 	        }
 
 	        logger.info(artefactName, 'running TESTS', true);
-
+	        console.log('******** ******** ******** ********')
 			var exists = fs.existsSync(artefactName+'_tests.tsv');
 			
 			if (exists==false) {
@@ -184,18 +184,22 @@ function run(artefactName, sourceTables, destinationTable, sourceColumns, destin
 
 				parser.parse(artefactName+'_tests.tsv', true, function(object) {
 
-					for (var i=1; i<object.length; i++) {
+					// for (var i=0; i<object.length; i++) {
 
-						var sourceSQL = 'SELECT '+sourceColumnsFrom+' FROM '+sourceTablesFrom+' '+object[i].SOURCE_SELECTION_CRITERIA//.replace(/'/g, '"')
-						var destinationSQL = 'SELECT '+destinationColumnsFrom+' FROM `'+schema+'`.`'+destinationTable+'` '+object[i].DESTINATION_SELECTION_CRITERIA//.replace(/'/g, '"')
-						var test = object[i].TEST;
+					// 	var sourceSQL = 'SELECT '+sourceColumnsFrom+' FROM '+sourceTablesFrom+' '+object[i].SOURCE_SELECTION_CRITERIA//.replace(/'/g, '"')
+					// 	var destinationSQL = 'SELECT '+destinationColumnsFrom+' FROM `'+schema+'`.`'+destinationTable+'` '+object[i].DESTINATION_SELECTION_CRITERIA//.replace(/'/g, '"')
+					// 	var test = object[i].TEST;
 						
-						logIt(SOURCE_SQL_FILE, sourceSQL+'\n');
-						logIt(DESTINATION_SQL_FILE, destinationSQL+'\n');
+					// 	logIt(SOURCE_SQL_FILE, sourceSQL+'\n');
+					// 	logIt(DESTINATION_SQL_FILE, destinationSQL+'\n');
 
-						runTest(sourceSQL, destinationSQL, test, i, artefactName, object.length, schema, design, sourceTables, destinationTable)
+
 						
-					}
+					// 	runTest(sourceSQL, destinationSQL, test, i, artefactName, object.length, schema, design, sourceTables, destinationTable)
+						
+					// }
+
+					executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema, destinationTable, sourceTablesFrom, artefactName)
 
 				});
 			}
@@ -214,10 +218,38 @@ function run(artefactName, sourceTables, destinationTable, sourceColumns, destin
 }
 
 
+function executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema, destinationTable, sourceTablesFrom, artefactName, i) {
+
+
+	if (i==undefined) {
+		i=0; // initial
+	}
+	
+	var sourceSQL = 'SELECT '+sourceColumnsFrom+' FROM '+sourceTablesFrom+' '+object[i].SOURCE_SELECTION_CRITERIA//.replace(/'/g, '"')
+	var destinationSQL = 'SELECT '+destinationColumnsFrom+' FROM `'+schema+'`.`'+destinationTable+'` '+object[i].DESTINATION_SELECTION_CRITERIA//.replace(/'/g, '"')
+	var test = object[i].TEST;
+	
+	logIt(SOURCE_SQL_FILE, (i+1)+'\t'+sourceSQL+'\n');
+	logIt(DESTINATION_SQL_FILE, (i+1)+'\t'+destinationSQL+'\n');
+
+
+	
+	runTest(sourceSQL, destinationSQL, test, i, artefactName, object.length, schema, design, sourceTables, destinationTable, function(res) {
+		// recurse
+		setTimeout(function() {
+			
+			i = i+1;
+			executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema, destinationTable, sourceTablesFrom, artefactName, i);
+		}, 50);
+	});
+	
+		
+}
+
 var counter = 1;
 var passedOverall = true;
-function runTest(sourceSQL, destinationSQL, test, index, artefactName, test_length, schema, design, sourceTables, destinationTable) {
-
+function runTest(sourceSQL, destinationSQL, test, index, artefactName, test_length, schema, design, sourceTables, destinationTable, callback) {
+	
 	
 	if (test.trim().length>0) {
 
@@ -226,46 +258,49 @@ function runTest(sourceSQL, destinationSQL, test, index, artefactName, test_leng
 	            should.not.exist(err);
 	        }
 	        catch(e) {
-	        	//
-	        	//logger.error(artefactName, 'error executing sql ('+sourceSQL+'): '+e)
+	        	
 	        	logIt(artefactName, moment().format(DATE_FORMAT2)+'\tFAILED\terror executing sourceSQL ('+sourceSQL+'): '+e+'\n', true);
+	        	passedOverall = false;
 	        }
 
 	        if (sourceRes) {
 	        	
 	        	source = sourceRes;
-	        	logIt(SOURCE_SQL_RESULTS, JSON.stringify(source)+'\n');
+	        	logIt(SOURCE_SQL_RESULTS, (index+1)+'\t'+JSON.stringify(source)+'\n');
 
 	        	db.sql(destinationSQL, function(err2, destinationRes) {
 	        		try {
 	                	should.not.exist(err2);
 		            }
 		            catch(e) {
-		            	//
-		            	//logger.error(artefactName, 'error executing sql ('+destinationSQL+'): '+e)
-		            	//logger.error(artefactName, 'error executing sql ('+sourceSQL+'): '+e)
-	        			logIt(artefactName, moment().format(DATE_FORMAT2)+'\tFAILED\terror executing sourceSQL ('+destinationSQL+'): '+e+'\n', true);
+		            	
+	        			logIt(artefactName, moment().format(DATE_FORMAT2)+'\tFAILED\terror executing destinationSQL ('+destinationSQL+'): '+e+'\n', true);
 	        			passedOverall = false;
+
+	        			counter++;
+		            	areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTable)
+		            	callback('OK');
 		            }
 
 		            if (destinationRes) {
-		            	//console.log(res2);
+		            	
 		            	destination = destinationRes;
-						logIt(DESTINATION_SQL_RESULTS, JSON.stringify(destination)+'\n');
+						logIt(DESTINATION_SQL_RESULTS, (index+1)+'\t'+JSON.stringify(destination)+'\n');
 						
 
 		            	var result = '';
 
 		            	try {
-		            		result +=moment().format(DATE_FORMAT2)+'\tPASSED\t'+test+'\t'+JSON.stringify(eval(test))
+		            		
+		            		result +=moment().format(DATE_FORMAT2)+'\t'+(index+1)+'\tPASSED\t'+test+'\t'+JSON.stringify(eval(test))+''
 		            	}
 		            	catch(erro) {
 		            		if (JSON.stringify(erro)=='{}') {
-		            			result +=moment().format(DATE_FORMAT2)+'\tFAILED\t'+test+' problem processing test - please update\t'+erro;
+		            			result +=moment().format(DATE_FORMAT2)+'\t'+(index+1)+'\tFAILED\t'+test+' problem processing test - please update\t'+erro;
 		            			passedOverall = false;
 		            		}
 		            		else {
-		            			result +=moment().format(DATE_FORMAT2)+'\tFAILED\t'+test+'\t'+JSON.stringify(erro);
+		            			result +=moment().format(DATE_FORMAT2)+'\t'+(index+1)+'\tFAILED\t'+test+'\t'+JSON.stringify(erro);
 		            			passedOverall = false;
 		            		}
 		            	}
@@ -274,15 +309,22 @@ function runTest(sourceSQL, destinationSQL, test, index, artefactName, test_leng
 		            	logIt(TEST_RESULTS, result+'\n', true);
 		            	counter++;
 		            	areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTable)
+		            	callback('OK');
 		            }
 
 	        	});
+	        }
+	        else {
+		        counter++;
+		        areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTable)
+		        callback('OK');
 	        }
 		});
 	}
 	else {
 		counter++;
 		areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTable)
+		callback('OK');
 	}
 		
 }
@@ -294,10 +336,12 @@ function areTestsFinished(counter, test_length, artefactName, schema, design, so
     if (counter==test_length) {
 
     	if (passedOverall == false) {
+    		console.log('******** ******** ******** ********')
     		logger.error(artefactName, 'FAILED TESTS');
     		process.exit();
     	}
     	else {
+    		console.log('\n******** ******** ******** ********')
     		logger.OK(artefactName, 'PASSED TESTS');
 
     		// GENERATE DOCUMENATION         

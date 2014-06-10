@@ -1,0 +1,10 @@
+# design artefact			
+# ARTEFACT: TRANSFORM_SALES_T_tests			
+# DESCRIPTION: Test each transformation rule			
+SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
+		source.length.should.equal(destination.length)	row counts should match
+WHERE `SALESORDERID` = '1'	WHERE `SOURCE_UID` = '1'	source[0].SALESORDERID.toString().should.equal(destination[0].SOURCE_UID)	1:1 map
+WHERE `SALESORDERID` = '1'	WHERE `SOURCE_UID` = '1'	source[0].DATETIME.toString().should.equal(destination[0].SALE_DT.toString())	1:1 map
+WHERE `SALESORDERID` = '1'	WHERE `SOURCE_UID` = '1'	source[0].ACCOUNTID.should.equal(destination[0].ACCOUNT_ID)	1:1 map
+WHERE `SALESORDERID` = '1'	WHERE `SOURCE_UID` = '1'	source[0].STATUS.should.equal(destination[0].STATUS)	1:1 map
+WHERE `SALESORDERID` = '1'	WHERE `SOURCE_UID` = '1'	source[0].PRICE.should.equal(destination[0].VALUE)	1:1 map
