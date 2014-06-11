@@ -3,8 +3,6 @@ CI
 
 CI is Continuous Integration framework for Data Integration (DI) solutions.  
 
-For enterprise capabilities - scalable, multi-project Agile project delivery teams - the CI framework may be used in conjunction with a code management system such as GitHub paired with an Agile Project Management tool such as Rally or PivotalTracker.
-
 > "Continuous integration (CI) is the practice of merging all developer working copies with a shared mainline several times a day. Its main aim is to prevent integration problems" - wikipedia.com
 
 The CI framework for DI:
@@ -19,6 +17,7 @@ The CI framework for DI:
 
 * automates the generation of documentation from design artefacts
 
+For enterprise capabilities - scalable, multi-project Agile project delivery teams - the CI framework may be used in conjunction with a code management system such as GitHub paired with an Agile Project Management tool such as Rally or PivotalTracker.
 
 ##Structure
 
