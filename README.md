@@ -25,11 +25,11 @@ The framework has been built with a simple data integration architecture in mind
 
 The DI architecture comprises three **layers** and two supporting **components**.
 
-The DI Layers providing storage are layers:
+The DI Layers providing storage are:
 
 (1) **Staging** (layer) -  storage location for "raw" system of record data
 
-(2) **Data Store** (layer) - longterm storage location for transaction data and conformed master data objects
+(2) **Data Store** (layer) - long-term storage location for transaction data and conformed master data objects
 
 
 Supporting the promotion of data from Staging --> Data Store are components:
