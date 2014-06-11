@@ -54,6 +54,8 @@ Design Artefacts may also rely on one of the following Supporting Artefacts **da
 The following is the list of artefacts required to define a layer or component object, and the automated features available in DI to support the developer: tests, code generation, documentation generation
 
 
+![Scope](/z.info/scope.png)
+
 ###Staging
 
 Provisioning a staging layer object (table) requires the creation of two artefacts
