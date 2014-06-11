@@ -49,7 +49,7 @@ a. **Functions** (component) - providing reusable business rules for views
 
 To deliver an object in a *layer* or *component* you must first construct a **Design Artefact**.  Design Artefact's are Tab Separated Value (tsv) text files.  For developers, these may be cut-and-paste into a spreadsheet tool for editing - e.g. Excel, Numbers.
 
-Design Artefacts may also rely on one of **data artefact**, **standard artefact** or **test artefact**; also tsv files.
+Design Artefacts may also rely on one of the following Supporting Artefacts **data artefact**, **standard artefact** or **test artefact**; also tsv files.
 
 The following is the list of artefacts required to define a layer or component object, and the automated features available in DI to support the developer: tests, code generation, documentation generation
 
@@ -171,7 +171,7 @@ a. design artefact as a .textile markup file for rendering in GitHub or other wi
 ```
 # design artefact				
 # ARTEFACT: TRANSFORM_<OBJECT_NAME>				
-# DESCRIPTION: Promote Customer from CRM and ACCOUNT systems to DataStore 				
+# DESCRIPTION: Promote data from <Staging Object(s)> to <DataStore Object> 				
 SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
 ...
 ```
