@@ -29,7 +29,7 @@ The DI Layers providing storage are:
 
 (1) **Staging** (layer) -  storage location for "raw" system of record data
 
-(2) **Data Store** (layer) - long-term storage location for transaction data and conformed master data objects
+(2) **Data Store** (layer) - long-term storage location for transaction data and master data objects
 
 
 Supporting the promotion of data from Staging --> Data Store are components:
