@@ -27,10 +27,10 @@ var db = require('./lib/db.js');
     # DESCRIPTION: Test each transformation rule            
     SOURCE_SELECTION_CRITERIA   DESTINATION_SELECTION_CRITERIA  TEST    DESCRIPTION
     WHERE `NUMBER` is not null      source.length.should.equal(destination.length)  row counts should match
-    WHERE `NUMBER` = “NUMBER1”  WHERE `NUMBER` = “NUMBER1”  source.FIRSTNAME.substring(0,2).should.equal(destintation.FIRST_NAME)   check substring rule is applied
-    WHERE `NUMBER` = “NUMBER1”  WHERE `NUMBER` = “NUMBER1”  source.SURNAME.should.equal(destintation.LAST_NAME)  check map rule is applied
-    WHERE `NUMBER` = “NUMBER1”  WHERE `NUMBER` = “NUMBER1”  source.MIDDLENAME.should.equal(destintation.MIDDLE_NAME) check map rule is applied
-    WHERE `NUMBER` = “NUMBER1”  WHERE `NUMBER` = “NUMBER1”  source.UPDATED_DATETIME.should.equal(destintation.UPDATED_DT)    check map rule is applied
+    WHERE `NUMBER` = “NUMBER1”  WHERE `NUMBER` = “NUMBER1”  source.FIRSTNAME.substring(0,2).should.equal(destination.FIRST_NAME)   check substring rule is applied
+    WHERE `NUMBER` = “NUMBER1”  WHERE `NUMBER` = “NUMBER1”  source.SURNAME.should.equal(destination.LAST_NAME)  check map rule is applied
+    WHERE `NUMBER` = “NUMBER1”  WHERE `NUMBER` = “NUMBER1”  source.MIDDLENAME.should.equal(destination.MIDDLE_NAME) check map rule is applied
+    WHERE `NUMBER` = “NUMBER1”  WHERE `NUMBER` = “NUMBER1”  source.UPDATED_DATETIME.should.equal(destination.UPDATED_DT)    check map rule is applied
 
 */
 
@@ -120,7 +120,17 @@ function test_generate(artefactName, object, generateOnlyTest, schema) // Constr
         object.forEach(function(row, index) {
             
             if (index<object.length-1) {
-                sql += '\t\t`'+row.SOURCE.split('.')[0]+'`.`'+row.SOURCE.split('.')[1]+'`';
+                sql += '\t\t';
+
+                if (row.SOURCE_FUNCTION_PREFIX.trim().length>0) {
+                    sql += row.SOURCE_FUNCTION_PREFIX
+                }
+                
+                sql += '`'+row.SOURCE.split('.')[0]+'`.`'+row.SOURCE.split('.')[1]+'`';
+
+                if (row.SOURCE_FUNCTION_SUFFIX.trim().length>0) {
+                    sql += row.SOURCE_FUNCTION_SUFFIX
+                }
             }
 
             if (index<object.length-2) {
@@ -171,7 +181,7 @@ function test_generate(artefactName, object, generateOnlyTest, schema) // Constr
 
         for (var i=0; i<object.length; i++) {
             if (object[i].DESTINATION.split('.')[1]!=undefined) {
-                tst += singleRowSelectionCriteria+'\t'+singleRowSelectionCriteria+'\t'+'source[0].'+object[i].SOURCE.split('.')[1]+'.should.equal(destintation[0].'+object[i].DESTINATION.split('.')[1]+')\tTODO! <check map rule>\n';
+                tst += singleRowSelectionCriteria+'\t'+singleRowSelectionCriteria+'\t'+'source[0].'+object[i].SOURCE.split('.')[1]+'.should.equal(destination[0].'+object[i].DESTINATION.split('.')[1]+')\tTODO! <check map rule>\n';
             }
         }
         

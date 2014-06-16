@@ -333,7 +333,7 @@ function runTest(sourceSQL, destinationSQL, test, index, artefactName, test_leng
 
 function areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTable) {
 	
-    if (counter==test_length) {
+    if (counter==test_length+1) {
 
     	if (passedOverall == false) {
     		console.log('******** ******** ******** ********')

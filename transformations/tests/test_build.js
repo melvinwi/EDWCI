@@ -180,7 +180,7 @@ function loadTestData(artefactName, object, schema, callback) {
             testDataHeader += row.COLUMN+'\t';
         });
         logger.info(artefactName, 'generating header for test data...');
-        console.log(testDataHeader);
+        //console.log(testDataHeader);
     }
     else {
 
@@ -262,7 +262,7 @@ function runTests(artefactName, sourceTables, destinationTable, sourceColumnsStr
     // executes command
     var cmd = 'node test_transform.js --artefactName '+artefactName+' --sourceTables '+sourceTables+' --destinationTable '+destinationTable+' --sourceColumns "'+sourceColumnsString+'" --destinationColumns '+destinationColumnsString+' --schema '+schema;
 
-    console.log(cmd);
+    //console.log(cmd);
 
     child = exec(cmd, function (error, stdout, stderr) {
       if (stdout) {
