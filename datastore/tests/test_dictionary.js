@@ -23,6 +23,34 @@ function test_dictionary(artefactName, object, schema, callback) // Constructor
         else {
             parser.parse('../DICTIONARY.tsv', true, function(dictionary) {
 
+            var success = true;
+
+            // RUN STANDARDS ARTEFACT TESTS (dictionary)
+            dictionary.forEach(function(row, index) { // check every line
+                try {
+                    row.should.have.properties('NAME', 'PREFIX_OR_SUFFIX_OR_ANY', 'DESCRIPTION', 'EXAMPLE_VALUES');
+                } catch(e) {
+                    // ERROR
+                    logger.error('FAILED DICTIONARY tests', 'error with dictionary.tsv - missing one or more column headers - should have: NAME, PREFIX_OR_SUFFIX_OR_ANY, DESCRIPTION, EXAMPLE_VALUES');
+                    success = false;
+                    process.exit();
+                }
+
+
+                try {
+                    row.PREFIX_OR_SUFFIX_OR_ANY.toLowerCase().should.match(/prefix|suffix|any|^$/) 
+                } catch(e) {
+                    // ERROR
+                    logger.error('error with PREFIX_OR_SUFFIX_OR_ANY', 'error with dictionary.tsv - incorrect PREFIX_OR_SUFFIX_OR_ANY in row '+(index+1)+' - value: "'+row.PREFIX_OR_SUFFIX_OR_ANY+'" should be one of: prefix|suffix|any|^$ (i.e. empty is valid)');
+                    success = false;
+                }
+            });
+
+            if (success==false) {
+                process.exit();
+            }
+
+
             var wasSuccessfulInner = false;
             listOfColsThatDidNotMatchDictionary = '';
 
@@ -35,6 +63,44 @@ function test_dictionary(artefactName, object, schema, callback) // Constructor
                     }
                 }
                 
+                // try name parts split by "_"
+                if (wasSuccessfulInner==false) {
+                    var parts = object[i].COLUMN.trim().split('_');
+
+                    countSuccess = 0;
+                    for (var p=0; p<parts.length; p++) {
+
+                        for (var x=0; x<dictionary.length; x++) {
+
+                            if (dictionary[x].NAME.trim()==parts[p]) {
+
+                                // check prefix / suffix rule applies
+                                if (dictionary[x].PREFIX_OR_SUFFIX_OR_ANY.trim().toLowerCase()=='prefix') {
+                                    if (dictionary[x].NAME.trim()==parts[0]) {
+                                        countSuccess++; // match - is in dictionary file
+                                        break;
+                                    }
+                                }
+                                else if (dictionary[x].PREFIX_OR_SUFFIX_OR_ANY.trim().toLowerCase()=='suffix') {
+                                    if (dictionary[x].NAME.trim()==parts[parts.length-1]) {
+                                        countSuccess++; // match - is in dictionary file
+                                        break;
+                                    }
+                                }
+                                else {
+                                    countSuccess++; // match - is in dictionary file
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (countSuccess==parts.length) {
+                        wasSuccessfulInner=true;
+                    }
+                }
+
+
                 if (wasSuccessfulInner==false) {
 
                     if (listOfColsThatDidNotMatchDictionary.length>0) {
