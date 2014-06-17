@@ -134,8 +134,8 @@ COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
 ```
 # standards artefact
 # ARTEFACT: DICTIONARY							
-# DESCRIPTION: a valid list of valid business attribute names, descriptions and sample values 
-NAME	DESCRIPTION	EXAMPLE_VALUES
+# DESCRIPTION: a valid list of valid business names, descriptions and sample values
+NAME	PREFIX_OR_SUFFIX_OR_ANY	DESCRIPTION	EXAMPLE_VALUES
 ...
 ```
 
@@ -146,7 +146,7 @@ a. design artefact contains the correct column headers
 
 b. design artefact column values are correct (e.g. TYPE is varchar, etc.; NOT_NULL is true or false)
 
-c. design artefact column values are present in the dictionary tsv
+c. design artefact column values are present in the dictionary tsv (either full names or parts delimited by "_" and matching prefix or suffix requirement where specified)
 
 d. build artefact exists (table)
 
