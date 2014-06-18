@@ -24,12 +24,16 @@ function test_build(artefactName, object, schema, design) // Constructor
     object.forEach(function(row, index) {
         
         if (index<object.length-1) {
-            if (row.SOURCE.split('.')[0]!=undefined) {
-                sourceTables[sourceTables.length] = ''+row.SOURCE.split('.')[0]+'';
-            }
 
-            if (row.DESTINATION.split('.')[0]!=undefined) {
-                destinationTables[destinationTables.length] = ''+row.DESTINATION.split('.')[0]+'';
+            if (row.SOURCE.length>0) {
+
+                if (row.SOURCE.split('.')[0]!=undefined) {
+                    sourceTables[sourceTables.length] = ''+row.SOURCE.split('.')[0]+'';
+                }
+
+                if (row.DESTINATION.split('.')[0]!=undefined) {
+                    destinationTables[destinationTables.length] = ''+row.DESTINATION.split('.')[0]+'';
+                }
             }
         }
     });
@@ -110,6 +114,7 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
             
             var count = 0;
 
+
             // load source test data
             for (var i=0; i<sourceTables.length; i++) {
 
@@ -118,7 +123,7 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
                     count++
 
                     if (res=='OK') {
-                        
+
                         if (count==sourceTables.length) { // all data is loaded...
 
                             // execute proc then check mapping was successfully applied to each destination column
