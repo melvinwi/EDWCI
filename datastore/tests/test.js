@@ -28,7 +28,6 @@ if (program.file && program.schema) {
 		}
 		var artefactName = input.split('.')[0];
 
-		console.log('artefactName: '+artefactName);
 		
 
 		logger.info(artefactName, 'running DESIGN tests');
@@ -48,22 +47,52 @@ if (program.file && program.schema) {
 			}
 			
 			try {	
-				row.TYPE.toLowerCase().should.match(/int|varchar|datetime/)
+				row.TYPE.toLowerCase().should.match(/int|integer|varchar|nvarchar|char|datetime|date|decimal/)
 			}
 			catch(e) {
 				// ERROR
-				logger.error('error with TYPE', 'incorrect TYPE in row '+(index+1)+' - value: "'+row.TYPE+'" should be one of: int|varchar|datetime');
+				logger.error('error with TYPE', 'incorrect TYPE in row '+(index+1)+' ('+row.COLUMN+') - value: "'+row.TYPE+'" should be one of: int|integer|varchar|nvarchar|char|datetime|date|decimal');
 				success = false;
 			}
 
 			try {
-				if (row.TYPE!='datetime') {
-					row.LENGTH.should.be.a.Number;
+				if (row.TYPE.toLowerCase().trim()=='decimal') {
+					try {
+						row.LENGTH.should.containEql(',');
+
+						var parts = row.LENGTH.split(',');
+
+						Number(parts[0]).should.be.a.Number;
+
+						Number(parts[1]).should.be.a.Number;
+
+						Number(parts[0]).should.be.greaterThan(parts[1]);
+					}
+					catch(ee) {
+						logger.error('ERROR with LENGTH', 'incorrect decimal in row '+(index+1)+' ('+row.COLUMN+') - must contain format "M,D" where M is the maximum number of digits (the precision) and D is the number of digits to the right of the decimal point (the scale), and M is greater than D - value: "'+row.LENGTH+'"');
+						success = false;
+					}
+					
+				}
+				else if (row.TYPE.toLowerCase().trim()!='datetime') {
+					
+					if (row.TYPE.toLowerCase().trim()=='integer' || row.TYPE.toLowerCase().trim()=='int') {
+						row.TYPE='INT';
+
+						if (row.LENGTH.length==0) {
+							row.LENGTH = 18; // default to 18
+						}
+					}
+					else if (row.TYPE.toLowerCase().trim()=='nvarchar') {
+						row.TYPE='VARCHAR';
+					}
+
+					Number(row.LENGTH).should.be.a.Number;
 				}
 			}
 			catch(e) {
 				// ERROR
-				logger.error('ERROR with LENGTH', 'incorrect LENGTH in row '+(index+1)+' - value: "'+row.LENGTH+'" must contain an integer');
+				logger.error('ERROR with LENGTH', 'incorrect LENGTH in row '+(index+1)+' ('+row.COLUMN+') - value: "'+row.LENGTH+'" must contain an integer');
 				success = false;
 			}
 
@@ -72,7 +101,7 @@ if (program.file && program.schema) {
 			}
 			catch(e) {
 				// ERROR
-				logger.error('ERROR with NOT_NULL', 'incorrect NOT_NULL in row '+(index+1)+' - value: "'+row.NOT_NULL+'" must contain: true|false|^$ (i.e. true|false or empty == false)');
+				logger.error('ERROR with NOT_NULL', 'incorrect NOT_NULL in row '+(index+1)+' ('+row.COLUMN+') - value: "'+row.NOT_NULL+'" must contain: true|false|^$ (i.e. true|false or empty == false)');
 				success = false;
 			}	
 
@@ -81,7 +110,7 @@ if (program.file && program.schema) {
 			}
 			catch(e) {
 				// ERROR
-				logger.error('ERROR with PK', 'incorrect PK in row '+(index+1)+' - value: "'+row.PK+'" must contain: true|false|^$ (i.e. true|false or empty == false)');
+				logger.error('ERROR with PK', 'incorrect PK in row '+(index+1)+' ('+row.COLUMN+') - value: "'+row.PK+'" must contain: true|false|^$ (i.e. true|false or empty == false)');
 				success = false;
 			}		
 
@@ -90,7 +119,7 @@ if (program.file && program.schema) {
 			}
 			catch(e) {
 				// ERROR
-				logger.error('ERROR with AUTO_INCREMENT', 'incorrect AUTO_INCREMENT in row '+(index+1)+' - value: "'+row.AUTO_INCREMENT+'" must contain: true|false|^$ (i.e. true|false or empty == false)');
+				logger.error('ERROR with AUTO_INCREMENT', 'incorrect AUTO_INCREMENT in row '+(index+1)+' ('+row.COLUMN+') - value: "'+row.AUTO_INCREMENT+'" must contain: true|false|^$ (i.e. true|false or empty == false)');
 				success = false;
 			}		
 
@@ -107,16 +136,9 @@ if (program.file && program.schema) {
 				if (success==true) {
 					logger.OK(artefactName, 'PASSED DESIGN tests');
 
-					// RUN DICTIONARY TESTS			
-					var DictionaryTest = require('./test_dictionary.js');
-					var runDictionary = new DictionaryTest(artefactName, object, schema, function(resss) {	
-
-						// RUN BUILD ARTEFACT TESTS			
-						var BuildTest = require('./test_build.js');
-						var runBuild = new BuildTest(artefactName, object, schema, design);	
-					});
-
-				
+					// RUN BUILD ARTEFACT TESTS			
+					var BuildTest = require('./test_build.js');
+					var runBuild = new BuildTest(artefactName, object, schema, design);	
 				}
 				else {
 					logger.error(artefactName, 'FAILED DESIGN tests');

@@ -103,6 +103,22 @@ function loadTestData(artefactName, object, schema, callback) {
                         
                         if (index!=0) { // first row are the column names
 
+                            // replace all empty items with null
+                            var it = row;
+                            var finalRow = '';
+
+                            for (var i=0; i<it.length; i++) {
+                                it[i] = it[i].toString();
+                                if (it[i].trim().length==0) {
+                                    row[i] = 'null';
+                                }
+                                else {
+                                    row[i] = it[i];
+                                }
+                            }
+
+
+
                             db.sqlSubstitution('INSERT INTO '+schema+'.'+artefactName+' VALUES (??)', row, function(err, result) {
                                 try {
                                     should.not.exist(err);
@@ -110,22 +126,23 @@ function loadTestData(artefactName, object, schema, callback) {
                                     // ERROR
                                     logger.error(artefactName, 'failed to load test data: '+err);
                                 }
+
+                                insertCounter++;
+
+                                if (insertCounter==data.length-1) {
+                                    if (wasSuccessful==true) {
+                                        logger.OK(artefactName, 'PASSED TEST DATA load');
+                                        callback ('OK')
+                                    }
+                                    else 
+                                    {
+                                        logger.error(artefactName, 'FAILED TEST DATA load'); 
+                                        callback('OK') 
+                                    } 
+                                }
                             });
                         }
 
-                        insertCounter++;
-
-                        if (insertCounter==data.length) {
-                            if (wasSuccessful==true) {
-                                logger.OK(artefactName, 'PASSED TEST DATA load');
-                                callback ('OK')
-                            }
-                            else 
-                            {
-                                logger.error(artefactName, 'FAILED TEST DATA load'); 
-                                callback('OK') 
-                            } 
-                        }
                     });
 
                 });

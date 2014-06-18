@@ -50,9 +50,13 @@ function test_generate(artefactName, object, generateOnlyTest, schema) // Constr
     object.forEach(function(row, index) {
         
         if (index<object.length-1) {
-            
-            sourceTables[sourceTables.length] = '`'+row.SOURCE.split('.')[0]+'`';
-            destinationTables[destinationTables.length] = '`'+row.DESTINATION.split('.')[0]+'`';
+            if (row.SOURCE.trim().length>0 && row.SOURCE!=undefined) {
+                sourceTables[sourceTables.length] = '`'+row.SOURCE.split('.')[0]+'`';
+            }
+
+            if (row.DESTINATION.trim().length>0 && row.DESTINATION!=undefined) { 
+                destinationTables[destinationTables.length] = '`'+row.DESTINATION.split('.')[0]+'`';
+            }
 
         }
     });
@@ -63,10 +67,12 @@ function test_generate(artefactName, object, generateOnlyTest, schema) // Constr
 
         var row = sourceTables[i];
 
-        sourceTablesString+=row;
+        if (row.toString()!='undefined') {
+            sourceTablesString+=row;
 
-        if (i<sourceTables.length-1){
-            sourceTablesString+=','
+            if (i<sourceTables.length-1){
+                sourceTablesString+=','
+            }
         }
     }
 
@@ -126,7 +132,9 @@ function test_generate(artefactName, object, generateOnlyTest, schema) // Constr
                     sql += row.SOURCE_FUNCTION_PREFIX
                 }
                 
-                sql += '`'+row.SOURCE.split('.')[0]+'`.`'+row.SOURCE.split('.')[1]+'`';
+                if (row.SOURCE.trim().length>0) {
+                    sql += '`'+row.SOURCE.split('.')[0]+'`.`'+row.SOURCE.split('.')[1]+'`';
+                }
 
                 if (row.SOURCE_FUNCTION_SUFFIX.trim().length>0) {
                     sql += row.SOURCE_FUNCTION_SUFFIX
@@ -144,7 +152,14 @@ function test_generate(artefactName, object, generateOnlyTest, schema) // Constr
 
         sql += '\n\t  FROM `'+schema+'`.'+sourceTablesString+'\n' // distinct list of sources as it may come from many tables
 
-        sql += '\t  '+object[object.length-1].SOURCE+';'; // where statement
+        var whereStatement = ''
+        while (object[object.length-i].SOURCE==undefined) {
+            i++;
+            if (object[object.length-i].SOURCE!=undefined) {
+                whereStatement = '\t  '+object[object.length-i].SOURCE+''
+            }
+        }
+        sql += whereStatement+';'; // where statement
 
         sql += '\nEND';
 
@@ -154,7 +169,7 @@ function test_generate(artefactName, object, generateOnlyTest, schema) // Constr
     else {
 
         var tst = '';
-        tst += '# design artefact\n'  
+        tst += '# test artefact\n'  
         tst += '# ARTEFACT: '+artefactName+'_tests\n'            
         tst += '# DESCRIPTION: Test each transformation rule\n'            
         tst += 'SOURCE_SELECTION_CRITERIA\tDESTINATION_SELECTION_CRITERIA\tTEST\tDESCRIPTION\n',
@@ -181,7 +196,7 @@ function test_generate(artefactName, object, generateOnlyTest, schema) // Constr
 
         for (var i=0; i<object.length; i++) {
             if (object[i].DESTINATION.split('.')[1]!=undefined) {
-                tst += singleRowSelectionCriteria+'\t'+singleRowSelectionCriteria+'\t'+'source[0].'+object[i].SOURCE.split('.')[1]+'.should.equal(destination[0].'+object[i].DESTINATION.split('.')[1]+')\tTODO! <check map rule>\n';
+                tst += singleRowSelectionCriteria+'\t'+singleRowSelectionCriteria+'\t'+'source[0].'+object[i].SOURCE.split('.')[1]+'.should.equal(destination[0].'+object[i].DESTINATION.split('.')[1]+')\tone to one\n';
             }
         }
         
