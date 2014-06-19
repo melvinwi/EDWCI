@@ -192,11 +192,29 @@ function test_generate(artefactName, object, generateOnlyTest, schema) // Constr
             }
         }
 
-        var singleRowSelectionCriteria = 'WHERE `'+object[0].SOURCE.split('.')[1]+'` = \''+singleForDataToSelect+'\'' 
+
+        var singleRowSelectionCriteria = '';
+
+        if (object[0].SOURCE.split('.').length==2) {
+            singleRowSelectionCriteria = 'WHERE `'+object[0].SOURCE.split('.')[1]+'` = \''+singleForDataToSelect+'\'' 
+        }
+        else {
+            singleRowSelectionCriteria = 'WHERE '+object[0].SOURCE+' = \''+singleForDataToSelect+'\'' 
+        }
+
+
+        var singleRowSelectionCriteriaDestination = '';
+
+        if (object[0].DESTINATION.split.length==2) {
+            singleRowSelectionCriteriaDestination = 'WHERE `'+object[0].DESTINATION.split('.')[1]+'` = \''+singleForDataToSelect+'\'' 
+        }
+        else {
+            singleRowSelectionCriteriaDestination = 'WHERE '+object[0].DESTINATION+' = \''+singleForDataToSelect+'\'' 
+        }
 
         for (var i=0; i<object.length; i++) {
             if (object[i].DESTINATION.split('.')[1]!=undefined) {
-                tst += singleRowSelectionCriteria+'\t'+singleRowSelectionCriteria+'\t'+'source[0].'+object[i].SOURCE.split('.')[1]+'.should.equal(destination[0].'+object[i].DESTINATION.split('.')[1]+')\tone to one\n';
+                tst += singleRowSelectionCriteria+'\t'+singleRowSelectionCriteriaDestination+'\t'+'source[0].'+object[i].SOURCE.split('.')[1]+'.should.equal(destination[0].'+object[i].DESTINATION.split('.')[1]+')\tone to one\n';
             }
         }
         
