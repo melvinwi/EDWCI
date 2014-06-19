@@ -1,0 +1,78 @@
+# design artefact                           							
+# ARTEFACT: STAGING_FF_PSE_ARTICLE_T							
+# DESCRIPTION: Article Event in Parcel Sort Equipment Events							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+RECORDQUALIFIER	Record Type for Parcel Sort Equipment Event	VARCHAR	4				
+PSE_BUS_REFERENCE_ID	Record Type for Parcel Sort Equipment Event	VARCHAR	4				
+INTERFACE	Interface Name	VARCHAR	30				
+INTERFACE_VERSION	Interface Version	VARCHAR	10				
+MESSAGE_TYPE	Message Type	VARCHAR	20				
+BUS_REFERENCE_ID	Business Reference ID	VARCHAR	40				
+SOURCE_SYS_ID	Source System ID	VARCHAR	10				
+SOURCE_SYS_NAME	Source System Information	VARCHAR	50				
+MESSAGE_DATETIME	DATETIME of the Message	DATETIME					
+MESSAGE_TIMEZONE	Time Zone/Offset of the Message (if applicable)	VARCHAR	6				
+SOURCE_MACHINE_ID	Machine Identifier defined by Australia Post	VARCHAR	10				
+SOURCE_MACHINE_NAME	Machine Name defined by Australia Post	VARCHAR	50				
+SOURCE_MACHINE_TYPE	Machine Type defined by Australia Post	VARCHAR	10				
+EVENT_SEQUENCE	Unique Event Sequence Number within the Physical Message	INTEGER	20				
+DATETIME	DATETIME of the Event	DATETIME					
+TIMEZONE	Time Zone/Offset of the event (if applicable)	VARCHAR	6				
+ARTICLE_LOCAL_ID	Sorter Equipment reference for an article	INTEGER	20				
+ARTICLE_ID	AusPost recognised ID of the article. This may not be known for all Article Events.	VARCHAR	50				
+COMPONENT_ID	Identifier of component where the event occurred	VARCHAR	30				
+MODE	Mode of anything (generic field)	VARCHAR	30				
+STATUS	Status of anything (generic field)	VARCHAR	10				
+BARCODE_SEQUENCE	Unique Barcode Sequence Number within the Barcode event	INTEGER	20				
+BARCODE	Article barcode read by scanner.	VARCHAR	400				
+BARCODE_TYPE	Article barcode type (symbology)	VARCHAR	10				
+MLID	Merchant Location ID	VARCHAR	5				
+SUBPROD	Sub Product ID	VARCHAR	5				
+DPID	Delivery Point ID	INTEGER	20				
+DID	Delivery ID	INTEGER	20				
+TRAY_IND	Tray Flag	VARCHAR	1				
+SOURCE	Source of anything (generic field)	VARCHAR	30				
+MESSAGE_STATUS	Categorisation of the OCR/VCS coding result message for the unique article.	INTEGER	20				
+ORC_PROC_TIME	The times taken to OCR / ORC code the article. [ms]	INTEGER	20				
+ORC_REJECT_STATUS	Identifies the status of the ORC result package for the unique article.  	VARCHAR	10				
+ORC_PRINT_TYPE	Identifies the print condition of the address label of the unique article.	VARCHAR	30				
+VCS_PROC_TIME	The times taken to VCS code the article. [ms]	INTEGER	20				
+VCS_REJECT_STATUS	Identifies the status of the OCR/VCS result package for the unique article.  	VARCHAR	10				
+VCS_PRINT_TYPE	Identifies the print condition of the address label of the unique article.	VARCHAR	30				
+RESULT_STATUS	Categorisation of the OCR/VCS “result” package received for the unique article.  	VARCHAR	10				
+POSTCODE	Identifies the delivery postcode for the unique article.  	INTEGER	20				
+LOCALITY		INTEGER	20				
+DLVR_GROUP		INTEGER	20				
+ROUND	Identifies the delivery round for the unique article.  	INTEGER	20				
+SECTION	Identifies the delivery Section for the unique article.  	INTEGER	20				
+OVERSEAS_COUNTRY		INTEGER	20				
+OVERSEAS_ZONES	Identifies the delivery country for the unique article – used for overseas outbound articles.  	INTEGER	20				
+ALIBI_ID	Legal for trade identifier for the unique article given once it has been weighed.	INTEGER	20				
+LENGTH_MEASURED	Length of the article [mm]	INTEGER	18				
+WIDTH_MEASURED	Width of the article [mm]	INTEGER	18				
+HEIGHT_MEASURED	Height of the article [mm]	INTEGER	18				
+VOLUME_MEASURED	The volume of the article [m3]	INTEGER	18				
+WEIGHT_MEASURED	Gross Weight of Article grams.	INTEGER	18				
+ARTICLE_LENGTH_DEFAULT	Length of the article [mm]	INTEGER	18				
+ARTICLE_WIDTH_DEFAULT	Width of the article [mm]	INTEGER	18				
+ARTICLE_HEIGHT_DEFAULT	Height of the article [mm]	INTEGER	18				
+ARTICLE_VOLUME_DEFAULT	The volume of the article [m3]	INTEGER	18				
+ARTICLE_WEIGHT_DEFAULT	The weight of the article in grams.	INTEGER	18				
+DPG	Identifies the delivery Group for the unique article.  	INTEGER	20				
+SORT_SCHEME_NAME	The identifier of the sort scheme used for the decision	VARCHAR	30				
+SORT_PLAN_ID	The identifier of the sort plan used for the decision	VARCHAR	30				
+RULE_ID	Rule ID of anything (generic field)	VARCHAR	30				
+REASON	Reason of anything (generic field)	VARCHAR	30				
+CONTAINER_POS_ID	Container Position Identifier	VARCHAR	30				
+ACTION_TYPE	Identifies the type of adjustment action performed against the article.	VARCHAR	10				
+CONTAINER_ID	Unique tracking ID that is applied by the machine to the container.	VARCHAR	30				
+SORT_PLAN_NAME	"Identifies the name of the sort plan.  						
+Note: this attribute is required to determine the type of sort plan.							
+"	VARCHAR	30					
+REASON_TYPE	Reason Type of anything (generic field)	VARCHAR	10				
+LOGICAL_COMPONENT_ID	Unique ID of the intended machine component (output chute) for the article.	VARCHAR	30				
+PHYSICAL_COMPONENT_ID	Unique ID of the actual machine component (output chute) for the article.	VARCHAR	30				
+RECIRCULATION_COUNT_SEQ	Unique Recirculation Count sequence withing its parent Article Output Event	INTEGER	20				
+SORTER_ID	Unique ID of the machine sorter.	INTEGER	20				
+COUNT	Count of anything (generic field)	INTEGER	20				
+LOGICAL_CONTAINER_ID	Logical Container Identifier within Machine	VARCHAR	30				
