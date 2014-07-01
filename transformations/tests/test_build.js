@@ -24,10 +24,17 @@ function test_build(artefactName, object, schema, design) // Constructor
     object.forEach(function(row, index) {
         
         if (index<object.length-1) {
-            
-            sourceTables[sourceTables.length] = ''+row.SOURCE.split('.')[0]+'';
-            destinationTables[destinationTables.length] = ''+row.DESTINATION.split('.')[0]+'';
 
+            if (row.SOURCE.length>0) {
+
+                if (row.SOURCE.split('.')[0]!=undefined) {
+                    sourceTables[sourceTables.length] = ''+row.SOURCE.split('.')[0]+'';
+                }
+
+                if (row.DESTINATION.split('.')[0]!=undefined) {
+                    destinationTables[destinationTables.length] = ''+row.DESTINATION.split('.')[0]+'';
+                }
+            }
         }
     });
 
@@ -107,6 +114,7 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
             
             var count = 0;
 
+
             // load source test data
             for (var i=0; i<sourceTables.length; i++) {
 
@@ -115,7 +123,7 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
                     count++
 
                     if (res=='OK') {
-                        
+
                         if (count==sourceTables.length) { // all data is loaded...
 
                             // execute proc then check mapping was successfully applied to each destination column
@@ -168,72 +176,91 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
 
 function loadTestData(artefactName, object, schema, callback) {
 
-    logger.info(artefactName, 'running TEST DATA load');
+    if (artefactName.length>0) {
 
-    // load test data
-    if (fs.existsSync('../../staging/tests/'+artefactName+'_data.tsv')==false) {
-        // ERROR
-        logger.error(artefactName, 'missing test data: '+artefactName+'_data.tsv');
+        logger.info(artefactName, 'running TEST DATA load');
 
-        var testDataHeader = '';
-        object.forEach(function(row, index) {
-            testDataHeader += row.COLUMN+'\t';
-        });
-        logger.info(artefactName, 'generating header for test data...');
-        //console.log(testDataHeader);
-    }
-    else {
+        // load test data
+        if (fs.existsSync('../../staging/tests/'+artefactName+'_data.tsv')==false) {
+            // ERROR
+            logger.error(artefactName, 'missing test data: '+artefactName+'_data.tsv');
 
-        // first drop existing data
-        db.sql('DELETE FROM '+schema+'.'+artefactName, function(err, result) {
-            try {
-                if (err) {
-                    logger.error(artefactName, 'failed to execute "DELETE FROM '+schema+'.'+artefactName+'" - '+err);
-                }
-                
-                // now parse data file
-                var parser = require('./lib/parser.js');
-                parser.parse('../../staging/tests/'+artefactName+'_data.tsv', false, function(data) {
+            var testDataHeader = '';
+            object.forEach(function(row, index) {
+                testDataHeader += row.COLUMN+'\t';
+            });
+            logger.info(artefactName, 'generating header for test data...');
+            //console.log(testDataHeader);
+        }
+        else {
 
-                    var insertCounter = 0;
-                    var wasSuccessful = true;
-                    data.forEach(function(row, index) {
-                        
-                        if (index!=0) { // first row are the column names
+            // first drop existing data
+            db.sql('DELETE FROM '+schema+'.'+artefactName, function(err, result) {
+                try {
+                    if (err) {
+                        logger.error(artefactName, 'failed to execute "DELETE FROM '+schema+'.'+artefactName+'" - '+err);
+                    }
+                    
+                    // now parse data file
+                    var parser = require('./lib/parser.js');
+                    parser.parse('../../staging/tests/'+artefactName+'_data.tsv', false, function(data) {
 
-                            db.sqlSubstitution('INSERT INTO '+schema+'.'+artefactName+' VALUES (??)', row, function(err, result) {
-                                try {
-                                    should.not.exist(err);
-                                } catch(e) {
-                                    // ERROR
-                                    logger.error(artefactName, 'failed to load test data: '+err);
+                        var insertCounter = 0;
+                        var wasSuccessful = true;
+                        data.forEach(function(row, index) {
+                            
+                            if (index!=0) { // first row are the column names
+
+                                // replace all empty items with null
+                                var it = row;
+                                var finalRow = '';
+
+                                for (var i=0; i<it.length; i++) {
+                                    it[i] = it[i].toString();
+                                    if (it[i].trim().length==0) {
+                                        row[i] = 'null';
+                                    }
+                                    else {
+                                        row[i] = it[i];
+                                    }
                                 }
-                            });
-                        }
 
-                        insertCounter++;
 
-                        if (insertCounter==data.length) {
-                            if (wasSuccessful==true) {
-                                logger.OK(artefactName, 'PASSED TEST DATA load');
-                                callback ('OK')
+                                db.sqlSubstitution('INSERT INTO '+schema+'.'+artefactName+' VALUES (??)', row, function(err, result) {
+                                    try {
+                                        should.not.exist(err);
+                                    } catch(e) {
+                                        // ERROR
+                                        logger.error(artefactName, 'failed to load test data: '+err);
+                                        wasSuccessful = false;
+                                    }
+                                    insertCounter++;
+
+                                    if (insertCounter==data.length-1) {
+                                        if (wasSuccessful==true) {
+                                            logger.OK(artefactName, 'PASSED TEST DATA load');
+                                            callback ('OK')
+                                        }
+                                        else 
+                                        {
+                                            logger.error(artefactName, 'FAILED TEST DATA load'); 
+                                            callback('OK') 
+                                            process.exit();
+                                        } 
+                                    }
+                                });
                             }
-                            else 
-                            {
-                                logger.error(artefactName, 'FAILED TEST DATA load'); 
-                                callback('OK') 
-                            } 
-                        }
+                        });
+
                     });
 
-                });
 
-
-            } catch(e) {
-                // ERROR
-                logger.error(artefactName, e);
-            }
-        });                
+                } catch(e) {
+                    // ERROR
+                    logger.error(artefactName, e);
+                }
+            });                
+        }
     }
 
 }

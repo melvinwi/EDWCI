@@ -38,7 +38,7 @@ if (program.file && program.schema) {
 		object.forEach(function(row, index) { // check every line
 			try {
 				if (index-1!=object.length) { // not the last row
-					row.should.have.properties('SOURCE', 'DESTINATION', 'SOURCE_FUNCTION_PREFIX', 'SOURCE_FUNCTION_SUFFIX', 'DESCRIPTION');
+					row.should.have.properties('SOURCE_FUNCTION_PREFIX', 'SOURCE', 'SOURCE_FUNCTION_SUFFIX', 'DESTINATION', 'DESCRIPTION');
 				}
 				else {
 					row.should.have.property('SELECTION_CRITERIA')
@@ -50,22 +50,26 @@ if (program.file && program.schema) {
 					// check source artefact exists
 					var source = row.SOURCE.split('.')[0]+'.tsv';
 
-					if (fs.existsSync('../../staging/'+source)!=true)
-						throw 'missing SOURCE ../../staging/'+source;
+					if (source!='.tsv') {
+						if (fs.existsSync('../../staging/'+source)!=true)
+							throw 'missing SOURCE ../../staging/'+source;
+					}
 
 
 
 					// check destination artefact exists
 					var destination = row.DESTINATION.split('.')[0]+'.tsv';
 					
-					if (fs.existsSync('../../datastore/'+destination)!=true)
-						throw 'missing SOURCE ../../datastore/'+destination;
+					if (destination!='.tsv') {
+						if (fs.existsSync('../../datastore/'+destination)!=true)
+							throw 'missing SOURCE ../../datastore/'+destination;
+					}
 					
 				}
 
 			} catch(e) {
 				// ERROR
-				logger.error(JSON.stringify(row), 'test error: '+ e);
+				logger.error(JSON.stringify(row), 'test error line ('+index+'): '+ e);
 				success = false;
 			}
 
@@ -77,6 +81,7 @@ if (program.file && program.schema) {
 				}
 				else {
 					logger.error(artefactName, 'FAILED DESIGN tests');	
+					process.exit();
 				}
 			}
 

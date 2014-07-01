@@ -1,0 +1,139 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_ARTICLE_EVENTS_DATASTORE_FF_ET001				
+# DESCRIPTION: Promote Article data to IDS				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+	STAGING_FF_PSE_ARTICLE_T.PSE_BUS_REFERENCE_ID		DATASTORE_FF_ET001.EVENT_ID_TYPE	PSE_BUS_REFERENCE_ID
+# case true when STAGING_FF_PSE_ARTICLE_T.RECORDQUALIFIER like '_000' then STAGING_FF_PSE_ARTICLE_T.BUS_REFERENCE_ID when STAGING_FF_PSE_ARTICLE_T.RECORDQUALIFIER like '__000' then STAGING_FF_PSE_ARTICLE_T.BUS_REFERENCE_ID || ':' ||  STAGING_FF_PSE_ARTICLE_T.EVENT_SEQUENCE || ':' || STAGING_FF_PSE_ARTICLE_T.BARCODE_SEQUENCE when STAGING_FF_PSE_ARTICLE_T.RECORDQUALIFIER = '2810' then STAGING_FF_PSE_ARTICLE_T.BUS_REFERENCE_ID || ':' || STAGING_FF_PSE_ARTICLE_T.EVENT_SEQUENCE || ':' || STAGING_FF_PSE_ARTICLE_T.RECIRCULATION_COUNT_SEQ end as EVENT_ID			DATASTORE_FF_ET001.EVENT_ID	if the recordqualifier is four numbers and ends in 000 then this is a header record; otherwise it is a chid of the header (event) - need to construct a reference to the header.  In one case, barcodes, the child record can have further children for each barcode scan; therefore a further child identifier is derived.
+case true when STAGING_FF_PSE_ARTICLE_T.RECORDQUALIFIER like '_000' then '' else PSE_BUS_REFERENCE_ID end as RECORDQUALIFIER			DATASTORE_FF_ET001.RELATE_EVENT_ID_TYPE	the type is to only be populated for child records of the header records - i.e. not _000
+# case true when STAGING_FF_PSE_ARTICLE_T.RECORDQUALIFIER like '_000' then '' when STAGING_FF_PSE_ARTICLE_T.RECORDQUALIFIER like '__00' then STAGING_FF_PSE_ARTICLE_T.BUS_REFERENCE_ID when STAGING_FF_PSE_ARTICLE_T.RECORDQUALIFIER = '2210' then STAGING_FF_PSE_ARTICLE_T.BUS_REFERENCE_ID || ':' | STAGING_FF_PSE_ARTICLE_T.EVENT_SEQUENCE when STAGING_FF_PSE_ARTICLE_T.RECORDQUALIFIER = '2810' then STAGING_FF_PSE_ARTICLE_T.BUS_REFERENCE_ID || ':' || STAGING_FF_PSE_ARTICLE_T.EVENT_SEQUENCE end as RELATE_EVENT_ID			DATASTORE_FF_ET001.RELATE_EVENT_ID	If this is a child record populate the header
+substring(	STAGING_FF_PSE_ARTICLE_T.RECORDQUALIFIER	, 1,1)	DATASTORE_FF_ET001.EVENT_TYPE_GRP_TYPE	use the first char of the recordqualifier as the group type 
+	STAGING_FF_PSE_ARTICLE_T.RECORDQUALIFIER		DATASTORE_FF_ET001.EVENT_TYPE	recordqualifier
+#	STAGING_FF_PSE_ARTICLE_T.MESSAGE_TIMESTAMP		DATASTORE_FF_ET001.EVENT_MSG_DATETIME	
+#	STAGING_FF_PSE_ARTICLE_T.TIMESTAMP		DATASTORE_FF_ET001.EVENT_ACTL_DATETIME	
+null			DATASTORE_FF_ET001.EVENT_SCHED_DATETIME	
+null			DATASTORE_FF_ET001.EVENT_CUTOFF_DATETIME	
+	STAGING_FF_PSE_ARTICLE_T.ARTICLE_ID		DATASTORE_FF_ET001.ARTICLE_ID	article_id
+null			DATASTORE_FF_ET001.PIECE_ID	
+null			DATASTORE_FF_ET001.MANUAL_IND	
+null			DATASTORE_FF_ET001.LOCATION_ZONE_ID_TYPE	
+null			DATASTORE_FF_ET001.LOCATION_ZONE_ID	
+	STAGING_FF_PSE_ARTICLE_T.ARTICLE_LOCAL_ID		DATASTORE_FF_ET001.SORTER_PIECE_ID	
+case true when STAGING_FF_PSE_ARTICLE_T.RECORDQUALIFIER not like '_000' then STAGING_FF_PSE_ARTICLE_T.SOURCE_MACHINE_TYPE else '' end as OPR_EQUIP_INST_ID_TYPE			DATASTORE_FF_ET001.OPR_EQUIP_INST_ID_TYPE	type to only apply to non-header records
+case true when STAGING_FF_PSE_ARTICLE_T.RECORDQUALIFIER not like '_000' then STAGING_FF_PSE_ARTICLE_T.SOURCE_MACHINE_ID else '' end as OPR_EQUIP_INST_ID			DATASTORE_FF_ET001.OPR_EQUIP_INST_ID	id to only apply to non-header records
+case true when STAGING_FF_PSE_ARTICLE_T.SUBPROD != '' then 'SUBPROD' else '' end as ITEM_ID_TYPE			DATASTORE_FF_ET001.ITEM_ID_TYPE	ensure value is present before populating with fixed value
+	STAGING_FF_PSE_ARTICLE_T.SUBPROD		DATASTORE_FF_ET001.ITEM_ID	
+case true when STAGING_FF_PSE_ARTICLE_T.RECORDQUALIFIER = '2210' then BARCODE else '' end as BARCODE			DATASTORE_FF_ET001.BARCODE	case when recordqualifier = '2210' then barcode else '' end
+case true when STAGING_FF_PSE_ARTICLE_T.RECORDQUALIFIER = '2210' then BARCODE_TYPE else '' end as BARCODE_TYPE			DATASTORE_FF_ET001.BARCODE_SYMBOLOGY	case when recordqualifier = '2210' then barcode_type else '' end
+case true when STAGING_FF_PSE_ARTICLE_T.MLID != '' then 'MLID' else '' end as SHIP_PARTY_ID_TYPE			DATASTORE_FF_ET001.SHIP_PARTY_ID_TYPE	ensure value is present before populating with fixed value
+	STAGING_FF_PSE_ARTICLE_T.MLID		DATASTORE_FF_ET001.SHIP_PARTY_ID	MLID
+case true when STAGING_FF_PSE_ARTICLE_T.DPID != '' then 'ATLAS_DPID' else '' end as DPID_TYPE			DATASTORE_FF_ET001.DPID_TYPE	ensure value is present before populating with fixed value
+	STAGING_FF_PSE_ARTICLE_T.DPID		DATASTORE_FF_ET001.DPID	DPID
+#	STAGING_FF_PSE_ARTICLE_T.DID		DATASTORE_FF_ET001.DID	DID
+case true when STAGING_FF_PSE_ARTICLE_T.COMPONENT_ID != '' then SOURCE_MACHINE_TYPE else '' end as OPR_COMP_EQUIP_INST_ID_TYPE			DATASTORE_FF_ET001.OPR_COMP_EQUIP_INST_ID_TYPE	ensure value is present before populating with component type
+# case true when STAGING_FF_PSE_ARTICLE_T.COMPONENT_ID != '' then SOURCE_MACHINE_ID || ':' || COMPONENT_ID else '' end as OPR_COMP_EQUIP_INST_ID			DATASTORE_FF_ET001.OPR_COMP_EQUIP_INST_ID	ensure value is present before populating with component id concatenated with the machine id (a unique value)
+# 	RECORDQUALIFIER		CUBE_MEAS_VAL	case when recordqualifier like '24%' then cast(volume_measured as decimal)  else 0 end
+#	VOLUME_MEASURED			
+#	RECORDQUALIFIER		CUBE_MEAS_UOM	case when recordqualifier like '24%' then 'MTQ' else '' end
+#			CUBE_MEAS_SRC_TYPE	Blank
+#	RECORDQUALIFIER		LENGTH_MEAS_VAL	case when recordqualifier like '24%' then cast(length_measured as decimal) else 0 end
+#	LENGTH_MEASURED			
+#	RECORDQUALIFIER		LENGTH_MEAS_UOM	case when recordqualifier like '24%' then 'MM' else '' end
+#			LENGTH_MEAS_SRC_TYPE	Blank
+#	RECORDQUALIFIER		WIDTH_MEAS_VAL	case when recordqualifier like '24%' then cast(WIDTH_MEASURED as decimal) else 0 end
+#	WIDTH_MEASURED			
+#	RECORDQUALIFIER		WIDTH_MEAS_UOM	case when recordqualifier like '24%' then 'MM' else '' end
+#			WIDTH_MEAS_SRC_TYPE	Blank
+#	RECORDQUALIFIER		HEIGHT_MEAS_VAL	case when recordqualifier like '24%' then cast(height_measured as decimal) else 0 end
+#	HEIGHT_MEASURED			
+#	RECORDQUALIFIER		HEIGHT_MEAS_UOM	case when recordqualifier like '24%' then 'MM' else '' end
+#			HEIGHT_MEAS_SRC_TYPE	Blank
+#	RECORDQUALIFIER		GRO_WEIGHT_MEAS_VAL	case when recordqualifier like '24%' then cast(weight_measured as decimal) else 0 end
+#	WEIGHT_MEASURED			
+#	RECORDQUALIFIER		GRO_WEIGHT_MEAS_UOM	case when recordqualifier like '24%' then 'GRM' else '' end
+#			GRO_WEIGHT_MEAS_SRC_TYPE	Blank
+#			NET_WEIGHT_MEAS_VAL	0
+#			NET_WEIGHT_MEAS_UOM	Blank
+#			NET_WEIGHT_MEAS_SRC_TYPE	Blank
+#	RECORDQUALIFIER		LGL_FOR_TRD_MEAS_ID	case when recordqualifier like '24%' then alibi_id else 0 end
+#			ROUTE_ID	0
+#	RECORDQUALIFIER		DEPART_DATETIME	case when recordqualifier like '28%' then to_timestamp(to_seconddate(event.timestamp)) else to_timestamp('00010101000000','YYYYMMDDHH24MISS') end
+#	RECORDQUALIFIER		PIECE_ROUTE_SETTING_ID_TYPE	case when recordqualifier like '28%' or recordqualifier like '26%' then 'PSE_SORTPLANID' else '' end
+#	RECORDQUALIFIER		PIECE_ROUTE_SETTING_ID	case when recordqualifier like '28%' or recordqualifier like '26%' then sort_plan_id else '' end
+#	SORT_PLAN_ID			
+#	RECORDQUALIFIER		LOGIC_CONTN_EQUIP_INST_ID_TYPE	case when logical_container_id != '' then source_machine_type || '.' || container_id else '' end
+#	RECORDQUALIFIER		LOGIC_CONTN_EQUIP_INST_ID	case when logical_container_id != '' then source_machine_id || '.' || logical_container_id else '' end
+#	RECORDQUALIFIER		PHYS_CONTN_EQUIP_INST_ID_TYPE	case when container_id != '' then source_machine_type || '.' || container_id else '' end
+#	RECORDQUALIFIER		PHYS_CONTN_EQUIP_INST_ID	case when container_id != '' then source_machine_id || '.' || container_id else '' end
+#			CONTN_EQUIP_TYPE	Blank
+#	REASON		REASON	
+#	REASON_TYPE		REASON_TYPE	
+#	RECORDQUALIFIER		PIECE_COUNT	case when recordqualifier = '2810' then count else 0 end
+#	RECORDQUALIFIER		MODE_TYPE	case when recordqualifier like '21%' then mode else '' end
+#	RECORDQUALIFIER		OCR_PROC_TIME	case when recordqualifier like '23%' then ORC_PROC_TIME else 0 end
+#	RECORDQUALIFIER		VCS_PROC_TIME	case when recordqualifier like '23%' then VCS_PROC_TIME else 0 end
+#	SOURCE		SOURCE	
+#	RECORDQUALIFIER		STATUS	case when recordqualifier like '23%' and source = 1 then to_nvarchar(ORC_REJECT_STATUS)                 when recordqualifier like '23%' and source = 2 then to_nvarchar(VCS_REJECT_STATUS)                 else '' end
+#	RECORDQUALIFIER		PRINT_TYPE	case when recordqualifier like '23%' and source = 1 then to_nvarchar(ORC_PRINT_TYPE) when recordqualifier like '23%' and source = 2 then to_nvarchar(VCS_PRINT_TYPE)                 else '' end
+#	POSTCODE		POSTCODE	
+#	ROUND		ROUND_DID	round
+#	SECTION		DELIVERY_SECTION_DID	section
+#	OVERSEAS_COUNTRY		COUNTRY_DID	overseas_country
+#	OVERSEAS_ZONES		COUNTRY_ZONE_DID	overseas_zone
+#	RECORDQUALIFIER		PIECE_ROUTE_SETTING_GRP_ID_TY	case when recordqualifier like '26%' then 'PSE_PRCL_PROC_RLE_ID' else '' end
+#	RECORDQUALIFIER		PIECE_ROUTE_SETTING_GRP_ID	case when recordqualifier like '26%' then to_nvarchar(rule_id) else '' end
+#	RULE_ID			
+#	RECORDQUALIFIER		CONTN_POS_EQUIP_INST_ID_TYPE	case when CONTAINER_POS_ID != '' then source_machine_type || '.' || CONTAINER_POS_ID else '' end
+#	SOURCE_MACHINE_TYPE			
+#	CONTAINER_POS_ID		CONTN_POS_EQUIP_INST_ID	case when CONTAINER_POS_ID != '' then source_machine_id || '.' || CONTAINER_POS_ID else '' end
+#	SOURCE_MACHINE_ID			
+#	RECORDQUALIFIER		ACTION_TYPE	case when recordqualifier like '27%' then action_type else '' end
+#	ACTION_TYPE			
+#			TRACK_TRCE_PRINT_DATETIME	to_timestamp('00010101000000','YYYYMMDDHH24MISS')
+#			DOCKED_DATETIME	to_timestamp('00010101000000','YYYYMMDDHH24MISS')
+#			READY_TO_LOAD_DATETIME	to_timestamp('00010101000000','YYYYMMDDHH24MISS')
+#			EQUIP_DATETIME	to_timestamp('00010101000000','YYYYMMDDHH24MISS')
+#			OPER_DATETIME	to_timestamp('00010101000000','YYYYMMDDHH24MISS')
+#			LINE1	Blank
+#			LINE2	Blank
+#			DOCK_COMP_EQUIP_INST_ID_TYPE	Blank
+#			DOCK_COMP_EQUIP_INST_ID	Blank
+#	SORT_SCHEME_NAME		SORT_SCHEME_NAME	
+#	MESSAGE_STATUS		MESSAGE_STATUS	
+#			SOURCE_MAIL_SORT_MACHINE_ID	0
+#			SOURCE_FACILITY	Blank
+#			SERIAL	Blank
+#			TRAY_COMPONENT_ID	Blank
+#			MAIL_DESTINATION_ID	0
+#			MAIL_DESTINATION_NAME	Blank
+#			MAIL_DESTINATION_SUB_NAME	Blank
+#			MAIL_DESTINATION_STATE_ID	0
+#			MAIL_DESTINATION_TYPE_CODE	Blank
+#			MAIL_DESTINATION_WCIS	0
+#			DELIVERY_CODE	Blank
+#			DELIVERY_CODE_DESCRIPTION	Blank
+#			DELIVERY_CODE_TYPE	Blank
+#			PRNT_DESTINATION_ID	0
+#			PRNT_DESTINATION_NAME	Blank
+#			PRNT_DESTINATION_WCIS	0
+#			PROD_TYPE_ID	0
+#			PROD_TEXT	Blank
+#			PROD_TYPE_NAME	Blank
+#			MAIL_SIZE_IND	Blank
+#			DELIVERY_SERVICE_ID	Blank
+#			MAIL_CATEGORY_CODE	Blank
+#			MAIL_CATEGORY_NAME	Blank
+#			BARCODE_PREAMBLE	Blank
+#			PRINT_TIME_TYPE_CODE	Blank
+#			NAT_OPERATE_STD_ID	0
+#			NAT_OPERATE_STD_DESC	Blank
+#			LABEL_TEXT	Blank
+#			LABEL_FORMAT_NAME	Blank
+#			IDS_TIMESTAMP	CURRENT_TIMESTAMP
+#			COUNTER	1
+#			RECORDMODE	Blank
+#	ARTICLE_WEIGHT_DEFAULT		DEF_GRO_WEIGHT_MEAS_VAL	
+#	ARTICLE_LENGTH_DEFAULT		DEF_LENGTH_MEAS_VAL	
+#	ARTICLE_WIDTH_DEFAULT		DEF_WIDTH_MEAS_VAL	
+#	ARTICLE_HEIGHT_DEFAULT		DEF_HEIGHT_MEAS_VAL	
+#	ARTICLE_VOLUME_DEFAULT		DEF_CUBE_MEAS_VAL	
+				

@@ -1,0 +1,27 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_ARTICLE_EVENTS_DATASTORE_FF_ET001
+# CREATED DATE: 2014-07-01T100951
+
+2014-07-01 10:09:51	1	PASSED	source.length.should.equal(destination.length)	{"obj":100,"params":{"operator":"to be","expected":100,"showDiff":true},"negate":false}
+2014-07-01 10:09:51	2	PASSED	source[0].PSE_BUS_REFERENCE_ID.should.equal(destination[0].EVENT_ID_TYPE)	{"obj":"2800","params":{"operator":"to be","expected":"2800","showDiff":true},"negate":false}
+2014-07-01 10:09:52	3	FAILED	source[0].undefined.should.equal(destination[0].RELATE_EVENT_ID_TYPE) problem processing test - please update	TypeError: Cannot read property 'should' of undefined
+2014-07-01 10:09:52	4	FAILED	source[0].RECORDQUALIFIER.should.equal(destination[0].EVENT_TYPE_GRP_TYPE)	{"name":"AssertionError","actual":"2800","expected":"2","operator":"to be","message":"expected '2800' to be '2'","showDiff":true,"generatedMessage":true}
+2014-07-01 10:09:52	5	PASSED	source[0].RECORDQUALIFIER.should.equal(destination[0].EVENT_TYPE)	{"obj":"2800","params":{"operator":"to be","expected":"2800","showDiff":true},"negate":false}
+2014-07-01 10:09:52	6	FAILED	source[0].undefined.should.equal(destination[0].EVENT_SCHED_DATETIME) problem processing test - please update	TypeError: Cannot read property 'should' of undefined
+2014-07-01 10:09:52	7	FAILED	source[0].undefined.should.equal(destination[0].EVENT_CUTOFF_DATETIME) problem processing test - please update	TypeError: Cannot read property 'should' of undefined
+2014-07-01 10:09:52	8	PASSED	source[0].ARTICLE_ID.should.equal(destination[0].ARTICLE_ID)	{"obj":"142772","params":{"operator":"to be","expected":"142772","showDiff":true},"negate":false}
+2014-07-01 10:09:52	9	FAILED	source[0].undefined.should.equal(destination[0].PIECE_ID) problem processing test - please update	TypeError: Cannot read property 'should' of undefined
+2014-07-01 10:09:52	10	FAILED	source[0].undefined.should.equal(destination[0].MANUAL_IND) problem processing test - please update	TypeError: Cannot read property 'should' of undefined
+2014-07-01 10:09:52	11	FAILED	source[0].undefined.should.equal(destination[0].LOCATION_ZONE_ID_TYPE) problem processing test - please update	TypeError: Cannot read property 'should' of undefined
+2014-07-01 10:09:52	12	FAILED	source[0].undefined.should.equal(destination[0].LOCATION_ZONE_ID) problem processing test - please update	TypeError: Cannot read property 'should' of undefined
+2014-07-01 10:09:52	13	FAILED	source[0].ARTICLE_LOCAL_ID.should.equal(destination[0].SORTER_PIECE_ID)	{"name":"AssertionError","actual":145209,"expected":"145209","operator":"to be","message":"expected 145209 to be '145209'","showDiff":true,"generatedMessage":true}
+2014-07-01 10:09:52	14	FAILED	source[0].undefined.should.equal(destination[0].OPR_EQUIP_INST_ID_TYPE) problem processing test - please update	TypeError: Cannot read property 'should' of undefined
+2014-07-01 10:09:52	15	FAILED	source[0].undefined.should.equal(destination[0].OPR_EQUIP_INST_ID) problem processing test - please update	TypeError: Cannot read property 'should' of undefined
+2014-07-01 10:09:52	16	FAILED	source[0].undefined.should.equal(destination[0].ITEM_ID_TYPE) problem processing test - please update	TypeError: Cannot read property 'should' of undefined
+2014-07-01 10:09:52	17	FAILED	source[0].SUBPROD.should.equal(destination[0].ITEM_ID) problem processing test - please update	TypeError: Cannot read property 'should' of null
+2014-07-01 10:09:52	18	FAILED	source[0].undefined.should.equal(destination[0].BARCODE) problem processing test - please update	TypeError: Cannot read property 'should' of undefined
+2014-07-01 10:09:52	19	FAILED	source[0].undefined.should.equal(destination[0].BARCODE_SYMBOLOGY) problem processing test - please update	TypeError: Cannot read property 'should' of undefined
+2014-07-01 10:09:53	20	FAILED	source[0].undefined.should.equal(destination[0].SHIP_PARTY_ID_TYPE) problem processing test - please update	TypeError: Cannot read property 'should' of undefined
+2014-07-01 10:09:53	21	FAILED	source[0].MLID.should.equal(destination[0].SHIP_PARTY_ID) problem processing test - please update	TypeError: Cannot read property 'should' of null
+2014-07-01 10:09:53	22	FAILED	source[0].undefined.should.equal(destination[0].DPID_TYPE) problem processing test - please update	TypeError: Cannot read property 'should' of undefined
+2014-07-01 10:09:53	23	FAILED	source[0].DPID.should.equal(destination[0].DPIDone to one problem processing test - please update	SyntaxError: Unexpected identifier
