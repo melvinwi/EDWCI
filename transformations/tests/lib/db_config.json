@@ -6,7 +6,7 @@
 				"DBType": "HANABV",
 				"DBServer": "hnphana07.corptest.aptest.local",
 				"DBPort": "31015",
-				"Comment":"Ten columns, one month data on the primary view"
+				"Comment":""
 			}
 		],
 		"MYSQLLOCAL": [
@@ -16,6 +16,16 @@
 				"DBPort": "3306",
 				"DBUsername": "root",
 				"DBPassword": "",
+				"Comment":""
+			}
+		],
+		"SQLSERVER": [
+			{
+				"DBType": "SQLSERVER",
+				"DBServer": "54.253.107.225",
+				"DBPort": "1433",
+				"DBUsername": "leigh",
+				"DBPassword": "1tsaPassword",
 				"Comment":""
 			}
 		]

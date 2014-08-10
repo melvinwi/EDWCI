@@ -35,9 +35,8 @@ var db = require('./lib/db.js');
 */
 
 
-function test_generate(artefactName, object, generateOnlyTest, schema) // Constructor
+function test_generate(artefactName, object, generateOnlyTest, schema, dbType) // Constructor
 {
-    
 
     // RUN TESTS
     logger.info(artefactName, 'about to run GENERATE');
@@ -68,12 +67,17 @@ function test_generate(artefactName, object, generateOnlyTest, schema) // Constr
         var row = sourceTables[i];
 
         if (row.toString()!='undefined') {
-            sourceTablesString+=row;
+            sourceTablesString+='`'+schema+'`.'+row;
 
             if (i<sourceTables.length-1){
                 sourceTablesString+=','
             }
         }
+    }
+
+    // put a dummy where statement in to ensure the developer is notified of the join requirement
+    if (sourceTables.length>1) {
+        sourceTablesString += '\n\t  WHERE --TODO! join required--'
     }
 
     destinationTables = destinationTables.unique();
@@ -92,8 +96,18 @@ function test_generate(artefactName, object, generateOnlyTest, schema) // Constr
 
 
     if (generateOnlyTest!=true) {
-        var sql = 'DELIMITER $$\n\n';
-        sql += 'CREATE DEFINER=`root`@`localhost` PROCEDURE `'+schema+'`.`'+artefactName+'`()\n';
+
+
+        var sql = '';
+
+        if (dbType=='MYSQL') {
+            sql += 'DELIMITER $$\n\n';
+            sql += 'CREATE DEFINER=`root`@`localhost` PROCEDURE `'+schema+'`.`'+artefactName+'`()\n';
+        }
+        else if (dbType=='SQLSERVER') {
+            sql += 'CREATE PROCEDURE '+schema+'.'+artefactName+' AS\n'
+        }
+
         sql += 'BEGIN\n'
 
         for (var i=0; i<destinationTables.length; i++) {
@@ -150,7 +164,8 @@ function test_generate(artefactName, object, generateOnlyTest, schema) // Constr
             }
         });
 
-        sql += '\n\t  FROM `'+schema+'`.'+sourceTablesString+'\n' // distinct list of sources as it may come from many tables
+
+        sql += '\n\t  FROM '+sourceTablesString+'\n' // distinct list of sources as it may come from many tables
 
         var whereStatement = ''
         while (object[object.length-i].SOURCE==undefined) {
@@ -163,6 +178,10 @@ function test_generate(artefactName, object, generateOnlyTest, schema) // Constr
 
         sql += '\nEND';
 
+
+        if (dbType=='SQLSERVER') {
+            sql = sql.replace(/`/g, '');
+        }
 
         console.log(sql);
     }

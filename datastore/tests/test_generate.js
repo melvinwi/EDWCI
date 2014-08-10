@@ -21,7 +21,7 @@ var db = require('./lib/db.js');
 */
 
 
-function test_generate(artefactName, object, schema) // Constructor
+function test_generate(artefactName, object, schema, dbType) // Constructor
 {
 
     // RUN TESTS
@@ -35,7 +35,7 @@ function test_generate(artefactName, object, schema) // Constructor
 
     	sql += '`'+row.COLUMN+'` ';
 
-    	if (row.TYPE.toLowerCase()!='datetime' && row.TYPE.toLowerCase()!='date') {
+    	if (row.TYPE.toLowerCase()!='datetime' && row.TYPE.toLowerCase()!='date' && row.TYPE.toLowerCase()!='int') {
     		sql += row.TYPE+'('+row.LENGTH+') ';
     	}
     	else {
@@ -45,7 +45,7 @@ function test_generate(artefactName, object, schema) // Constructor
     	if (row.DEFAULT.length>0) {
     		sql+= 'DEFAULT '+row.DEFAULT;
     	}
-    	else {
+    	else (row.AUTO_INCREMENT.toLowerCase()!='true') {
     		sql+= 'DEFAULT NULL';
     	}
 
@@ -87,7 +87,14 @@ function test_generate(artefactName, object, schema) // Constructor
 
     sql += ')'
 
-    sql += 'ENGINE=InnoDB AUTO_INCREMENT=204 DEFAULT CHARSET=latin1;'
+    if (dbType=='MYSQL') {
+        sql += 'ENGINE=InnoDB AUTO_INCREMENT=204 DEFAULT CHARSET=latin1;'
+    }
+
+    if (dbType=='SQLSERVER') {
+        sql = sql.replace(/`/g, '');
+        sql = sql.replace(/AUTO_INCREMENT/g, 'IDENTITY(1,1)')
+    }
 
     console.log(sql);
 }

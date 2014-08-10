@@ -8,6 +8,9 @@ var db = require('./lib/db.js');
 function test_build(artefactName, object, schema, design) // Constructor
 {
 
+    // dbType
+    dbType = db.dbType();
+
     // RUN TESTS
     logger.info(artefactName, 'running BUILD tests');
 
@@ -25,7 +28,7 @@ function test_build(artefactName, object, schema, design) // Constructor
 
             // GENERATE ARTEFACT         
             var GenerateTest = require('./test_generate.js');
-            var generateBuild = new GenerateTest(artefactName, object, schema); 
+            var generateBuild = new GenerateTest(artefactName, object, schema, dbType); 
             process.exit();
         }
     });
@@ -53,7 +56,7 @@ function test_build(artefactName, object, schema, design) // Constructor
                     
                     // GENERATE DOCUMENATION         
                     var GenerateDoc = require('./test_generate_doc.js');
-                    var generateDoc = new GenerateDoc(artefactName, schema, design); 
+                    var generateDoc = new GenerateDoc(artefactName, schema, design, dbType); 
 
                     process.exit();
                     

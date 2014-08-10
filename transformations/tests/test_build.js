@@ -12,6 +12,10 @@ var exec = require('child_process').exec;
 function test_build(artefactName, object, schema, design) // Constructor
 {
 
+    // dbType
+    dbType = db.dbType();
+
+
     // RUN TESTS
     //logger.info(artefactName, 'running BUILD tests');
 
@@ -103,7 +107,16 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
     logger.info(artefactName, 'running BUILD test for procedure');
 
     // check procedure exists
-    db.sql('SHOW PROCEDURE STATUS where `Name`= "'+artefactName+'" and `Db`="'+schema+'"', function(err, result1) {
+    var sqlToCheckIfProcExists = ''
+
+    if (dbType=='MYSQL') {
+        sqlToCheckIfProcExists = 'SHOW PROCEDURE STATUS where `Name`= "'+artefactName+'" and `Db`="'+schema+'"'
+    }
+    else if (dbType=='SQLSERVER'){
+        sqlToCheckIfProcExists = 'SELECT 1 FROM sys.procedures WHERE Name = \''+artefactName+'\'';
+    }
+
+    db.sql(sqlToCheckIfProcExists, function(err, result1) {
         try {
 
             should.not.exist(err);
@@ -148,7 +161,7 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
 
                 // GENERATE ARTEFACT         
                 var GenerateTest = require('./test_generate.js');
-                var generateBuild = new GenerateTest(artefactName, object, true, schema); 
+                var generateBuild = new GenerateTest(artefactName, object, true, schema, dbType); 
                 process.exit();
             }
             else {
@@ -164,7 +177,7 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
 
             // GENERATE ARTEFACT         
             var Generate = require('./test_generate.js');
-            var generate = new Generate(artefactName, object, false, schema); 
+            var generate = new Generate(artefactName, object, false, schema, dbType); 
             process.exit();
         }
 
@@ -231,8 +244,14 @@ function loadTestData(artefactName, object, schema, callback) {
                                         should.not.exist(err);
                                     } catch(e) {
                                         // ERROR
+                                        
                                         logger.error(artefactName, 'failed to load test data: '+err);
                                         wasSuccessful = false;
+
+                                        if (dbType=='SQLSERVER' && err.toString().indexOf('An explicit value for the identity column in table')!=-1) {
+                                            logger.error(artefactName, 'FATAL - FAILED TEST DATA load - error with test data - \nYour table '+artefactName+' has a column that is of type AUTO_INCREMENT; a value cannot be specified for this column.\n\nRESOLUTION: please delete column from your test data set.\n')
+                                            process.exit();
+                                        }
                                     }
                                     insertCounter++;
 
@@ -287,7 +306,7 @@ Array.prototype.unique = function() {
 
 function runTests(artefactName, sourceTables, destinationTable, sourceColumnsString, destinationColumnsString, schema) {
     // executes command
-    var cmd = 'node test_transform.js --artefactName '+artefactName+' --sourceTables '+sourceTables+' --destinationTable '+destinationTable+' --sourceColumns "'+sourceColumnsString+'" --destinationColumns '+destinationColumnsString+' --schema '+schema;
+    var cmd = 'node test_transform.js --artefactName '+artefactName+' --sourceTables '+sourceTables+' --destinationTable '+destinationTable+' --sourceColumns "'+sourceColumnsString+'" --destinationColumns '+destinationColumnsString+' --schema '+schema+' --dbType '+dbType;
 
     //console.log(cmd);
 
