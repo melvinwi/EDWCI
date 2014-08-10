@@ -1,9 +1,0 @@
-# transformation test result artefact
-# ARTEFACT: TRANSFORM_SALES_T
-# CREATED DATE: 2014-07-01T100919
-
-2014-07-01 10:09:19	1	PASSED	source.length.should.equal(destination.length)	{"obj":8,"params":{"operator":"to be","expected":8,"showDiff":true},"negate":false}
-2014-07-01 10:09:19	2	PASSED	source[0].SALESORDERID.toString().should.equal(destination[0].SOURCE_UID)	{"obj":"1","params":{"operator":"to be","expected":"1","showDiff":true},"negate":false}
-2014-07-01 10:09:19	3	PASSED	source[0].DATETIME.toString().should.equal(destination[0].SALE_DT.toString())	{"obj":"Wed Jan 01 2014 00:00:00 GMT+1100 (EST)","params":{"operator":"to be","expected":"Wed Jan 01 2014 00:00:00 GMT+1100 (EST)","showDiff":true},"negate":false}
-2014-07-01 10:09:19	4	PASSED	source[0].ACCOUNTID.should.equal(destination[0].ACCOUNT_ID)	{"obj":"ACCOUNT1","params":{"operator":"to be","expected":"ACCOUNT1","showDiff":true},"negate":false}
-2014-07-01 10:09:19	5	PASSED	source[0].STATUS.should.equal(destination[0].STATUS)	{"obj":"COMPLETE","params":{"operator":"to be","expected":"COMPLETE","showDiff":true},"negate":false}

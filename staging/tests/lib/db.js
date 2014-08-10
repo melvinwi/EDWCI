@@ -3,6 +3,8 @@ var DEBUG = false;
 
 var hdb = require('hdb');
 var mysql = require('mysql');
+var mssql = require('mssql'); 
+
 var fs = require('fs');
 
 
@@ -15,7 +17,7 @@ var DB_PASSWORD = '';
 var DB_SERVER;
 var DB_PORT;
 var DB_TYPE; // MYSQL or HANA
-var PROFILE_NAME= 'MYSQLLOCAL'; // refers to the name in the db_config.json
+var PROFILE_NAME= 'SQLSERVER'; // refers to the name in the db_config.json
 
 
 var config = {};
@@ -120,8 +122,32 @@ function initDBClient(callback) {
 		debug("connected to database " + DB_SERVER + ":" + DB_PORT);
 		callback(this.dbClient);
 	}
+	else if (DB_TYPE=='SQLSERVER') {
+
+		var config = {
+		    user: DB_USERNAME,
+		    password: DB_PASSWORD,
+		    server: DB_SERVER, // You can use 'localhost\\instance' to connect to named instance
+		    options: {
+		        encrypt: false // Use this if you're on Windows Azure
+		    }
+		}
+
+		this.dbClient = new mssql.Connection(config, function(err) {
+		    if (err) {
+		    	process.stderr.write("ERROR: couldn't connect to database " + DB_SERVER + ":" + DB_PORT + "\n" + err);
+		    	process.kill();
+		    }	
+		    else {	
+		    	debug("connected to database " + DB_SERVER + ":" + DB_PORT);    
+		    	callback(this.dbClient);
+		    }
+		});
+	}
+
+
 	else {
-		process.stderr.write("ERROR: incorrect DB_TYPE ("+DB_TYPE+') - only HANA or MYSQL are supported');
+		process.stderr.write("ERROR: incorrect DB_TYPE ("+DB_TYPE+') - only HANA, MYSQL or SQLSERVER are supported');
 		process.kill();
 	}
 }
@@ -134,6 +160,9 @@ module.exports = {
   },
   sqlSubstitution: function(statement, valueArray, callback) {
     sqlSubstitution(statement, valueArray, callback);
+  },
+  dbType: function() {
+  	return DB_TYPE;
   }
 };
 
@@ -163,8 +192,20 @@ function sql(statement, callback) {
 			  
 			});
 		}
+		else if (DB_TYPE=='SQLSERVER') {
+			
+			var request = dbClientResponse.request()
+
+			request.query(statement, function (err, result) {
+			
+				debug("executed statement '" + statement + "'");
+				debug(JSON.stringify(result));
+				callback(err, result);
+			  
+			});
+		}
 		else {
-			process.stderr.write("ERROR: incorrect DB_TYPE ("+DB_TYPE+') - only HANA or MYSQL are supported');
+			process.stderr.write("ERROR: incorrect DB_TYPE ("+DB_TYPE+') - only HANA, MYSQL or SQLSERVER are supported');
 			process.kill();
 		}
 	});
@@ -209,6 +250,38 @@ function sqlSubstitution(statement, valueArray, callback) {
 			  
 			});
 		}
+		else if (DB_TYPE=='SQLSERVER') {
+
+			var sqlParts = statement.split('??'); 
+
+			var values = '';
+			valueArray.forEach(function(item, index) {
+				if (item!='null') {
+					values+= "'"+item+"'";
+				}
+				else {
+					values+=item;
+				}
+
+				if (index+1<valueArray.length) {
+					values+=','
+				}
+			});
+
+
+			sql = sqlParts[0]+values+sqlParts[1];
+
+			var request = dbClientResponse.request()
+
+			request.query(sql, function (err, result) {
+			
+				debug("executed statement '" + sql + "'");
+				debug(JSON.stringify(result));
+				callback(err, result);
+			  
+			});
+		}
+
 		else {
 			process.stderr.write("ERROR: incorrect DB_TYPE ("+DB_TYPE+') - only HANA or MYSQL are supported');
 			process.kill();

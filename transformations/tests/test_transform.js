@@ -23,6 +23,7 @@ program
 	.option('--sourceColumns [name]')
 	.option('--destinationColumns [name]')
 	.option('--schema [schema]')
+	.option('--dbType [dbType]')
 	.parse(process.argv);
 
 
@@ -33,6 +34,7 @@ if (program.artefactName && program.sourceTables && program.destinationTable && 
 	sourceColumns = ('%s',program.sourceColumns);
 	destinationColumns = ('%s',program.destinationColumns);
 	schema = ('%s',program.schema);
+	dbType = ('%s',program.dbType);
 	design = fs.readFileSync('../'+artefactName+'.tsv').toString();
 
 	
@@ -162,7 +164,17 @@ function run(artefactName, sourceTables, destinationTable, sourceColumns, destin
 	logger.info(artefactName, 'running EXECUTE transformation procedure', true);
 
 	// execute procedure
-    db.sql('CALL `'+schema+'`.`'+artefactName+'`', function(err, result) {
+
+	var callProcSQL = '';
+
+	if (dbType=='MYSQL') {
+		callProcSQL = 'CALL `'+schema+'`.`'+artefactName+'`';
+	}
+	else if (dbType=='SQLSERVER') {
+		callProcSQL = 'EXEC '+schema+'.'+artefactName+'';	
+	}
+
+    db.sql(callProcSQL, function(err, result) {
         
         try {
             should.not.exist(err);
@@ -228,6 +240,11 @@ function executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema,
 	var sourceSQL = 'SELECT '+sourceColumnsFrom+' FROM '+sourceTablesFrom+' '+object[i].SOURCE_SELECTION_CRITERIA//.replace(/'/g, '"')
 	var destinationSQL = 'SELECT '+destinationColumnsFrom+' FROM `'+schema+'`.`'+destinationTable+'` '+object[i].DESTINATION_SELECTION_CRITERIA//.replace(/'/g, '"')
 	var test = object[i].TEST;
+	
+	if (dbType=='SQLSERVER') {
+		sourceSQL = sourceSQL.replace(/`/g, '');
+		destinationSQL = destinationSQL.replace(/`/g, '');
+	}
 	
 	logIt(SOURCE_SQL_FILE, (i+1)+'\t'+sourceSQL+'\n');
 	logIt(DESTINATION_SQL_FILE, (i+1)+'\t'+destinationSQL+'\n');

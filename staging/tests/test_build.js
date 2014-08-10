@@ -8,6 +8,9 @@ var db = require('./lib/db.js');
 function test_build(artefactName, object, schema, design) // Constructor
 {
 
+    // dbType
+    dbType = db.dbType();
+
     // RUN TESTS
     logger.info(artefactName, 'running BUILD tests');
 
@@ -25,8 +28,8 @@ function test_build(artefactName, object, schema, design) // Constructor
 
             // GENERATE ARTEFACT         
             var GenerateTest = require('./test_generate.js');
-            var generateBuild = new GenerateTest(artefactName, object, schema); 
-
+            var generateBuild = new GenerateTest(artefactName, object, schema, dbType); 
+            process.exit();
         }
     });
 
@@ -50,14 +53,16 @@ function test_build(artefactName, object, schema, design) // Constructor
 
                 if (wasSuccessful==true) {
                     logger.OK(artefactName, 'PASSED BUILD tests');
+                    
                     loadTestData(artefactName, object, schema, function(res) {
 
                         // GENERATE DOCUMENATION         
                         var GenerateDoc = require('./test_generate_doc.js');
-                        var generateDoc = new GenerateDoc(artefactName, schema, design); 
+                        var generateDoc = new GenerateDoc(artefactName, schema, design, dbType); 
 
                         process.exit();
                     });
+                    
                 }
                 else {
                     logger.error(artefactName, 'FAILED BUILD tests');
@@ -87,6 +92,9 @@ function loadTestData(artefactName, object, schema, callback) {
         console.log(testDataHeader);
     }
     else {
+
+        // if SQL Server and there is an auto-increment, need to ommit from data load file
+        //fs.readFileSync
 
         // first drop existing data
         db.sql('DELETE FROM '+schema+'.'+artefactName, function(err, result) {
@@ -125,6 +133,12 @@ function loadTestData(artefactName, object, schema, callback) {
                                 } catch(e) {
                                     // ERROR
                                     logger.error(artefactName, 'failed to load test data: '+err);
+                                    wasSuccessful = false;
+
+                                    if (dbType=='SQLSERVER' && err.toString().indexOf('An explicit value for the identity column in table')!=-1) {
+                                            logger.error(artefactName, 'FATAL - FAILED TEST DATA load - error with test data - \nYour table '+artefactName+' has a column that is of type AUTO_INCREMENT; a value cannot be specified for this column.\n\nRESOLUTION: please delete column from your test data set.\n')
+                                            process.exit();
+                                    }
                                 }
 
                                 insertCounter++;
@@ -156,5 +170,6 @@ function loadTestData(artefactName, object, schema, callback) {
     }
 
 }
+
 
 module.exports = test_build;

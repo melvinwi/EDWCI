@@ -120,7 +120,7 @@ function test_dictionary(artefactName, object, schema, callback) // Constructor
                 
             }
             else {
-                logger.error(artefactName, 'FAILED DICTIONARY tests for columns: '+listOfColsThatDidNotMatchDictionary);
+                logger.error(artefactName, 'FAILED DICTIONARY tests for column(s): '+listOfColsThatDidNotMatchDictionary);
                 process.exit();
             }
         });

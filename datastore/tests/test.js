@@ -136,9 +136,15 @@ if (program.file && program.schema) {
 				if (success==true) {
 					logger.OK(artefactName, 'PASSED DESIGN tests');
 
-					// RUN BUILD ARTEFACT TESTS			
-					var BuildTest = require('./test_build.js');
-					var runBuild = new BuildTest(artefactName, object, schema, design);	
+					// RUN DICTIONARY tests
+					var DictionaryTest = require('./test_dictionary.js');
+					var runDictionary = new DictionaryTest(artefactName, object, schema, function(res) {
+
+						// RUN BUILD ARTEFACT TESTS			
+						var BuildTest = require('./test_build.js');
+						var runBuild = new BuildTest(artefactName, object, schema, design);	
+
+					});
 				}
 				else {
 					logger.error(artefactName, 'FAILED DESIGN tests');
