@@ -1,11 +1,11 @@
 # transformation test result artefact
-# ARTEFACT: TRANSFORM_dimcustomer
-# CREATED DATE: 2014-08-11T174308
+# ARTEFACT: TRANSFORM_DimCustomer
+# CREATED DATE: 2014-08-12T002832
 
-2014-08-11 17:43:11	1	PASSED	source.length.should.equal(destination.length)	{"obj":9,"params":{"operator":"to be","expected":9,"showDiff":true},"negate":false}
-2014-08-11 17:43:11	2	PASSED	parseInt(source[0].party_code).should.equal(destination[0].CustomerCode)	{"obj":1705150,"params":{"operator":"to be","expected":1705150,"showDiff":true},"negate":false}
-2014-08-11 17:43:12	3	PASSED	parseInt(source[0].seq_party_id).should.equal(destination[0].CustomerKey)	{"obj":2102891,"params":{"operator":"to be","expected":2102891,"showDiff":true},"negate":false}
-2014-08-11 17:43:13	4	PASSED	source[0].title.should.equal(destination[0].Title.trim())	{"obj":"Ms","params":{"operator":"to be","expected":"Ms","showDiff":true},"negate":false}
-2014-08-11 17:43:13	5	PASSED	source[0].first_name.should.equal(destination[0].Firstname)	{"obj":"Firstname1","params":{"operator":"to be","expected":"Firstname1","showDiff":true},"negate":false}
-2014-08-11 17:43:14	6	PASSED	source[0].initials.should.equal(destination[0].MiddleInitial.trim())	{"obj":"","params":{"operator":"to be","expected":"","showDiff":true},"negate":false}
-2014-08-11 17:43:15	7	PASSED	source[0].last_name.should.equal(destination[0].LastName)	{"obj":"Lastname1","params":{"operator":"to be","expected":"Lastname1","showDiff":true},"negate":false}
+2014-08-12 00:28:34	1	PASSED	source.length.should.equal(destination.length)	{"obj":9,"params":{"operator":"to be","expected":9,"showDiff":true},"negate":false}
+2014-08-12 00:28:35	2	PASSED	parseInt(source[0].party_code).should.equal(destination[0].CustomerCode)	{"obj":1705150,"params":{"operator":"to be","expected":1705150,"showDiff":true},"negate":false}
+2014-08-12 00:28:36	3	PASSED	parseInt(source[0].seq_party_id).should.equal(destination[0].CustomerKey)	{"obj":2102891,"params":{"operator":"to be","expected":2102891,"showDiff":true},"negate":false}
+2014-08-12 00:28:37	4	PASSED	source[0].title.should.equal(destination[0].Title.trim())	{"obj":"Ms","params":{"operator":"to be","expected":"Ms","showDiff":true},"negate":false}
+2014-08-12 00:28:37	5	PASSED	source[0].first_name.should.equal(destination[0].Firstname)	{"obj":"Firstname1","params":{"operator":"to be","expected":"Firstname1","showDiff":true},"negate":false}
+2014-08-12 00:28:38	6	PASSED	source[0].initials.should.equal(destination[0].MiddleInitial.trim())	{"obj":"","params":{"operator":"to be","expected":"","showDiff":true},"negate":false}
+2014-08-12 00:28:38	7	PASSED	source[0].last_name.should.equal(destination[0].LastName)	{"obj":"Lastname1","params":{"operator":"to be","expected":"Lastname1","showDiff":true},"negate":false}
