@@ -33,6 +33,8 @@ function test_generate(artefactName, object, schema, dbType) // Constructor
     // construct cols
     object.forEach(function(row, index) {
 
+        console.log('row.AUTO_INCREMENT: '+row.AUTO_INCREMENT+' '+index);
+
     	sql += '`'+row.COLUMN+'` ';
 
     	if (row.TYPE.toLowerCase()!='datetime' && row.TYPE.toLowerCase()!='date' && row.TYPE.toLowerCase()!='int') {
@@ -45,7 +47,7 @@ function test_generate(artefactName, object, schema, dbType) // Constructor
     	if (row.DEFAULT.length>0) {
     		sql+= 'DEFAULT '+row.DEFAULT;
     	}
-    	else (row.AUTO_INCREMENT.toLowerCase()!='true') {
+    	else if (row.AUTO_INCREMENT.toLowerCase()!='true') {
     		sql+= 'DEFAULT NULL';
     	}
 
