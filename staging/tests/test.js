@@ -24,8 +24,12 @@ if (program.file && program.schema) {
 
 		//input = program.args.toString();
 		if (input.indexOf('/')!=-1) { 
-			input = input.split('/')[1] 
+			input = input.split('/')[1]
 		}
+		else if (input.indexOf('\\')!=-1) { 
+			input = input.split('\\')[1] // windowze
+		}
+
 		var artefactName = input.split('.')[0];
 
 
