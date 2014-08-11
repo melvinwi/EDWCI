@@ -1,0 +1,15 @@
+
+h2. ARTEFACT: TRANSFORM_CUSTOMER
+
+DESCRIPTION: Promote Customer from CRM and ACCOUNT systems to DataStore
+
+|*SOURCE_FUNCTION_PREFIX*	|*SOURCE*	|*SOURCE_FUNCTION_SUFFIX*	|*DESTINATION*	|*DESCRIPTION*	|
+|CAST(	|"crm_party":../staging/crm_party.textile .party_code	| AS int)	|"DimCustomer":../datastore/DimCustomer.textile .CustomerCode	|	|
+|CAST(	|"nc_client":../staging/nc_client.textile .seq_party_id	| AS int)	|"DimCustomer":../datastore/DimCustomer.textile .CustomerKey	|	|
+|CAST(	|"crm_party":../staging/crm_party.textile .title	| AS nchar(3))	|"DimCustomer":../datastore/DimCustomer.textile .Title	|	|
+|CAST(	|"crm_party":../staging/crm_party.textile .first_name	| AS nvarchar(100))	|"DimCustomer":../datastore/DimCustomer.textile .Firstname	|	|
+|CAST(	|"crm_party":../staging/crm_party.textile .initials	| AS nchar(10))	|"DimCustomer":../datastore/DimCustomer.textile .MiddleInitial	|	|
+|CAST(	|"crm_party":../staging/crm_party.textile .last_name	| AS nvarchar(100))	|"DimCustomer":../datastore/DimCustomer.textile .LastName	|	|
+|CAST(	|"crm_party":../staging/crm_party.textile .party_name	| AS nvarchar(100))	|"DimCustomer":../datastore/DimCustomer.textile .PartyName	|first character	|
+|SELECTION_CRITERIA	|WHERE "nc_client":../staging/nc_client.textile .seq_party_id = "crm_party":../staging/crm_party.textile .seq_party_id|
+

@@ -47,11 +47,11 @@ if (program.file && program.schema) {
 			}
 			
 			try {	
-				row.TYPE.toLowerCase().should.match(/int|integer|varchar|nvarchar|datetime|decimal/)
+				row.TYPE.toLowerCase().should.match(/binary|bit|datetime|datetime2|decimal|int|integer|money|nchar|numeric|nvarchar|varchar/)
 			}
 			catch(e) {
 				// ERROR
-				logger.error('error with TYPE', 'incorrect TYPE in row '+(index+1)+' ('+row.COLUMN+') - value: "'+row.TYPE+'" should be one of: int|integer|varchar|nvarchar|datetime|decimal');
+				logger.error('error with TYPE', 'incorrect TYPE in row '+(index+1)+' ('+row.COLUMN+') - value: "'+row.TYPE+'" should be one of: binary|bit|datetime|datetime2|decimal|int|integer|money|nchar|numeric|nvarchar|varchar');
 				success = false;
 			}
 

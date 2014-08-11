@@ -1,0 +1,12 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_CUSTOMER				
+# DESCRIPTION: Promote Customer from CRM and ACCOUNT systems to DataStore 				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+CAST(	crm_party.party_code	 AS int)	DimCustomer.CustomerCode	
+CAST(	nc_client.seq_party_id	 AS int)	DimCustomer.CustomerKey	
+CAST(	crm_party.title	 AS nchar(3))	DimCustomer.Title	
+CAST(	crm_party.first_name	 AS nvarchar(100))	DimCustomer.Firstname	
+CAST(	crm_party.initials	 AS nchar(10))	DimCustomer.MiddleInitial	
+CAST(	crm_party.last_name	 AS nvarchar(100))	DimCustomer.LastName	
+CAST(	crm_party.party_name	 AS nvarchar(100))	DimCustomer.PartyName	first character
+SELECTION_CRITERIA	WHERE nc_client.seq_party_id = crm_party.seq_party_id			

@@ -1,0 +1,12 @@
+# design artefact							
+# ARTEFACT: DimCustomer							
+# DESCRIPTION: Customer dimension table							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+CustomerId	Surrogate primary key	int			TRUE	TRUE	TRUE
+CustomerCode	Customer Code used in the transaction system (party code)	int			TRUE		FALSE
+CustomerKey	Customer Number used in the transaction system (Party ID)	int			TRUE		FALSE
+Title	"Title, Salutation"	nchar	3		TRUE		FALSE
+Firstname	First Name	nvarchar	100		TRUE		FALSE
+MiddleInitial	Middle Initial(s)	nchar	10		TRUE		FALSE
+LastName	Last Name	nvarchar	100		TRUE		FALSE
+PartyName	Party name	nvarchar	100		TRUE		FALSE

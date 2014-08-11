@@ -3,6 +3,15 @@
 # DESCRIPTION: a valid list of valid business names, descriptions and sample values 				
 NAME	PREFIX_OR_SUFFIX_OR_ANY	DESCRIPTION	EXAMPLE_VALUES	
 FIRST	prefix	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John	
+CustomerId	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John	
+CustomerCode	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John	
+CustomerKey	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John	
+Title	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John	
+Firstname	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John	
+MiddleInitial	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John	
+LastName	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John	
+PartyName	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John	
+FIRST	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John	
 LAST	prefix	To be used when describing the Last item in a compound value - e.g. a Surname of customers or contacts	Smith	
 MIDDLE	prefix	To be used when describing Middle item in a compound value - e.g. a Middle of customers or contacts	Tony	
 NAME	suffix	To be used for name definitions 	Smith, Material, etc	

@@ -45,7 +45,7 @@ function test_generate(artefactName, object, schema, dbType) // Constructor
     	if (row.DEFAULT.length>0) {
     		sql+= 'DEFAULT '+row.DEFAULT;
     	}
-    	else (row.AUTO_INCREMENT.toLowerCase()!='true') {
+    	else if (row.AUTO_INCREMENT.toLowerCase()!='true') {
     		sql+= 'DEFAULT NULL';
     	}
 

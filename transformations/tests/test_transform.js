@@ -267,7 +267,6 @@ var counter = 1;
 var passedOverall = true;
 function runTest(sourceSQL, destinationSQL, test, index, artefactName, test_length, schema, design, sourceTables, destinationTable, callback) {
 	
-	
 	if (test.trim().length>0) {
 
 		db.sql(sourceSQL, function(err, sourceRes) {
