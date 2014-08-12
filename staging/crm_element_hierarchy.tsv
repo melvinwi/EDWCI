@@ -1,0 +1,23 @@
+# design artefact							
+# ARTEFACT: crm_element_hierarchy							
+# DESCRIPTION: Customer and contact hierarchy table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+MetaChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+MetaLatestAuditId	Meta: Audit ID	int			FALSE	FALSE	FALSE
+active	active	varchar	1		FALSE	FALSE	FALSE
+"	insert_datetime"	"	insert_datetime"	datetime			FALSE	FALSE	FALSE
+"	insert_user"	"	insert_user"	varchar	20		FALSE	FALSE	FALSE
+"	insert_process"	"	insert_process"	varchar	20		FALSE	FALSE	FALSE
+"	update_datetime"	"	update_datetime"	datetime			FALSE	FALSE	FALSE
+"	update_user"	"	update_user"	varchar	20		FALSE	FALSE	FALSE
+"	update_process"	"	update_process"	varchar	20		FALSE	FALSE	FALSE
+"	element_id"	"	element_id"	numeric	"18,0"		FALSE	FALSE	FALSE
+"	element_struct_code"	"	element_struct_code"	varchar	10		FALSE	FALSE	FALSE
+"	parent_id"	"	parent_id"	numeric	"18,0"		FALSE	FALSE	FALSE
+"	parent_element_struct_code"	"	parent_element_struct_code"	varchar	10		FALSE	FALSE	FALSE
+"	seq_element_type_id"	"	seq_element_type_id"	numeric	"18,0"		FALSE	FALSE	FALSE
+"	start_date"	"	start_date"	datetime			FALSE	FALSE	FALSE
+"	end_date"	"	end_date"	datetime			FALSE	FALSE	FALSE
+"	start_date1"	"	start_date1"	datetime			FALSE	FALSE	FALSE
+"	end_date1"	"	end_date1"	datetime			FALSE	FALSE	FALSE
+"	department_head"	"	department_head"	varchar	1		FALSE	FALSE	FALSE
