@@ -1,30 +1,0 @@
-
-h2. ARTEFACT: TRANSFORM_CUSTOMER
-
-DESCRIPTION: Promote Customer from CRM and ACCOUNT systems to DataStore
-
-|*SOURCE_FUNCTION_PREFIX*	|*SOURCE*	|*SOURCE_FUNCTION_SUFFIX*	|*DESTINATION*	|*DESCRIPTION*	|
-|CAST(	|"crm_party":../staging/crm_party.textile .party_code	|AS int)	|"DimCustomer":../datastore/DimCustomer.textile .CustomerCode	|A	|
-|CAST(	|"nc_client":../staging/nc_client.textile .seq_party_id	|AS int)	|"DimCustomer":../datastore/DimCustomer.textile .CustomerKey	|b	|
-|CAST(ISNULL(	|"crm_party":../staging/crm_party.textile .title	|",'') AS nchar(3))"	|"DimCustomer":../datastore/DimCustomer.textile .Title	|c	|
-|CAST(ISNULL(NULLIF(	|"crm_party":../staging/crm_party.textile .first_name	|",''),'Unknown') AS nvarchar(100))"	|"DimCustomer":../datastore/DimCustomer.textile .Firstname	|d	|
-|CAST(ISNULL(	|"crm_party":../staging/crm_party.textile .initials	|",'') AS nchar(10))"	|"DimCustomer":../datastore/DimCustomer.textile .MiddleInitial	|e	|
-|CAST(ISNULL(NULLIF(	|"crm_party":../staging/crm_party.textile .last_name	|",''),'Unknown') AS nvarchar(100))"	|"DimCustomer":../datastore/DimCustomer.textile .LastName	|f	|
-|CAST(ISNULL(NULLIF(	|"crm_party":../staging/crm_party.textile .party_name	|",''),'Unknown') AS nvarchar(100))"	|"DimCustomer":../datastore/DimCustomer.textile .PartyName	|g	|
-|CAST(ISNULL(NULLIF(	|"crm_party":../staging/crm_party.textile .postal_addr_1	|",''),'Unknown') AS nvarchar(100))"	|"DimCustomer":../datastore/DimCustomer.textile .PostalAddressLine1	|h	|
-|CAST(ISNULL(NULLIF(	|"crm_party":../staging/crm_party.textile .postal_addr_2	|",''),'Unknown') AS nvarchar(50))"	|"DimCustomer":../datastore/DimCustomer.textile .PostalSuburb	|A	|
-|CAST(ISNULL(NULLIF(	|"crm_party":../staging/crm_party.textile .postal_post_code	|",''),'Unk') AS nchar(4))"	|"DimCustomer":../datastore/DimCustomer.textile .PostalPostcode	|b	|
-|CAST(ISNULL(NULLIF(	|"crm_party":../staging/crm_party.textile .postal_addr_3	|",''),'Unk') AS nchar(3))"	|"DimCustomer":../datastore/DimCustomer.textile .PostalState	|c	|
-|CAST(ISNULL(NULLIF(	|"crm_party":../staging/crm_party.textile .street_addr_1	|",''),'Unknown') AS nvarchar(100))"	|"DimCustomer":../datastore/DimCustomer.textile .ResidentialAddressLine1	|d	|
-|CAST(ISNULL(NULLIF(	|"crm_party":../staging/crm_party.textile .street_addr_2	|",''),'Unknown') AS nvarchar(50))"	|"DimCustomer":../datastore/DimCustomer.textile .ResidentialSuburb	|e	|
-|CAST(ISNULL(NULLIF(	|"crm_party":../staging/crm_party.textile .street_post_code	|",''),'Unk') AS nchar(4))"	|"DimCustomer":../datastore/DimCustomer.textile .ResidentialPostcode	|f	|
-|CAST(ISNULL(NULLIF(	|"crm_party":../staging/crm_party.textile .street_addr_3	|",''),'Unk') AS nchar(3))"	|"DimCustomer":../datastore/DimCustomer.textile .ResidentialState	|g	|
-|CAST(ISNULL(NULLIF(CONCAT(	|"crm_party":../staging/crm_party.textile .std_code	|", "crm_party":../staging/crm_party.textile .phone_no),''),'Unknown') AS nvarchar(24))"	|"DimCustomer":../datastore/DimCustomer.textile .PrimaryPhone	|h	|
-|CAST(CASE WHEN 	|"crm_party":../staging/crm_party.textile .primary_phone_type_id	|= '1' THEN 'Landline' WHEN "crm_party":../staging/crm_party.textile .primary_phone_type_id = '2' THEN 'Mobile' ELSE 'Unknown' END AS nchar(8))	|"DimCustomer":../datastore/DimCustomer.textile .PrimaryPhoneType	|A	|
-|CAST(ISNULL(NULLIF(CONCAT(	|"crm_party":../staging/crm_party.textile .secondary_std_code	|", "crm_party":../staging/crm_party.textile .secondary_phone_no),''),'Unknown') AS nvarchar(24))"	|"DimCustomer":../datastore/DimCustomer.textile .SecondaryPhone	|b	|
-|CAST(CASE WHEN 	|"crm_party":../staging/crm_party.textile .secondary_phone_type_id	|= '1' THEN 'Landline' WHEN "crm_party":../staging/crm_party.textile .primary_phone_type_id = '2' THEN 'Mobile' ELSE 'Unknown' END AS nchar(8))	|"DimCustomer":../datastore/DimCustomer.textile .SecondaryPhoneType	|c	|
-|CAST(CASE WHEN LEFT(	|"crm_party":../staging/crm_party.textile .std_code	|",1) = '4' THEN CONCAT("crm_party":../staging/crm_party.textile .std_code, "crm_party":../staging/crm_party.textile .phone_no) WHEN LEFT("crm_party":../staging/crm_party.textile .secondary_std_code,1) = '4' THEN CONCAT("crm_party":../staging/crm_party.textile .secondary_std_code, "crm_party":../staging/crm_party.textile .secondary_phone_no) ELSE 'Unknown' END AS nvarchar(24))"	|"DimCustomer":../datastore/DimCustomer.textile .MobilePhone	|d	|
-|CAST(ISNULL(NULLIF(	|"crm_party":../staging/crm_party.textile .email_address	|",''),'Unknown') AS nvarchar(100))"	|"DimCustomer":../datastore/DimCustomer.textile .Email	|e	|
-|	|"crm_party":../staging/crm_party.textile .date_of_birth	|	|"DimCustomer":../datastore/DimCustomer.textile .DateOfBirth	|f	|
-|SELECTION_CRITERIA	|WHERE "nc_client":../staging/nc_client.textile .seq_party_id = "crm_party":../staging/crm_party.textile .seq_party_id|
-
