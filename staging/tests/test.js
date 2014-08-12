@@ -24,8 +24,12 @@ if (program.file && program.schema) {
 
 		//input = program.args.toString();
 		if (input.indexOf('/')!=-1) { 
-			input = input.split('/')[1] 
+			input = input.split('/')[1]
 		}
+		else if (input.indexOf('\\')!=-1) { 
+			input = input.split('\\')[1] // windowze
+		}
+
 		var artefactName = input.split('.')[0];
 
 
@@ -83,9 +87,7 @@ if (program.file && program.schema) {
 							row.LENGTH = 18; // default to 18
 						}
 					}
-					else if (row.TYPE.toLowerCase().trim()=='nvarchar') {
-						row.TYPE='VARCHAR';
-					}
+					
 
 					Number(row.LENGTH).should.be.a.Number;
 				}

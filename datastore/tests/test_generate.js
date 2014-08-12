@@ -33,6 +33,8 @@ function test_generate(artefactName, object, schema, dbType) // Constructor
     // construct cols
     object.forEach(function(row, index) {
 
+        console.log('row.AUTO_INCREMENT: '+row.AUTO_INCREMENT+' '+index);
+
     	sql += '`'+row.COLUMN+'` ';
 
     	if (row.TYPE.toLowerCase()!='datetime' && row.TYPE.toLowerCase()!='date' && row.TYPE.toLowerCase()!='int') {

@@ -27,6 +27,10 @@ if (program.file && program.schema) {
 		if (input.indexOf('/')!=-1) { 
 			input = input.split('/')[1] 
 		}
+		else if (input.indexOf('\\')!=-1) { 
+			input = input.split('\\')[1] // windowze
+		}
+		
 		var artefactName = input.split('.')[0];
 
 		logger.info(artefactName, 'running DESIGN tests');

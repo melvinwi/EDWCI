@@ -1,3 +1,27 @@
+
+TODO!
+
+* where statement to populate in generate transform
+
+* where statement to include base where in each 1:1 check
+
+* newline in transform design broke process
+
+* --debug true false optional flag
+
+* alter table
+
+* force generate --force-generate
+
+* fixed! CHECK nvarchar is generating a varchar type
+
+* remove truncate from transform, but execute truncate when testing
+
+* loading test data truncates leading zeros even if into varchar
+
+* remove schema option and ensure artefact name has the [database].[schema].[object] structure
+ 
+
 CI
 ==
 
