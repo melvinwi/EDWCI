@@ -87,9 +87,7 @@ if (program.file && program.schema) {
 							row.LENGTH = 18; // default to 18
 						}
 					}
-					else if (row.TYPE.toLowerCase().trim()=='nvarchar') {
-						row.TYPE='VARCHAR';
-					}
+					
 
 					Number(row.LENGTH).should.be.a.Number;
 				}
