@@ -1,3 +1,43 @@
+<<<<<<< HEAD
+# standards artefact				
+# ARTEFACT: DICTIONARY				
+# DESCRIPTION: a valid list of valid business names, descriptions and sample values 				
+NAME	PREFIX_OR_SUFFIX_OR_ANY	DESCRIPTION	EXAMPLE_VALUES	
+FIRST	prefix	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John	
+CustomerId	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+CustomerCode	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+CustomerNumber	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+Title	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+FirstName	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+MiddleInitial	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+LastName	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+PartyName	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+PostalAddressLine1	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+PostalSuburb	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+PostalPostcode	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+PostalState	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+ResidentialAddressLine1	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+ResidentialSuburb	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+ResidentialPostcode	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+ResidentialState	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+PrimaryPhone	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+PrimaryPhoneType	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+SecondaryPhone	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+SecondaryPhoneType	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+MobilePhone	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+Email	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+DateOfBirth	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+CustomerType	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+CustomerStatus	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+LAST	prefix	To be used when describing the Last item in a compound value - e.g. a Surname of customers or contacts	Smith	
+MIDDLE	prefix	To be used when describing Middle item in a compound value - e.g. a Middle of customers or contacts	Tony	
+NAME	suffix	To be used for name definitions 	Smith, Material, etc	
+UPDATED_DT	any	Updated date and time		
+ID	suffix	All Id columns to be suffixed with _ID	ACCOUNT_ID	
+ACCOUNT	prefix	The customer account items will be prefixed with this	XX112233	
+TYPE	any	The type values such as Account Type or Customer Type	A,B	
+NUMBER	suffix	Identifiers that are shared with and known by third-parties	ABC123
+=======
 # standards artefact			
 # ARTEFACT: DICTIONARY			
 # DESCRIPTION: a valid list of valid business names, descriptions and sample values 			
@@ -11,3 +51,4 @@ ID	suffix	All Id columns to be suffixed with _ID	ACCOUNT_ID
 ACCOUNT	prefix	The customer account items will be prefixed with this	XX112233
 TYPE	any	The type values such as Account Type or Customer Type	A,B
 NUMBER	suffix	Identifiers that are shared with and known by third-parties	ABC123	
+>>>>>>> master

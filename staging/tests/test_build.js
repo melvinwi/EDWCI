@@ -112,12 +112,28 @@ function loadTestData(artefactName, object, schema, callback) {
                         if (index!=0) { // first row are the column names
 
                             // replace all empty items with null
+                            /* commented out for DT - data inconsistencies mean we want to test with blanks
                             var it = row;
                             var finalRow = '';
 
                             for (var i=0; i<it.length; i++) {
                                 it[i] = it[i].toString();
                                 if (it[i].trim().length==0) {
+                                    row[i] = 'null';
+                                }
+                                else {
+                                    row[i] = it[i];
+                                }
+                            }
+                            */
+
+                            // replace all textual uppercase NULLs with null
+                            var it = row;
+                            var finalRow = '';
+
+                            for (var i=0; i<it.length; i++) {
+                                it[i] = it[i].toString();
+                                if (it[i]=='NULL') {
                                     row[i] = 'null';
                                 }
                                 else {

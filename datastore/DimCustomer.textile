@@ -1,0 +1,32 @@
+
+h2. ARTEFACT: DimCustomer
+
+DESCRIPTION: Customer dimension table
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|CustomerId	|Surrogate primary key	|int	|	|	|TRUE	|TRUE	|TRUE	|
+|CustomerCode	|Customer Code used in the transaction system (party code)	|int	|	|	|TRUE	|	|FALSE	|
+|CustomerNumber	|Customer Number used in the transaction system (Party ID)	|int	|	|	|TRUE	|	|FALSE	|
+|Title	|"Title, Salutation"	|nchar	|3	|	|TRUE	|	|FALSE	|
+|FirstName	|First Name	|nvarchar	|100	|	|TRUE	|	|FALSE	|
+|MiddleInitial	|Middle Initial(s)	|nchar	|10	|	|TRUE	|	|FALSE	|
+|LastName	|Last Name	|nvarchar	|100	|	|TRUE	|	|FALSE	|
+|PartyName	|Party name	|nvarchar	|100	|	|TRUE	|	|FALSE	|
+|PostalAddressLine1	|Postal Address Line 1	|nvarchar	|100	|	|TRUE	|	|FALSE	|
+|PostalSuburb	|Postal Address Suburb	|nvarchar	|50	|	|TRUE	|	|FALSE	|
+|PostalPostcode	|Postal Address Postcode	|nchar	|4	|	|TRUE	|	|FALSE	|
+|PostalState	|Postal Address State	|nchar	|3	|	|TRUE	|	|FALSE	|
+|ResidentialAddressLine1	|Residential Address Line 1	|nvarchar	|100	|	|TRUE	|	|FALSE	|
+|ResidentialSuburb	|Residential Address Suburb	|nvarchar	|50	|	|TRUE	|	|FALSE	|
+|ResidentialPostcode	|Residential Address Postcode	|nchar	|4	|	|TRUE	|	|FALSE	|
+|ResidentialState	|Residential Address State	|nchar	|3	|	|TRUE	|	|FALSE	|
+|PrimaryPhone	|PrimaryPhone	|nvarchar	|24	|	|TRUE	|	|FALSE	|
+|PrimaryPhoneType	|PrimaryPhoneType	|nchar	|8	|	|TRUE	|	|FALSE	|
+|SecondaryPhone	|SecondaryPhone	|nvarchar	|24	|	|TRUE	|	|FALSE	|
+|SecondaryPhoneType	|SecondaryPhoneType	|nchar	|8	|	|TRUE	|	|FALSE	|
+|MobilePhone	|MobilePhone	|nchar	|10	|	|TRUE	|	|FALSE	|
+|Email	|Email	|nvarchar	|100	|	|TRUE	|	|FALSE	|
+|DateOfBirth	|DateOfBirth	|date	|	|	|TRUE	|	|FALSE	|
+|CustomerType	|CustomerType	|nchar	|11	|	|TRUE	|	|FALSE	|
+|CustomerStatus	|CustomerStatus	|nchar	|8	|	|TRUE	|	|FALSE|
+

@@ -1,4 +1,4 @@
-var logger = require('./lib/logger.js');
+﻿var logger = require('./lib/logger.js');
 var should = require('should');
 var fs = require('fs');
 
@@ -143,7 +143,7 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType) /
                 sql += '\t\t';
 
                 if (row.SOURCE_FUNCTION_PREFIX.trim().length>0) {
-                    sql += row.SOURCE_FUNCTION_PREFIX
+                    sql += row.SOURCE_FUNCTION_PREFIX+' '
                 }
                 
                 if (row.SOURCE.trim().length>0) {
@@ -151,7 +151,7 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType) /
                 }
 
                 if (row.SOURCE_FUNCTION_SUFFIX.trim().length>0) {
-                    sql += row.SOURCE_FUNCTION_SUFFIX
+                    sql += ' '+row.SOURCE_FUNCTION_SUFFIX
                 }
             }
 

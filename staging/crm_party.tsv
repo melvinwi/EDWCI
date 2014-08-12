@@ -1,0 +1,92 @@
+# design artefact							
+# ARTEFACT: crm_party							
+# DESCRIPTION: Party table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+MetaChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+MetaLatestAuditId	Meta: Audit ID	int			FALSE	FALSE	FALSE
+seq_party_id	seq_party_id	numeric	"18,0"		FALSE	FALSE	FALSE
+party_code	party_code	varchar	10		FALSE	FALSE	FALSE
+party_name	party_name	varchar	100		FALSE	FALSE	FALSE
+first_name	first_name	varchar	100		FALSE	FALSE	FALSE
+last_name	last_name	varchar	100		FALSE	FALSE	FALSE
+initials	initials	varchar	10		FALSE	FALSE	FALSE
+title	title	varchar	10		FALSE	FALSE	FALSE
+job_title	job_title	varchar	100		FALSE	FALSE	FALSE
+notes	notes	varchar	max		FALSE	FALSE	FALSE
+multi_lock_flag	multi_lock_flag	varchar	1		FALSE	FALSE	FALSE
+phone_no	phone_no	varchar	20		FALSE	FALSE	FALSE
+fax_no	fax_no	varchar	20		FALSE	FALSE	FALSE
+mobile_no	mobile_no	varchar	20		FALSE	FALSE	FALSE
+email_address	email_address	varchar	100		FALSE	FALSE	FALSE
+web_address	web_address	varchar	100		FALSE	FALSE	FALSE
+street_addr_no	street_addr_no	varchar	20		FALSE	FALSE	FALSE
+street_addr_1	street_addr_1	varchar	100		FALSE	FALSE	FALSE
+street_addr_2	street_addr_2	varchar	100		FALSE	FALSE	FALSE
+street_addr_3	street_addr_3	varchar	100		FALSE	FALSE	FALSE
+street_addr_4	street_addr_4	varchar	100		FALSE	FALSE	FALSE
+street_addr_5	street_addr_5	varchar	100		FALSE	FALSE	FALSE
+street_post_code	street_post_code	varchar	10		FALSE	FALSE	FALSE
+postal_addr_1	postal_addr_1	varchar	100		FALSE	FALSE	FALSE
+postal_addr_2	postal_addr_2	varchar	100		FALSE	FALSE	FALSE
+postal_addr_3	postal_addr_3	varchar	100		FALSE	FALSE	FALSE
+postal_addr_4	postal_addr_4	varchar	100		FALSE	FALSE	FALSE
+postal_addr_5	postal_addr_5	varchar	100		FALSE	FALSE	FALSE
+postal_post_code	postal_post_code	varchar	10		FALSE	FALSE	FALSE
+active	active	varchar	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+seq_role_id	seq_role_id	numeric	"18,0"		FALSE	FALSE	FALSE
+home_phone_no	home_phone_no	varchar	20		FALSE	FALSE	FALSE
+std_code	std_code	varchar	4		FALSE	FALSE	FALSE
+user_defined_1	user_defined_1	varchar	100		FALSE	FALSE	FALSE
+user_defined_2	user_defined_2	varchar	100		FALSE	FALSE	FALSE
+user_defined_3	user_defined_3	varchar	100		FALSE	FALSE	FALSE
+user_defined_4	user_defined_4	varchar	100		FALSE	FALSE	FALSE
+user_defined_5	user_defined_5	varchar	100		FALSE	FALSE	FALSE
+date_of_birth	date_of_birth	datetime			FALSE	FALSE	FALSE
+drivers_licence	drivers_licence	varchar	50		FALSE	FALSE	FALSE
+dlisence_expiry_date	dlisence_expiry_date	datetime			FALSE	FALSE	FALSE
+cust_id_type1	cust_id_type1	varchar	10		FALSE	FALSE	FALSE
+cust_id_code1	cust_id_code1	varchar	30		FALSE	FALSE	FALSE
+cust_id_expiry1	cust_id_expiry1	datetime			FALSE	FALSE	FALSE
+cust_id_type2	cust_id_type2	varchar	20		FALSE	FALSE	FALSE
+cust_id_code2	cust_id_code2	varchar	30		FALSE	FALSE	FALSE
+cust_id_expiry2	cust_id_expiry2	datetime			FALSE	FALSE	FALSE
+logon_date	logon_date	datetime			FALSE	FALSE	FALSE
+commn_sales_type_id	commn_sales_type_id	numeric	"18,0"		FALSE	FALSE	FALSE
+commn_team_leader_id	commn_team_leader_id	numeric	"18,0"		FALSE	FALSE	FALSE
+max_call	max_call	numeric	"18,0"		FALSE	FALSE	FALSE
+postal_addr_no	postal_addr_no	varchar	20		FALSE	FALSE	FALSE
+postal_addr_name	postal_addr_name	varchar	100		FALSE	FALSE	FALSE
+postal_addr_6	postal_addr_6	varchar	100		FALSE	FALSE	FALSE
+postal_addr_dpid	postal_addr_dpid	varchar	100		FALSE	FALSE	FALSE
+street_addr_dpid	street_addr_dpid	varchar	100		FALSE	FALSE	FALSE
+postal_addr_unit	postal_addr_unit	varchar	100		FALSE	FALSE	FALSE
+postal_addr_building	postal_addr_building	varchar	100		FALSE	FALSE	FALSE
+street_addr_unit	street_addr_unit	varchar	100		FALSE	FALSE	FALSE
+street_addr_building	street_addr_building	varchar	100		FALSE	FALSE	FALSE
+middle_names	middle_names	varchar	100		FALSE	FALSE	FALSE
+prev_last_name	prev_last_name	varchar	100		FALSE	FALSE	FALSE
+gender	gender	varchar	1		FALSE	FALSE	FALSE
+language_id	language_id	numeric	"18,0"		FALSE	FALSE	FALSE
+correspondence_name	correspondence_name	varchar	100		FALSE	FALSE	FALSE
+trading_name	trading_name	varchar	100		FALSE	FALSE	FALSE
+trustee_name	trustee_name	varchar	100		FALSE	FALSE	FALSE
+override_corr	override_corr	varchar	1		FALSE	FALSE	FALSE
+oss_login	oss_login	varchar	100		FALSE	FALSE	FALSE
+oss_pass	oss_pass	varchar	100		FALSE	FALSE	FALSE
+oss_active	oss_active	varchar	1		FALSE	FALSE	FALSE
+primary_phone_type_id	primary_phone_type_id	numeric	"18,0"		FALSE	FALSE	FALSE
+secondary_phone_no	secondary_phone_no	varchar	20		FALSE	FALSE	FALSE
+secondary_std_code	secondary_std_code	varchar	4		FALSE	FALSE	FALSE
+secondary_phone_type_id	secondary_phone_type_id	numeric	"18,0"		FALSE	FALSE	FALSE
+phone_no_not_known	phone_no_not_known	varchar	1		FALSE	FALSE	FALSE
+international_phone_check	international_phone_check	varchar	1		FALSE	FALSE	FALSE
+international_phone_no	international_phone_no	varchar	30		FALSE	FALSE	FALSE
+referal_partner	referal_partner	varchar	20		FALSE	FALSE	FALSE
+partner_reference	partner_reference	varchar	20		FALSE	FALSE	FALSE
+max_meter_reads	max_meter_reads	numeric	"18,0"		FALSE	FALSE	FALSE

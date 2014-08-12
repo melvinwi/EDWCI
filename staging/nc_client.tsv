@@ -1,0 +1,127 @@
+# design artefact							
+# ARTEFACT: nc_client							
+# DESCRIPTION: nc_client table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+MetaChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+MetaLatestAuditId	Meta: Audit ID	int			FALSE	FALSE	FALSE
+seq_party_id	seq_party_id	numeric	"18,0"		FALSE	FALSE	FALSE
+active	active	varchar	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+seq_comp_type_id	seq_comp_type_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_industry_id	seq_industry_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_client_priority_id	seq_client_priority_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_pay_method_id	seq_pay_method_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_bill_cycle_id	seq_bill_cycle_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_int_crd_chk_id	seq_int_crd_chk_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_inv_del_mode_id	seq_inv_del_mode_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_inv_style_id	seq_inv_style_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_tax_ind_id	seq_tax_ind_id	numeric	"18,0"		FALSE	FALSE	FALSE
+password	password	varchar	10		FALSE	FALSE	FALSE
+employer	employer	varchar	100		FALSE	FALSE	FALSE
+employer_ph_no	employer_ph_no	varchar	20		FALSE	FALSE	FALSE
+alert	alert	varchar	max		FALSE	FALSE	FALSE
+estimate_date	estimate_date	datetime			FALSE	FALSE	FALSE
+auck_employ	auck_employ	numeric	"6,0"		FALSE	FALSE	FALSE
+nz_employ	nz_employ	numeric	"6,0"		FALSE	FALSE	FALSE
+annual_sale	annual_sale	numeric	"19,0"		FALSE	FALSE	FALSE
+mobile_user	mobile_user	numeric	"4,0"		FALSE	FALSE	FALSE
+connect_call	connect_call	datetime			FALSE	FALSE	FALSE
+credit_reseller_flag	credit_reseller_flag	varchar	1		FALSE	FALSE	FALSE
+date_received	date_received	datetime			FALSE	FALSE	FALSE
+seq_staff_id	seq_staff_id	numeric	"18,0"		FALSE	FALSE	FALSE
+credit_limit	credit_limit	money			FALSE	FALSE	FALSE
+stop_credit_flag	stop_credit_flag	varchar	1		FALSE	FALSE	FALSE
+bank	bank	varchar	20		FALSE	FALSE	FALSE
+bank_branch	bank_branch	varchar	20		FALSE	FALSE	FALSE
+bank_account_no	bank_account_no	varchar	18		FALSE	FALSE	FALSE
+credit_card_name	credit_card_name	varchar	100		FALSE	FALSE	FALSE
+credit_card_no	credit_card_no	varchar	8000		FALSE	FALSE	FALSE
+credit_card_expiry	credit_card_expiry	varchar	5		FALSE	FALSE	FALSE
+bill_notes	bill_notes	varchar	max		FALSE	FALSE	FALSE
+prompt_payment_discount	prompt_payment_discount	numeric	"6,3"		FALSE	FALSE	FALSE
+avg_monthly_spend	avg_monthly_spend	money			FALSE	FALSE	FALSE
+tcnz_lookup_performed	tcnz_lookup_performed	varchar	1		FALSE	FALSE	FALSE
+additional_svce_0800	additional_svce_0800	varchar	1		FALSE	FALSE	FALSE
+additional_svce_ccard	additional_svce_ccard	varchar	1		FALSE	FALSE	FALSE
+additional_svce_power	additional_svce_power	varchar	1		FALSE	FALSE	FALSE
+additional_svce_tolls	additional_svce_tolls	varchar	1		FALSE	FALSE	FALSE
+seq_pcms_int_status_id	seq_pcms_int_status_id	numeric	"18,0"		FALSE	FALSE	FALSE
+calling_card_reseller	calling_card_reseller	varchar	1		FALSE	FALSE	FALSE
+seq_deliver_class_id	seq_deliver_class_id	numeric	"18,0"		FALSE	FALSE	FALSE
+deliver_class_automatic	deliver_class_automatic	varchar	1		FALSE	FALSE	FALSE
+deliver_class_note	deliver_class_note	varchar	max		FALSE	FALSE	FALSE
+invoice_message	invoice_message	varchar	max		FALSE	FALSE	FALSE
+message_view_inv_run_id	message_view_inv_run_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_credit_status_id	seq_credit_status_id	numeric	"18,0"		FALSE	FALSE	FALSE
+source_of_income	source_of_income	varchar	100		FALSE	FALSE	FALSE
+user_defined_1	user_defined_1	varchar	100		FALSE	FALSE	FALSE
+user_defined_2	user_defined_2	varchar	100		FALSE	FALSE	FALSE
+user_defined_3	user_defined_3	varchar	100		FALSE	FALSE	FALSE
+bond	bond	money			FALSE	FALSE	FALSE
+credit_card_type_code	credit_card_type_code	varchar	20		FALSE	FALSE	FALSE
+credit_card_verif_no	credit_card_verif_no	varchar	4		FALSE	FALSE	FALSE
+pull_bill_custom_dir	pull_bill_custom_dir	varchar	100		FALSE	FALSE	FALSE
+pull_bill_expiry_date	pull_bill_expiry_date	datetime			FALSE	FALSE	FALSE
+treat_type_id	treat_type_id	numeric	"18,0"		FALSE	FALSE	FALSE
+customer_prospect	customer_prospect	varchar	10		FALSE	FALSE	FALSE
+alert_expires	alert_expires	varchar	1		FALSE	FALSE	FALSE
+alert_expiry_date	alert_expiry_date	datetime			FALSE	FALSE	FALSE
+promo_allowed	promo_allowed	varchar	1		FALSE	FALSE	FALSE
+district_id	district_id	numeric	"18,0"		FALSE	FALSE	FALSE
+dd_hold_start_date	dd_hold_start_date	datetime			FALSE	FALSE	FALSE
+dd_hold_end_date	dd_hold_end_date	datetime			FALSE	FALSE	FALSE
+bank_account_name	bank_account_name	varchar	100		FALSE	FALSE	FALSE
+air_con	air_con	varchar	1		FALSE	FALSE	FALSE
+elec_pool_heating	elec_pool_heating	varchar	1		FALSE	FALSE	FALSE
+under_floor_heating	under_floor_heating	varchar	1		FALSE	FALSE	FALSE
+referral_check	referral_check	varchar	1		FALSE	FALSE	FALSE
+dc_acc_id	dc_acc_id	varchar	40		FALSE	FALSE	FALSE
+occupier_code	occupier_code	varchar	10		FALSE	FALSE	FALSE
+oss_login	oss_login	varchar	100		FALSE	FALSE	FALSE
+oss_pass	oss_pass	varchar	20		FALSE	FALSE	FALSE
+medicard_no	medicard_no	varchar	20		FALSE	FALSE	FALSE
+alt_email_address	alt_email_address	varchar	100		FALSE	FALSE	FALSE
+inv_message_start_date	inv_message_start_date	datetime			FALSE	FALSE	FALSE
+inv_message_end_date	inv_message_end_date	datetime			FALSE	FALSE	FALSE
+inv_message_invoice_id	inv_message_invoice_id	numeric	"18,0"		FALSE	FALSE	FALSE
+inv_message_display_type	inv_message_display_type	varchar	20		FALSE	FALSE	FALSE
+inv_due_days	inv_due_days	numeric	"18,0"		FALSE	FALSE	FALSE
+cc_pen_points	cc_pen_points	numeric	"18,0"		FALSE	FALSE	FALSE
+loyalty_id	loyalty_id	numeric	"18,0"		FALSE	FALSE	FALSE
+oss_pass_change	oss_pass_change	varchar	1		FALSE	FALSE	FALSE
+oss_pass_change_count	oss_pass_change_count	numeric	"18,0"		FALSE	FALSE	FALSE
+cz_registered	cz_registered	varchar	1		FALSE	FALSE	FALSE
+caf_tariff_code	caf_tariff_code	varchar	20		FALSE	FALSE	FALSE
+oss_receive_email_flag	oss_receive_email_flag	varchar	1		FALSE	FALSE	FALSE
+smartbill_cpull_id	smartbill_cpull_id	numeric	"18,0"		FALSE	FALSE	FALSE
+user_defined_4	user_defined_4	varchar	100		FALSE	FALSE	FALSE
+oss_login_count	oss_login_count	int			FALSE	FALSE	FALSE
+debtor_insured	debtor_insured	varchar	1		FALSE	FALSE	FALSE
+credit_limit_imposed	credit_limit_imposed	varchar	1		FALSE	FALSE	FALSE
+court_location_id	court_location_id	numeric	"18,0"		FALSE	FALSE	FALSE
+membership_no	membership_no	varchar	100		FALSE	FALSE	FALSE
+smartbill_include_yn	smartbill_include_yn	varchar	1		FALSE	FALSE	FALSE
+due_date_fixed_day_of_month	due_date_fixed_day_of_month	varchar	1		FALSE	FALSE	FALSE
+DCA_reference_id	DCA_reference_id	varchar	50		FALSE	FALSE	FALSE
+credit_agency_reference_id	credit_agency_reference_id	varchar	50		FALSE	FALSE	FALSE
+referral_type	referral_type	varchar	20		FALSE	FALSE	FALSE
+referral_type_notes	referral_type_notes	varchar	2000		FALSE	FALSE	FALSE
+referral_seq_cmpgn_id	referral_seq_cmpgn_id	numeric	"18,0"		FALSE	FALSE	FALSE
+ref_seq_party_id	ref_seq_party_id	numeric	"18,0"		FALSE	FALSE	FALSE
+referral_created_yn	referral_created_yn	varchar	1		FALSE	FALSE	FALSE
+cc_profile_id	cc_profile_id	numeric	"18,0"		FALSE	FALSE	FALSE
+cc_payment_profile_id	cc_payment_profile_id	numeric	"18,0"		FALSE	FALSE	FALSE
+credit_score	credit_score	numeric	"18,0"		FALSE	FALSE	FALSE
+credit_score_datetime	credit_score_datetime	datetime			FALSE	FALSE	FALSE
+credit_card_post_code	credit_card_post_code	varchar	10		FALSE	FALSE	FALSE
+tou_site	tou_site	varchar	1		FALSE	FALSE	FALSE
+virgin_member_id	virgin_member_id	varchar	10		FALSE	FALSE	FALSE
+group_home	group_home	varchar	1		FALSE	FALSE	FALSE
+auto_login_datetime	auto_login_datetime	datetime			FALSE	FALSE	FALSE
+auto_login_code	auto_login_code	varchar	200		FALSE	FALSE	FALSE
+openid_login_code	openid_login_code	varchar	50		FALSE	FALSE	FALSE

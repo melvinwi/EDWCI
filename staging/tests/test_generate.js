@@ -35,7 +35,7 @@ function test_generate(artefactName, object, schema, dbType) // Constructor
 
     	sql += '`'+row.COLUMN+'` ';
 
-    	if (row.TYPE.toLowerCase()!='datetime' && row.TYPE.toLowerCase()!='date' && row.TYPE.toLowerCase()!='int') {
+    	if (row.TYPE.toLowerCase()!='datetime' && row.TYPE.toLowerCase()!='date' && row.TYPE.toLowerCase()!='int' && row.TYPE.toLowerCase()!='bit'  && row.TYPE.toLowerCase()!='money') {
     		sql += row.TYPE+'('+row.LENGTH+') ';
     	}
     	else {

@@ -1,0 +1,12 @@
+# design test artefact			
+# ARTEFACT: TRANSFORM_DIMCUSTOMER_tests			
+# DESCRIPTION: Test each transformation rule			
+SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
+WHERE nc_client.seq_party_id = crm_party.seq_party_id		source.length.should.equal(destination.length)	row counts should match
+WHERE `party_code` = '1705150' AND nc_client.seq_party_id = crm_party.seq_party_id	WHERE `CustomerCode` = '1705150'	parseInt(source[0].party_code).should.equal(destination[0].CustomerCode)	1:1 map rule plus int cast
+WHERE `party_code` = '1705150' AND nc_client.seq_party_id = crm_party.seq_party_id	WHERE `CustomerCode` = '1705150'	parseInt(source[0].seq_party_id).should.equal(destination[0].CustomerKey)	1:1 map rule plus int cast
+WHERE `party_code` = '1705150' AND nc_client.seq_party_id = crm_party.seq_party_id	WHERE `CustomerCode` = '1705150'	source[0].title.should.equal(destination[0].Title.trim())	1:1 map rule plus trim
+WHERE `party_code` = '1705150' AND nc_client.seq_party_id = crm_party.seq_party_id	WHERE `CustomerCode` = '1705150'	source[0].first_name.should.equal(destination[0].Firstname)	1:1 map rule
+WHERE `party_code` = '1705150' AND nc_client.seq_party_id = crm_party.seq_party_id	WHERE `CustomerCode` = '1705150'	source[0].initials.should.equal(destination[0].MiddleInitial.trim())	1:1 map rule plus trim
+WHERE `party_code` = '1705150' AND nc_client.seq_party_id = crm_party.seq_party_id	WHERE `CustomerCode` = '1705150'	source[0].last_name.should.equal(destination[0].LastName)	1:1 map rule
+WHERE `party_code` = '1705150' AND nc_client.seq_party_id = crm_party.seq_party_id	WHERE `CustomerCode` = '1705150'	source[0].party_name.should.equal(destination[0].PartyName)	1:1 map rule
