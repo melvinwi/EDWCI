@@ -1,8 +1,6 @@
 
 TODO!
 
-* where statement to populate in generate transform
-
 * where statement to include base where in each 1:1 check
 
 * newline in transform design broke process
