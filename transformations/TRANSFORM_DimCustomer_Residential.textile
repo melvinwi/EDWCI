@@ -4,7 +4,7 @@ h2. ARTEFACT: TRANSFORM_DimCustomer_Residential
 DESCRIPTION: Promote residential customers from Orion tables to DataStore
 
 |*SOURCE_FUNCTION_PREFIX*	|*SOURCE*	|*SOURCE_FUNCTION_SUFFIX*	|*DESTINATION*	|*DESCRIPTION*	|
-|CAST(	|"crm_party":../staging/crm_party.textile .party_code	|AS int)	|"DimCustomer":../datastore/DimCustomer.textile .CustomerCode	|A	|
+|CASE WHEN ISNUMERIC ("crm_party":../staging/crm_party.textile .party_code) = 1 THEN CAST(	|"crm_party":../staging/crm_party.textile .party_code	|AS int) END	|"DimCustomer":../datastore/DimCustomer.textile .CustomerCode	|A	|
 |CAST(	|"nc_client":../staging/nc_client.textile .seq_party_id	|AS int)	|"DimCustomer":../datastore/DimCustomer.textile .CustomerKey	|b	|
 |CAST(	|"crm_party":../staging/crm_party.textile .title	|AS nchar(3))	|"DimCustomer":../datastore/DimCustomer.textile .Title	|c	|
 |CAST(	|"crm_party":../staging/crm_party.textile .first_name	|AS nvarchar(100))	|"DimCustomer":../datastore/DimCustomer.textile .Firstname	|d	|
@@ -27,5 +27,5 @@ DESCRIPTION: Promote residential customers from Orion tables to DataStore
 |CAST(	|"crm_party":../staging/crm_party.textile .email_address	|AS nvarchar(100))	|"DimCustomer":../datastore/DimCustomer.textile .Email	|e	|
 |	|"crm_party":../staging/crm_party.textile .date_of_birth	|	|"DimCustomer":../datastore/DimCustomer.textile .DateOfBirth	|f	|
 |CAST(CASE WHEN 	|"crm_element_hierarchy":../staging/crm_element_hierarchy.textile .seq_element_type_id	|= '9' THEN 'Residential' WHEN "crm_element_hierarchy":../staging/crm_element_hierarchy.textile .seq_element_type_id = '8' THEN 'Business' ELSE 'Unknown' END AS nchar(11))	|"DimCustomer":../datastore/DimCustomer.textile .CustomerType	|g	|
-|SELECTION_CRITERIA	|WHERE "nc_client":../staging/nc_client.textile .seq_party_id = "crm_party":../staging/crm_party.textile .seq_party_id AND "crm_element_hierarchy":../staging/crm_element_hierarchy.textile .element_id = "crm_party":../staging/crm_party.textile .seq_party_id AND "crm_element_hierarchy":../staging/crm_element_hierarchy.textile .seq_element_type_id = '9'|
+|SELECTION_CRITERIA	|"FROM lumo."crm_party":../staging/crm_party.textile , lumo."nc_client":../staging/nc_client.textile , lumo."crm_element_hierarchy":../staging/crm_element_hierarchy.textile  WHERE "nc_client":../staging/nc_client.textile .seq_party_id = "crm_party":../staging/crm_party.textile .seq_party_id AND "crm_element_hierarchy":../staging/crm_element_hierarchy.textile .element_id = "crm_party":../staging/crm_party.textile .seq_party_id AND "crm_element_hierarchy":../staging/crm_element_hierarchy.textile .seq_element_type_id = '9'"|
 
