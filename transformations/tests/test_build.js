@@ -80,7 +80,7 @@ function test_build(artefactName, object, schema, design, selectionCriteria) // 
     sourceColumnsArray = sourceColumnsArray.unique();
 
     var sourceColumnsString = '';
-    for (var i=0; i<sourceColumnsArray.length-1; i++) {
+    for (var i=0; i<sourceColumnsArray.length; i++) {
 
         var row = sourceColumnsArray[i];
 
