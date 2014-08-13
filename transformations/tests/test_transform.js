@@ -125,7 +125,8 @@ function run(artefactName, sourceTables, destinationTable, sourceColumns, destin
 		}
 
 		if (sourceColumns[i].trim().length>0) {
-			sourceColumnsFrom += '`'+schema+'`.`'+sourceColumns[i]+'`';
+			//sourceColumnsFrom += '`'+schema+'`.`'+sourceColumns[i]+'`';
+			sourceColumnsFrom += '`'+sourceColumns[i]+'`';
 
 			if (i!=sourceColumns.length-1) {
 				sourceColumnsFrom += ',';
@@ -137,7 +138,7 @@ function run(artefactName, sourceTables, destinationTable, sourceColumns, destin
 	}
 
 	// quick fix for sourcing all data
-	sourceColumnsFrom = ' * '
+	// sourceColumnsFrom = ' * ' -- doesn't work!
 
 	destinationColumns = destinationColumns.split(',');
 	var destinationColumnsFrom = '';
