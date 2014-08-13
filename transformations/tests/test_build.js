@@ -144,7 +144,7 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
                 loadTestData(sourceTables[i], object, schema, function(res) { 
 
                     count++
-
+                    
                     if (res=='OK') {
 
                         if (count==sourceTables.length) { // all data is loaded...
@@ -156,7 +156,7 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
                         }
                     }
                     else {
-                        
+
                         process.exit();
                     }
 
@@ -313,6 +313,7 @@ function loadTestData(artefactName, object, schema, callback) {
             }
         }
     }
+    callback('OK');
 
 }
 
