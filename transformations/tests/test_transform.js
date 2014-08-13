@@ -24,10 +24,11 @@ program
 	.option('--destinationColumns [name]')
 	.option('--schema [schema]')
 	.option('--dbType [dbType]')
+	.option('--selectionCriteria [selectionCriteria]')
 	.parse(process.argv);
 
 
-if (program.artefactName && program.sourceTables && program.destinationTable && program.sourceColumns && program.destinationColumns && program.schema) {
+if (program.artefactName && program.sourceTables && program.destinationTable && program.sourceColumns && program.destinationColumns && program.schema && program.dbType && program.selectionCriteria) {
 	artefactName = ('%s',program.artefactName);
 	sourceTables = ('%s',program.sourceTables);
 	destinationTable = ('%s',program.destinationTable);
@@ -35,6 +36,7 @@ if (program.artefactName && program.sourceTables && program.destinationTable && 
 	destinationColumns = ('%s',program.destinationColumns);
 	schema = ('%s',program.schema);
 	dbType = ('%s',program.dbType);
+	selectionCriteria = ('%s',program.selectionCriteria);
 	design = fs.readFileSync('../'+artefactName+'.tsv').toString();
 
 	
@@ -77,7 +79,7 @@ if (program.artefactName && program.sourceTables && program.destinationTable && 
 	fs.writeFileSync(TEST_RESULTS, header);
 
 
-	run(artefactName, sourceTables, destinationTable, sourceColumns, destinationColumns, schema, design);
+	run(artefactName, sourceTables, destinationTable, sourceColumns, destinationColumns, schema, design, selectionCriteria);
 
 }
 else {
@@ -97,7 +99,7 @@ function logIt(artefactName, data, isResult) {
 	});
 }
 
-function run(artefactName, sourceTables, destinationTable, sourceColumns, destinationColumns, schema, design) {
+function run(artefactName, sourceTables, destinationTable, sourceColumns, destinationColumns, schema, design, selectionCriteria) {
 	
 	sourceTables = sourceTables.split(',');
 	var sourceTablesFrom = '';
@@ -237,7 +239,8 @@ function executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema,
 		i=0; // initial
 	}
 	
-	var sourceSQL = 'SELECT '+sourceColumnsFrom+' FROM '+sourceTablesFrom+' '+object[i].SOURCE_SELECTION_CRITERIA//.replace(/'/g, '"')
+	//var sourceSQL = 'SELECT '+sourceColumnsFrom+' FROM '+sourceTablesFrom+' '+object[i].SOURCE_SELECTION_CRITERIA//.replace(/'/g, '"')
+	var sourceSQL = 'SELECT '+sourceColumnsFrom+' '+object[i].SOURCE_SELECTION_CRITERIA;
 	var destinationSQL = 'SELECT '+destinationColumnsFrom+' FROM `'+schema+'`.`'+destinationTable+'` '+object[i].DESTINATION_SELECTION_CRITERIA//.replace(/'/g, '"')
 	var test = object[i].TEST;
 	

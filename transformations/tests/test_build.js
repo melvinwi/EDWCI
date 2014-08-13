@@ -9,7 +9,8 @@ var sys = require('sys')
 var exec = require('child_process').exec;
 
 
-function test_build(artefactName, object, schema, design) // Constructor
+
+function test_build(artefactName, object, schema, design, selectionCriteria) // Constructor
 {
 
     // dbType
@@ -69,10 +70,19 @@ function test_build(artefactName, object, schema, design) // Constructor
     }
 
 
-    var sourceColumnsString = '';
+    // make source columns unique
+    var sourceColumnsArray = new Array();
     for (var i=0; i<object.length-1; i++) {
 
-        var row = object[i].SOURCE;
+        sourceColumnsArray[sourceColumnsArray.length] = object[i].SOURCE;
+    }
+
+    sourceColumnsArray = sourceColumnsArray.unique();
+
+    var sourceColumnsString = '';
+    for (var i=0; i<sourceColumnsArray.length-1; i++) {
+
+        var row = sourceColumnsArray[i];
 
         sourceColumnsString+=''+row+'';
 
@@ -95,14 +105,14 @@ function test_build(artefactName, object, schema, design) // Constructor
     }
 
 
-    testProcedure(artefactName, sourceTables, destinationTables, object, sourceColumnsString, destinationColumnsString, schema)
+    testProcedure(artefactName, sourceTables, destinationTables, object, sourceColumnsString, destinationColumnsString, schema, selectionCriteria)
 
 } 
 
 
 
 
-function testProcedure(artefactName, sourceTables, destinationTables, object, sourceColumnsString, destinationColumnsString, schema) {
+function testProcedure(artefactName, sourceTables, destinationTables, object, sourceColumnsString, destinationColumnsString, schema, selectionCriteria) {
 
     logger.info(artefactName, 'running BUILD test for procedure');
 
@@ -141,7 +151,7 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
 
                             // execute proc then check mapping was successfully applied to each destination column
                             // check each column contains source data
-                            runTests(artefactName, sourceTables, destinationTables, sourceColumnsString, destinationColumnsString, schema);
+                            runTests(artefactName, sourceTables, destinationTables, sourceColumnsString, destinationColumnsString, schema, selectionCriteria);
 
                         }
                     }
@@ -161,7 +171,7 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
 
                 // GENERATE ARTEFACT         
                 var GenerateTest = require('./test_generate.js');
-                var generateBuild = new GenerateTest(artefactName, object, true, schema, dbType); 
+                var generateBuild = new GenerateTest(artefactName, object, true, schema, dbType, selectionCriteria); 
                 process.exit();
             }
             else {
@@ -177,7 +187,7 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
 
             // GENERATE ARTEFACT         
             var Generate = require('./test_generate.js');
-            var generate = new Generate(artefactName, object, false, schema, dbType); 
+            var generate = new Generate(artefactName, object, false, schema, dbType, selectionCriteria); 
             process.exit();
         }
 
@@ -326,9 +336,9 @@ Array.prototype.unique = function() {
 
 
 
-function runTests(artefactName, sourceTables, destinationTable, sourceColumnsString, destinationColumnsString, schema) {
+function runTests(artefactName, sourceTables, destinationTable, sourceColumnsString, destinationColumnsString, schema, selectionCriteria) {
     // executes command
-    var cmd = 'node test_transform.js --artefactName '+artefactName+' --sourceTables '+sourceTables+' --destinationTable '+destinationTable+' --sourceColumns "'+sourceColumnsString+'" --destinationColumns '+destinationColumnsString+' --schema '+schema+' --dbType '+dbType;
+    var cmd = 'node test_transform.js --artefactName '+artefactName+' --sourceTables '+sourceTables+' --destinationTable '+destinationTable+' --sourceColumns "'+sourceColumnsString+'" --destinationColumns '+destinationColumnsString+' --schema '+schema+' --dbType '+dbType+' --selectionCriteria '+selectionCriteria;
 
     console.log(cmd);
 

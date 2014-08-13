@@ -36,6 +36,8 @@ if (program.file && program.schema) {
 		logger.info(artefactName, 'running DESIGN tests');
 
 		var success = true;
+
+		var selectionCriteria = ''; // will parse out and store the selection criteria
 		
 		var counter = 0;
 		// RUN DESIGN ARTEFACT TESTS
@@ -55,7 +57,7 @@ if (program.file && program.schema) {
 					var source = row.SOURCE.split('.')[0]+'.tsv';
 
 					// this is an alias if prefixed with _
-					if (destination.substring(0,1)!='_') {
+					if (source.substring(0,1)!='_') {
 						if (source!='.tsv') {
 							if (fs.existsSync('../../staging/'+source)!=true)
 								throw 'missing SOURCE ../../staging/'+source+' NOTE: if this is an alias (i.e. SELECT col FROM table_name AS alias_name, please prefix the alias name with "_" to ignore';
@@ -73,6 +75,9 @@ if (program.file && program.schema) {
 							throw 'missing SOURCE ../../datastore/'+destination;
 					}
 					
+				}
+				else {
+					selectionCriteria = row.SOURCE;
 				}
 
 			} catch(e) {
@@ -98,7 +103,7 @@ if (program.file && program.schema) {
 
 		// RUN BUILD ARTEFACT TESTS			
 		var BuildTest = require('./test_build.js');
-		var runBuild = new BuildTest(artefactName, object, schema, design);	
+		var runBuild = new BuildTest(artefactName, object, schema, design, selectionCriteria);	
 		
 
 

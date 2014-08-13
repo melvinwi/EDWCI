@@ -25,4 +25,4 @@ CAST(CASE WHEN LEFT(	crm_party.std_code	",1) = '4' THEN CONCAT(crm_party.std_cod
 CAST(ISNULL(NULLIF(	crm_party.email_address	",''),'Unknown') AS nvarchar(100))"	DimCustomer.Email	e
 	crm_party.date_of_birth		DimCustomer.DateOfBirth	f
 CAST(CASE WHEN 	crm_element_hierarchy.seq_element_type_id	= '9' THEN 'Residential' WHEN crm_element_hierarchy.seq_element_type_id = '8' THEN 'Business' ELSE 'Unknown' END AS nchar(11))	DimCustomer.CustomerType	g
-SELECTION_CRITERIA	WHERE nc_client.seq_party_id = crm_party.seq_party_id AND crm_element_hierarchy.element_id = crm_party.seq_party_id			
+SELECTION_CRITERIA	FROM lumo.nc_client, lumo.crm_party, lumo.crm_element_hierarchy WHERE nc_client.seq_party_id = crm_party.seq_party_id AND crm_element_hierarchy.element_id = crm_party.seq_party_id			

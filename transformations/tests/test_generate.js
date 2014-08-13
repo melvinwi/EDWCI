@@ -34,10 +34,9 @@ var db = require('./lib/db.js');
 
 */
 
-
-function test_generate(artefactName, object, generateOnlyTest, schema, dbType) // Constructor
+function test_generate(artefactName, object, generateOnlyTest, schema, dbType, selectionCriteria) // Constructor
 {
-
+ 
     // RUN TESTS
     logger.info(artefactName, 'about to run GENERATE');
 
@@ -67,7 +66,8 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType) /
         var row = sourceTables[i];
 
         if (row.toString()!='undefined') {
-            sourceTablesString+='`'+schema+'`.'+row;
+            //sourceTablesString+='`'+schema+'`.'+row;
+            sourceTablesString+=row; // now expect use to explicitly define source schema
 
             if (i<sourceTables.length-1){
                 sourceTablesString+=','
@@ -76,9 +76,9 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType) /
     }
 
     // put a dummy where statement in to ensure the developer is notified of the join requirement
-    if (sourceTables.length>1) {
-        sourceTablesString += '\n\t  WHERE --TODO! join required--'
-    }
+    //if (sourceTables.length>1) {
+        //sourceTablesString += '\n\t  WHERE --TODO! join required--'
+    //}
 
     destinationTables = destinationTables.unique();
     var destinationTablesString = '';
@@ -165,7 +165,9 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType) /
         });
 
 
-        sql += '\n\t  FROM '+sourceTablesString+'\n' // distinct list of sources as it may come from many tables
+        // now required to be specified in the "selectionCriteria"
+        //sql += '\n\t  FROM '+sourceTablesString+'\n' // distinct list of sources as it may come from many tables
+        sql += '\n\t  '+selectionCriteria;
 
         var whereStatement = ''
         while (object[object.length-i].SOURCE==undefined) {
@@ -176,7 +178,7 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType) /
         }
         sql += whereStatement+';'; // where statement
 
-        sql += '\nEND';
+        sql += '\nEND;';
 
 
         if (dbType=='SQLSERVER') {
@@ -215,10 +217,10 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType) /
         var singleRowSelectionCriteria = '';
 
         if (object[0].SOURCE.split('.').length==2) {
-            singleRowSelectionCriteria = 'WHERE `'+object[0].SOURCE.split('.')[1]+'` = \''+singleForDataToSelect+'\'' 
+            singleRowSelectionCriteria = selectionCriteria+' AND `'+object[0].SOURCE.split('.')[1]+'` = \''+singleForDataToSelect+'\'' 
         }
         else {
-            singleRowSelectionCriteria = 'WHERE '+object[0].SOURCE+' = \''+singleForDataToSelect+'\'' 
+            singleRowSelectionCriteria = selectionCriteria+' AND '+object[0].SOURCE+' = \''+singleForDataToSelect+'\'' 
         }
 
 
@@ -237,6 +239,10 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType) /
             }
         }
         
+        if (dbType=='SQLSERVER') {
+            tst = tst.replace(/`/g, '');
+        }
+
         console.log(tst);
 
         process.exit();
