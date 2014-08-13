@@ -1,7 +1,7 @@
 
 TODO!
 
-* where statement to include base where in each 1:1 check
+* support mulitple columns in transform "source"
 
 * newline in transform design broke process
 
