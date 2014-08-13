@@ -136,6 +136,8 @@ function run(artefactName, sourceTables, destinationTable, sourceColumns, destin
 		sourceColumnsFrom = sourceColumnsFrom.substring(0, sourceColumnsFrom.length-1);
 	}
 
+	// quick fix for sourcing all data
+	sourceColumnsFrom = ' * '
 
 	destinationColumns = destinationColumns.split(',');
 	var destinationColumnsFrom = '';
