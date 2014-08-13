@@ -1,0 +1,7 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_DimCustomer_Business
+# CREATED DATE: 2014-08-13T185015
+
+2014-08-13 18:50:16	1	PASSED	source.length.should.equal(destination.length)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2014-08-13 18:50:17	2	PASSED	parseInt(source[0].party_code).should.equal(destination[0].CustomerCode)	{"obj":1840601,"params":{"operator":"to be","expected":1840601,"showDiff":true},"negate":false}
+2014-08-13 18:50:17	3	PASSED	parseInt(source[0].seq_party_id).should.equal(destination[0].CustomerKey)	{"obj":2341539,"params":{"operator":"to be","expected":2341539,"showDiff":true},"negate":false}
