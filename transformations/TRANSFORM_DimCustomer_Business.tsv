@@ -2,7 +2,7 @@
 # ARTEFACT: TRANSFORM_DimCustomer_Business				
 # DESCRIPTION: Promote business customers from Orion tables to DataStore 				
 SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
-CAST(	crm_party.party_code	AS int)	DimCustomer.CustomerCode	A
+CASE WHEN ISNUMERIC (crm_party.party_code) = 1 THEN CAST (	crm_party.party_code	AS int) END	DimCustomer.CustomerCode	A
 CAST(	nc_client.seq_party_id	AS int)	DimCustomer.CustomerKey	b
 CAST(	_crm_party2.title	AS nchar(3))	DimCustomer.Title	c
 CAST(	_crm_party2.first_name	AS nvarchar(100))	DimCustomer.Firstname	d
@@ -25,4 +25,4 @@ CAST(CASE WHEN LEFT(	crm_party.std_code	",1) = '4' THEN CONCAT(crm_party.std_cod
 CAST(	crm_party.email_address	AS nvarchar(100))	DimCustomer.Email	e
 	_crm_party2.date_of_birth		DimCustomer.DateOfBirth	f
 CAST(CASE WHEN 	crm_element_hierarchy.seq_element_type_id	= '9' THEN 'Residential' WHEN crm_element_hierarchy.seq_element_type_id = '8' THEN 'Business' ELSE 'Unknown' END AS nchar(11))	DimCustomer.CustomerType	g
-SELECTION_CRITERIA	WHERE nc_client.seq_party_id = crm_party.seq_party_id AND crm_element_hierarchy.element_id = crm_party.seq_party_id AND crm_element_hierarchy.seq_element_type_id = '8' AND crm_element_hierarchy2.parent_id = nc_client.seq_party_id AND crm_element_hierarchy2.active = 'Y' AND crm_element_hierarchy2.element_struct_code = 'CONTACT' AND crm_party2.seq_party_id = crm_element_hierarchy2.element_id			
+SELECTION_CRITERIA	"FROM lumo.crm_party, lumo.nc_client, lumo.crm_element_hierarchy, lumo.crm_element_hierarchy AS _crm_element_hierarchy2, lumo.crm_party AS _crm_party2, lumo.crm_party_flag WHERE nc_client.seq_party_id = crm_party.seq_party_id AND crm_element_hierarchy.element_id = crm_party.seq_party_id AND crm_element_hierarchy.seq_element_type_id = '8' AND _crm_element_hierarchy2.parent_id = nc_client.seq_party_id AND _crm_element_hierarchy2.active = 'Y' AND _crm_element_hierarchy2.element_struct_code = 'CONTACT' AND _crm_party2.seq_party_id = _crm_element_hierarchy2.element_id AND crm_party_flag.seq_party_id = _crm_party2.seq_party_id AND crm_party_flag.seq_party_flag_type_id = '1'"			
