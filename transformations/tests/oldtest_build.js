@@ -189,118 +189,114 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
 
 function loadTestData(artefactName, object, schema, callback) {
 
-    // this is an alias if prefixed with _
-    if (artefactName.substring(0,1)!='_') {
+    if (artefactName.length>0) {
 
-        if (artefactName.length>0) {
+        logger.info(artefactName, 'running TEST DATA load');
 
-            logger.info(artefactName, 'running TEST DATA load');
+        // load test data
+        if (fs.existsSync('../../staging/tests/'+artefactName+'_data.tsv')==false) {
+            // ERROR
+            logger.error(artefactName, 'missing test data: '+artefactName+'_data.tsv');
 
-            // load test data
-            if (fs.existsSync('../../staging/tests/'+artefactName+'_data.tsv')==false) {
-                // ERROR
-                logger.error(artefactName, 'missing test data: '+artefactName+'_data.tsv');
+            var testDataHeader = '';
+            object.forEach(function(row, index) {
+                testDataHeader += row.COLUMN+'\t';
+            });
+            logger.info(artefactName, 'generating header for test data...');
+            //console.log(testDataHeader);
+        }
+        else {
 
-                var testDataHeader = '';
-                object.forEach(function(row, index) {
-                    testDataHeader += row.COLUMN+'\t';
-                });
-                logger.info(artefactName, 'generating header for test data...');
-                //console.log(testDataHeader);
-            }
-            else {
+            // first drop existing data
+            db.sql('DELETE FROM '+schema+'.'+artefactName, function(err, result) {
+                try {
+                    if (err) {
+                        logger.error(artefactName, 'failed to execute "DELETE FROM '+schema+'.'+artefactName+'" - '+err);
+                    }
+                    
+                    // now parse data file
+                    var parser = require('./lib/parser.js');
+                    parser.parse('../../staging/tests/'+artefactName+'_data.tsv', false, function(data) {
 
-                // first drop existing data
-                db.sql('DELETE FROM '+schema+'.'+artefactName, function(err, result) {
-                    try {
-                        if (err) {
-                            logger.error(artefactName, 'failed to execute "DELETE FROM '+schema+'.'+artefactName+'" - '+err);
-                        }
-                        
-                        // now parse data file
-                        var parser = require('./lib/parser.js');
-                        parser.parse('../../staging/tests/'+artefactName+'_data.tsv', false, function(data) {
+                        var insertCounter = 0;
+                        var wasSuccessful = true;
+                        data.forEach(function(row, index) {
+                            
+                            if (index!=0) { // first row are the column names
+                      
 
-                            var insertCounter = 0;
-                            var wasSuccessful = true;
-                            data.forEach(function(row, index) {
-                                
-                                if (index!=0) { // first row are the column names
-                          
+                            // replace all empty items with null
+                            /* commented out for DT - data inconsistencies mean we want to test with blanks
+                            var it = row;
+                            var finalRow = '';
 
-                                // replace all empty items with null
-                                /* commented out for DT - data inconsistencies mean we want to test with blanks
-                                var it = row;
-                                var finalRow = '';
-
-                                for (var i=0; i<it.length; i++) {
-                                    it[i] = it[i].toString();
-                                    if (it[i].trim().length==0) {
-                                        row[i] = 'null';
-                                    }
-                                    else {
-                                        row[i] = it[i];
-                                    }
+                            for (var i=0; i<it.length; i++) {
+                                it[i] = it[i].toString();
+                                if (it[i].trim().length==0) {
+                                    row[i] = 'null';
                                 }
-                                */
-
-                                // replace all textual uppercase NULLs with null
-                                var it = row;
-                                var finalRow = '';
-
-                                for (var i=0; i<it.length; i++) {
-                                    it[i] = it[i].toString();
-                                    if (it[i]=='NULL') {
-                                        row[i] = 'null';
-                                    }
-                                    else {
-                                        row[i] = it[i];
-                                    }
+                                else {
+                                    row[i] = it[i];
                                 }
+                            }
+                            */
+
+                            // replace all textual uppercase NULLs with null
+                            var it = row;
+                            var finalRow = '';
+
+                            for (var i=0; i<it.length; i++) {
+                                it[i] = it[i].toString();
+                                if (it[i]=='NULL') {
+                                    row[i] = 'null';
+                                }
+                                else {
+                                    row[i] = it[i];
+                                }
+                            }
 
 
 
-                                    db.sqlSubstitution('INSERT INTO '+schema+'.'+artefactName+' VALUES (??)', row, function(err, result) {
-                                        try {
-                                            should.not.exist(err);
-                                        } catch(e) {
-                                            // ERROR
-                                            
-                                            logger.error(artefactName, 'failed to load test data: '+err);
-                                            wasSuccessful = false;
+                                db.sqlSubstitution('INSERT INTO '+schema+'.'+artefactName+' VALUES (??)', row, function(err, result) {
+                                    try {
+                                        should.not.exist(err);
+                                    } catch(e) {
+                                        // ERROR
+                                        
+                                        logger.error(artefactName, 'failed to load test data: '+err);
+                                        wasSuccessful = false;
 
-                                            if (dbType=='SQLSERVER' && err.toString().indexOf('An explicit value for the identity column in table')!=-1) {
-                                                logger.error(artefactName, 'FATAL - FAILED TEST DATA load - error with test data - \nYour table '+artefactName+' has a column that is of type AUTO_INCREMENT; a value cannot be specified for this column.\n\nRESOLUTION: please delete column from your test data set.\n')
-                                                process.exit();
-                                            }
+                                        if (dbType=='SQLSERVER' && err.toString().indexOf('An explicit value for the identity column in table')!=-1) {
+                                            logger.error(artefactName, 'FATAL - FAILED TEST DATA load - error with test data - \nYour table '+artefactName+' has a column that is of type AUTO_INCREMENT; a value cannot be specified for this column.\n\nRESOLUTION: please delete column from your test data set.\n')
+                                            process.exit();
                                         }
-                                        insertCounter++;
+                                    }
+                                    insertCounter++;
 
-                                        if (insertCounter==data.length-1) {
-                                            if (wasSuccessful==true) {
-                                                logger.OK(artefactName, 'PASSED TEST DATA load');
-                                                callback ('OK')
-                                            }
-                                            else 
-                                            {
-                                                logger.error(artefactName, 'FAILED TEST DATA load'); 
-                                                callback('OK') 
-                                                process.exit();
-                                            } 
+                                    if (insertCounter==data.length-1) {
+                                        if (wasSuccessful==true) {
+                                            logger.OK(artefactName, 'PASSED TEST DATA load');
+                                            callback ('OK')
                                         }
-                                    });
-                                }
-                            });
-
+                                        else 
+                                        {
+                                            logger.error(artefactName, 'FAILED TEST DATA load'); 
+                                            callback('OK') 
+                                            process.exit();
+                                        } 
+                                    }
+                                });
+                            }
                         });
 
+                    });
 
-                    } catch(e) {
-                        // ERROR
-                        logger.error(artefactName, e);
-                    }
-                });                
-            }
+
+                } catch(e) {
+                    // ERROR
+                    logger.error(artefactName, e);
+                }
+            });                
         }
     }
 

@@ -54,19 +54,15 @@ if (program.file && program.schema) {
 					// check source artefact exists
 					var source = row.SOURCE.split('.')[0]+'.tsv';
 
-					// this is an alias if prefixed with _
-					if (source.substring(0,1)!='_') {
-						if (source!='.tsv') {
-							if (fs.existsSync('../../staging/'+source)!=true)
-								throw 'missing SOURCE ../../staging/'+source+' NOTE: if this is an alias (i.e. SELECT col FROM table_name AS alias_name, please prefix the alias name with "_" to ignore';
-						}
+					if (source!='.tsv') {
+						if (fs.existsSync('../../staging/'+source)!=true)
+							throw 'missing SOURCE ../../staging/'+source;
 					}
 
 
 
 					// check destination artefact exists
 					var destination = row.DESTINATION.split('.')[0]+'.tsv';
-					
 					
 					if (destination!='.tsv') {
 						if (fs.existsSync('../../datastore/'+destination)!=true)

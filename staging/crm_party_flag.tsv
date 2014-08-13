@@ -1,0 +1,15 @@
+# design artefact							
+# ARTEFACT: crm_party_flag							
+# DESCRIPTION: Contact flag table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+MetaChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+MetaLatestAuditId	Meta: Audit ID	int			FALSE	FALSE	FALSE
+seq_party_id	seq_party_id	numeric	"18,0"		FALSE	FALSE	FALSE
+active	active	varchar	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+seq_party_flag_type_id	seq_party_flag_type_id	numeric	"18,0"		FALSE	FALSE	FALSE
