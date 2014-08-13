@@ -127,6 +127,7 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
     }
 
     db.sql(sqlToCheckIfProcExists, function(err, result1) {
+
         try {
 
             should.not.exist(err);
@@ -135,17 +136,28 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
 
             logger.OK(artefactName, 'PASSED BUILD test for procedure');
             
-            var count = 0;
+            // remove any prefixed tables (these are aliases)
+            var tmpSourceTables = new Array()
 
+            for (var i=0; i<sourceTables.length; i++) {
+                if (sourceTables[i].substring(0,1)!='_') {
+                    tmpSourceTables[tmpSourceTables.length] = sourceTables[i];
+                }
+            }
+
+            sourceTables = tmpSourceTables;
+
+
+            var count = 0;
 
             // load source test data
             for (var i=0; i<sourceTables.length; i++) {
 
                 loadTestData(sourceTables[i], object, schema, function(res) { 
-
-                    count++
                     
                     if (res=='OK') {
+
+                        count++
 
                         if (count==sourceTables.length) { // all data is loaded...
 
@@ -157,7 +169,7 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
                     }
                     else {
 
-                        process.exit();
+                        //process.exit();
                     }
 
                 });
@@ -313,7 +325,7 @@ function loadTestData(artefactName, object, schema, callback) {
             }
         }
     }
-    callback('OK');
+    callback('NONE');
 
 }
 
