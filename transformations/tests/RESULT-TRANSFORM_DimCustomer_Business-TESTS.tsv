@@ -1,7 +1,26 @@
 # transformation test result artefact
 # ARTEFACT: TRANSFORM_DimCustomer_Business
-# CREATED DATE: 2014-08-14T123934
+# CREATED DATE: 2014-08-14T130122
 
-2014-08-14 12:39:36	1	PASSED	source.length.should.equal(destination.length)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
-2014-08-14 12:39:36	2	PASSED	parseInt(source[0].party_code).should.equal(destination[0].CustomerCode)	{"obj":1840601,"params":{"operator":"to be","expected":1840601,"showDiff":true},"negate":false}
-2014-08-14 12:39:37	3	PASSED	parseInt(source[0].seq_party_id).should.equal(destination[0].CustomerKey)	{"obj":2341539,"params":{"operator":"to be","expected":2341539,"showDiff":true},"negate":false}
+2014-08-14 13:01:23	1	PASSED	source.length.should.equal(destination.length)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2014-08-14 13:01:24	2	PASSED	parseInt(source[0].party_code).should.equal(destination[0].CustomerCode)	{"obj":1840601,"params":{"operator":"to be","expected":1840601,"showDiff":true},"negate":false}
+2014-08-14 13:01:26	3	PASSED	parseInt(source[0].seq_party_id).should.equal(destination[0].CustomerKey)	{"obj":2341539,"params":{"operator":"to be","expected":2341539,"showDiff":true},"negate":false}
+2014-08-14 13:01:27	4	FAILED	source[0].title.should.equal(destination[0].Title.trim()) problem processing test - please update	TypeError: Cannot read property 'should' of null
+2014-08-14 13:01:29	5	PASSED	source[0].first_name.should.equal(destination[0].Firstname)	{"obj":"Firstname3","params":{"operator":"to be","expected":"Firstname3","showDiff":true},"negate":false}
+2014-08-14 13:01:30	6	FAILED	source[0].initials.should.equal(destination[0].MiddleInitial.trim()) problem processing test - please update	TypeError: Cannot read property 'should' of null
+2014-08-14 13:01:33	7	PASSED	source[0].last_name.should.equal(destination[0].LastName)	{"obj":"Lastname3","params":{"operator":"to be","expected":"Lastname3","showDiff":true},"negate":false}
+2014-08-14 13:01:34	8	PASSED	source[0].party_name.should.equal(destination[0].PartyName)	{"obj":"Business1","params":{"operator":"to be","expected":"Business1","showDiff":true},"negate":false}
+2014-08-14 13:01:35	9	PASSED	source[0].postal_addr_1.should.equal(destination[0].PostalAddressLine1)	{"obj":"FACTORY 1, 3 Fake Street","params":{"operator":"to be","expected":"FACTORY 1, 3 Fake Street","showDiff":true},"negate":false}
+2014-08-14 13:01:36	10	PASSED	source[0].postal_addr_2.should.equal(destination[0].PostalSuburb)	{"obj":"WILLIAMSTOWN NORTH","params":{"operator":"to be","expected":"WILLIAMSTOWN NORTH","showDiff":true},"negate":false}
+2014-08-14 13:01:37	11	PASSED	source[0].postal_post_code.should.equal(destination[0].PostalPostcode)	{"obj":"3016","params":{"operator":"to be","expected":"3016","showDiff":true},"negate":false}
+2014-08-14 13:01:38	12	PASSED	source[0].postal_addr_3.should.equal(destination[0].PostalState.trim())	{"obj":"VIC","params":{"operator":"to be","expected":"VIC","showDiff":true},"negate":false}
+2014-08-14 13:01:41	13	PASSED	source[0].street_addr_1.should.equal(destination[0].ResidentialAddressLine1)	{"obj":"FACTORY 1, 3 Fake Street","params":{"operator":"to be","expected":"FACTORY 1, 3 Fake Street","showDiff":true},"negate":false}
+2014-08-14 13:01:41	14	PASSED	source[0].street_addr_2.should.equal(destination[0].ResidentialSuburb)	{"obj":"WILLIAMSTOWN NORTH","params":{"operator":"to be","expected":"WILLIAMSTOWN NORTH","showDiff":true},"negate":false}
+2014-08-14 13:01:42	15	FAILED	source[0].street_addr_3.should.equal(destination[0].ResidentialState.trim())	{"name":"AssertionError","actual":"VIC 3016","expected":"VIC","operator":"to be","message":"expected 'VIC 3016' to be 'VIC'","showDiff":true,"generatedMessage":true}
+2014-08-14 13:01:43	16	FAILED	(source[0].std_code+source[0].phone_no).should.equal(destination[0].PrimaryPhone)	{"name":"AssertionError","actual":"412undefined","expected":"412123456","operator":"to be","message":"expected '412undefined' to be '412123456'","showDiff":true,"generatedMessage":true}
+2014-08-14 13:01:47	17	PASSED	((source[0].primary_phone_type_id == '1') ? 'Landline' : (source[0].primary_phone_type_id == '2') ? 'Mobile' : 'Unknown').should.equal(destination[0].PrimaryPhoneType.trim())	{"obj":"Mobile","params":{"operator":"to be","expected":"Mobile","showDiff":true},"negate":false}
+2014-08-14 13:01:47	18	FAILED	(source[0].secondary_std_code+source[0].secondary_phone_no).should.equal(destination[0].SecondaryPhone)	{"name":"AssertionError","actual":null,"expected":"","operator":"to be","message":"expected NaN to be ''","showDiff":true,"generatedMessage":true}
+2014-08-14 13:01:48	19	PASSED	((source[0].secondary_phone_type_id == '1') ? 'Landline' : (source[0].secondary_phone_type_id == '2') ? 'Mobile' : 'Unknown').should.equal(destination[0].SecondaryPhoneType.trim())	{"obj":"Unknown","params":{"operator":"to be","expected":"Unknown","showDiff":true},"negate":false}
+2014-08-14 13:01:51	20	PASSED	'412123456'.should.equal(destination[0].MobilePhone.trim())	{"obj":"412123456","params":{"operator":"to be","expected":"412123456","showDiff":true},"negate":false}
+2014-08-14 13:01:53	21	FAILED	source[0].email_address.should.equal(destination[0].Email) problem processing test - please update	TypeError: Cannot read property 'should' of null
+2014-08-14 13:01:53	22	FAILED	source[0].date_of_birth.toString().should.equal(destination[0].DateOfBirth.toString()) problem processing test - please update	TypeError: Cannot call method 'toString' of null
