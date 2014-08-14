@@ -4,10 +4,10 @@
 SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
 CASE WHEN ISNUMERIC (crm_party.party_code) = 1 THEN CAST (	crm_party.party_code	AS int) END	DimCustomer.CustomerCode	A
 CAST(	nc_client.seq_party_id	AS int)	DimCustomer.CustomerKey	b
-CAST(	_crm_party2.title	AS nchar(3))	DimCustomer.Title	c
-CAST(	_crm_party2.first_name	AS nvarchar(100))	DimCustomer.Firstname	d
-CAST(	_crm_party2.initials	AS nchar(10))	DimCustomer.MiddleInitial	e
-CAST(	_crm_party2.last_name	AS nvarchar(100))	DimCustomer.LastName	f
+CAST(	_contacts.title	AS nchar(3))	DimCustomer.Title	c
+CAST(	_contacts.first_name	AS nvarchar(100))	DimCustomer.Firstname	d
+CAST(	_contacts.initials	AS nchar(10))	DimCustomer.MiddleInitial	e
+CAST(	_contacts.last_name	AS nvarchar(100))	DimCustomer.LastName	f
 CAST(	crm_party.party_name	AS nvarchar(100))	DimCustomer.PartyName	g
 CAST(	crm_party.postal_addr_1	AS nvarchar(100))	DimCustomer.PostalAddressLine1	h
 CAST(	crm_party.postal_addr_2	AS nvarchar(50))	DimCustomer.PostalSuburb	A
@@ -18,11 +18,11 @@ CAST(	crm_party.street_addr_2	AS nvarchar(50))	DimCustomer.ResidentialSuburb	e
 CAST(	crm_party.street_post_code	AS nchar(4))	DimCustomer.ResidentialPostcode	f
 CAST(	crm_party.street_addr_3	AS nchar(3))	DimCustomer.ResidentialState	g
 CAST(CONCAT(	crm_party.std_code	", crm_party.phone_no) AS nvarchar(24))"	DimCustomer.PrimaryPhone	h
-CAST(CASE WHEN 	crm_party.primary_phone_type_id	= '1' THEN 'Landline' WHEN crm_party.primary_phone_type_id = '2' THEN 'Mobile' ELSE 'Unknown' END AS nchar(8))	DimCustomer.PrimaryPhoneType	A
+CAST(CASE	crm_party.primary_phone_type_id	WHEN '1' THEN 'Landline' WHEN '2' THEN 'Mobile' ELSE 'Unknown' END AS nchar(8))	DimCustomer.PrimaryPhoneType	A
 CAST(CONCAT(	crm_party.secondary_std_code	", crm_party.secondary_phone_no) AS nvarchar(24))"	DimCustomer.SecondaryPhone	b
-CAST(CASE WHEN 	crm_party.secondary_phone_type_id	= '1' THEN 'Landline' WHEN crm_party.secondary_phone_type_id = '2' THEN 'Mobile' ELSE 'Unknown' END AS nchar(8))	DimCustomer.SecondaryPhoneType	c
+CAST(CASE	crm_party.secondary_phone_type_id	WHEN '1' THEN 'Landline' WHEN '2' THEN 'Mobile' ELSE 'Unknown' END AS nchar(8))	DimCustomer.SecondaryPhoneType	c
 CAST(CASE WHEN LEFT(	crm_party.std_code	",1) = '4' THEN CONCAT(crm_party.std_code, crm_party.phone_no) WHEN LEFT(crm_party.secondary_std_code,1) = '4' THEN CONCAT(crm_party.secondary_std_code, crm_party.secondary_phone_no) ELSE 'Unknown' END AS nchar(10))"	DimCustomer.MobilePhone	d
 CAST(	crm_party.email_address	AS nvarchar(100))	DimCustomer.Email	e
-	_crm_party2.date_of_birth		DimCustomer.DateOfBirth	f
-CAST(CASE WHEN 	crm_element_hierarchy.seq_element_type_id	= '9' THEN 'Residential' WHEN crm_element_hierarchy.seq_element_type_id = '8' THEN 'Business' ELSE 'Unknown' END AS nchar(11))	DimCustomer.CustomerType	g
-SELECTION_CRITERIA	"FROM lumo.crm_party, lumo.nc_client, lumo.crm_element_hierarchy, lumo.crm_element_hierarchy AS _crm_element_hierarchy2, lumo.crm_party AS _crm_party2, lumo.crm_party_flag WHERE nc_client.seq_party_id = crm_party.seq_party_id AND crm_element_hierarchy.element_id = crm_party.seq_party_id AND crm_element_hierarchy.seq_element_type_id = '8' AND _crm_element_hierarchy2.parent_id = nc_client.seq_party_id AND _crm_element_hierarchy2.active = 'Y' AND _crm_element_hierarchy2.element_struct_code = 'CONTACT' AND _crm_party2.seq_party_id = _crm_element_hierarchy2.element_id AND crm_party_flag.seq_party_id = _crm_party2.seq_party_id AND crm_party_flag.seq_party_flag_type_id = '1'"			
+	_contacts.date_of_birth		DimCustomer.DateOfBirth	f
+CAST(CASE	crm_element_hierarchy.seq_element_type_id	WHEN '9' THEN 'Residential' WHEN '8' THEN 'Business' ELSE 'Unknown' END AS nchar(11))	DimCustomer.CustomerType	g
+SELECTION_CRITERIA	"FROM lumo.crm_party, lumo.nc_client, lumo.crm_element_hierarchy, contacts AS _contacts WHERE nc_client.seq_party_id = crm_party.seq_party_id AND crm_element_hierarchy.element_id = crm_party.seq_party_id AND crm_element_hierarchy.seq_element_type_id = '8' AND _contacts.RC = '1' AND _contacts.parent_id = nc_client.seq_party_id"			
