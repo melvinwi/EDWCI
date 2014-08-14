@@ -1,0 +1,78 @@
+
+h2. ARTEFACT: nc_product_item
+
+DESCRIPTION: Account status table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|MetaChangeFlag	|Meta: Row Change flag	|bit	|	|	|FALSE	|FALSE	|FALSE	|
+|MetaLatestAuditId	|Meta: Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|active	|active	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime	|insert_datetime	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user	|insert_user	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process	|insert_process	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime	|update_datetime	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user	|update_user	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process	|update_process	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|seq_pcms_int_status_id	|seq_pcms_int_status_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_product_id	|seq_product_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|date_connected	|date_connected	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|seq_product_item_id	|seq_product_item_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_price_plan_id	|seq_price_plan_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_pp_compare1_id	|seq_pp_compare1_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_pp_compare2_id	|seq_pp_compare2_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|site_id	|site_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|contract_term_id	|contract_term_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|accnt_status_id	|accnt_status_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|product_identifier	|product_identifier	|varchar	|50	|	|FALSE	|FALSE	|FALSE	|
+|date_terminated	|date_terminated	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|date_responsibility_end	|date_responsibility_end	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|contract_start_date	|contract_start_date	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|contract_end_date	|contract_end_date	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|billed_to_date	|billed_to_date	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|commission_paid	|commission_paid	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|accnt_status_date	|accnt_status_date	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|closed_reason_id	|closed_reason_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|switch_reason_id	|switch_reason_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|pp_simple_sched_id	|pp_simple_sched_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|sales_internal_tariff	|sales_internal_tariff	|varchar	|50	|	|FALSE	|FALSE	|FALSE	|
+|frmp_date	|frmp_date	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|gen_cr_withdrawl	|gen_cr_withdrawl	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|cancellation_fee	|cancellation_fee	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|cancel_notes	|cancel_notes	|varchar	|max	|	|FALSE	|FALSE	|FALSE	|
+|incentive_id	|incentive_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|term_fee_id	|term_fee_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|tco_id	|tco_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|fixed_est_amount	|fixed_est_amount	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|life_support_acct	|life_support_acct	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|gift_code	|gift_code	|varchar	|30	|	|FALSE	|FALSE	|FALSE	|
+|gift_sent	|gift_sent	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|smooth_bill	|smooth_bill	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|green_percent	|green_percent	|numeric	|"16,4"	|	|FALSE	|FALSE	|FALSE	|
+|pr_site_id	|pr_site_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|account_type_code	|account_type_code	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|min_contract_dmd_kw	|min_contract_dmd_kw	|numeric	|"8,2"	|	|FALSE	|FALSE	|FALSE	|
+|min_contract_dmd_kva	|min_contract_dmd_kva	|numeric	|"8,2"	|	|FALSE	|FALSE	|FALSE	|
+|account_name	|account_name	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|hedge_number	|hedge_number	|varchar	|50	|	|FALSE	|FALSE	|FALSE	|
+|master_site	|master_site	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|move_in_permit_name	|move_in_permit_name	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|membership_no	|membership_no	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|de_app_type	|de_app_type	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|de_app_id	|de_app_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|small_usage_com_cust	|small_usage_com_cust	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|proposed_move_in_date	|proposed_move_in_date	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|proposed_move_out_date	|proposed_move_out_date	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|transfer_type	|transfer_type	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|exclude_auto_meter_access	|exclude_auto_meter_access	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|override_debt_obj	|override_debt_obj	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|no_emergency_contact	|no_emergency_contact	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|emergency_contact_title	|emergency_contact_title	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|emergency_contact_first_name	|emergency_contact_first_name	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|emergency_contact_last_name	|emergency_contact_last_name	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|emergency_contact_std_code	|emergency_contact_std_code	|varchar	|4	|	|FALSE	|FALSE	|FALSE	|
+|emergency_contact_phone_no	|emergency_contact_phone_no	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|emergency_contact_phone_type_id	|emergency_contact_phone_type_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|emergency_contact_sec_std_code	|emergency_contact_sec_std_code	|varchar	|4	|	|FALSE	|FALSE	|FALSE	|
+|emergency_contact_sec_phone_no	|emergency_contact_sec_phone_no	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|emergency_contact_sec_phone_type_id	|emergency_contact_sec_phone_type_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE|
+
