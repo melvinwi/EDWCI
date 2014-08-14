@@ -19,7 +19,19 @@ function test_build(artefactName, object, schema, design) // Constructor
     // -- enter tests below here --
 
     // check table exists
-    db.sql('SELECT * FROM '+schema+'.'+artefactName, function(err, result) {
+    var sqlStatement = '';
+
+    if (dbType=='MYSQL') {
+       sqlStatement = 'SELECT * FROM '+schema+'.'+artefactName+' limit 1';
+    }
+    else if (dbType=='SQLSERVER') {
+        sqlStatement = 'SELECT top 1 * FROM '+schema+'.'+artefactName
+    }
+    else {
+        sqlStatement = 'SELECT * FROM '+schema+'.'+artefactName+' top 1';
+    }
+
+    db.sql(sqlStatement, function(err, result) {
         try {
             should.not.exist(err);
         } catch(e) {
