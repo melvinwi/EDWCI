@@ -51,7 +51,7 @@ if (program.file && program.schema) {
 				}
 
 
-				if (row.SOURCE_FUNCTION_PREFIX.indexOf('SELECTION_CRITERIA')==-1) { // not the last row
+				if ((row.SOURCE_FUNCTION_PREFIX.indexOf('SELECTION_CRITERIA')==-1)  && (row.SOURCE_FUNCTION_PREFIX.indexOf('WITH_STATEMENTS')==-1)) { // not the last row
 
 					// check source artefact exists
 					var source = row.SOURCE.split('.')[0]+'.tsv';
