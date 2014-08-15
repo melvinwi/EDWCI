@@ -1,25 +1,7 @@
 # transformation test result artefact
 # ARTEFACT: TRANSFORM_DimCustomer_Business
-# CREATED DATE: 2014-08-14T134505
+# CREATED DATE: 2014-08-15T155114
 
-2014-08-14 13:45:06	1	PASSED	source.length.should.equal(destination.length)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
-2014-08-14 13:45:07	2	PASSED	parseInt(source[0].party_code).should.equal(destination[0].CustomerCode)	{"obj":1840601,"params":{"operator":"to be","expected":1840601,"showDiff":true},"negate":false}
-2014-08-14 13:45:08	3	PASSED	parseInt(source[0].seq_party_id).should.equal(destination[0].CustomerKey)	{"obj":2341539,"params":{"operator":"to be","expected":2341539,"showDiff":true},"negate":false}
-2014-08-14 13:45:09	4	PASSED	should.not.exist(destination[0].Title)	undefined
-2014-08-14 13:45:10	5	PASSED	source[0].first_name.should.equal(destination[0].Firstname)	{"obj":"Firstname3","params":{"operator":"to be","expected":"Firstname3","showDiff":true},"negate":false}
-2014-08-14 13:45:10	6	PASSED	should.not.exist(destination[0].MiddleInitial)	undefined
-2014-08-14 13:45:11	7	PASSED	source[0].last_name.should.equal(destination[0].LastName)	{"obj":"Lastname3","params":{"operator":"to be","expected":"Lastname3","showDiff":true},"negate":false}
-2014-08-14 13:45:13	8	PASSED	source[0].party_name.should.equal(destination[0].PartyName)	{"obj":"Business1","params":{"operator":"to be","expected":"Business1","showDiff":true},"negate":false}
-2014-08-14 13:45:16	9	PASSED	source[0].postal_addr_1.should.equal(destination[0].PostalAddressLine1)	{"obj":"FACTORY 1, 3 Fake Street","params":{"operator":"to be","expected":"FACTORY 1, 3 Fake Street","showDiff":true},"negate":false}
-2014-08-14 13:45:16	10	PASSED	source[0].postal_addr_2.should.equal(destination[0].PostalSuburb)	{"obj":"WILLIAMSTOWN NORTH","params":{"operator":"to be","expected":"WILLIAMSTOWN NORTH","showDiff":true},"negate":false}
-2014-08-14 13:45:17	11	PASSED	source[0].postal_post_code.should.equal(destination[0].PostalPostcode)	{"obj":"3016","params":{"operator":"to be","expected":"3016","showDiff":true},"negate":false}
-2014-08-14 13:45:18	12	PASSED	source[0].postal_addr_3.should.equal(destination[0].PostalState.trim())	{"obj":"VIC","params":{"operator":"to be","expected":"VIC","showDiff":true},"negate":false}
-2014-08-14 13:45:19	13	PASSED	source[0].street_addr_1.should.equal(destination[0].ResidentialAddressLine1)	{"obj":"FACTORY 1, 3 Fake Street","params":{"operator":"to be","expected":"FACTORY 1, 3 Fake Street","showDiff":true},"negate":false}
-2014-08-14 13:45:20	14	PASSED	source[0].street_addr_2.should.equal(destination[0].ResidentialSuburb)	{"obj":"WILLIAMSTOWN NORTH","params":{"operator":"to be","expected":"WILLIAMSTOWN NORTH","showDiff":true},"negate":false}
-2014-08-14 13:45:20	15	PASSED	source[0].street_addr_3.substring(0,3).should.equal(destination[0].ResidentialState.trim())	{"obj":"VIC","params":{"operator":"to be","expected":"VIC","showDiff":true},"negate":false}
-2014-08-14 13:45:21	16	PASSED	(source[0].std_code+source[0].phone_no).should.equal(destination[0].PrimaryPhone)	{"obj":"412123456","params":{"operator":"to be","expected":"412123456","showDiff":true},"negate":false}
-2014-08-14 13:45:22	17	PASSED	((source[0].primary_phone_type_id == '1') ? 'Landline' : (source[0].primary_phone_type_id == '2') ? 'Mobile' : 'Unknown').should.equal(destination[0].PrimaryPhoneType.trim())	{"obj":"Mobile","params":{"operator":"to be","expected":"Mobile","showDiff":true},"negate":false}
-2014-08-14 13:45:23	18	PASSED	((source[0].secondary_phone_type_id == '1') ? 'Landline' : (source[0].secondary_phone_type_id == '2') ? 'Mobile' : 'Unknown').should.equal(destination[0].SecondaryPhoneType.trim())	{"obj":"Unknown","params":{"operator":"to be","expected":"Unknown","showDiff":true},"negate":false}
-2014-08-14 13:45:23	19	PASSED	'412123456'.should.equal(destination[0].MobilePhone.trim())	{"obj":"412123456","params":{"operator":"to be","expected":"412123456","showDiff":true},"negate":false}
-2014-08-14 13:45:24	20	PASSED	should.not.exist(destination[0].Email)	undefined
-2014-08-14 13:45:25	21	PASSED	should.not.exist(destination[0].DateOfBirth)	undefined
+2014-08-15 15:51:15	1	PASSED	source.length.should.equal(destination.length)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2014-08-15 15:51:16	2	PASSED	parseInt(source[0].party_code).should.equal(destination[0].CustomerCode)	{"obj":1840601,"params":{"operator":"to be","expected":1840601,"showDiff":true},"negate":false}
+2014-08-15 15:51:16	3	PASSED	parseInt(source[0].seq_party_id).should.equal(destination[0].CustomerKey)	{"obj":2341539,"params":{"operator":"to be","expected":2341539,"showDiff":true},"negate":false}
