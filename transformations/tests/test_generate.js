@@ -34,8 +34,15 @@ var db = require('./lib/db.js');
 
 */
 
+// WITH STATEMENTS
+var withStatements = null;
+
+
+
+
 function test_generate(artefactName, object, generateOnlyTest, schema, dbType, selectionCriteria) // Constructor
 {
+
  
     // RUN TESTS
     logger.info(artefactName, 'about to run GENERATE');
@@ -48,12 +55,17 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType, s
     object.forEach(function(row, index) {
         
         if (index<object.length-1) {
-            if (row.SOURCE.trim().length>0 && row.SOURCE!=undefined) {
-                sourceTables[sourceTables.length] = '`'+row.SOURCE.split('.')[0]+'`';
+            if (row.SOURCE_FUNCTION_PREFIX=='WITH_STATEMENTS') {
+                withStatements = row.SOURCE;
             }
+            else if (row.SOURCE_FUNCTION_PREFIX!='SELECTION_CRITERIA') { 
+                if (row.SOURCE.trim().length>0 && row.SOURCE!=undefined) {
+                    sourceTables[sourceTables.length] = '`'+row.SOURCE.split('.')[0]+'`';
+                }
 
-            if (row.DESTINATION.trim().length>0 && row.DESTINATION!=undefined) { 
-                destinationTables[destinationTables.length] = '`'+row.DESTINATION.split('.')[0]+'`';
+                if (row.DESTINATION.trim().length>0 && row.DESTINATION!=undefined) { 
+                    destinationTables[destinationTables.length] = '`'+row.DESTINATION.split('.')[0]+'`';
+                }
             }
 
         }
@@ -110,8 +122,14 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType, s
 
         sql += 'BEGIN\n'
 
+        
         for (var i=0; i<destinationTables.length; i++) {
             sql += '\tDELETE FROM `'+schema+'`.'+destinationTables[i]+';\n';  
+        }
+
+        
+        if (withStatements!=null) {
+            sql += '\t'+ withStatements+'\n';
         }
 
         sql += '\tINSERT INTO `'+schema+'`.'+destinationTablesString+' (\n';     
@@ -119,16 +137,20 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType, s
         // construct destination cols
         object.forEach(function(row, index) {
             
-            if (index<object.length-1) {
-                sql += '\t\t`'+row.DESTINATION.split('.')[0]+'`.`'+row.DESTINATION.split('.')[1]+'`';
+            if (row.SOURCE_FUNCTION_PREFIX!='WITH_STATEMENTS') {
+
+                if (index<object.length-1) {
+                    sql += '\t\t`'+row.DESTINATION.split('.')[0]+'`.`'+row.DESTINATION.split('.')[1]+'`';
+                }
+
+                if (index<object.length-2) {
+                    sql += ',\n'
+                }
+                else {
+                    // nothing
+                }
             }
 
-            if (index<object.length-2) {
-                sql += ',\n'
-            }
-            else {
-                // nothing
-            }
         });
 
         sql += ')\n';
@@ -139,28 +161,31 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType, s
         // construct source cols
         object.forEach(function(row, index) {
             
-            if (index<object.length-1) {
-                sql += '\t\t';
+            if (row.SOURCE_FUNCTION_PREFIX!='WITH_STATEMENTS') {
 
-                if (row.SOURCE_FUNCTION_PREFIX.trim().length>0) {
-                    sql += row.SOURCE_FUNCTION_PREFIX+' '
-                }
-                
-                if (row.SOURCE.trim().length>0) {
-                    sql += '`'+row.SOURCE.split('.')[0]+'`.`'+row.SOURCE.split('.')[1]+'`';
+                if (index<object.length-1) {
+                    sql += '\t\t';
+
+                    if (row.SOURCE_FUNCTION_PREFIX.trim().length>0) {
+                        sql += row.SOURCE_FUNCTION_PREFIX+' '
+                    }
+                    
+                    if (row.SOURCE.trim().length>0) {
+                        sql += row.SOURCE; // now require this to be correct db format rather than wrapping '`'+row.SOURCE.split('.')[0]+'`.`'+row.SOURCE.split('.')[1]+'`';
+                    }
+
+                    if (row.SOURCE_FUNCTION_SUFFIX.trim().length>0) {
+                        sql += ' '+row.SOURCE_FUNCTION_SUFFIX
+                    }
                 }
 
-                if (row.SOURCE_FUNCTION_SUFFIX.trim().length>0) {
-                    sql += ' '+row.SOURCE_FUNCTION_SUFFIX
+                if (index<object.length-2) {
+                    sql += ',\n'
                 }
-            }
-
-            if (index<object.length-2) {
-                sql += ',\n'
-            }
-            else {
-                // nothing
-                sql += ''
+                else {
+                    // nothing
+                    sql += ''
+                }
             }
         });
 

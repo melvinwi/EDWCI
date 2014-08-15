@@ -68,13 +68,29 @@ function test_build(artefactName, object, schema, design, selectionCriteria) // 
             destinationTablesString+=','
         }
     }
+    if (destinationTablesString.substring(0,1)==',') {
+        destinationTablesString = destinationTablesString.substring(1,destinationTablesString.length);
+        destinationTables.shift();
+    } 
 
 
     // make source columns unique
     var sourceColumnsArray = new Array();
     for (var i=0; i<object.length-1; i++) {
 
-        sourceColumnsArray[sourceColumnsArray.length] = object[i].SOURCE;
+        if (object[i].SOURCE.substring(0, 5)!='WITH ') {
+            if (object[i].SOURCE.indexOf(',')==-1) {
+                sourceColumnsArray[sourceColumnsArray.length] = object[i].SOURCE;
+            }
+            else { // need to split these out
+                var colParts = object[i].SOURCE.split(',');
+                for (var x=0; x<colParts.length; x++) {
+                    if (colParts[x].trim().length>0) {
+                        sourceColumnsArray[sourceColumnsArray.length] = colParts[x].trim();
+                    }
+                }
+            }
+        }
     }
 
     sourceColumnsArray = sourceColumnsArray.unique();
@@ -140,7 +156,7 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
             var tmpSourceTables = new Array()
 
             for (var i=0; i<sourceTables.length; i++) {
-                if (sourceTables[i].substring(0,1)!='_') {
+                if (sourceTables[i].substring(0,1)!='_' && sourceTables[i].substring(0,5)!='WITH ') {
                     tmpSourceTables[tmpSourceTables.length] = sourceTables[i];
                 }
             }
@@ -152,7 +168,7 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
 
             // load source test data
             for (var i=0; i<sourceTables.length; i++) {
-
+                
                 loadTestData(sourceTables[i], object, schema, function(res) { 
                     
                     if (res=='OK') {
@@ -168,7 +184,6 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
                         }
                     }
                     else {
-
                         //process.exit();
                     }
 
@@ -325,7 +340,9 @@ function loadTestData(artefactName, object, schema, callback) {
             }
         }
     }
-    callback('NONE');
+    else {
+        callback('NONE');
+    }
 
 }
 
@@ -351,8 +368,8 @@ Array.prototype.unique = function() {
 
 function runTests(artefactName, sourceTables, destinationTable, sourceColumnsString, destinationColumnsString, schema, selectionCriteria) {
     // executes command
-    var cmd = 'node test_transform.js --artefactName '+artefactName+' --sourceTables '+sourceTables+' --destinationTable '+destinationTable+' --sourceColumns "'+sourceColumnsString+'" --destinationColumns '+destinationColumnsString+' --schema '+schema+' --dbType '+dbType+' --selectionCriteria '+selectionCriteria;
-
+    var cmd = 'node test_transform.js --artefactName '+artefactName+' --sourceTables '+sourceTables+' --destinationTable '+destinationTable+' --sourceColumns "'+sourceColumnsString+'" --destinationColumns '+destinationColumnsString+' --schema '+schema+' --dbType '+dbType+' --selectionCriteria "'+selectionCriteria+'"';
+    
     console.log(cmd);
 
     child = exec(cmd, function (error, stdout, stderr) {
