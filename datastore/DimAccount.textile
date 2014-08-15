@@ -1,0 +1,16 @@
+
+h2. ARTEFACT: DimAccount
+
+DESCRIPTION: Account dimension table
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|AccountCode	|Account Code used in the transaction system (party code)	|int	|	|	|FALSE	|	|FALSE	|
+|AccountKey	|Account Number used in the transaction system (Party ID)	|int	|	|	|FALSE	|	|FALSE	|
+|PostalAddressLine1	|Postal Address Line 1	|nvarchar	|100	|	|FALSE	|	|FALSE	|
+|PostalSuburb	|Postal Address Suburb	|nvarchar	|50	|	|FALSE	|	|FALSE	|
+|PostalPostcode	|Postal Address Postcode	|nchar	|4	|	|FALSE	|	|FALSE	|
+|PostalState	|Postal Address State	|nchar	|3	|	|FALSE	|	|FALSE	|
+|MyAccountStatus	|MyAccountStatus	|nvarchar	|14	|	|FALSE	|	|FALSE	|
+|CreationDate	|CreationDate	|date	|	|	|FALSE	|	|FALSE	|
+|AccountStatus	|AccountStatus	|nchar	|10	|	|FALSE	|	|FALSE|
+
