@@ -1,6 +1,8 @@
 
 TODO!
 
+* support WITH statement 
+
 * support mulitple columns in transform "source"
 
 * newline in transform design broke process
@@ -16,7 +18,6 @@ TODO!
 * remove truncate from transform, but execute truncate when testing
 
 * loading test data truncates leading zeros even if into varchar
-
  
 
 CI
