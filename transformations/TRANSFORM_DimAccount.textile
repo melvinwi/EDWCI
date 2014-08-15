@@ -1,0 +1,16 @@
+
+h2. ARTEFACT: TRANSFORM_DimAccount
+
+DESCRIPTION: Promote accounts from Orion tables to DataStore
+
+|*SOURCE_FUNCTION_PREFIX*	|*SOURCE*	|*SOURCE_FUNCTION_SUFFIX*	|*DESTINATION*	|*DESCRIPTION*	|
+|CASE WHEN ISNUMERIC ("crm_party":../staging/crm_party.textile .party_code) = 1 THEN CAST(	|"crm_party":../staging/crm_party.textile .party_code	|AS int) END	|"DimAccount":../datastore/DimAccount.textile .AccountCode	|A	|
+|CAST(	|"nc_client":../staging/nc_client.textile .seq_party_id	|AS int)	|"DimAccount":../datastore/DimAccount.textile .AccountKey	|b	|
+|CAST(	|"crm_party":../staging/crm_party.textile .postal_addr_1	|AS nvarchar(100))	|"DimAccount":../datastore/DimAccount.textile .PostalAddressLine1	|h	|
+|CAST(	|"crm_party":../staging/crm_party.textile .postal_addr_2	|AS nvarchar(50))	|"DimAccount":../datastore/DimAccount.textile .PostalSuburb	|A	|
+|CAST(	|"crm_party":../staging/crm_party.textile .postal_post_code	|AS nchar(4))	|"DimAccount":../datastore/DimAccount.textile .PostalPostcode	|b	|
+|CAST(	|"crm_party":../staging/crm_party.textile .postal_addr_3	|AS nchar(3))	|"DimAccount":../datastore/DimAccount.textile .PostalState	|c	|
+|CAST(CASE	|"nc_client":../staging/nc_client.textile .cz_registered	|WHEN 'Y' THEN 'Registered' ELSE 'Not Registered' END AS nvarchar(14))	|"DimAccount":../datastore/DimAccount.textile .MyAccountStatus	|e	|
+|	|"nc_client":../staging/nc_client.textile .insert_datetime	|	|"DimAccount":../datastore/DimAccount.textile .CreationDate	|f	|
+|SELECTION_CRITERIA	|"FROM lumo."crm_party":../staging/crm_party.textile , lumo."nc_client":../staging/nc_client.textile  WHERE "nc_client":../staging/nc_client.textile .seq_party_id = "crm_party":../staging/crm_party.textile .seq_party_id AND ("crm_party":../staging/crm_party.textile .Meta_ChangeFlag = 1 OR "nc_client":../staging/nc_client.textile .Meta_ChangeFlag = 1) "|
+
