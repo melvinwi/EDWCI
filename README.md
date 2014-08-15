@@ -5,19 +5,18 @@ TODO!
 
 * newline in transform design broke process
 
-* --debug true false optional flag
-
-* alter table
-
 * force generate --force-generate
 
-* fixed! CHECK nvarchar is generating a varchar type
+* save all generates to .sql
+
+* add "drop procedure" prefix on transform
+
+* pass parameters into procedure --database --schema 
 
 * remove truncate from transform, but execute truncate when testing
 
 * loading test data truncates leading zeros even if into varchar
 
-* remove schema option and ensure artefact name has the [database].[schema].[object] structure
  
 
 CI
