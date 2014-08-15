@@ -1,0 +1,13 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_DimAccount				
+# DESCRIPTION: Promote accounts from Orion tables to DataStore 				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+CASE WHEN ISNUMERIC (crm_party.party_code) = 1 THEN CAST(	crm_party.party_code	AS int) END	DimAccount.AccountCode	A
+CAST(	nc_client.seq_party_id	AS int)	DimAccount.AccountKey	b
+CAST(	crm_party.postal_addr_1	AS nvarchar(100))	DimAccount.PostalAddressLine1	h
+CAST(	crm_party.postal_addr_2	AS nvarchar(50))	DimAccount.PostalSuburb	A
+CAST(	crm_party.postal_post_code	AS nchar(4))	DimAccount.PostalPostcode	b
+CAST(	crm_party.postal_addr_3	AS nchar(3))	DimAccount.PostalState	c
+CAST(CASE	nc_client.cz_registered	WHEN 'Y' THEN 'Registered' ELSE 'Not Registered' END AS nvarchar(14))	DimAccount.MyAccountStatus	e
+	nc_client.insert_datetime		DimAccount.CreationDate	f
+SELECTION_CRITERIA	"FROM lumo.crm_party, lumo.nc_client WHERE nc_client.seq_party_id = crm_party.seq_party_id AND (crm_party.Meta_ChangeFlag = 1 OR nc_client.Meta_ChangeFlag = 1) "			
