@@ -3,7 +3,12 @@
 # DESCRIPTION: a valid list of valid business names, descriptions and sample values 				
 NAME	PREFIX_OR_SUFFIX_OR_ANY	DESCRIPTION	EXAMPLE_VALUES	
 FIRST	prefix	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John	
+AccountCode	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+AccountKey	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+MyAccountStatus	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
 CustomerId	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+CreationDate	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+AccountStatus	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
 CustomerCode	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
 CustomerKey	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
 Title	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
