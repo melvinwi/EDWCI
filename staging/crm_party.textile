@@ -4,8 +4,9 @@ h2. ARTEFACT: crm_party
 DESCRIPTION: Party table from Orion
 
 |*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
-|MetaChangeFlag	|Meta: Row Change flag	|bit	|	|	|FALSE	|FALSE	|FALSE	|
-|MetaLatestAuditId	|Meta: Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_ChangeFlag	|Meta: Row Change flag	|bit	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
 |seq_party_id	|seq_party_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
 |party_code	|party_code	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
 |party_name	|party_name	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
