@@ -1,5 +1,5 @@
 # view test result artefact
 # ARTEFACT: VDimCustomer
-# CREATED DATE: 2014-08-17T115710
+# CREATED DATE: 2014-08-17T120122
 
-2014-08-17 11:57:10	1	PASSED	source.length.should.equal(destination.length)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2014-08-17 12:01:23	1	PASSED	source.length.should.equal(destination.length)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
