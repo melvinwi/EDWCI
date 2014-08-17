@@ -72,7 +72,7 @@ if (program.file && program.schema) {
 					
 					if (destination!='.tsv') {
 						if (fs.existsSync('../../datastore/'+destination)!=true)
-							throw 'missing SOURCE ../../datastore/'+destination;
+							throw 'missing DESTINATION ../../datastore/'+destination;
 					}
 					
 				}
