@@ -251,6 +251,9 @@ function executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema,
 		sourceSQL = sourceSQL.replace(/`/g, '');
 		destinationSQL = destinationSQL.replace(/`/g, '');
 	}
+
+	sourceSQL = sourceSQL.replace(/\[schema\]/g, schema)
+	destinationSQL = destinationSQL.replace(/\[schema\]/g, schema)
 	
 	logIt(SOURCE_SQL_FILE, (i+1)+'\t'+sourceSQL+'\n');
 	logIt(DESTINATION_SQL_FILE, (i+1)+'\t'+destinationSQL+'\n');
