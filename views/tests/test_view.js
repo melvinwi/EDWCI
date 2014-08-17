@@ -30,10 +30,10 @@ if (program.artefactName && program.schema) {
 	design = fs.readFileSync('../'+artefactName+'.tsv').toString();
 
 	
-	var SOURCE_SQL_FILE = 'RESULT-sql-source_.tsv'
-	var DESTINATION_SQL_FILE = 'RESULT-sql-destination_.tsv'
-	var SOURCE_SQL_RESULTS = 'RESULT-sql-source_resultset.tsv'
-	var DESTINATION_SQL_RESULTS = 'RESULT-sql-destination_resultset.tsv'
+	var SOURCE_SQL_FILE = 'RESULT-sql-datastore_.tsv'
+	var DESTINATION_SQL_FILE = 'RESULT-sql-view_.tsv'
+	var SOURCE_SQL_RESULTS = 'RESULT-sql-datastore_resultset.tsv'
+	var DESTINATION_SQL_RESULTS = 'RESULT-sql-view_resultset.tsv'
 	var TEST_RESULTS = 'RESULT-'+artefactName+'-'+'TESTS.tsv'
 
 	// refresh
@@ -78,6 +78,7 @@ else {
 
 
 function logIt(artefactName, data, isResult) {
+	console.log(artefactName+' | '+data.trim());
 	if (isResult==true) { // else this is debug
 		console.log('\n'+data.trim());
 	}
@@ -85,6 +86,9 @@ function logIt(artefactName, data, isResult) {
 	fs.appendFile(artefactName, data, function(err) {	
 		if (err) {
 			console.log(err);
+		}
+		else {
+			console.log('WROTE! '+ artefactName+' | '+data.trim());
 		}
 	});
 }
@@ -182,6 +186,7 @@ function runTest(sourceSQL, destinationSQL, test, index, artefactName, test_leng
 		            if (destinationRes) {
 		            	
 		            	destination = destinationRes;
+
 						logIt(DESTINATION_SQL_RESULTS, (index+1)+'\t'+JSON.stringify(destination)+'\n');
 						
 
@@ -235,7 +240,7 @@ function areTestsFinished(counter, test_length, artefactName, schema, design) {
     	if (passedOverall == false) {
     		console.log('******** ******** ******** ********')
     		logger.error(artefactName, 'FAILED TESTS');
-    		process.exit();
+    		
     	}
     	else {
     		console.log('\n******** ******** ******** ********')
@@ -245,7 +250,6 @@ function areTestsFinished(counter, test_length, artefactName, schema, design) {
             var GenerateDoc = require('./test_generate_doc.js');
             var generateDoc = new GenerateDoc(artefactName, schema, design); 
 
-    		process.exit();
     	}
     	console.log('\n-- see the following files for further details')
     	console.log(''+SOURCE_SQL_FILE+' - source sql executed');
@@ -254,7 +258,7 @@ function areTestsFinished(counter, test_length, artefactName, schema, design) {
     	console.log(''+DESTINATION_SQL_RESULTS+' - destination result set');
 
     	console.log('')
-    	process.exit();
+
 	    }
 }
 

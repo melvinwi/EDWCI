@@ -1,4 +1,5 @@
 # view test result artefact
 # ARTEFACT: VCustomer
-# CREATED DATE: 2014-08-17T113023
+# CREATED DATE: 2014-08-17T114346
 
+2014-08-17 11:43:47	1	PASSED	source.length.should.equal(destination.length)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
