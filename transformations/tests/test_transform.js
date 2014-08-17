@@ -360,7 +360,7 @@ function areTestsFinished(counter, test_length, artefactName, schema, design, so
     	if (passedOverall == false) {
     		console.log('******** ******** ******** ********')
     		logger.error(artefactName, 'FAILED TESTS');
-    		process.exit();
+    		
     	}
     	else {
     		console.log('\n******** ******** ******** ********')
@@ -370,7 +370,7 @@ function areTestsFinished(counter, test_length, artefactName, schema, design, so
             var GenerateDoc = require('./test_generate_doc.js');
             var generateDoc = new GenerateDoc(artefactName, schema, design, sourceTables, destinationTable); 
 
-    		process.exit();
+    		
     	}
     	console.log('\n-- see the following files for further details')
     	console.log(''+SOURCE_SQL_FILE+' - source sql executed');
@@ -379,7 +379,7 @@ function areTestsFinished(counter, test_length, artefactName, schema, design, so
     	console.log(''+DESTINATION_SQL_RESULTS+' - destination result set');
 
     	console.log('')
-    	process.exit();
+    	
 	    }
 }
 
