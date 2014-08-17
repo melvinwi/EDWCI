@@ -210,7 +210,13 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType, s
             sql = sql.replace(/`/g, '');
         }
 
-        console.log(sql);
+        sql = sql.replace(/\[schema\]/g, schema);
+
+        // write sql to file
+        fs.writeFileSync('../'+schema+'_'+artefactName+'.sql', sql) 
+
+        logger.info(artefactName, '../'+artefactName+'.sql file was successfully generated');
+
     }
     else {
 

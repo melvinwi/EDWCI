@@ -139,7 +139,7 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
         sqlToCheckIfProcExists = 'SHOW PROCEDURE STATUS where `Name`= "'+artefactName+'" and `Db`="'+schema+'"'
     }
     else if (dbType=='SQLSERVER'){
-        sqlToCheckIfProcExists = 'SELECT 1 FROM sys.procedures WHERE Name = \''+artefactName+'\'';
+        sqlToCheckIfProcExists = 'SELECT * FROM sys.procedures, sys.schemas WHERE sys.procedures.Name = \''+artefactName+'\' and sys.schemas.name = \''+schema+'\'';
     }
 
     db.sql(sqlToCheckIfProcExists, function(err, result1) {
