@@ -1,0 +1,5 @@
+# design test artefact			
+# ARTEFACT: VCustomer_tests			
+# DESCRIPTION: Test view			
+DATASTORE_SQL	VIEW_SQL	TEST	DESCRIPTION
+select count(*) from lumo.DimCustomer	select count(*) from lumo.VCustomer 	source.length.should.equal(destination.length)	size
