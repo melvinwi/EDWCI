@@ -87,9 +87,6 @@ function logIt(artefactName, data, isResult) {
 		if (err) {
 			console.log(err);
 		}
-		else {
-			console.log('WROTE! '+ artefactName+' | '+data.trim());
-		}
 	});
 }
 
