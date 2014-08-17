@@ -1,21 +1,17 @@
 
 TODO!
 
-* support WITH statement 
+* DONE! support WITH statement 
 
-* support mulitple columns in transform "source"
+* DONE! support mulitple columns in transform "source"
 
-* newline in transform design broke process
+* DONE! newline in transform design broke process
 
-* force generate --force-generate
+* DONE! substitute [schema] with --schema name
 
-* save all generates to .sql
+* DONE! save all transform generates to .sql
 
-* add "drop procedure" prefix on transform
-
-* pass parameters into procedure --database --schema 
-
-* remove truncate from transform, but execute truncate when testing
+* remove DELETE from transform, but execute truncate when testing
 
 * loading test data truncates leading zeros even if into varchar
  
