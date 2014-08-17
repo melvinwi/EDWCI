@@ -123,8 +123,8 @@ function executeTests(object, artefactName, schema, design, i) {
 		i=0; // initial
 	}
 	
-	var sourceSQL = object[i].DATASTORE_SQL;
-	var destinationSQL = object[i].VIEW_SQL;
+	var sourceSQL = object[i].DATASTORE_SQL.replace(/\[schema\]/g, schema);
+	var destinationSQL = object[i].VIEW_SQL.replace(/\[schema\]/g, schema);
 	var test = object[i].TEST;
 
 	
