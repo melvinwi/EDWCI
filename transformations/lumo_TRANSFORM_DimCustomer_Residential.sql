@@ -1,0 +1,56 @@
+CREATE PROCEDURE lumo.TRANSFORM_DimCustomer_Residential AS
+BEGIN
+	DELETE FROM lumo.DimCustomer;
+	WITH customerStatus AS (SELECT nc_client.seq_party_id, MAX (CASE WHEN nc_product_item.accnt_status_id = '6'OR nc_product_item.accnt_status_id = '8' THEN 1 ELSE 0 END) AS CustomerStatus, MAX (CASE WHEN nc_client.Meta_ChangeFlag = 1 OR nc_product.Meta_ChangeFlag = 1 OR nc_product_item.Meta_ChangeFlag = 1 THEN 1 ELSE 0 END) AS Meta_ChangeFlag FROM lumo.nc_client LEFT OUTER JOIN lumo.nc_product ON nc_product.seq_party_id = nc_client.seq_party_id LEFT OUTER JOIN lumo.nc_product_item ON nc_product_item.seq_product_id = nc_product.seq_product_id GROUP BY nc_client.seq_party_id)
+	INSERT INTO lumo.DimCustomer (
+		DimCustomer.CustomerCode,
+		DimCustomer.CustomerKey,
+		DimCustomer.Title,
+		DimCustomer.Firstname,
+		DimCustomer.MiddleInitial,
+		DimCustomer.LastName,
+		DimCustomer.PartyName,
+		DimCustomer.PostalAddressLine1,
+		DimCustomer.PostalSuburb,
+		DimCustomer.PostalPostcode,
+		DimCustomer.PostalState,
+		DimCustomer.ResidentialAddressLine1,
+		DimCustomer.ResidentialSuburb,
+		DimCustomer.ResidentialPostcode,
+		DimCustomer.ResidentialState,
+		DimCustomer.PrimaryPhone,
+		DimCustomer.PrimaryPhoneType,
+		DimCustomer.SecondaryPhone,
+		DimCustomer.SecondaryPhoneType,
+		DimCustomer.MobilePhone,
+		DimCustomer.Email,
+		DimCustomer.DateOfBirth,
+		DimCustomer.CustomerType,
+		DimCustomer.CustomerStatus)
+	  SELECT
+		CASE WHEN ISNUMERIC (crm_party.party_code) = 1 THEN CAST( crm_party.party_code AS int) END,
+		CAST( nc_client.seq_party_id AS int),
+		CAST( crm_party.title AS nchar(3)),
+		CAST( crm_party.first_name AS nvarchar(100)),
+		CAST( crm_party.initials AS nchar(10)),
+		CAST( crm_party.last_name AS nvarchar(100)),
+		CAST( crm_party.party_name AS nvarchar(100)),
+		CAST( crm_party.postal_addr_1 AS nvarchar(100)),
+		CAST( crm_party.postal_addr_2 AS nvarchar(50)),
+		CAST( crm_party.postal_post_code AS nchar(4)),
+		CAST( crm_party.postal_addr_3 AS nchar(3)),
+		CAST( crm_party.street_addr_1 AS nvarchar(100)),
+		CAST( crm_party.street_addr_2 AS nvarchar(50)),
+		CAST( crm_party.street_post_code AS nchar(4)),
+		CAST( crm_party.street_addr_3 AS nchar(3)),
+		CAST(CONCAT( crm_party.std_code,crm_party.phone_no ) AS nvarchar(24)),
+		CAST(CASE crm_party.primary_phone_type_id WHEN '1' THEN 'Landline' WHEN '2' THEN 'Mobile' ELSE 'Unknown' END AS nchar(8)),
+		CAST(CONCAT( crm_party.secondary_std_code,crm_party.secondary_phone_no ) AS nvarchar(24)),
+		CAST(CASE crm_party.secondary_phone_type_id WHEN '1' THEN 'Landline' WHEN '2' THEN 'Mobile' ELSE 'Unknown' END AS nchar(8)),
+		CAST(CASE WHEN LEFT( crm_party.std_code ,1) = '4' THEN CONCAT(crm_party.std_code, crm_party.phone_no) WHEN LEFT(crm_party.secondary_std_code,1) = '4' THEN CONCAT(crm_party.secondary_std_code, crm_party.secondary_phone_no) ELSE 'Unknown' END AS nchar(10)),
+		CAST( crm_party.email_address AS nvarchar(100)),
+		crm_party.date_of_birth,
+		CAST(CASE crm_element_hierarchy.seq_element_type_id WHEN '9' THEN 'Residential' WHEN '8' THEN 'Business' ELSE 'Unknown' END AS nchar(11)),
+		CAST(CASE _customerStatus.CustomerStatus WHEN 1 THEN 'Active' ELSE 'Inactive' END AS nchar(8))
+	  FROM lumo.crm_party, lumo.nc_client, lumo.crm_element_hierarchy, customerStatus AS _customerStatus  WHERE nc_client.seq_party_id = crm_party.seq_party_id AND crm_element_hierarchy.element_id = crm_party.seq_party_id AND crm_element_hierarchy.seq_element_type_id = '9' AND _customerStatus.seq_party_id = nc_client.seq_party_id AND (crm_party.Meta_ChangeFlag = 1 OR nc_client.Meta_ChangeFlag = 1 OR crm_element_hierarchy.Meta_ChangeFlag = 1 OR _customerStatus.Meta_ChangeFlag = 1) ;
+END;
