@@ -3,13 +3,13 @@
 # DESCRIPTION: Promote accounts from Orion tables to DataStore 				
 SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
 WITH_STATEMENTS	"WITH accountStatus AS (SELECT nc_client.seq_party_id, MAX (CASE WHEN utl_account_status.accnt_status_class_id = '2' THEN 1 ELSE 0 END) AS StatusOpen, MAX (CASE WHEN utl_account_status.accnt_status_class_id = '3' THEN 1 ELSE 0 END) AS StatusPending, MAX (CASE WHEN utl_account_status.accnt_status_class_id = '4' THEN 1 ELSE 0 END) AS StatusError, MAX (CASE WHEN nc_client.Meta_ChangeFlag = 1 OR nc_product.Meta_ChangeFlag = 1 OR nc_product_item.Meta_ChangeFlag = 1 THEN 1 ELSE 0 END) AS Meta_ChangeFlag FROM [schema].nc_client LEFT OUTER JOIN [schema].nc_product ON nc_product.seq_party_id = nc_client.seq_party_id LEFT OUTER JOIN [schema].nc_product_item ON nc_product_item.seq_product_id = nc_product.seq_product_id LEFT OUTER JOIN [schema].utl_account_status ON utl_account_status.accnt_status_id = nc_product_item.accnt_status_id GROUP BY nc_client.seq_party_id)"			
-CASE WHEN ISNUMERIC (crm_party.party_code) = 1 THEN CAST(	crm_party.party_code	AS int) END	DimAccount.AccountCode	A
-CAST(	nc_client.seq_party_id	AS int)	DimAccount.AccountKey	b
-CAST(	crm_party.postal_addr_1	AS nvarchar(100))	DimAccount.PostalAddressLine1	h
-CAST(	crm_party.postal_addr_2	AS nvarchar(50))	DimAccount.PostalSuburb	A
-CAST(	crm_party.postal_post_code	AS nchar(4))	DimAccount.PostalPostcode	b
-CAST(	crm_party.postal_addr_3	AS nchar(3))	DimAccount.PostalState	c
-CAST(CASE	nc_client.cz_registered	WHEN 'Y' THEN 'Registered' ELSE 'Not Registered' END AS nvarchar(14))	DimAccount.MyAccountStatus	e
-	nc_client.insert_datetime		DimAccount.CreationDate	f
-CAST (CASE WHEN 	_accountStatus.StatusOpen	= 1 THEN 'Open' WHEN _accountStatus.StatusPending = 1 THEN 'Pending' WHEN _accountStatus.StatusError = 1 THEN 'Error' ELSE 'Closed' END AS nchar (10))	DimAccount.AccountStatus	g
+CASE WHEN ISNUMERIC (crm_party.party_code) = 1 THEN CAST(	crm_party.party_code	AS int) END	DimAccount.AccountCode	One to one mapping with int cast and isnumeric to prevent execution plan issues
+CAST(	nc_client.seq_party_id	AS int)	DimAccount.AccountKey	One to one mapping with int cast
+CAST(	crm_party.postal_addr_1	AS nvarchar(100))	DimAccount.PostalAddressLine1	One to one mapping with nvarchar cast
+CAST(	crm_party.postal_addr_2	AS nvarchar(50))	DimAccount.PostalSuburb	One to one mapping with nvarchar cast
+CAST(	crm_party.postal_post_code	AS nchar(4))	DimAccount.PostalPostcode	One to one mapping with nchar cast
+CAST(	crm_party.postal_addr_3	AS nchar(3))	DimAccount.PostalState	One to one mapping with nchar cast
+CAST(CASE	nc_client.cz_registered	WHEN 'Y' THEN 'Registered' ELSE 'Not Registered' END AS nvarchar(14))	DimAccount.MyAccountStatus	Decode My Account Status
+	nc_client.insert_datetime		DimAccount.CreationDate	One to one mapping
+CAST (CASE WHEN 	_accountStatus.StatusOpen	= 1 THEN 'Open' WHEN _accountStatus.StatusPending = 1 THEN 'Pending' WHEN _accountStatus.StatusError = 1 THEN 'Error' ELSE 'Closed' END AS nchar (10))	DimAccount.AccountStatus	Use WITH table to populate Account Status
 SELECTION_CRITERIA	"FROM [schema].crm_party, [schema].nc_client, accountStatus AS _accountStatus WHERE nc_client.seq_party_id = crm_party.seq_party_id AND _accountStatus.seq_party_id = nc_client.seq_party_id AND (crm_party.Meta_ChangeFlag = 1 OR nc_client.Meta_ChangeFlag = 1 OR _accountStatus.Meta_ChangeFlag = 1) "			
