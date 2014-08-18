@@ -1,7 +1,7 @@
 CREATE PROCEDURE lumo.TRANSFORM_DimCustomer_Residential AS
 BEGIN
 	DELETE FROM lumo.DimCustomer;
-	WITH customerStatus AS (SELECT nc_client.seq_party_id, MAX (CASE WHEN nc_product_item.accnt_status_id = '6'OR nc_product_item.accnt_status_id = '8' THEN 1 ELSE 0 END) AS CustomerStatus, MAX (CASE WHEN nc_client.Meta_ChangeFlag = 1 OR nc_product.Meta_ChangeFlag = 1 OR nc_product_item.Meta_ChangeFlag = 1 THEN 1 ELSE 0 END) AS Meta_ChangeFlag FROM lumo.nc_client LEFT OUTER JOIN lumo.nc_product ON nc_product.seq_party_id = nc_client.seq_party_id LEFT OUTER JOIN lumo.nc_product_item ON nc_product_item.seq_product_id = nc_product.seq_product_id GROUP BY nc_client.seq_party_id)
+	WITH customerStatus AS (SELECT nc_client.seq_party_id, MAX (CASE WHEN utl_account_status.accnt_status_class_id > 1 THEN 1 ELSE 0 END) AS CustomerStatus, MAX (CASE WHEN nc_client.Meta_ChangeFlag = 1 OR nc_product.Meta_ChangeFlag = 1 OR nc_product_item.Meta_ChangeFlag = 1 THEN 1 ELSE 0 END) AS Meta_ChangeFlag FROM lumo.nc_client LEFT OUTER JOIN lumo.nc_product ON nc_product.seq_party_id = nc_client.seq_party_id LEFT OUTER JOIN lumo.nc_product_item ON nc_product_item.seq_product_id = nc_product.seq_product_id LEFT OUTER JOIN lumo.utl_account_status ON utl_account_status.accnt_status_id = nc_product_item.accnt_status_id GROUP BY nc_client.seq_party_id)
 	INSERT INTO lumo.DimCustomer (
 		DimCustomer.CustomerCode,
 		DimCustomer.CustomerKey,
