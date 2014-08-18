@@ -19,13 +19,13 @@ DESCRIPTION: Customer dimension table
 |ResidentialSuburb	|Residential Address Suburb	|nvarchar	|50	|	|FALSE	|	|FALSE	|
 |ResidentialPostcode	|Residential Address Postcode	|nchar	|4	|	|FALSE	|	|FALSE	|
 |ResidentialState	|Residential Address State	|nchar	|3	|	|FALSE	|	|FALSE	|
-|PrimaryPhone	|PrimaryPhone	|nvarchar	|24	|	|FALSE	|	|FALSE	|
-|PrimaryPhoneType	|PrimaryPhoneType	|nchar	|8	|	|FALSE	|	|FALSE	|
-|SecondaryPhone	|SecondaryPhone	|nvarchar	|24	|	|FALSE	|	|FALSE	|
-|SecondaryPhoneType	|SecondaryPhoneType	|nchar	|8	|	|FALSE	|	|FALSE	|
-|MobilePhone	|MobilePhone	|nchar	|10	|	|FALSE	|	|FALSE	|
+|PrimaryPhone	|Primary Phone Number	|nvarchar	|24	|	|FALSE	|	|FALSE	|
+|PrimaryPhoneType	|Primary Phone Type	|nchar	|8	|	|FALSE	|	|FALSE	|
+|SecondaryPhone	|Secondary Phone Number	|nvarchar	|24	|	|FALSE	|	|FALSE	|
+|SecondaryPhoneType	|Secondary Phone Type	|nchar	|8	|	|FALSE	|	|FALSE	|
+|MobilePhone	|Mobile Phone	|nchar	|10	|	|FALSE	|	|FALSE	|
 |Email	|Email	|nvarchar	|100	|	|FALSE	|	|FALSE	|
-|DateOfBirth	|DateOfBirth	|date	|	|	|FALSE	|	|FALSE	|
-|CustomerType	|CustomerType	|nchar	|11	|	|FALSE	|	|FALSE	|
-|CustomerStatus	|CustomerStatus	|nchar	|8	|	|FALSE	|	|FALSE|
+|DateOfBirth	|Date Of Birth	|date	|	|	|FALSE	|	|FALSE	|
+|CustomerType	|Customer Type	|nchar	|11	|	|FALSE	|	|FALSE	|
+|CustomerStatus	|Customer Status	|nchar	|8	|	|FALSE	|	|FALSE|
 
