@@ -1,0 +1,9 @@
+# design artefact							
+# ARTEFACT: FactCustomerAccount							
+# DESCRIPTION: Customer to Account factless fact table							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+CustomerId	Foreign key to DimCustomer	int			FALSE		FALSE
+AccountId	Foreign key to DimAccount	int			FALSE		FALSE
+EffectiveStartDate	Effective Start Date	date			FALSE		FALSE
+EffectiveEndDate	Effective End Date	date		9999-12-31	TRUE		FALSE
+AccountRelationshipCounter	Counter (=1)	tinyint		1	TRUE		FALSE
