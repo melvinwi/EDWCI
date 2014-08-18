@@ -10,7 +10,7 @@ DESCRIPTION: Account dimension table
 |PostalSuburb	|Postal Address Suburb	|nvarchar	|50	|	|FALSE	|	|FALSE	|
 |PostalPostcode	|Postal Address Postcode	|nchar	|4	|	|FALSE	|	|FALSE	|
 |PostalState	|Postal Address State	|nchar	|3	|	|FALSE	|	|FALSE	|
-|MyAccountStatus	|MyAccountStatus	|nvarchar	|14	|	|FALSE	|	|FALSE	|
-|CreationDate	|CreationDate	|date	|	|	|FALSE	|	|FALSE	|
-|AccountStatus	|AccountStatus	|nchar	|10	|	|FALSE	|	|FALSE|
+|MyAccountStatus	|My Account Status	|nvarchar	|14	|	|FALSE	|	|FALSE	|
+|CreationDate	|Creation Date	|date	|	|	|FALSE	|	|FALSE	|
+|AccountStatus	|Account Status	|nchar	|10	|	|FALSE	|	|FALSE|
 
