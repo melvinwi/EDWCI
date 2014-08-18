@@ -52,5 +52,5 @@ BEGIN
 		crm_party.date_of_birth,
 		CAST(CASE crm_element_hierarchy.seq_element_type_id WHEN '9' THEN 'Residential' WHEN '8' THEN 'Business' ELSE 'Unknown' END AS nchar(11)),
 		CAST(CASE _customerStatus.CustomerStatus WHEN 1 THEN 'Active' ELSE 'Inactive' END AS nchar(8))
-	  FROM lumo.crm_party, lumo.nc_client, lumo.crm_element_hierarchy, customerStatus AS _customerStatus  WHERE nc_client.seq_party_id = crm_party.seq_party_id AND crm_element_hierarchy.element_id = crm_party.seq_party_id AND crm_element_hierarchy.seq_element_type_id = '9' AND _customerStatus.seq_party_id = nc_client.seq_party_id AND (crm_party.Meta_ChangeFlag = 1 OR nc_client.Meta_ChangeFlag = 1 OR crm_element_hierarchy.Meta_ChangeFlag = 1 OR _customerStatus.Meta_ChangeFlag = 1) ;
+	  FROM lumo.nc_client INNER JOIN lumo.crm_party ON nc_client.seq_party_id = crm_party.seq_party_id INNER JOIN lumo.crm_element_hierarchy ON crm_element_hierarchy.element_id = crm_party.seq_party_id INNER JOIN customerStatus AS _customerStatus ON _customerStatus.seq_party_id = nc_client.seq_party_id WHERE crm_element_hierarchy.seq_element_type_id = '9'AND (crm_party.Meta_ChangeFlag = 1 OR nc_client.Meta_ChangeFlag = 1 OR crm_element_hierarchy.Meta_ChangeFlag = 1 OR _customerStatus.Meta_ChangeFlag = 1);
 END;
