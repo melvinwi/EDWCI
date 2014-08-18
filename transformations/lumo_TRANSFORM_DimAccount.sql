@@ -22,5 +22,5 @@ BEGIN
 		CAST(CASE nc_client.cz_registered WHEN 'Y' THEN 'Registered' ELSE 'Not Registered' END AS nvarchar(14)),
 		nc_client.insert_datetime,
 		CAST (CASE WHEN _accountStatus.StatusOpen = 1 THEN 'Open' WHEN _accountStatus.StatusPending = 1 THEN 'Pending' WHEN _accountStatus.StatusError = 1 THEN 'Error' ELSE 'Closed' END AS nchar (10))
-	  FROM lumo.crm_party, lumo.nc_client, accountStatus AS _accountStatus WHERE nc_client.seq_party_id = crm_party.seq_party_id AND _accountStatus.seq_party_id = nc_client.seq_party_id AND (crm_party.Meta_ChangeFlag = 1 OR nc_client.Meta_ChangeFlag = 1 OR _accountStatus.Meta_ChangeFlag = 1) ;
+	  FROM lumo.nc_client INNER JOIN lumo.crm_party ON nc_client.seq_party_id = crm_party.seq_party_id INNER JOIN accountStatus AS _accountStatus ON _accountStatus.seq_party_id = nc_client.seq_party_id WHERE crm_party.Meta_ChangeFlag = 1 OR nc_client.Meta_ChangeFlag = 1 OR _accountStatus.Meta_ChangeFlag = 1;
 END;
