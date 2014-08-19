@@ -13,7 +13,7 @@ TODO!
 
 * remove DELETE from transform, but execute truncate when testing
 
-* loading test data truncates leading zeros even if into varchar
+* DONE! loading test data truncates leading zeros even if into varchar (prefix with DWSTR to fix)
  
 
 CI

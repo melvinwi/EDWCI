@@ -295,6 +295,20 @@ function loadTestData(artefactName, object, schema, callback) {
                                     }
                                 }
 
+                                 // turn DWSTR prefix into a string
+                                var it = row;
+                                var finalRow = '';
+
+                                for (var i=0; i<it.length; i++) {
+                                    it[i] = it[i].toString();
+                                    if (it[i].substring(0,5)=='DWSTR') {
+                                        row[i] = it[i].substring(5).toString();
+                                    }
+                                    else {
+                                        row[i] = it[i];
+                                    }
+                                }
+
 
 
                                     db.sqlSubstitution('INSERT INTO '+schema+'.'+artefactName+' VALUES (??)', row, function(err, result) {

@@ -47,7 +47,7 @@ BEGIN
 		CAST(CASE crm_party.primary_phone_type_id WHEN '1' THEN 'Landline' WHEN '2' THEN 'Mobile' ELSE '{Unknow}' END AS nchar(8)),
 		CAST(CONCAT( crm_party.secondary_std_code , crm_party.secondary_phone_no) AS nvarchar(24)),
 		CAST(CASE crm_party.secondary_phone_type_id WHEN '1' THEN 'Landline' WHEN '2' THEN 'Mobile' ELSE '{Unknow}' END AS nchar(8)),
-		CAST(CASE WHEN LEFT( crm_party.std_code ,1) = '4' THEN CONCAT(crm_party.std_code, crm_party.phone_no) WHEN LEFT(crm_party.secondary_std_code,1) = '4' THEN CONCAT(crm_party.secondary_std_code, crm_party.secondary_phone_no) ELSE '{Unknown}' END AS nchar(10)),
+		CAST(CASE WHEN LEFT( crm_party.std_code ,2) = '04' THEN CONCAT(crm_party.std_code, crm_party.phone_no) WHEN LEFT(crm_party.secondary_std_code,2) = '04' THEN CONCAT(crm_party.secondary_std_code, crm_party.secondary_phone_no) ELSE '{Unknown}' END AS nchar(10)),
 		CAST( crm_party.email_address AS nvarchar(100)),
 		_contacts.date_of_birth,
 		CAST(CASE crm_element_hierarchy.seq_element_type_id WHEN '9' THEN 'Residential' WHEN '8' THEN 'Business' ELSE '{Unknown}' END AS nchar(11)),
