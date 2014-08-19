@@ -44,13 +44,13 @@ BEGIN
 		CAST( crm_party.street_post_code AS nchar(4)),
 		CAST( crm_party.street_addr_3 AS nchar(3)),
 		CAST(CONCAT( crm_party.std_code,crm_party.phone_no ) AS nvarchar(24)),
-		CAST(CASE crm_party.primary_phone_type_id WHEN '1' THEN 'Landline' WHEN '2' THEN 'Mobile' ELSE '{Unknow}' END AS nchar(8)),
+		CAST(CASE crm_party.primary_phone_type_id WHEN '1' THEN 'Landline' WHEN '2' THEN 'Mobile' ELSE NULL END AS nchar(8)),
 		CAST(CONCAT( crm_party.secondary_std_code,crm_party.secondary_phone_no ) AS nvarchar(24)),
-		CAST(CASE crm_party.secondary_phone_type_id WHEN '1' THEN 'Landline' WHEN '2' THEN 'Mobile' ELSE '{Unknow}' END AS nchar(8)),
-		CAST(CASE WHEN LEFT( crm_party.std_code ,2) = '04' THEN CONCAT(crm_party.std_code, crm_party.phone_no) WHEN LEFT(crm_party.secondary_std_code,2) = '04' THEN CONCAT(crm_party.secondary_std_code, crm_party.secondary_phone_no) ELSE '{Unknown}' END AS nchar(10)),
+		CAST(CASE crm_party.secondary_phone_type_id WHEN '1' THEN 'Landline' WHEN '2' THEN 'Mobile' ELSE NULL END AS nchar(8)),
+		CAST(CASE WHEN LEFT( crm_party.std_code ,2) = '04' THEN CONCAT(crm_party.std_code, crm_party.phone_no) WHEN LEFT(crm_party.secondary_std_code,2) = '04' THEN CONCAT(crm_party.secondary_std_code, crm_party.secondary_phone_no) ELSE NULL END AS nchar(10)),
 		CAST( crm_party.email_address AS nvarchar(100)),
 		crm_party.date_of_birth,
-		CAST(CASE crm_element_hierarchy.seq_element_type_id WHEN '9' THEN 'Residential' WHEN '8' THEN 'Business' ELSE '{Unknown}' END AS nchar(11)),
+		CAST(CASE crm_element_hierarchy.seq_element_type_id WHEN '9' THEN 'Residential' WHEN '8' THEN 'Business' ELSE NULL END AS nchar(11)),
 		CAST(CASE _customerStatus.CustomerStatus WHEN 1 THEN 'Active' ELSE 'Inactive' END AS nchar(8))
 	  FROM lumo.nc_client INNER JOIN lumo.crm_party ON nc_client.seq_party_id = crm_party.seq_party_id INNER JOIN lumo.crm_element_hierarchy ON crm_element_hierarchy.element_id = crm_party.seq_party_id INNER JOIN customerStatus AS _customerStatus ON _customerStatus.seq_party_id = nc_client.seq_party_id WHERE crm_element_hierarchy.seq_element_type_id = '9'AND (crm_party.Meta_ChangeFlag = 1 OR nc_client.Meta_ChangeFlag = 1 OR crm_element_hierarchy.Meta_ChangeFlag = 1 OR _customerStatus.Meta_ChangeFlag = 1);
 END;

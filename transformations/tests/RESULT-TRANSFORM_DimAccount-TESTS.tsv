@@ -1,17 +1,17 @@
 # transformation test result artefact
 # ARTEFACT: TRANSFORM_DimAccount
-# CREATED DATE: 2014-08-19T115136
+# CREATED DATE: 2014-08-19T162555
 
-2014-08-19 11:51:38	1	PASSED	source.length.should.equal(destination.length)	{"obj":9,"params":{"operator":"to be","expected":9,"showDiff":true},"negate":false}
-2014-08-19 11:51:39	2	PASSED	parseInt(source[0].party_code).should.equal(destination[0].AccountCode)	{"obj":1705150,"params":{"operator":"to be","expected":1705150,"showDiff":true},"negate":false}
-2014-08-19 11:51:40	3	PASSED	parseInt(source[0].seq_party_id).should.equal(destination[0].AccountKey)	{"obj":2102891,"params":{"operator":"to be","expected":2102891,"showDiff":true},"negate":false}
-2014-08-19 11:51:40	4	PASSED	source[0].postal_addr_1.should.equal(destination[0].PostalAddressLine1)	{"obj":"20 Fake Avenue","params":{"operator":"to be","expected":"20 Fake Avenue","showDiff":true},"negate":false}
-2014-08-19 11:51:41	5	PASSED	source[0].postal_addr_2.should.equal(destination[0].PostalSuburb)	{"obj":"MARLESTON","params":{"operator":"to be","expected":"MARLESTON","showDiff":true},"negate":false}
-2014-08-19 11:51:41	6	PASSED	source[0].postal_post_code.should.equal(destination[0].PostalPostcode)	{"obj":"5033","params":{"operator":"to be","expected":"5033","showDiff":true},"negate":false}
-2014-08-19 11:51:42	7	PASSED	source[0].postal_addr_3.should.equal(destination[0].PostalState.trim())	{"obj":"SA","params":{"operator":"to be","expected":"SA","showDiff":true},"negate":false}
-2014-08-19 11:51:43	8	FAILED	source[0].insert_datetime.toString().should.equal(destination[0].CreationDate.toString())	{"name":"AssertionError","actual":"Sun Aug 21 2011 00:17:32 GMT+1000 (AUS Eastern Standard Time)","expected":"Sat Aug 20 2011 10:00:00 GMT+1000 (AUS Eastern Standard Time)","operator":"to be","message":"expected 'Sun Aug 21 2011 00:17:32 GMT+1000 (AUS Eastern Standard Time)' to be 'Sat Aug 20 2011 10:00:00 GMT+1000 (AUS Eastern Standard Time)'","showDiff":true,"generatedMessage":true}
-2014-08-19 11:51:44	9	PASSED	((source[0].cz_registered == 'Y') ? 'Registered' : 'Not Registered').should.equal(destination[0].MyAccountStatus)	{"obj":"Not Registered","params":{"operator":"to be","expected":"Not Registered","showDiff":true},"negate":false}
-2014-08-19 11:51:44	10	PASSED	((source[0].cz_registered == 'Y') ? 'Registered' : 'Not Registered').should.equal(destination[0].MyAccountStatus)	{"obj":"Registered","params":{"operator":"to be","expected":"Registered","showDiff":true},"negate":false}
-2014-08-19 11:51:45	11	PASSED	'Closed'.should.equal(destination[0].AccountStatus.trim())	{"obj":"Closed","params":{"operator":"to be","expected":"Closed","showDiff":true},"negate":false}
-2014-08-19 11:51:46	12	PASSED	'Open'.should.equal(destination[0].AccountStatus.trim())	{"obj":"Open","params":{"operator":"to be","expected":"Open","showDiff":true},"negate":false}
-2014-08-19 11:51:47	13	PASSED	'Pending'.should.equal(destination[0].AccountStatus.trim())	{"obj":"Pending","params":{"operator":"to be","expected":"Pending","showDiff":true},"negate":false}
+2014-08-19 16:25:56	1	PASSED	source.length.should.equal(destination.length)	{"obj":9,"params":{"operator":"to be","expected":9,"showDiff":true},"negate":false}
+2014-08-19 16:25:57	2	PASSED	parseInt(source[0].party_code).should.equal(destination[0].AccountCode)	{"obj":1705150,"params":{"operator":"to be","expected":1705150,"showDiff":true},"negate":false}
+2014-08-19 16:25:57	3	PASSED	parseInt(source[0].seq_party_id).should.equal(destination[0].AccountKey)	{"obj":2102891,"params":{"operator":"to be","expected":2102891,"showDiff":true},"negate":false}
+2014-08-19 16:25:58	4	PASSED	source[0].postal_addr_1.should.equal(destination[0].PostalAddressLine1)	{"obj":"20 Fake Avenue","params":{"operator":"to be","expected":"20 Fake Avenue","showDiff":true},"negate":false}
+2014-08-19 16:25:58	5	PASSED	source[0].postal_addr_2.should.equal(destination[0].PostalSuburb)	{"obj":"MARLESTON","params":{"operator":"to be","expected":"MARLESTON","showDiff":true},"negate":false}
+2014-08-19 16:25:59	6	PASSED	source[0].postal_post_code.should.equal(destination[0].PostalPostcode)	{"obj":"5033","params":{"operator":"to be","expected":"5033","showDiff":true},"negate":false}
+2014-08-19 16:26:00	7	PASSED	source[0].postal_addr_3.should.equal(destination[0].PostalState.trim())	{"obj":"SA","params":{"operator":"to be","expected":"SA","showDiff":true},"negate":false}
+2014-08-19 16:26:00	8	FAILED	source[0].insert_datetime.toString().should.equal(destination[0].CreationDate.toString())	{"name":"AssertionError","actual":"Sun Aug 21 2011 00:17:32 GMT+1000 (AUS Eastern Standard Time)","expected":"Sat Aug 20 2011 10:00:00 GMT+1000 (AUS Eastern Standard Time)","operator":"to be","message":"expected 'Sun Aug 21 2011 00:17:32 GMT+1000 (AUS Eastern Standard Time)' to be 'Sat Aug 20 2011 10:00:00 GMT+1000 (AUS Eastern Standard Time)'","showDiff":true,"generatedMessage":true}
+2014-08-19 16:26:01	9	PASSED	((source[0].cz_registered == 'Y') ? 'Registered' : 'Not Registered').should.equal(destination[0].MyAccountStatus)	{"obj":"Not Registered","params":{"operator":"to be","expected":"Not Registered","showDiff":true},"negate":false}
+2014-08-19 16:26:01	10	PASSED	((source[0].cz_registered == 'Y') ? 'Registered' : 'Not Registered').should.equal(destination[0].MyAccountStatus)	{"obj":"Registered","params":{"operator":"to be","expected":"Registered","showDiff":true},"negate":false}
+2014-08-19 16:26:02	11	PASSED	'Closed'.should.equal(destination[0].AccountStatus.trim())	{"obj":"Closed","params":{"operator":"to be","expected":"Closed","showDiff":true},"negate":false}
+2014-08-19 16:26:02	12	PASSED	'Open'.should.equal(destination[0].AccountStatus.trim())	{"obj":"Open","params":{"operator":"to be","expected":"Open","showDiff":true},"negate":false}
+2014-08-19 16:26:03	13	PASSED	'Pending'.should.equal(destination[0].AccountStatus.trim())	{"obj":"Pending","params":{"operator":"to be","expected":"Pending","showDiff":true},"negate":false}
