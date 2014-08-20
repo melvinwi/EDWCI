@@ -203,6 +203,8 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType, s
         }
         sql += whereStatement+';'; // where statement
 
+        sql += '\nSELECT @@ROWCOUNT AS InsertRowCount;'
+
         sql += '\nEND;';
 
 
