@@ -380,9 +380,9 @@ Array.prototype.unique = function() {
 
 
 
-function runTests(artefactName, sourceTables, destinationTable, sourceColumnsString, destinationColumnsString, schema, selectionCriteria) {
+function runTests(artefactName, sourceTables, destinationTables, sourceColumnsString, destinationColumnsString, schema, selectionCriteria) {
     // executes command
-    var cmd = 'node test_transform.js --artefactName '+artefactName+' --sourceTables '+sourceTables+' --destinationTable '+destinationTable+' --sourceColumns "'+sourceColumnsString+'" --destinationColumns '+destinationColumnsString+' --schema '+schema+' --dbType '+dbType+' --selectionCriteria "'+selectionCriteria+'"';
+    var cmd = 'node test_transform.js --artefactName '+artefactName+' --sourceTables '+sourceTables+' --destinationTables '+destinationTables+' --sourceColumns "'+sourceColumnsString+'" --destinationColumns '+destinationColumnsString+' --schema '+schema+' --dbType '+dbType+' --selectionCriteria "'+selectionCriteria+'"';
     
     console.log(cmd);
 
