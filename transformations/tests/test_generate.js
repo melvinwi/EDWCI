@@ -123,9 +123,9 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType, s
         sql += 'BEGIN\n'
 
         
-        for (var i=0; i<destinationTables.length; i++) {
-            sql += '\tDELETE FROM `'+schema+'`.'+destinationTables[i]+';\n';  
-        }
+        //for (var i=0; i<destinationTables.length; i++) {
+        //    sql += '\tDELETE FROM `'+schema+'`.'+destinationTables[i]+';\n';  
+        //}
 
         
         if (withStatements!=null) {

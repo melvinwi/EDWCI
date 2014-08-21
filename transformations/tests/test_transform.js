@@ -19,7 +19,7 @@ var DEBUG = false;
 program
 	.option('--artefactName [name]')
 	.option('--sourceTables [name]')
-	.option('--destinationTable [name]')
+	.option('--destinationTables [name]')
 	.option('--sourceColumns [name]')
 	.option('--destinationColumns [name]')
 	.option('--schema [schema]')
@@ -28,10 +28,10 @@ program
 	.parse(process.argv);
 
 
-if (program.artefactName && program.sourceTables && program.destinationTable && program.sourceColumns && program.destinationColumns && program.schema && program.dbType && program.selectionCriteria) {
+if (program.artefactName && program.sourceTables && program.destinationTables && program.sourceColumns && program.destinationColumns && program.schema && program.dbType && program.selectionCriteria) {
 	artefactName = ('%s',program.artefactName);
 	sourceTables = ('%s',program.sourceTables);
-	destinationTable = ('%s',program.destinationTable);
+	destinationTables = ('%s',program.destinationTables);
 	sourceColumns = ('%s',program.sourceColumns);
 	destinationColumns = ('%s',program.destinationColumns);
 	schema = ('%s',program.schema);
@@ -79,7 +79,7 @@ if (program.artefactName && program.sourceTables && program.destinationTable && 
 	fs.writeFileSync(TEST_RESULTS, header);
 
 
-	run(artefactName, sourceTables, destinationTable, sourceColumns, destinationColumns, schema, design, selectionCriteria);
+	run(artefactName, sourceTables, destinationTables, sourceColumns, destinationColumns, schema, design, selectionCriteria);
 
 }
 else {
@@ -99,7 +99,7 @@ function logIt(artefactName, data, isResult) {
 	});
 }
 
-function run(artefactName, sourceTables, destinationTable, sourceColumns, destinationColumns, schema, design, selectionCriteria) {
+function run(artefactName, sourceTables, destinationTables, sourceColumns, destinationColumns, schema, design, selectionCriteria) {
 	
 	sourceTables = sourceTables.split(',');
 	var sourceTablesFrom = '';
@@ -170,13 +170,22 @@ function run(artefactName, sourceTables, destinationTable, sourceColumns, destin
 
 	// execute procedure
 
+	// generate truncate for datastore tables
+	var sqlTruncate = '';
+	var destinationTablesArray = destinationTables.split(',');
+	for (var i=0; i<destinationTablesArray.length; i++) {
+		var item = destinationTablesArray[i];
+		sqlTruncate += 'TRUNCATE TABLE '+schema+'.'+item+'; '
+	}
+
 	var callProcSQL = '';
 
 	if (dbType=='MYSQL') {
-		callProcSQL = 'CALL `'+schema+'`.`'+artefactName+'`';
+		callProcSQL = sqlTruncate+'CALL `'+schema+'`.`'+artefactName+'`';
 	}
 	else if (dbType=='SQLSERVER') {
-		callProcSQL = 'EXEC '+schema+'.'+artefactName+'';	
+
+		callProcSQL = sqlTruncate+'EXEC '+schema+'.'+artefactName+'';	
 	}
 
     db.sql(callProcSQL, function(err, result) {
@@ -216,7 +225,7 @@ function run(artefactName, sourceTables, destinationTable, sourceColumns, destin
 						
 					// }
 
-					executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema, destinationTable, sourceTablesFrom, artefactName)
+					executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema, destinationTables, sourceTablesFrom, artefactName)
 
 				});
 			}
@@ -235,7 +244,7 @@ function run(artefactName, sourceTables, destinationTable, sourceColumns, destin
 }
 
 
-function executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema, destinationTable, sourceTablesFrom, artefactName, i) {
+function executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema, destinationTables, sourceTablesFrom, artefactName, i) {
 
 
 	if (i==undefined) {
@@ -244,7 +253,7 @@ function executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema,
 	
 	//var sourceSQL = 'SELECT '+sourceColumnsFrom+' FROM '+sourceTablesFrom+' '+object[i].SOURCE_SELECTION_CRITERIA//.replace(/'/g, '"')
 	var sourceSQL = 'SELECT '+sourceColumnsFrom+' '+object[i].SOURCE_SELECTION_CRITERIA;
-	var destinationSQL = 'SELECT '+destinationColumnsFrom+' FROM `'+schema+'`.`'+destinationTable+'` '+object[i].DESTINATION_SELECTION_CRITERIA//.replace(/'/g, '"')
+	var destinationSQL = 'SELECT '+destinationColumnsFrom+' FROM `'+schema+'`.`'+destinationTables+'` '+object[i].DESTINATION_SELECTION_CRITERIA//.replace(/'/g, '"')
 	var test = object[i].TEST;
 	
 	if (dbType=='SQLSERVER') {
@@ -260,12 +269,12 @@ function executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema,
 
 
 	
-	runTest(sourceSQL, destinationSQL, test, i, artefactName, object.length, schema, design, sourceTables, destinationTable, function(res) {
+	runTest(sourceSQL, destinationSQL, test, i, artefactName, object.length, schema, design, sourceTables, destinationTables, function(res) {
 		// recurse
 		setTimeout(function() {
 			
 			i = i+1;
-			executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema, destinationTable, sourceTablesFrom, artefactName, i);
+			executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema, destinationTables, sourceTablesFrom, artefactName, i);
 		}, 50);
 	});
 	
@@ -274,7 +283,7 @@ function executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema,
 
 var counter = 1;
 var passedOverall = true;
-function runTest(sourceSQL, destinationSQL, test, index, artefactName, test_length, schema, design, sourceTables, destinationTable, callback) {
+function runTest(sourceSQL, destinationSQL, test, index, artefactName, test_length, schema, design, sourceTables, destinationTables, callback) {
 	
 	if (test.trim().length>0) {
 
@@ -303,7 +312,7 @@ function runTest(sourceSQL, destinationSQL, test, index, artefactName, test_leng
 	        			passedOverall = false;
 
 	        			counter++;
-		            	areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTable)
+		            	areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTables)
 		            	callback('OK');
 		            }
 
@@ -333,7 +342,7 @@ function runTest(sourceSQL, destinationSQL, test, index, artefactName, test_leng
 
 		            	logIt(TEST_RESULTS, result+'\n', true);
 		            	counter++;
-		            	areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTable)
+		            	areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTables)
 		            	callback('OK');
 		            }
 
@@ -341,14 +350,14 @@ function runTest(sourceSQL, destinationSQL, test, index, artefactName, test_leng
 	        }
 	        else {
 		        counter++;
-		        areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTable)
+		        areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTables)
 		        callback('OK');
 	        }
 		});
 	}
 	else {
 		counter++;
-		areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTable)
+		areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTables)
 		callback('OK');
 	}
 		
@@ -356,7 +365,7 @@ function runTest(sourceSQL, destinationSQL, test, index, artefactName, test_leng
 
 
 
-function areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTable) {
+function areTestsFinished(counter, test_length, artefactName, schema, design, sourceTables, destinationTables) {
 	
     if (counter==test_length+1) {
 
@@ -371,7 +380,7 @@ function areTestsFinished(counter, test_length, artefactName, schema, design, so
 
     		// GENERATE DOCUMENATION         
             var GenerateDoc = require('./test_generate_doc.js');
-            var generateDoc = new GenerateDoc(artefactName, schema, design, sourceTables, destinationTable); 
+            var generateDoc = new GenerateDoc(artefactName, schema, design, sourceTables, destinationTables); 
 
     		
     	}
