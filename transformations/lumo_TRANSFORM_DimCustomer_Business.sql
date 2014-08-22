@@ -1,7 +1,6 @@
 CREATE PROCEDURE lumo.TRANSFORM_DimCustomer_Business AS
 BEGIN
-	DELETE FROM lumo.DimCustomer;
-	WITH contacts AS (SELECT crm_element_hierarchy.element_id, crm_element_hierarchy.parent_id, crm_party.title, crm_party.first_name, crm_party.initials, crm_party.last_name, crm_party.date_of_birth, ROW_NUMBER () OVER (PARTITION BY crm_element_hierarchy.parent_id ORDER BY crm_element_hierarchy.element_id ASC) AS RC FROM lumo.crm_element_hierarchy INNER JOIN lumo.crm_party ON crm_party.seq_party_id = crm_element_hierarchy.element_id INNER JOIN lumo.crm_party_flag ON crm_party_flag.seq_party_id = crm_party.seq_party_id WHERE crm_element_hierarchy.active = 'Y' AND crm_element_hierarchy.element_struct_code = 'CONTACT' AND crm_party_flag.seq_party_flag_type_id = '1') , customerStatus AS (SELECT nc_client.seq_party_id, MAX (CASE WHEN utl_account_status.accnt_status_class_id = 2 THEN 1 ELSE 0 END) AS CustomerStatus, MAX (CASE WHEN nc_client.Meta_ChangeFlag = 1 OR nc_product.Meta_ChangeFlag = 1 OR nc_product_item.Meta_ChangeFlag = 1 THEN 1 ELSE 0 END) AS Meta_ChangeFlag FROM lumo.nc_client LEFT OUTER JOIN lumo.nc_product ON nc_product.seq_party_id = nc_client.seq_party_id LEFT OUTER JOIN lumo.nc_product_item ON nc_product_item.seq_product_id = nc_product.seq_product_id LEFT OUTER JOIN lumo.utl_account_status ON utl_account_status.accnt_status_id = nc_product_item.accnt_status_id GROUP BY nc_client.seq_party_id)
+	WITH contacts AS (SELECT crm_element_hierarchy.element_id, crm_element_hierarchy.parent_id, crm_party.title, crm_party.first_name, crm_party.initials, crm_party.last_name, crm_party.date_of_birth, ROW_NUMBER () OVER (PARTITION BY crm_element_hierarchy.parent_id ORDER BY crm_element_hierarchy.element_id ASC) AS RC FROM lumo.crm_element_hierarchy INNER JOIN lumo.crm_party ON crm_party.seq_party_id = crm_element_hierarchy.element_id INNER JOIN lumo.crm_party_flag ON crm_party_flag.seq_party_id = crm_party.seq_party_id WHERE crm_element_hierarchy.active = 'Y' AND crm_element_hierarchy.element_struct_code = 'CONTACT' AND crm_party_flag.seq_party_flag_type_id = '1') , customerStatus AS (SELECT nc_client.seq_party_id, MAX (CASE WHEN utl_account_status.accnt_status_class_id = 2 THEN 1 ELSE 0 END) AS CustomerStatus, MAX (CASE WHEN nc_client.Meta_ChangeFlag = 1 OR nc_product.Meta_ChangeFlag = 1 OR nc_product_item.Meta_ChangeFlag = 1 THEN 1 ELSE 0 END) AS Meta_ChangeFlag FROM lumo.nc_client LEFT OUTER JOIN lumo.nc_product ON nc_product.seq_party_id = nc_client.seq_party_id LEFT OUTER JOIN lumo.nc_product_item ON nc_product_item.seq_product_id = nc_product.seq_product_id LEFT OUTER JOIN lumo.utl_account_status ON utl_account_status.accnt_status_id = nc_product_item.accnt_status_id GROUP BY nc_client.seq_party_id), ombudsmanComplaints AS (SELECT  nc_client.seq_party_id, complaint.IsOmbudsman, MAX (CASE WHEN nc_client.Meta_ChangeFlag = 1 OR crm_party.Meta_ChangeFlag = 1 OR complaint.Meta_ChangeFlag = 1 THEN 1 ELSE 0 END) AS Meta_ChangeFlag FROM [LHTestDatabase].[lumo].nc_client INNER JOIN [LHTestDatabase].[lumo].crm_party ON nc_client.seq_party_id = crm_party.seq_party_id LEFT OUTER JOIN (SELECT Complaint.ClientId, Complaint.IsOmbudsman, MAX(CASE WHEN Complaint.Meta_ChangeFlag = 1 THEN 1 ELSE 0 END) AS Meta_ChangeFlag FROM [LHTestDatabase].[lumo].Complaint WHERE Complaint.IsOmbudsman = 1 AND Complaint.DateCreated >= DATEADD(year,-1,GETDATE()) GROUP BY Complaint.ClientId, Complaint.IsOmbudsman) complaint ON crm_party.party_code = complaint.ClientId GROUP BY nc_client.seq_party_id, complaint.IsOmbudsman)
 	INSERT INTO lumo.DimCustomer (
 		DimCustomer.CustomerCode,
 		DimCustomer.CustomerKey,
@@ -26,7 +25,8 @@ BEGIN
 		DimCustomer.Email,
 		DimCustomer.DateOfBirth,
 		DimCustomer.CustomerType,
-		DimCustomer.CustomerStatus)
+		DimCustomer.CustomerStatus,
+		DimCustomer.OmbudsmanComplaints)
 	  SELECT
 		CASE WHEN ISNUMERIC (crm_party.party_code) = 1 THEN CAST ( crm_party.party_code AS int) END,
 		CAST( nc_client.seq_party_id AS int),
@@ -51,7 +51,8 @@ BEGIN
 		CAST( crm_party.email_address AS nvarchar(100)),
 		_contacts.date_of_birth,
 		CAST(CASE crm_element_hierarchy.seq_element_type_id WHEN '9' THEN 'Residential' WHEN '8' THEN 'Business' ELSE NULL END AS nchar(11)),
-		CAST(CASE _customerStatus.CustomerStatus WHEN 1 THEN 'Active' ELSE 'Inactive' END AS nchar(8))
-	  FROM lumo.nc_client INNER JOIN lumo.crm_party ON nc_client.seq_party_id = crm_party.seq_party_id INNER JOIN lumo.crm_element_hierarchy ON crm_element_hierarchy.element_id = crm_party.seq_party_id INNER JOIN contacts AS _contacts ON _contacts.parent_id = nc_client.seq_party_id INNER JOIN customerStatus AS _customerStatus ON _customerStatus.seq_party_id = nc_client.seq_party_id WHERE crm_element_hierarchy.seq_element_type_id = '8'AND _contacts.RC = '1'AND (crm_party.Meta_ChangeFlag = 1 OR nc_client.Meta_ChangeFlag = 1 OR crm_element_hierarchy.Meta_ChangeFlag = 1 OR _customerStatus.Meta_ChangeFlag = 1);
+		CAST(CASE _customerStatus.CustomerStatus WHEN 1 THEN 'Active' ELSE 'Inactive' END AS nchar(8)),
+		CAST(CASE _ombudsmanComplaints.IsOmbudsman WHEN 1 THEN 'Yes' ELSE 'No' END AS nchar(3))
+	  FROM lumo.nc_client INNER JOIN lumo.crm_party ON nc_client.seq_party_id = crm_party.seq_party_id INNER JOIN lumo.crm_element_hierarchy ON crm_element_hierarchy.element_id = crm_party.seq_party_id INNER JOIN contacts AS _contacts ON _contacts.parent_id = nc_client.seq_party_id INNER JOIN customerStatus AS _customerStatus ON _customerStatus.seq_party_id = nc_client.seq_party_id INNER JOIN ombudsmanComplaints AS _ombudsmanComplaints ON _ombudsmanComplaints.seq_party_id = nc_client.seq_party_id WHERE crm_element_hierarchy.seq_element_type_id = '8'AND _contacts.RC = '1' AND (crm_party.Meta_ChangeFlag = 1 OR nc_client.Meta_ChangeFlag = 1 OR crm_element_hierarchy.Meta_ChangeFlag = 1 OR _customerStatus.Meta_ChangeFlag = 1 OR _ombudsmanComplaints.Meta_ChangeFlag = 1);
 SELECT @@ROWCOUNT AS InsertRowCount;
 END;
