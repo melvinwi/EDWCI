@@ -1,0 +1,31 @@
+
+h2. ARTEFACT: Complaint
+
+DESCRIPTION: Complaint table from Force
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|Meta_ChangeFlag	|Meta: Row Change flag	|bit	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Id	|Id	|int	|	|	|TRUE	|TRUE	|FALSE	|
+|DateCreated	|DateCreated	|datetime	|	|	|TRUE	|FALSE	|FALSE	|
+|DueDate	|DueDate	|datetime	|	|	|TRUE	|FALSE	|FALSE	|
+|CreatedBy	|CreatedBy	|nvarchar	|100	|	|TRUE	|FALSE	|FALSE	|
+|AssignedTo	|AssignedTo	|nvarchar	|100	|	|TRUE	|FALSE	|FALSE	|
+|StatusId	|StatusId	|int	|	|	|TRUE	|FALSE	|FALSE	|
+|ClientId	|ClientId	|nvarchar	|100	|	|TRUE	|FALSE	|FALSE	|
+|Department_Id	|Department_Id	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|IsExternalParty	|IsExternalParty	|bit	|	|	|TRUE	|FALSE	|FALSE	|
+|ExternalPartyId	|ExternalPartyId	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|IsBreach	|IsBreach	|bit	|	|	|FALSE	|FALSE	|FALSE	|
+|IsOmbudsman	|IsOmbudsman	|bit	|	|	|TRUE	|FALSE	|FALSE	|
+|OmbbudsmanReference	|OmbbudsmanReference	|nvarchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|OmbudsmanCaseLevelState	|OmbudsmanCaseLevelState	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|PendingReasonId	|PendingReasonId	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|ProductElectricity	|ProductElectricity	|bit	|	|	|TRUE	|FALSE	|FALSE	|
+|ProductGas	|ProductGas	|bit	|	|	|TRUE	|FALSE	|FALSE	|
+|ProductTelco	|ProductTelco	|bit	|	|	|TRUE	|FALSE	|FALSE	|
+|isResidential	|isResidential	|bit	|	|	|TRUE	|FALSE	|FALSE	|
+|altNumber	|altNumber	|nvarchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|Category_Id	|Category_Id	|int	|	|	|FALSE	|FALSE	|FALSE|
+
