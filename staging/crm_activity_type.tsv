@@ -1,0 +1,32 @@
+# design artefact							
+# ARTEFACT: crm_activity_type							
+# DESCRIPTION: Activity Type reference table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+seq_act_type_id	seq_act_type_id	numeric	"18,0"		TRUE	TRUE	FALSE
+seq_act_class_id	seq_act_class_id	numeric	"18,0"		TRUE	FALSE	FALSE
+seq_act_category_id	seq_act_category_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_wf_stage_id	seq_wf_stage_id	numeric	"18,0"		FALSE	FALSE	FALSE
+act_type_code	act_type_code	varchar	20		FALSE	FALSE	FALSE
+act_type_desc	act_type_desc	varchar	100		FALSE	FALSE	FALSE
+mandatory_flag	mandatory_flag	varchar	1		FALSE	FALSE	FALSE
+duration_seq_cu_id	duration_seq_cu_id	numeric	"18,0"		FALSE	FALSE	FALSE
+duration_cu_qty	duration_cu_qty	char	10		FALSE	FALSE	FALSE
+default_option	default_option	varchar	1		FALSE	FALSE	FALSE
+default_source_id	default_source_id	numeric	"18,0"		FALSE	FALSE	FALSE
+default_closed	default_closed	varchar	1		FALSE	FALSE	FALSE
+default_follow_up_type_id	default_follow_up_type_id	numeric	"18,0"		FALSE	FALSE	FALSE
+active	active	char	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+default_note	default_note	varchar	max		FALSE	FALSE	FALSE
+activity_priority	activity_priority	varchar	20		FALSE	FALSE	FALSE
+user_select	user_select	varchar	1		FALSE	FALSE	FALSE
+seq_act_sub_class_id	seq_act_sub_class_id	numeric	"18,0"		FALSE	FALSE	FALSE
+quick_code	quick_code	varchar	10		FALSE	FALSE	FALSE
