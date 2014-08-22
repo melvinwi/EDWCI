@@ -1,6 +1,6 @@
 # design artefact							
-# ARTEFACT: crm_activity_type							
-# DESCRIPTION: Activity Type reference table from Orion							
+# ARTEFACT: crm_activity							
+# DESCRIPTION: Activity table from Orion							
 COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
 Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
 Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
