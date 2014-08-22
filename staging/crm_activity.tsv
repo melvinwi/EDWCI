@@ -1,0 +1,46 @@
+# design artefact							
+# ARTEFACT: crm_activity_type							
+# DESCRIPTION: Activity Type reference table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+seq_activity_id	seq_activity_id	numeric	"18,0"		TRUE	TRUE	FALSE
+seq_act_type_id	seq_act_type_id	numeric	"18,0"		TRUE	FALSE	FALSE
+seq_act_status_id	seq_act_status_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_act_source_id	seq_act_source_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_as_reason_id	seq_as_reason_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_wf_stage_id	seq_wf_stage_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_act_severity_id	seq_act_severity_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_cmpgn_id	seq_cmpgn_id	numeric	"18,0"		FALSE	FALSE	FALSE
+activity_date	activity_date	datetime			TRUE	FALSE	FALSE
+closed_date	closed_date	datetime			FALSE	FALSE	FALSE
+required_date	required_date	datetime			FALSE	FALSE	FALSE
+probability_pct	probability_pct	numeric	"18,0"		FALSE	FALSE	FALSE
+act_start_time	act_start_time	varchar	5		FALSE	FALSE	FALSE
+act_end_time	act_end_time	varchar	5		FALSE	FALSE	FALSE
+act_duration	act_duration	varchar	10		FALSE	FALSE	FALSE
+tentative_flag	tentative_flag	varchar	1		FALSE	FALSE	FALSE
+private_flag	private_flag	varchar	1		FALSE	FALSE	FALSE
+reminder_flag	reminder_flag	varchar	1		FALSE	FALSE	FALSE
+reminder_datetime	reminder_datetime	datetime			FALSE	FALSE	FALSE
+reminder_minutes	reminder_minutes	int			FALSE	FALSE	FALSE
+notes	notes	varchar	max		FALSE	FALSE	FALSE
+active	active	char	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+activity_priority	activity_priority	varchar	20		FALSE	FALSE	FALSE
+req_followup_flag	req_followup_flag	char	1		FALSE	FALSE	FALSE
+parent_activity_id	parent_activity_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_party_id	seq_party_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_assignee_id	seq_assignee_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_product_item_id	seq_product_item_id	numeric	"18,0"		FALSE	FALSE	FALSE
+read_flag	read_flag	char	1		FALSE	FALSE	FALSE
+closed_by	closed_by	varchar	20		FALSE	FALSE	FALSE
+status_reason	status_reason	varchar	100		FALSE	FALSE	FALSE
+bulk_insert_id	bulk_insert_id	uniqueidentifier			FALSE	FALSE	FALSE
+seq_disposition_id	seq_disposition_id	numeric	"18,0"		FALSE	FALSE	FALSE
