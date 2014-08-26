@@ -1,0 +1,11 @@
+# design artefact							
+# ARTEFACT: FactContract							
+# DESCRIPTION: Contract factless fact table							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+AccountId	Foreign key to DimAccount	int		-1	TRUE		FALSE
+ServiceId	Foreign key to DimService	int		-1	TRUE		FALSE
+ProductId	Foreign key to DimProduct	int		-1	TRUE		FALSE
+ContractStartDateId	Contract Start Date	int		99991231	TRUE		FALSE
+ContractEndDateId	Contract End Date	int		99991231	FALSE		FALSE
+ContractKey	Contract ID from the source system	int		-1	TRUE		FALSE
+ContractCounter	Counter (=1)	tinyint		1	TRUE		FALSE
