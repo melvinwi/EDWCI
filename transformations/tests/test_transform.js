@@ -244,6 +244,7 @@ function run(artefactName, sourceTables, destinationTables, sourceColumns, desti
 }
 
 
+var counterWasIncremented = false;
 function executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema, destinationTables, sourceTablesFrom, artefactName, i) {
 
 
@@ -251,32 +252,60 @@ function executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema,
 		i=0; // initial
 	}
 	
-	//var sourceSQL = 'SELECT '+sourceColumnsFrom+' FROM '+sourceTablesFrom+' '+object[i].SOURCE_SELECTION_CRITERIA//.replace(/'/g, '"')
-	var sourceSQL = 'SELECT '+sourceColumnsFrom+' '+object[i].SOURCE_SELECTION_CRITERIA;
-	var destinationSQL = 'SELECT '+destinationColumnsFrom+' FROM `'+schema+'`.`'+destinationTables+'` '+object[i].DESTINATION_SELECTION_CRITERIA//.replace(/'/g, '"')
-	var test = object[i].TEST;
-	
-	if (dbType=='SQLSERVER') {
-		sourceSQL = sourceSQL.replace(/`/g, '');
-		destinationSQL = destinationSQL.replace(/`/g, '');
-	}
+	if (object[i]!=undefined) {
+		//var sourceSQL = 'SELECT '+sourceColumnsFrom+' FROM '+sourceTablesFrom+' '+object[i].SOURCE_SELECTION_CRITERIA//.replace(/'/g, '"')
+		if (object[0].SOURCE_SELECTION_CRITERIA=='REUSE_SQL') {
 
-	sourceSQL = sourceSQL.replace(/\[schema\]/g, schema)
-	destinationSQL = destinationSQL.replace(/\[schema\]/g, schema)
-	
-	logIt(SOURCE_SQL_FILE, (i+1)+'\t'+sourceSQL+'\n');
-	logIt(DESTINATION_SQL_FILE, (i+1)+'\t'+destinationSQL+'\n');
+			if (counterWasIncremented==false) {
+				counter++ // increment the counter so the script knows when it's done... only once!
+				counterWasIncremented = true;
+			}
 
 
+			object[i].SOURCE_SELECTION_CRITERIA = object[i].SOURCE_SELECTION_CRITERIA.replace(/\[REUSE_SQL\]/g, object[0].DESTINATION_SELECTION_CRITERIA);
+		}
+
 	
-	runTest(sourceSQL, destinationSQL, test, i, artefactName, object.length, schema, design, sourceTables, destinationTables, function(res) {
-		// recurse
-		setTimeout(function() {
+		if (object[i].SOURCE_SELECTION_CRITERIA!='REUSE_SQL') { // ignore this line
+
+			var sourceSQL = 'SELECT '+sourceColumnsFrom+' '+object[i].SOURCE_SELECTION_CRITERIA;
+			var destinationSQL = 'SELECT '+destinationColumnsFrom+' FROM `'+schema+'`.`'+destinationTables+'` '+object[i].DESTINATION_SELECTION_CRITERIA//.replace(/'/g, '"')
+			var test = object[i].TEST;
 			
+			if (dbType=='SQLSERVER') {
+				sourceSQL = sourceSQL.replace(/`/g, '');
+				destinationSQL = destinationSQL.replace(/`/g, '');
+			}
+
+			sourceSQL = sourceSQL.replace(/\[schema\]/g, schema)
+			destinationSQL = destinationSQL.replace(/\[schema\]/g, schema)
+			
+			logIt(SOURCE_SQL_FILE, (i+1)+'\t'+sourceSQL+'\n');
+			logIt(DESTINATION_SQL_FILE, (i+1)+'\t'+destinationSQL+'\n');
+
+
+			
+			runTest(sourceSQL, destinationSQL, test, i, artefactName, object.length, schema, design, sourceTables, destinationTables, function(res) {
+				// recurse
+				setTimeout(function() {
+					
+					i = i+1;
+					executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema, destinationTables, sourceTablesFrom, artefactName, i);
+				}, 50);
+			});
+
+		}
+		else {
+			// run the next line
 			i = i+1;
 			executeTests(object, sourceColumnsFrom, destinationColumnsFrom, schema, destinationTables, sourceTablesFrom, artefactName, i);
-		}, 50);
-	});
+		}
+	}
+	else {
+		// end of script
+		process.exit();
+	}
+
 	
 		
 }
