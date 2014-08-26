@@ -47,6 +47,11 @@ ContractStartDateId	any	To be used when describing First item in a compound valu
 ContractEndDateId	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
 ContractKey	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
 ContractCounter	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+AccountClosedDate	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+AccountBillStartDate	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+CreditControlStatus	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+InvoiceDeliveryMethod	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+PaymentMethod	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
 LAST	prefix	To be used when describing the Last item in a compound value - e.g. a Surname of customers or contacts	Smith	
 MIDDLE	prefix	To be used when describing Middle item in a compound value - e.g. a Middle of customers or contacts	Tony	
 NAME	suffix	To be used for name definitions 	Smith, Material, etc	
