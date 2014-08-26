@@ -38,6 +38,9 @@ DateOfBirth	any	To be used when describing First item in a compound value - e.g.
 CustomerType	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
 CustomerStatus	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
 OmbudsmanComplaints	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+ServiceKey	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+MarketIdentifier	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+ServiceType	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
 LAST	prefix	To be used when describing the Last item in a compound value - e.g. a Surname of customers or contacts	Smith	
 MIDDLE	prefix	To be used when describing Middle item in a compound value - e.g. a Middle of customers or contacts	Tony	
 NAME	suffix	To be used for name definitions 	Smith, Material, etc	

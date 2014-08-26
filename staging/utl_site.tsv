@@ -1,0 +1,94 @@
+# design artefact							
+# ARTEFACT: utl_site							
+# DESCRIPTION: Site table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+site_id	site_id	numeric	"18,0"		FALSE	FALSE	FALSE
+active	active	varchar	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+capacity_id	capacity_id	numeric	"18,0"		FALSE	FALSE	FALSE
+network_id	network_id	numeric	"18,0"		FALSE	FALSE	FALSE
+network_node_id	network_node_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_product_type_id	seq_product_type_id	numeric	"18,0"		FALSE	FALSE	FALSE
+street_type_id	street_type_id	numeric	"18,0"		FALSE	FALSE	FALSE
+init_read_type_id	init_read_type_id	numeric	"18,0"		FALSE	FALSE	FALSE
+site_identifier	site_identifier	varchar	100		FALSE	FALSE	FALSE
+password	password	varchar	50		FALSE	FALSE	FALSE
+addr_unit_no	addr_unit_no	varchar	20		FALSE	FALSE	FALSE
+addr_street_no	addr_street_no	varchar	20		FALSE	FALSE	FALSE
+addr_street_name	addr_street_name	varchar	50		FALSE	FALSE	FALSE
+addr_property_name	addr_property_name	varchar	100		FALSE	FALSE	FALSE
+addr_suburb	addr_suburb	varchar	100		FALSE	FALSE	FALSE
+addr_city	addr_city	varchar	100		FALSE	FALSE	FALSE
+loss_factor	loss_factor	money			FALSE	FALSE	FALSE
+current_account_id	current_account_id	numeric	"18,0"		FALSE	FALSE	FALSE
+avg_monthly_spend	avg_monthly_spend	money			FALSE	FALSE	FALSE
+def_usage_profile_id	def_usage_profile_id	numeric	"18,0"		FALSE	FALSE	FALSE
+user_defined1	user_defined1	varchar	100		FALSE	FALSE	FALSE
+user_defined2	user_defined2	varchar	100		FALSE	FALSE	FALSE
+user_defined3	user_defined3	varchar	100		FALSE	FALSE	FALSE
+addr_struct_flag	addr_struct_flag	varchar	1		FALSE	FALSE	FALSE
+addr_unit_type	addr_unit_type	varchar	20		FALSE	FALSE	FALSE
+addr_floor_type	addr_floor_type	varchar	20		FALSE	FALSE	FALSE
+addr_floor_no	addr_floor_no	varchar	20		FALSE	FALSE	FALSE
+addr_street_no_suffix	addr_street_no_suffix	varchar	20		FALSE	FALSE	FALSE
+addr_location_desc	addr_location_desc	varchar	100		FALSE	FALSE	FALSE
+addr_postcode	addr_postcode	varchar	10		FALSE	FALSE	FALSE
+addr_unstruct_line_1	addr_unstruct_line_1	varchar	100		FALSE	FALSE	FALSE
+addr_unstruct_line_2	addr_unstruct_line_2	varchar	100		FALSE	FALSE	FALSE
+addr_unstruct_line_3	addr_unstruct_line_3	varchar	100		FALSE	FALSE	FALSE
+site_class_id	site_class_id	numeric	"18,0"		FALSE	FALSE	FALSE
+site_status_id	site_status_id	numeric	"18,0"		FALSE	FALSE	FALSE
+jurisdiction_id	jurisdiction_id	numeric	"18,0"		FALSE	FALSE	FALSE
+dlf_id	dlf_id	numeric	"18,0"		FALSE	FALSE	FALSE
+user_def_num1	user_def_num1	numeric	"16,4"		FALSE	FALSE	FALSE
+user_def_num2	user_def_num2	numeric	"16,4"		FALSE	FALSE	FALSE
+user_def_num3	user_def_num3	numeric	"16,4"		FALSE	FALSE	FALSE
+default_usage_price_plan_id	default_usage_price_plan_id	numeric	"18,0"		FALSE	FALSE	FALSE
+default_wholesale_price_plan_id	default_wholesale_price_plan_id	numeric	"18,0"		FALSE	FALSE	FALSE
+address_verified	address_verified	varchar	1		FALSE	FALSE	FALSE
+metering_type	metering_type	varchar	10		FALSE	FALSE	FALSE
+KVA	KVA	int			FALSE	FALSE	FALSE
+customer_identifier	customer_identifier	varchar	10		FALSE	FALSE	FALSE
+commercial_site	commercial_site	varchar	1		FALSE	FALSE	FALSE
+site_notes	site_notes	varchar	max		FALSE	FALSE	FALSE
+metering_class	metering_class	varchar	20		FALSE	FALSE	FALSE
+hazard_desc	hazard_desc	varchar	80		FALSE	FALSE	FALSE
+access_details	access_details	varchar	160		FALSE	FALSE	FALSE
+login_type	login_type	varchar	50		FALSE	FALSE	FALSE
+addr_street_suffix	addr_street_suffix	varchar	10		FALSE	FALSE	FALSE
+heating_value_zone_id	heating_value_zone_id	numeric	"18,0"		FALSE	FALSE	FALSE
+addr_lot_number	addr_lot_number	varchar	10		FALSE	FALSE	FALSE
+anniversary_date	anniversary_date	datetime			FALSE	FALSE	FALSE
+hint_question_code	hint_question_code	varchar	20		FALSE	FALSE	FALSE
+hint_answer	hint_answer	varchar	2000		FALSE	FALSE	FALSE
+isp_domain	isp_domain	varchar	100		FALSE	FALSE	FALSE
+isp_modem	isp_modem	varchar	100		FALSE	FALSE	FALSE
+dsl_full_national_no	dsl_full_national_no	varchar	50		FALSE	FALSE	FALSE
+dsl_line_owner	dsl_line_owner	varchar	100		FALSE	FALSE	FALSE
+dsl_transfer_flag	dsl_transfer_flag	varchar	1		FALSE	FALSE	FALSE
+shutoff_code	shutoff_code	varchar	1		FALSE	FALSE	FALSE
+addr_dpid	addr_dpid	varchar	20		FALSE	FALSE	FALSE
+addr_post_code	addr_post_code	varchar	100		FALSE	FALSE	FALSE
+sp_read_request	sp_read_request	varchar	1		FALSE	FALSE	FALSE
+sp_read_date_required	sp_read_date_required	datetime			FALSE	FALSE	FALSE
+sp_read_notes	sp_read_notes	varchar	200		FALSE	FALSE	FALSE
+sp_read_type_code	sp_read_type_code	varchar	20		FALSE	FALSE	FALSE
+tot_solar_gen	tot_solar_gen	numeric	"18,4"		FALSE	FALSE	FALSE
+reader_route_id	reader_route_id	numeric	"18,0"		FALSE	FALSE	FALSE
+addr_state	addr_state	varchar	100		FALSE	FALSE	FALSE
+load_profile	load_profile	varchar	100		FALSE	FALSE	FALSE
+annual_mwh	annual_mwh	numeric	"18,6"		FALSE	FALSE	FALSE
+feeder_class	feeder_class	varchar	20		FALSE	FALSE	FALSE
+supply_point_id	supply_point_id	varchar	13		FALSE	FALSE	FALSE
+dci_indicator	dci_indicator	varchar	1		FALSE	FALSE	FALSE
+cust_classification_code	cust_classification_code	varchar	20		FALSE	FALSE	FALSE
+cust_threshold_code	cust_threshold_code	varchar	20		FALSE	FALSE	FALSE
+unstruct_disabled	unstruct_disabled	varchar	1		FALSE	FALSE	FALSE
