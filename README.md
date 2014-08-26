@@ -232,7 +232,7 @@ SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
 
 > Extension:
 
-> If you have a source selection criteria statement you wish to reuse for your tests, you may specifcy the keyword "REUSE_SQL" in the first column & row and define your statement in the second column.  You can then reference this sql by typing [REUSE_SQL] in subsequent SOURCE_SELECTION_CRITERIA columns
+> If you have a source selection criteria statement you wish to reuse for your tests, you may specify the keyword "REUSE_SQL" in the first column & row and define your statement in the second column.  You can then reference this sql by typing [REUSE_SQL] in subsequent SOURCE_SELECTION_CRITERIA columns
 
 > for example
 > TODO!
