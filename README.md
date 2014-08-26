@@ -19,6 +19,8 @@ TODO!
 
 * allow for reuseable sql in view tests (awaiting confirmation of use case)
 
+* support NOT_NULL in test_generate.js
+
 CI
 ==
 
