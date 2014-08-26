@@ -2,8 +2,9 @@
 # ARTEFACT: TRANSFORM_DimService_tests			
 # DESCRIPTION: Test each transformation rule			
 SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
-FROM [schema].utl_site WHERE utl_site.Meta_ChangeFlag = 1		source.length.should.equal(destination.length)	row counts should match
-FROM [schema].utl_site WHERE utl_site.Meta_ChangeFlag = 1 AND site_id = '696059'	WHERE ServiceKey = '696059'	source[0].site_id.should.equal(destination[0].ServiceKey)	1:1 map rule plus int cast
-FROM [schema].utl_site WHERE utl_site.Meta_ChangeFlag = 1 AND site_id = '696059'	WHERE ServiceKey = '696059'	source[0].site_identifier.should.equal(destination[0].MarketIdentifier)	1:1 map rule plus int cast
-FROM [schema].utl_site WHERE utl_site.Meta_ChangeFlag = 1 AND site_id = '696059'	WHERE ServiceKey = '696059'	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	Decode Service Type (Electricity)
-FROM [schema].utl_site WHERE utl_site.Meta_ChangeFlag = 1 AND site_id = '1206636'	WHERE ServiceKey = '1206636'	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	Decode Service Type (Gas)
+REUSE_SQL	FROM [schema].utl_site WHERE utl_site.Meta_ChangeFlag = 1		
+[REUSE_SQL]		source.length.should.equal(destination.length)	row counts should match
+[REUSE_SQL] AND site_id = '696059'	WHERE ServiceKey = '696059'	source[0].site_id.should.equal(destination[0].ServiceKey)	1:1 map rule plus int cast
+[REUSE_SQL] AND site_id = '696059'	WHERE ServiceKey = '696059'	source[0].site_identifier.should.equal(destination[0].MarketIdentifier)	1:1 map rule plus int cast
+[REUSE_SQL] AND site_id = '696059'	WHERE ServiceKey = '696059'	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	Decode Service Type (Electricity)
+[REUSE_SQL] AND site_id = '1206636'	WHERE ServiceKey = '1206636'	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	Decode Service Type (Gas)
