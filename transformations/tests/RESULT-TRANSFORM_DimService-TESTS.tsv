@@ -1,0 +1,9 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_DimService
+# CREATED DATE: 2014-08-26T111457
+
+2014-08-26 11:15:01	1	PASSED	source.length.should.equal(destination.length)	{"obj":14,"params":{"operator":"to be","expected":14,"showDiff":true},"negate":false}
+2014-08-26 11:15:02	2	PASSED	source[0].site_id.should.equal(destination[0].ServiceKey)	{"obj":696059,"params":{"operator":"to be","expected":696059,"showDiff":true},"negate":false}
+2014-08-26 11:15:02	3	PASSED	source[0].site_identifier.should.equal(destination[0].MarketIdentifier)	{"obj":"62035678901","params":{"operator":"to be","expected":"62035678901","showDiff":true},"negate":false}
+2014-08-26 11:15:03	4	PASSED	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	{"obj":"Electricity","params":{"operator":"to be","expected":"Electricity","showDiff":true},"negate":false}
+2014-08-26 11:15:04	5	PASSED	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	{"obj":"Gas","params":{"operator":"to be","expected":"Gas","showDiff":true},"negate":false}

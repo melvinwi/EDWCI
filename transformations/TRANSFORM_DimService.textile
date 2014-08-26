@@ -1,0 +1,11 @@
+
+h2. ARTEFACT: TRANSFORM_DimService
+
+DESCRIPTION: Promote services from Orion site table to DataStore
+
+|*SOURCE_FUNCTION_PREFIX*	|*SOURCE*	|*SOURCE_FUNCTION_SUFFIX*	|*DESTINATION*	|*DESCRIPTION*	|
+|CAST(	|"utl_site":../staging/utl_site.textile .site_id	|AS int)	|"DimService":../datastore/DimService.textile .ServiceKey	|One to one mapping with int cast	|
+|CAST(	|"utl_site":../staging/utl_site.textile .site_identifier	|AS nvarchar(30))	|"DimService":../datastore/DimService.textile .MarketIdentifier	|One to one mapping with nvarchar cast	|
+|CAST(CASE	|"utl_site":../staging/utl_site.textile .seq_product_type_id	|WHEN '1' THEN 'Internet' WHEN '2' THEN 'Electricity' WHEN '3' THEN 'Gas' WHEN '7' THEN 'Telco' ELSE NULL END AS nvarchar(11))	|"DimService":../datastore/DimService.textile .ServiceType	|One to one mapping with nvarchar cast	|
+|SELECTION_CRITERIA	|FROM [schema]."utl_site":../staging/utl_site.textile  WHERE "utl_site":../staging/utl_site.textile .Meta_ChangeFlag = 1|
+

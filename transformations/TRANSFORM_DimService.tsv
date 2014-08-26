@@ -1,0 +1,8 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_DimService				
+# DESCRIPTION: Promote services from Orion site table to DataStore 				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+CAST(	utl_site.site_id	AS int)	DimService.ServiceKey	One to one mapping with int cast
+CAST(	utl_site.site_identifier	AS nvarchar(30))	DimService.MarketIdentifier	One to one mapping with nvarchar cast
+CAST(CASE	utl_site.seq_product_type_id	WHEN '1' THEN 'Internet' WHEN '2' THEN 'Electricity' WHEN '3' THEN 'Gas' WHEN '7' THEN 'Telco' ELSE NULL END AS nvarchar(11))	DimService.ServiceType	One to one mapping with nvarchar cast
+SELECTION_CRITERIA	FROM [schema].utl_site WHERE utl_site.Meta_ChangeFlag = 1			
