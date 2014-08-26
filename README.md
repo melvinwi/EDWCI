@@ -11,10 +11,11 @@ TODO!
 
 * DONE! save all transform generates to .sql
 
-* remove DELETE from transform, but execute truncate when testing
+* DONE! remove DELETE from transform, but execute truncate when testing
 
 * DONE! loading test data truncates leading zeros even if into varchar (prefix with DWSTR to fix)
  
+* DONE! allow for reuseable sql in transform tests
 
 CI
 ==
@@ -211,6 +212,13 @@ SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
 ...
 ```
 
+> Extension: 
+
+> You may specify the definition of temporary tables or prefixed statements (before the generated "select into ...") by using the keyword "WITH" in the first column & row, and define your statement in the second column.
+
+> for example
+> TODO!
+
 
 `transformations\tests\TRANSFORM_<OBJECT_NAME>_tests.tsv`
 
@@ -221,6 +229,14 @@ SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
 SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION		
 ...
 ```
+
+> Extension:
+
+> If you have a source selection criteria statement you wish to reuse for your tests, you may specifcy the keyword "REUSE_SQL" in the first column & row and define your statement in the second column.  You can then reference this sql by typing [REUSE_SQL] in subsequent SOURCE_SELECTION_CRITERIA columns
+
+> for example
+> TODO!
+
 
 
 **Tests**
