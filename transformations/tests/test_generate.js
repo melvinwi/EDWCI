@@ -117,19 +117,31 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType, s
             sql += 'CREATE DEFINER=`root`@`localhost` PROCEDURE `'+schema+'`.`'+artefactName+'`()\n';
         }
         else if (dbType=='SQLSERVER') {
-            sql += 'CREATE PROCEDURE '+schema+'.'+artefactName+' AS\n'
+            sql += 'CREATE PROCEDURE '+schema+'.'+artefactName+'\n'
+            sql += '@TaskExecutionInstanceID INT NULL\n'
+            sql += ',@LatestSuccessfulTaskExecutionInstanceID INT NULL\n'
+            sql += 'AS\n'
         }
 
         sql += 'BEGIN\n'
+        sql += '\n'
+        sql += '--Get LatestSuccessfulTaskExecutionInstanceID\n'
+        sql += 'IF  @LatestSuccessfulTaskExecutionInstanceID IS NULL\n'
+        sql += 'BEGIN\n'
+        sql += 'EXEC DW_Utility.config.GetLatestSuccessfulTaskExecutionInstanceID\n'
+        sql += '@TaskExecutionInstanceID = @TaskExecutionInstanceID\n'
+        sql += ', @LatestSuccessfulTaskExecutionInstanceID  = @LatestSuccessfulTaskExecutionInstanceID OUTPUT\n'
+        sql += 'END\n'
+        sql += '--/\n'
+        sql += '\n'
 
-        
         //for (var i=0; i<destinationTables.length; i++) {
         //    sql += '\tDELETE FROM `'+schema+'`.'+destinationTables[i]+';\n';  
         //}
 
         
         if (withStatements!=null) {
-            sql += '\t'+ withStatements+'\n';
+            sql += '\t;'+ withStatements+'\n';
         }
 
         sql += '\tINSERT INTO `'+schema+'`.'+destinationTablesString+' (\n';     
@@ -203,7 +215,11 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType, s
         }
         sql += whereStatement+';'; // where statement
 
-        sql += '\nSELECT @@ROWCOUNT AS InsertRowCount;'
+        sql += '\n\nSELECT 0 AS ExtractRowCount,\n' 
+        sql += '@@ROWCOUNT AS InsertRowCount,\n'
+        sql += '0 AS UpdateRowCount,\n'
+        sql += '0 AS DeleteRowCount,\n'
+        sql += '0 AS ErrorRowCount;\n'
 
         sql += '\nEND;';
 
