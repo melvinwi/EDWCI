@@ -17,6 +17,8 @@ TODO!
  
 * DONE! allow for reuseable sql in transform tests
 
+* allow for reuseable sql in view tests (awaiting confirmation of use case)
+
 CI
 ==
 
