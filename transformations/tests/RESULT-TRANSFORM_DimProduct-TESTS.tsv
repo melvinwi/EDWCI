@@ -1,0 +1,7 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_DimProduct
+# CREATED DATE: 2014-08-27T164303
+
+2014-08-27 16:43:04	2	PASSED	source.length.should.equal(destination.length)	{"obj":9,"params":{"operator":"to be","expected":9,"showDiff":true},"negate":false}
+2014-08-27 16:43:06	3	PASSED	source[0].ProductName.should.equal(destination[0].ProductName)	{"obj":"Lumo Advantage","params":{"operator":"to be","expected":"Lumo Advantage","showDiff":true},"negate":false}
+2014-08-27 16:43:06	4	PASSED	source[0].ProductDesc.should.equal(destination[0].ProductDesc)	{"obj":"Best rates available","params":{"operator":"to be","expected":"Best rates available","showDiff":true},"negate":false}

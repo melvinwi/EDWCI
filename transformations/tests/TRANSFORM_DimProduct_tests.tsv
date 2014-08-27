@@ -1,0 +1,8 @@
+# design test artefact			
+# ARTEFACT: TRANSFORM_DimProduct_tests			
+# DESCRIPTION: Test each transformation rule			
+SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
+REUSE_SQL	FROM [schema].Product WHERE Product.Meta_LatestUpdate_TaskExecutionInstanceId  > -2		
+[REUSE_SQL]		source.length.should.equal(destination.length)	row counts should match
+[REUSE_SQL] AND ProductName = 'Lumo Advantage'	WHERE ProductName = 'Lumo Advantage'	source[0].ProductName.should.equal(destination[0].ProductName)	1:1 map rule
+[REUSE_SQL] AND ProductName = 'Lumo Advantage'	WHERE ProductName = 'Lumo Advantage'	source[0].ProductDesc.should.equal(destination[0].ProductDesc)	1:1 map rule
