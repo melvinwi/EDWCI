@@ -17,6 +17,8 @@ TODO!
  
 * DONE! allow for reuseable sql in transform tests
 
+* DONE! dictionary test supports CamelCase as default or --u flag for underscore delimter
+
 * allow for reuseable sql in view tests (awaiting confirmation of use case)
 
 * support NOT_NULL in test_generate.js
@@ -183,7 +185,7 @@ a. design artefact contains the correct column headers
 
 b. design artefact column values are correct (e.g. TYPE is varchar, etc.; NOT_NULL is true or false)
 
-c. design artefact column values are present in the dictionary tsv (either full names or parts delimited by "_" and matching prefix or suffix requirement where specified)
+c. design artefact column values are present in the dictionary tsv (either full names or parts matching prefix or suffix requirement where specified)
 
 d. build artefact exists (table)
 
@@ -200,6 +202,9 @@ a. if build artefact doesn't exist, "create table" statement generated
 a. design artefact as a .textile markup file for rendering in GitHub or other wiki
 
 
+> Extension:
+
+> When executing the test you can specify the options --u flag to complete a dictionary test against underscore delimited column names (i.e. the parts are split by underscore and checked against the prefix, suffix, any tests) 
 
 
 ###Transformations

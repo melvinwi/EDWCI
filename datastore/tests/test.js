@@ -5,10 +5,13 @@ var logger = require('./lib/logger.js');
 var should = require('should');
 var program = require('commander');
 
+var useUnderscoreAsDelimiter = false;
+
 // setup acceptable input params
 program
 	.option('--file <name>')
 	.option('--schema <name>')
+	.option('--u [optional flag to use underscore as delimiter - related to Dictionary tests]')
 	.parse(process.argv);
 
 
@@ -17,6 +20,10 @@ if (program.file && program.schema) {
 
 	var input = ('%s',program.file);
 	var schema = ('%s',program.schema);
+
+	if (program.u!=undefined) {
+		useUnderscoreAsDelimiter = true;
+	}
 
 	parser.parse(input, true, function(object) {
 
@@ -140,7 +147,7 @@ if (program.file && program.schema) {
 
 					// RUN DICTIONARY tests
 					var DictionaryTest = require('./test_dictionary.js');
-					var runDictionary = new DictionaryTest(artefactName, object, schema, function(res) {
+					var runDictionary = new DictionaryTest(artefactName, object, schema, useUnderscoreAsDelimiter, function(res) {
 
 						// RUN BUILD ARTEFACT TESTS			
 						var BuildTest = require('./test_build.js');
