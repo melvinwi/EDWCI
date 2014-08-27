@@ -125,15 +125,17 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType, s
 
         sql += 'BEGIN\n'
         sql += '\n'
-        sql += '--Get LatestSuccessfulTaskExecutionInstanceID\n'
-        sql += 'IF  @LatestSuccessfulTaskExecutionInstanceID IS NULL\n'
-        sql += 'BEGIN\n'
-        sql += 'EXEC DW_Utility.config.GetLatestSuccessfulTaskExecutionInstanceID\n'
-        sql += '@TaskExecutionInstanceID = @TaskExecutionInstanceID\n'
-        sql += ', @LatestSuccessfulTaskExecutionInstanceID  = @LatestSuccessfulTaskExecutionInstanceID OUTPUT\n'
-        sql += 'END\n'
-        sql += '--/\n'
-        sql += '\n'
+        if (dbType=='SQLSERVER') {
+            sql += '--Get LatestSuccessfulTaskExecutionInstanceID\n'
+            sql += 'IF  @LatestSuccessfulTaskExecutionInstanceID IS NULL\n'
+            sql += 'BEGIN\n'
+            sql += 'EXEC DW_Utility.config.GetLatestSuccessfulTaskExecutionInstanceID\n'
+            sql += '@TaskExecutionInstanceID = @TaskExecutionInstanceID\n'
+            sql += ', @LatestSuccessfulTaskExecutionInstanceID  = @LatestSuccessfulTaskExecutionInstanceID OUTPUT\n'
+            sql += 'END\n'
+            sql += '--/\n'
+            sql += '\n'
+        }
 
         //for (var i=0; i<destinationTables.length; i++) {
         //    sql += '\tDELETE FROM `'+schema+'`.'+destinationTables[i]+';\n';  

@@ -2,7 +2,7 @@
 # ARTEFACT: TRANSFORM_DimService_tests			
 # DESCRIPTION: Test each transformation rule			
 SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
-REUSE_SQL	FROM [schema].utl_site WHERE utl_site.Meta_LatestUpdate_TaskExecutionInstanceId  >= -1		
+REUSE_SQL	FROM [schema].utl_site WHERE utl_site.Meta_LatestUpdate_TaskExecutionInstanceId  > -2		
 [REUSE_SQL]		source.length.should.equal(destination.length)	row counts should match
 [REUSE_SQL] AND site_id = '696059'	WHERE ServiceKey = '696059'	source[0].site_id.should.equal(destination[0].ServiceKey)	1:1 map rule plus int cast
 [REUSE_SQL] AND site_id = '696059'	WHERE ServiceKey = '696059'	source[0].site_identifier.should.equal(destination[0].MarketIdentifier)	1:1 map rule plus int cast
