@@ -2,61 +2,48 @@
 # ARTEFACT: DICTIONARY				
 # DESCRIPTION: a valid list of valid business names, descriptions and sample values 				
 NAME	PREFIX_OR_SUFFIX_OR_ANY	DESCRIPTION	EXAMPLE_VALUES	
-FIRST	prefix	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John	
-AccountId	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-EffectiveStartDate	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-EffectiveEndDate	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-AccountRelationshipCounter	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-AccountCode	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-AccountKey	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-MyAccountStatus	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-CustomerId	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-CreationDate	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-AccountStatus	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-CustomerCode	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-CustomerKey	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-Title	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-FirstName	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-MiddleInitial	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-LastName	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-PartyName	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-PostalAddressLine1	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-PostalSuburb	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-PostalPostcode	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-PostalState	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-ResidentialAddressLine1	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-ResidentialSuburb	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-ResidentialPostcode	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-ResidentialState	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-PrimaryPhone	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-PrimaryPhoneType	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-SecondaryPhone	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-SecondaryPhoneType	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-MobilePhone	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-Email	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-DateOfBirth	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-CustomerType	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-CustomerStatus	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-OmbudsmanComplaints	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-ServiceKey	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-MarketIdentifier	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-ServiceType	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-ServiceId	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-ProductId	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-ContractStartDateId	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-ContractEndDateId	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-ContractKey	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-ContractCounter	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-AccountClosedDate	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-AccountBillStartDate	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-CreditControlStatus	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-InvoiceDeliveryMethod	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-PaymentMethod	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
-LAST	prefix	To be used when describing the Last item in a compound value - e.g. a Surname of customers or contacts	Smith	
-MIDDLE	prefix	To be used when describing Middle item in a compound value - e.g. a Middle of customers or contacts	Tony	
-NAME	suffix	To be used for name definitions 	Smith, Material, etc	
-UPDATED_DT	any	Updated date and time		
-ID	suffix	All Id columns to be suffixed with _ID	ACCOUNT_ID	
-ACCOUNT	prefix	The customer account items will be prefixed with this	XX112233	
-TYPE	any	The type values such as Account Type or Customer Type	A,B	
-NUMBER	suffix	Identifiers that are shared with and known by third-parties	ABC123
+Id	suffix	Identifier	NA
+Key	suffix	Identifier	NA
+Code	suffix	Identifier	NA
+Account	prefix	Reserved for DimAccount	NA
+Customer	prefix	Reserved for DimCustomer	NA
+Service	prefix	Reserved for DimService	NA
+Contract	prefix	Reserved for FactContract	NA
+Product	prefix	Reserved for DimProduct	NA
+Counter	suffix	Counter	NA
+Postal	prefix	Mailing Address prefix	NA
+Residential	prefix	Site Address prefix	NA
+AddressLine1	suffix	Address Line 1	NA
+Suburb	suffix	Address Suburb	NA
+Postcode	suffix	Address Postcode	NA
+State	suffix	Address State	NA
+Status	suffix	Status flag or value	NA
+MyAccount	prefix	My Account Service prefix	NA
+Date	suffix	Date prefix	NA
+Creation	prefix	Date prefix	NA
+Closed	any	Closed	NA
+BillStart	any	Bill Start	NA
+CreditControl	prefix	Credit Control	NA
+InvoiceDelivery	prefix	Credit Control	NA
+Payment	prefix	Credit Control	NA
+Method	suffix	Method	NA
+Title	prefix	Title	NA
+First	prefix	First	NA
+Last	prefix	Last	NA
+Party	prefix	Party	NA
+Name	suffix	Name	NA
+MiddleInitial	suffix	MiddleInitial	NA
+Primary	prefix	Primary	NA
+Secondary	prefix	Secondary	NA
+Mobile	prefix	Mobile	NA
+Phone	any	Phone	NA
+Type	suffix	Type	NA
+Email	any	Email	NA
+DateOfBirth	any	Date of Birth	NA
+OmbudsmanComplaints	any	Ombudsman Complaints	NA
+MarketIdentifier	any	Market Identifier	NA
+StartDate	any	Start Date	NA
+EndDate	any	End Date	NA
+Relationship	any	Relationship	NA
+EffectiveStartDate	any	Start Date	NA
+EffectiveEndDate	any	End Date	NA
