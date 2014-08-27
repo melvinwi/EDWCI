@@ -5,8 +5,9 @@ var fs = require('fs');
 
 var db = require('./lib/db.js');
 
+var useUnderscoreAsDelimiter = false;
 
-function test_dictionary(artefactName, object, schema, callback) // Constructor
+function test_dictionary(artefactName, object, schema, useUnderscoreAsDelimiter, callback) // Constructor
 {
     
     var wasSuccessful = true;
@@ -65,38 +66,78 @@ function test_dictionary(artefactName, object, schema, callback) // Constructor
                 
                 // try name parts split by "_"
                 if (wasSuccessfulInner==false) {
-                    var parts = object[i].COLUMN.trim().split('_');
 
-                    countSuccess = 0;
-                    for (var p=0; p<parts.length; p++) {
 
-                        for (var x=0; x<dictionary.length; x++) {
+                    if (useUnderscoreAsDelimiter==true) {
 
-                            if (dictionary[x].NAME.trim()==parts[p]) {
+                        var parts = object[i].COLUMN.trim().split('_');
 
-                                // check prefix / suffix rule applies
-                                if (dictionary[x].PREFIX_OR_SUFFIX_OR_ANY.trim().toLowerCase()=='prefix') {
-                                    if (dictionary[x].NAME.trim()==parts[0]) {
+                        countSuccess = 0;
+                        for (var p=0; p<parts.length; p++) {
+
+                            for (var x=0; x<dictionary.length; x++) {
+
+                                if (dictionary[x].NAME.trim()==parts[p]) {
+
+                                    // check prefix / suffix rule applies
+                                    if (dictionary[x].PREFIX_OR_SUFFIX_OR_ANY.trim().toLowerCase()=='prefix') {
+                                        if (dictionary[x].NAME.trim()==parts[0]) {
+                                            countSuccess++; // match - is in dictionary file
+                                            break;
+                                        }
+                                    }
+                                    else if (dictionary[x].PREFIX_OR_SUFFIX_OR_ANY.trim().toLowerCase()=='suffix') {
+                                        if (dictionary[x].NAME.trim()==parts[parts.length-1]) {
+                                            countSuccess++; // match - is in dictionary file
+                                            break;
+                                        }
+                                    }
+                                    else {
                                         countSuccess++; // match - is in dictionary file
                                         break;
                                     }
-                                }
-                                else if (dictionary[x].PREFIX_OR_SUFFIX_OR_ANY.trim().toLowerCase()=='suffix') {
-                                    if (dictionary[x].NAME.trim()==parts[parts.length-1]) {
-                                        countSuccess++; // match - is in dictionary file
-                                        break;
-                                    }
-                                }
-                                else {
-                                    countSuccess++; // match - is in dictionary file
-                                    break;
                                 }
                             }
                         }
-                    }
 
-                    if (countSuccess==parts.length) {
-                        wasSuccessfulInner=true;
+                        if (countSuccess==parts.length) {
+                            wasSuccessfulInner=true;
+                        }
+                    }
+                    else { // check start and end rather than "parts" delim by _ (e.g. CamelCase)
+
+                        var col = object[i].COLUMN.trim();
+
+                        var size = col.length;
+                        var checked = 0;
+
+                        for (var x=0; x<dictionary.length; x++) {
+
+                            // check prefix / suffix rule applies
+                            if (dictionary[x].PREFIX_OR_SUFFIX_OR_ANY.trim().toLowerCase()=='prefix') {
+                                if (col.startsWith(dictionary[x].NAME.trim())) {
+                                    checked = checked+dictionary[x].NAME.trim().length;
+                                }
+                            }
+                            else if (dictionary[x].PREFIX_OR_SUFFIX_OR_ANY.trim().toLowerCase()=='suffix') {
+                                if (col.endsWith(dictionary[x].NAME.trim())) {
+                                    checked = checked+dictionary[x].NAME.trim().length;
+                                }
+                            }
+                            else if (dictionary[x].PREFIX_OR_SUFFIX_OR_ANY.trim().toLowerCase()=='any') {
+                                if (col.indexOf(dictionary[x].NAME.trim())!=-1) {
+                                    checked = checked+dictionary[x].NAME.trim().length;
+                                }
+                            }
+                        }
+
+                        // check that all the values
+                        if (size!=checked) {
+                            wasSuccessfulInner = false; // failed 
+                        }
+                        else {
+                            wasSuccessfulInner = true; // success
+                        }
                     }
                 }
 
@@ -131,6 +172,18 @@ function test_dictionary(artefactName, object, schema, callback) // Constructor
     
 }
 
+
+if (typeof String.prototype.startsWith != 'function') {
+  String.prototype.startsWith = function (str){
+    return this.slice(0, str.length) == str;
+  };
+}
+
+if (typeof String.prototype.endsWith != 'function') {
+  String.prototype.endsWith = function (str){
+    return this.slice(-str.length) == str;
+  };
+}
 
 
 
