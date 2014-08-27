@@ -4,6 +4,3 @@ RESULT-sql*.tsv
 db_config.json
 node_modules\
 node_modules/
-*db_config.json
-/db_config.json
-\db_config.json
