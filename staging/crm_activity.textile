@@ -1,7 +1,7 @@
 
-h2. ARTEFACT: crm_activity_type
+h2. ARTEFACT: crm_activity
 
-DESCRIPTION: Activity Type reference table from Orion
+DESCRIPTION: Activity table from Orion
 
 |*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
 |Meta_ChangeFlag	|Meta: Row Change flag	|bit	|	|	|FALSE	|FALSE	|FALSE	|
