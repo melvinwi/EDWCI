@@ -1,6 +1,6 @@
 CREATE PROCEDURE lumo.TRANSFORM_DimAccount
-@TaskExecutionInstanceID INT NULL
-,@LatestSuccessfulTaskExecutionInstanceID INT NULL
+@TaskExecutionInstanceID INT
+,@LatestSuccessfulTaskExecutionInstanceID INT
 AS
 BEGIN
 
