@@ -118,8 +118,8 @@ function test_generate(artefactName, object, generateOnlyTest, schema, dbType, s
         }
         else if (dbType=='SQLSERVER') {
             sql += 'CREATE PROCEDURE '+schema+'.'+artefactName+'\n'
-            sql += '@TaskExecutionInstanceID INT NULL\n'
-            sql += ',@LatestSuccessfulTaskExecutionInstanceID INT NULL\n'
+            sql += '@TaskExecutionInstanceID INT\n'
+            sql += ',@LatestSuccessfulTaskExecutionInstanceID INT\n'
             sql += 'AS\n'
         }
 
