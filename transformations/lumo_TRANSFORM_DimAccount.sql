@@ -25,7 +25,8 @@ END
 		DimAccount.CreationDate,
 		DimAccount.AccountStatus,
 		DimAccount.PaymentMethod,
-		DimAccount.InvoiceDeliveryMethod)
+		DimAccount.InvoiceDeliveryMethod,
+		DimAccount.CreditControlStatus)
 	  SELECT
 		CASE WHEN ISNUMERIC (crm_party.party_code) = 1 THEN CAST( crm_party.party_code AS int) END,
 		CAST( nc_client.seq_party_id AS int),
@@ -37,8 +38,9 @@ END
 		nc_client.insert_datetime,
 		CAST (CASE WHEN _accountStatus.StatusOpen = 1 THEN 'Open' WHEN _accountStatus.StatusPending = 1 THEN 'Pending' WHEN _accountStatus.StatusError = 1 THEN 'Error' ELSE 'Closed' END AS nchar (10)),
 		CAST (CASE nc_client.seq_pay_method_id WHEN 14 THEN 'Cheque' WHEN 17 THEN 'Direct Credit' WHEN 18 THEN 'Direct Debit' WHEN 22 THEN 'Credit Card' ELSE NULL END AS NVARCHAR(20)),
-		CAST (CASE nc_client.seq_inv_del_mode_id WHEN 1 THEN 'Email Spreadsheet' WHEN 2 THEN 'Mail' WHEN 3 THEN 'Fax' WHEN 4 THEN 'Online eBill' WHEN 5 THEN 'Online eBill - SMS' ELSE NULL END AS NVARCHAR(30))
-	  FROM lumo.nc_client INNER JOIN lumo.crm_party ON nc_client.seq_party_id = crm_party.seq_party_id INNER JOIN accountStatus AS _accountStatus ON _accountStatus.seq_party_id = nc_client.seq_party_id WHERE (crm_party.Meta_LatestUpdate_TaskExecutionInstanceId >= @LatestSuccessfulTaskExecutionInstanceID OR nc_client.Meta_LatestUpdate_TaskExecutionInstanceId >= @LatestSuccessfulTaskExecutionInstanceID OR _accountStatus.Meta_HasChanged = 1);
+		CAST (CASE nc_client.seq_inv_del_mode_id WHEN 1 THEN 'Email Spreadsheet' WHEN 2 THEN 'Mail' WHEN 3 THEN 'Fax' WHEN 4 THEN 'Online eBill' WHEN 5 THEN 'Online eBill - SMS' ELSE NULL END AS NVARCHAR(30)),
+		CAST( nc_credit_control_status.seq_credit_status_desc AS nvarchar(50))
+	  FROM lumo.nc_client INNER JOIN lumo.crm_party ON nc_client.seq_party_id = crm_party.seq_party_id INNER JOIN accountStatus AS _accountStatus ON _accountStatus.seq_party_id = nc_client.seq_party_id LEFT JOIN lumo.nc_credit_control_status ON nc_credit_control_status.seq_credit_status_id = nc_client.seq_int_crd_chk_id WHERE (crm_party.Meta_LatestUpdate_TaskExecutionInstanceId >= @LatestSuccessfulTaskExecutionInstanceID OR nc_client.Meta_LatestUpdate_TaskExecutionInstanceId >= @LatestSuccessfulTaskExecutionInstanceID OR _accountStatus.Meta_HasChanged = 1);
 
 SELECT 0 AS ExtractRowCount,
 @@ROWCOUNT AS InsertRowCount,
