@@ -185,7 +185,7 @@ function run(artefactName, sourceTables, destinationTables, sourceColumns, desti
 	}
 	else if (dbType=='SQLSERVER') {
 
-		callProcSQL = sqlTruncate+'EXEC '+schema+'.'+artefactName+' @TaskExecutionInstanceID = -1, @LatestSuccessfulTaskExecutionInstanceID = -1';	
+		callProcSQL = sqlTruncate+'EXEC '+schema+'.'+artefactName+' @TaskExecutionInstanceID = -2, @LatestSuccessfulTaskExecutionInstanceID = -2';	
 	}
 
     db.sql(callProcSQL, function(err, result) {
