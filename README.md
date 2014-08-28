@@ -23,6 +23,8 @@ TODO!
 
 * support NOT_NULL in test_generate.js
 
+* support DEFAULT values in test_generate.js
+
 CI
 ==
 
