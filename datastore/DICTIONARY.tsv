@@ -44,6 +44,7 @@ OmbudsmanComplaints	any	Ombudsman Complaints	NA
 MarketIdentifier	any	Market Identifier	NA
 StartDate	any	Start Date	NA
 EndDate	any	End Date	NA
+Join	prefix	Join	NA
 Relationship	any	Relationship	NA
 EffectiveStartDate	any	Start Date	NA
 EffectiveEndDate	any	End Date	NA
