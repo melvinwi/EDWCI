@@ -27,3 +27,5 @@ DateOfBirth	Date Of Birth	date			FALSE		FALSE
 CustomerType	Customer Type	nchar	11		FALSE		FALSE
 CustomerStatus	Customer Status	nchar	8		FALSE		FALSE
 OmbudsmanComplaints	Ombudsman Complaints	nchar	3		FALSE		FALSE
+CreationDate	CreationDate	date			FALSE		FALSE
+JoinDate	JoinDate	date			FALSE		FALSE
