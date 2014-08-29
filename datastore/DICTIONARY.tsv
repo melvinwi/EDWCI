@@ -50,3 +50,4 @@ EffectiveStartDate	any	Start Date	NA
 EffectiveEndDate	any	End Date	NA
 TerminatedDate	any	Terminated	NA
 Desc	suffix	Description	NA
+PrivacyPreferred	prefix	Privacy Preferred	NA
