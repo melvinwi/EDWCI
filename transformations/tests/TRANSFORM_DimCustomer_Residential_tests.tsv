@@ -16,10 +16,14 @@ REUSE_SQL	"FROM [schema].nc_client INNER JOIN [schema].crm_party ON nc_client.se
 [REUSE_SQL] AND `nc_client.seq_party_id` = '2102891'	WHERE `CustomerKey` = '2102891'	source[0].postal_addr_1.should.equal(destination[0].PostalAddressLine1)	1:1 map rule
 [REUSE_SQL] AND `nc_client.seq_party_id` = '2102891'	WHERE `CustomerKey` = '2102891'	source[0].postal_addr_2.should.equal(destination[0].PostalSuburb)	1:1 map rule
 [REUSE_SQL] AND `nc_client.seq_party_id` = '2102891'	WHERE `CustomerKey` = '2102891'	source[0].postal_post_code.should.equal(destination[0].PostalPostcode)	1:1 map rule
+[REUSE_SQL] AND `nc_client.seq_party_id` = '2101657'	WHERE `CustomerKey` = '2101657'	should.not.exist(destination[0].PostalState)	Should not exist from DQ filter
 [REUSE_SQL] AND `nc_client.seq_party_id` = '2102891'	WHERE `CustomerKey` = '2102891'	source[0].postal_addr_3.should.equal(destination[0].PostalState.trim())	1:1 map rule plus trim
+[REUSE_SQL] AND `nc_client.seq_party_id` = '2102891'	WHERE `CustomerKey` = '2102891'	source[0].postal_addr_3.should.equal(destination[0].PostalStateAsProvided.trim())	1:1 map rule plus trim
 [REUSE_SQL] AND `nc_client.seq_party_id` = '2102891'	WHERE `CustomerKey` = '2102891'	source[0].street_addr_1.should.equal(destination[0].ResidentialAddressLine1)	1:1 map rule
 [REUSE_SQL] AND `nc_client.seq_party_id` = '2102891'	WHERE `CustomerKey` = '2102891'	source[0].street_addr_2.should.equal(destination[0].ResidentialSuburb)	1:1 map rule
+[REUSE_SQL] AND `nc_client.seq_party_id` = '2101657'	WHERE `CustomerKey` = '2101657'	should.not.exist(destination[0].ResidentialState)	Should not exist from DQ filter
 [REUSE_SQL] AND `nc_client.seq_party_id` = '2102891'	WHERE `CustomerKey` = '2102891'	source[0].street_addr_3.should.equal(destination[0].ResidentialState.trim())	1:1 map rule plus trim
+[REUSE_SQL] AND `nc_client.seq_party_id` = '2102891'	WHERE `CustomerKey` = '2102891'	source[0].street_addr_3.should.equal(destination[0].ResidentialStateAsProvided.trim())	1:1 map rule plus trim
 [REUSE_SQL] AND `nc_client.seq_party_id` = '2102891'	WHERE `CustomerKey` = '2102891'	(source[0].std_code+source[0].phone_no).should.equal(destination[0].PrimaryPhone)	1:1 map rule plus concat
 [REUSE_SQL] AND `nc_client.seq_party_id` = '2102891'	WHERE `CustomerKey` = '2102891'	((source[0].primary_phone_type_id == '1') ? 'Landline' : (source[0].primary_phone_type_id == '2') ? 'Mobile' : '{Unknow}').should.equal(destination[0].PrimaryPhoneType.trim())	1:1 map rule plus trim (Landline)
 [REUSE_SQL] AND `nc_client.seq_party_id` = '2101657'	WHERE `CustomerKey` = '2101657'	((source[0].primary_phone_type_id == '1') ? 'Landline' : (source[0].primary_phone_type_id == '2') ? 'Mobile' : '{Unknow}').should.equal(destination[0].PrimaryPhoneType.trim())	1:1 map rule plus trim (Mobile)

@@ -17,6 +17,7 @@ AddressLine1	suffix	Address Line 1	NA
 Suburb	suffix	Address Suburb	NA
 Postcode	suffix	Address Postcode	NA
 State	suffix	Address State	NA
+StateAsProvided	suffix	Address State	NA
 Status	suffix	Status flag or value	NA
 MyAccount	prefix	My Account Service prefix	NA
 Date	suffix	Date prefix	NA

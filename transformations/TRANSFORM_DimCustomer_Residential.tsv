@@ -13,11 +13,13 @@ CAST(	crm_party.party_name	AS nvarchar(100))	DimCustomer.PartyName	One to one ma
 CAST(	crm_party.postal_addr_1	AS nvarchar(100))	DimCustomer.PostalAddressLine1	One to one mapping with nvarchar cast
 CAST(	crm_party.postal_addr_2	AS nvarchar(50))	DimCustomer.PostalSuburb	One to one mapping with nvarchar cast
 CAST(	crm_party.postal_post_code	AS nchar(4))	DimCustomer.PostalPostcode	One to one mapping with nchar cast
-CAST(	crm_party.postal_addr_3	AS nchar(3))	DimCustomer.PostalState	One to one mapping with nchar cast often truncates
+CASE WHEN LEFT(UPPER(	crm_party.postal_addr_3	"),3) IN ('ACT','NSW','NT','QLD','SA','TAS','VIC','WA') THEN LEFT(UPPER(crm_party.postal_addr_3),3) ELSE NULL END"	DimCustomer.PostalState	One to one mapping with data quality fix
+CAST(	crm_party.postal_addr_3	AS nchar(3))	DimCustomer.PostalStateAsProvided	One to one mapping with nchar cast often truncates
 CAST(	crm_party.street_addr_1	AS nvarchar(100))	DimCustomer.ResidentialAddressLine1	One to one mapping with nvarchar cast
 CAST(	crm_party.street_addr_2	AS nvarchar(50))	DimCustomer.ResidentialSuburb	One to one mapping with nvarchar cast
 CAST(	crm_party.street_post_code	AS nchar(4))	DimCustomer.ResidentialPostcode	One to one mapping with nchar cast
-CAST(	crm_party.street_addr_3	AS nchar(3))	DimCustomer.ResidentialState	One to one mapping with nchar cast often truncates
+CASE WHEN LEFT(UPPER(	crm_party.street_addr_3	"),3) IN ('ACT','NSW','NT','QLD','SA','TAS','VIC','WA') THEN LEFT(UPPER(crm_party.street_addr_3),3) ELSE NULL END"	DimCustomer.ResidentialState	One to one mapping with data quality fix
+CAST(	crm_party.street_addr_3	AS nchar(3))	DimCustomer.ResidentialStateAsProvided	One to one mapping with nchar cast often truncates
 CAST(CONCAT(	"crm_party.std_code,crm_party.phone_no"	) AS nvarchar(24))	DimCustomer.PrimaryPhone	Concatenation and nvarchar cast
 CAST(CASE	crm_party.primary_phone_type_id	WHEN '1' THEN 'Landline' WHEN '2' THEN 'Mobile' ELSE NULL END AS nchar(8))	DimCustomer.PrimaryPhoneType	Decode phone type into readable values
 CAST(CONCAT(	"crm_party.secondary_std_code,crm_party.secondary_phone_no"	) AS nvarchar(24))	DimCustomer.SecondaryPhone	Concatenation and nvarchar cast
