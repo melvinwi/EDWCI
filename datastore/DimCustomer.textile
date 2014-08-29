@@ -14,11 +14,13 @@ DESCRIPTION: Customer dimension table
 |PostalAddressLine1	|Postal Address Line 1	|nvarchar	|100	|	|FALSE	|	|FALSE	|
 |PostalSuburb	|Postal Address Suburb	|nvarchar	|50	|	|FALSE	|	|FALSE	|
 |PostalPostcode	|Postal Address Postcode	|nchar	|4	|	|FALSE	|	|FALSE	|
-|PostalState	|Postal Address State	|nchar	|3	|	|FALSE	|	|FALSE	|
+|PostalState	|Postal Address State cleansed	|nchar	|3	|	|FALSE	|	|FALSE	|
+|PostalStateAsProvided	|Postal Address State as provided	|nchar	|3	|	|FALSE	|	|FALSE	|
 |ResidentialAddressLine1	|Residential Address Line 1	|nvarchar	|100	|	|FALSE	|	|FALSE	|
 |ResidentialSuburb	|Residential Address Suburb	|nvarchar	|50	|	|FALSE	|	|FALSE	|
 |ResidentialPostcode	|Residential Address Postcode	|nchar	|4	|	|FALSE	|	|FALSE	|
-|ResidentialState	|Residential Address State	|nchar	|3	|	|FALSE	|	|FALSE	|
+|ResidentialState	|Residential Address State cleansed	|nchar	|3	|	|FALSE	|	|FALSE	|
+|ResidentialStateAsProvided	|Residential Address State as provided	|nchar	|3	|	|FALSE	|	|FALSE	|
 |PrimaryPhone	|Primary Phone Number	|nvarchar	|24	|	|FALSE	|	|FALSE	|
 |PrimaryPhoneType	|Primary Phone Type	|nchar	|8	|	|FALSE	|	|FALSE	|
 |SecondaryPhone	|Secondary Phone Number	|nvarchar	|24	|	|FALSE	|	|FALSE	|
