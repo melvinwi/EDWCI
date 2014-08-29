@@ -2,6 +2,7 @@
 # ARTEFACT: TRANSFORM_DimProduct				
 # DESCRIPTION: Promote products from static load table to DataStore 				
 SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+	Product.ProductKey		DimProduct.ProductKey	One to one mapping
 	Product.ProductName		DimProduct.ProductName	One to one mapping
 	Product.ProductDesc		DimProduct.ProductDesc	One to one mapping
 SELECTION_CRITERIA	FROM [schema].Product WHERE Product.Meta_LatestUpdate_TaskExecutionInstanceId  > @LatestSuccessfulTaskExecutionInstanceID			

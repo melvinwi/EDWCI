@@ -1,0 +1,24 @@
+
+h2. ARTEFACT: nc_inv_deliver_mode
+
+DESCRIPTION: Invoice Delivery Mode table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|Meta_ChangeFlag	|Meta: Row Change flag	|bit	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|seq_inv_del_mode_id	|seq_inv_del_mode_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|inv_del_mode_code	|inv_del_mode_code	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|inv_del_mode_desc	|inv_del_mode_desc	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|active	|active	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime	|insert_datetime	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user	|insert_user	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process	|insert_process	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime	|update_datetime	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user	|update_user	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process	|update_process	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|del_meth_id	|del_meth_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|oss_desc	|oss_desc	|varchar	|1000	|	|FALSE	|FALSE	|FALSE	|
+|oss_text	|oss_text	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|category_code	|category_code	|varchar	|20	|	|FALSE	|FALSE	|FALSE|
+
