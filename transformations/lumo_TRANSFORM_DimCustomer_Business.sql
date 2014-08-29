@@ -71,7 +71,7 @@ END
 		CAST(CASE _ombudsmanComplaints.IsOmbudsman WHEN 1 THEN 'Yes' ELSE 'No' END AS nchar(3)),
 		crm_party.insert_datetime,
 		CASE WHEN _joinDate.EarliestVVDate = '9999-12-31' THEN nc_client.insert_datetime ELSE _joinDate.EarliestVVDate END,
-		CASE nc_client.promo_allowed WHEN 'E' THEN 'Preferred contact by email' WHEN 'P' THEN 'Preferred contact by phone' WHEN 'Y' THEN 'Preferred contact by mail' ELSE NULL END
+		CASE nc_client.promo_allowed WHEN 'E' THEN 'Preferred contact by email' WHEN 'P' THEN 'Preferred contact by phone' WHEN 'Y' THEN 'Preferred contact by mail' WHEN 'N' THEN 'Privacy: Do Not Contact' ELSE NULL END
 	  FROM lumo.nc_client INNER JOIN lumo.crm_party ON nc_client.seq_party_id = crm_party.seq_party_id INNER JOIN lumo.crm_element_hierarchy ON crm_element_hierarchy.element_id = crm_party.seq_party_id INNER JOIN contacts AS _contacts ON _contacts.parent_id = nc_client.seq_party_id INNER JOIN customerStatus AS _customerStatus ON _customerStatus.seq_party_id = nc_client.seq_party_id LEFT OUTER JOIN ombudsmanComplaints AS _ombudsmanComplaints ON _ombudsmanComplaints.ClientId = crm_party.party_code LEFT OUTER JOIN joinDate AS _joinDate ON _joinDate.seq_party_id = nc_client.seq_party_id WHERE crm_element_hierarchy.seq_element_type_id = '8'AND _contacts.RC = '1' AND (crm_party.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nc_client.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR crm_element_hierarchy.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _customerStatus.Meta_HasChanged = 1 OR _ombudsmanComplaints.Meta_HasChanged = 1 OR _joinDate.Meta_HasChanged = 1);
 
 SELECT 0 AS ExtractRowCount,
