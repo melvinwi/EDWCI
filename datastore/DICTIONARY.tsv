@@ -2,8 +2,9 @@
 # ARTEFACT: DICTIONARY				
 # DESCRIPTION: a valid list of valid business names, descriptions and sample values 				
 NAME	PREFIX_OR_SUFFIX_OR_ANY	DESCRIPTION	EXAMPLE_VALUES	
-Id	suffix	Identifier	NA
 Key	suffix	Identifier	NA
+AccountBillStartDate	any	Identifier	NA
+Id	suffix	Identifier	NA
 Code	suffix	Identifier	NA
 Account	prefix	Reserved for DimAccount	NA
 Customer	prefix	Reserved for DimCustomer	NA
