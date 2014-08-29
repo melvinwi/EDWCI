@@ -14,9 +14,11 @@ END
 --/
 
 	INSERT INTO lumo.DimProduct (
+		DimProduct.ProductKey,
 		DimProduct.ProductName,
 		DimProduct.ProductDesc)
 	  SELECT
+		Product.ProductKey,
 		Product.ProductName,
 		Product.ProductDesc
 	  FROM lumo.Product WHERE Product.Meta_LatestUpdate_TaskExecutionInstanceId  > @LatestSuccessfulTaskExecutionInstanceID;

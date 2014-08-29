@@ -1,0 +1,23 @@
+# design artefact							
+# ARTEFACT: nc_credit_control_status							
+# DESCRIPTION: credit control status table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+seq_credit_status_id	seq_credit_status_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_credit_status_code	seq_credit_status_code	varchar	10		FALSE	FALSE	FALSE
+seq_credit_status_desc	seq_credit_status_desc	varchar	100		FALSE	FALSE	FALSE
+active	active	char	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+allow_pplan	allow_pplan	varchar	1		FALSE	FALSE	FALSE
+allow_adjustment	allow_adjustment	varchar	1		FALSE	FALSE	FALSE
+allow_billing	allow_billing	varchar	1		FALSE	FALSE	FALSE
+allow_disconnection	allow_disconnection	varchar	1		FALSE	FALSE	FALSE
+allow_site_add	allow_site_add	varchar	1		FALSE	FALSE	FALSE
+allow_receipt	allow_receipt	varchar	1		FALSE	FALSE	FALSE
