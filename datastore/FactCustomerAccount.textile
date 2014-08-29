@@ -4,9 +4,7 @@ h2. ARTEFACT: FactCustomerAccount
 DESCRIPTION: Customer to Account factless fact table
 
 |*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
-|CustomerId	|Foreign key to DimCustomer	|int	|	|-1	|TRUE	|	|FALSE	|
-|AccountId	|Foreign key to DimAccount	|int	|	|-1	|TRUE	|	|FALSE	|
-|EffectiveStartDate	|Effective Start Date	|int	|	|99991231	|TRUE	|	|FALSE	|
-|EffectiveEndDate	|Effective End Date	|int	|	|99991231	|TRUE	|	|FALSE	|
+|CustomerId	|Foreign key to DimCustomer	|int	|	|	|TRUE	|	|FALSE	|
+|AccountId	|Foreign key to DimAccount	|int	|	|	|TRUE	|	|FALSE	|
 |AccountRelationshipCounter	|Counter (=1)	|tinyint	|	|1	|TRUE	|	|FALSE|
 

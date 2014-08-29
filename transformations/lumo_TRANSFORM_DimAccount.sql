@@ -15,22 +15,24 @@ END
 
 	;WITH accountStatus AS (SELECT nc_client.seq_party_id, MAX (CASE WHEN utl_account_status.accnt_status_class_id = '2' THEN 1 ELSE 0 END) AS StatusOpen, MAX (CASE WHEN utl_account_status.accnt_status_class_id = '3' THEN 1 ELSE 0 END) AS StatusPending, MAX (CASE WHEN utl_account_status.accnt_status_class_id = '4' THEN 1 ELSE 0 END) AS StatusError, MAX (CASE WHEN nc_client.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nc_product.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nc_product_item.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID THEN 1 ELSE 0 END) AS Meta_HasChanged FROM lumo.nc_client LEFT OUTER JOIN lumo.nc_product ON nc_product.seq_party_id = nc_client.seq_party_id LEFT OUTER JOIN lumo.nc_product_item ON nc_product_item.seq_product_id = nc_product.seq_product_id LEFT OUTER JOIN lumo.utl_account_status ON utl_account_status.accnt_status_id = nc_product_item.accnt_status_id GROUP BY nc_client.seq_party_id)
 	INSERT INTO lumo.DimAccount (
-		DimAccount.AccountCode,
 		DimAccount.AccountKey,
+		DimAccount.AccountCode,
 		DimAccount.PostalAddressLine1,
 		DimAccount.PostalSuburb,
 		DimAccount.PostalPostcode,
 		DimAccount.PostalState,
+		DimAccount.PostalStateAsProvided,
 		DimAccount.MyAccountStatus,
 		DimAccount.CreationDate,
 		DimAccount.AccountStatus,
 		DimAccount.PaymentMethod)
 	  SELECT
-		CASE WHEN ISNUMERIC (crm_party.party_code) = 1 THEN CAST( crm_party.party_code AS int) END,
 		CAST( nc_client.seq_party_id AS int),
+		CASE WHEN ISNUMERIC (crm_party.party_code) = 1 THEN CAST( crm_party.party_code AS int) END,
 		CAST( crm_party.postal_addr_1 AS nvarchar(100)),
 		CAST( crm_party.postal_addr_2 AS nvarchar(50)),
 		CAST( crm_party.postal_post_code AS nchar(4)),
+		CASE WHEN LEFT(UPPER( crm_party.postal_addr_3 ),3) IN ('ACT','NSW','NT','QLD','SA','TAS','VIC','WA') THEN LEFT(UPPER(crm_party.postal_addr_3),3) ELSE NULL END,
 		CAST( crm_party.postal_addr_3 AS nchar(3)),
 		CAST(CASE nc_client.cz_registered WHEN 'Y' THEN 'Registered' ELSE 'Not Registered' END AS nvarchar(14)),
 		nc_client.insert_datetime,
