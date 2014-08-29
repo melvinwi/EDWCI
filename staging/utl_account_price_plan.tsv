@@ -1,0 +1,24 @@
+# design artefact							
+# ARTEFACT: utl_account_price_plan							
+# DESCRIPTION: Account Price Plan reference table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+acnt_price_plan_id	acnt_price_plan_id	numeric	"18,0"		FALSE	FALSE	FALSE
+price_plan_id	price_plan_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_product_item_id	seq_product_item_id	numeric	"18,0"		FALSE	FALSE	FALSE
+start_date	start_date	datetime			FALSE	FALSE	FALSE
+end_date	end_date	datetime			FALSE	FALSE	FALSE
+active	active	char	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+provisional	provisional	varchar	1		FALSE	FALSE	FALSE
+external_reference	external_reference	varchar	50		FALSE	FALSE	FALSE
+requested_start_date	requested_start_date	datetime			FALSE	FALSE	FALSE
+rate_card_id	rate_card_id	numeric	"18,0"		FALSE	FALSE	FALSE
+cpi_value	cpi_value	numeric	"16,4"		FALSE	FALSE	FALSE
+network_cost_id	network_cost_id	numeric	"18,0"		FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE

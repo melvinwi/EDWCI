@@ -1,0 +1,21 @@
+# design artefact							
+# ARTEFACT: utl_contract_term							
+# DESCRIPTION: Contract Term reference table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+contract_term_id	contract_term_id	numeric	"18,0"		FALSE	FALSE	FALSE
+contract_term_code	contract_term_code	varchar	10		FALSE	FALSE	FALSE
+contract_term_desc	contract_term_desc	varchar	100		FALSE	FALSE	FALSE
+no_of_months	no_of_months	int			FALSE	FALSE	FALSE
+open_term	open_term	char	1		FALSE	FALSE	FALSE
+active	active	char	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+default_option	default_option	char	1		FALSE	FALSE	FALSE
+isp_ft_charge_item_id	isp_ft_charge_item_id	numeric	"18,0"		FALSE	FALSE	FALSE
+isp_nc_charge_item_id	isp_nc_charge_item_id	numeric	"18,0"		FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
