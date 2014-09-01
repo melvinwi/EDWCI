@@ -1,0 +1,9 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_DimProduct_TCO
+# CREATED DATE: 2014-09-01T111222
+
+2014-09-01 11:12:23	2	PASSED	source.length.should.equal(destination.length)	{"obj":27,"params":{"operator":"to be","expected":27,"showDiff":true},"negate":false}
+2014-09-01 11:12:24	3	PASSED	source[0].tco_id.toString().should.equal(destination[0].ProductKey)	{"obj":"2","params":{"operator":"to be","expected":"2","showDiff":true},"negate":false}
+2014-09-01 11:12:24	4	PASSED	source[0].tco_desc.should.equal(destination[0].ProductName)	{"obj":"Lumo Advantage","params":{"operator":"to be","expected":"Lumo Advantage","showDiff":true},"negate":false}
+2014-09-01 11:12:25	5	PASSED	source[0].tco_desc.should.equal(destination[0].ProductDesc)	{"obj":"Lumo Advantage","params":{"operator":"to be","expected":"Lumo Advantage","showDiff":true},"negate":false}
+2014-09-01 11:12:26	6	PASSED	'TCO'.should.equal(destination[0].ProductType.trim())	{"obj":"TCO","params":{"operator":"to be","expected":"TCO","showDiff":true},"negate":false}
