@@ -1,0 +1,12 @@
+
+h2. ARTEFACT: TRANSFORM_DimProduct_TCO
+
+DESCRIPTION: Promote TCO products from Orion to DataStore
+
+|*SOURCE_FUNCTION_PREFIX*	|*SOURCE*	|*SOURCE_FUNCTION_SUFFIX*	|*DESTINATION*	|*DESCRIPTION*	|
+|CAST(	|"utl_total_customer_offering":../staging/utl_total_customer_offering.textile .tco_id	|AS nvarchar(30))	|"DimProduct":../datastore/DimProduct.textile .ProductKey	|One to one mapping	|
+|CAST(	|"utl_total_customer_offering":../staging/utl_total_customer_offering.textile .tco_desc	|AS nvarchar(100))	|"DimProduct":../datastore/DimProduct.textile .ProductName	|One to one mapping	|
+|CAST(	|"utl_total_customer_offering":../staging/utl_total_customer_offering.textile .tco_desc	|AS nvarchar(100))	|"DimProduct":../datastore/DimProduct.textile .ProductDesc	|One to one mapping	|
+|/*	|"utl_total_customer_offering":../staging/utl_total_customer_offering.textile .tco_id	|*/ 'TCO'	|"DimProduct":../datastore/DimProduct.textile .ProductType	|One to one mapping	|
+|SELECTION_CRITERIA	|FROM [schema]."utl_total_customer_offering":../staging/utl_total_customer_offering.textile  WHERE "utl_total_customer_offering":../staging/utl_total_customer_offering.textile .Meta_LatestUpdate_TaskExecutionInstanceId  > @LatestSuccessfulTaskExecutionInstanceID AND "utl_total_customer_offering":../staging/utl_total_customer_offering.textile .tco_id != 1|
+

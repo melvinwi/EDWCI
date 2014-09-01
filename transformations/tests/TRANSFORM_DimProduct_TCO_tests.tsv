@@ -1,0 +1,10 @@
+# design test artefact			
+# ARTEFACT: TRANSFORM_DimProduct_TCO_tests			
+# DESCRIPTION: Test each transformation rule			
+SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
+REUSE_SQL	FROM [schema].utl_total_customer_offering WHERE utl_total_customer_offering.Meta_LatestUpdate_TaskExecutionInstanceId  > -2 AND utl_total_customer_offering.tco_id != 1		
+[REUSE_SQL]		source.length.should.equal(destination.length)	row counts should match
+[REUSE_SQL] AND tco_id = '2'	WHERE ProductKey = '2'	source[0].tco_id.toString().should.equal(destination[0].ProductKey)	1:1 map rule
+[REUSE_SQL] AND tco_id = '2'	WHERE ProductKey = '2'	source[0].tco_desc.should.equal(destination[0].ProductName)	1:1 map rule
+[REUSE_SQL] AND tco_id = '2'	WHERE ProductKey = '2'	source[0].tco_desc.should.equal(destination[0].ProductDesc)	1:1 map rule
+[REUSE_SQL] AND tco_id = '2'	WHERE ProductKey = '2'	'TCO'.should.equal(destination[0].ProductType.trim())	1:1 map rule

@@ -1,0 +1,9 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_DimProduct_TCO				
+# DESCRIPTION: Promote TCO products from Orion to DataStore 				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+CAST(	utl_total_customer_offering.tco_id	AS nvarchar(30))	DimProduct.ProductKey	One to one mapping
+CAST(	utl_total_customer_offering.tco_desc	AS nvarchar(100))	DimProduct.ProductName	One to one mapping
+CAST(	utl_total_customer_offering.tco_desc	AS nvarchar(100))	DimProduct.ProductDesc	One to one mapping
+/*	utl_total_customer_offering.tco_id	*/ 'TCO'	DimProduct.ProductType	One to one mapping
+SELECTION_CRITERIA	FROM [schema].utl_total_customer_offering WHERE utl_total_customer_offering.Meta_LatestUpdate_TaskExecutionInstanceId  > @LatestSuccessfulTaskExecutionInstanceID AND utl_total_customer_offering.tco_id != 1			

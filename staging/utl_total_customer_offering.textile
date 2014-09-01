@@ -1,0 +1,39 @@
+
+h2. ARTEFACT: utl_total_customer_offering
+
+DESCRIPTION: TCO product reference table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|Meta_ChangeFlag	|Meta: Row Change flag	|bit	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|tco_id	|tco_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|induce_id	|induce_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|tco_code	|tco_code	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|tco_desc	|tco_desc	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|active	|active	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime	|insert_datetime	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user	|insert_user	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process	|insert_process	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime	|update_datetime	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user	|update_user	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process	|update_process	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|invoice_message	|invoice_message	|varchar	|max	|	|FALSE	|FALSE	|FALSE	|
+|default_billing_cycle_id	|default_billing_cycle_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|default_treat_type_id	|default_treat_type_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|penalty_id	|penalty_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|cust_type	|cust_type	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|default_contract_term_id	|default_contract_term_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|inv_due_days	|inv_due_days	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|default_occupier	|default_occupier	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|ntc_cat_id	|ntc_cat_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|fixed_tariff_adjust_percent	|fixed_tariff_adjust_percent	|numeric	|"8,2"	|	|FALSE	|FALSE	|FALSE	|
+|variable_tariff_adjust_percent	|variable_tariff_adjust_percent	|numeric	|"8,2"	|	|FALSE	|FALSE	|FALSE	|
+|online_only_yn	|online_only_yn	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|default_occupier_commercial	|default_occupier_commercial	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|start_date	|start_date	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|end_date	|end_date	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|standing_offer_resi	|standing_offer_resi	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|standing_offer_com	|standing_offer_com	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|tco_category_id	|tco_category_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE|
+
