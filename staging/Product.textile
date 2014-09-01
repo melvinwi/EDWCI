@@ -8,6 +8,7 @@ DESCRIPTION: Static Load table for Products
 |Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
 |Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
 |ProductKey	|Product key	|nvarchar	|30	|	|FALSE	|FALSE	|FALSE	|
-|ProductName	|Product name	|nvarchar	|30	|	|FALSE	|FALSE	|FALSE	|
-|ProductDesc	|Product Description	|nvarchar	|100	|	|FALSE	|FALSE	|FALSE|
+|ProductName	|Product name	|nvarchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|ProductDesc	|Product Description	|nvarchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|ProducType	|Product Type	|nchar	|6	|	|FALSE	|FALSE	|FALSE|
 

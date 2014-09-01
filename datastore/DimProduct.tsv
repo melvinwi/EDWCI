@@ -3,5 +3,6 @@
 # DESCRIPTION: Product dimension table							
 COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
 ProductKey	Product Key	nvarchar	30		TRUE		FALSE
-ProductName	Product Name	nvarchar	30		FALSE		FALSE
+ProductName	Product Name	nvarchar	100		FALSE		FALSE
 ProductDesc	Product Description	nvarchar	100		FALSE		FALSE
+ProductType	Product Type	nchar	6		FALSE		FALSE
