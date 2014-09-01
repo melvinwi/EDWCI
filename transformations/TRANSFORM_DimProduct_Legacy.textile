@@ -7,5 +7,6 @@ DESCRIPTION: Promote products from static load table to DataStore
 |	|"Product":../staging/Product.textile ."Product":../staging/Product.textile Key	|	|"Dim"Product":../staging/Product.textile ":../datastore/Dim"Product":../staging/Product.textile .textile ."Product":../staging/Product.textile Key	|One to one mapping	|
 |	|"Product":../staging/Product.textile ."Product":../staging/Product.textile Name	|	|"Dim"Product":../staging/Product.textile ":../datastore/Dim"Product":../staging/Product.textile .textile ."Product":../staging/Product.textile Name	|One to one mapping	|
 |	|"Product":../staging/Product.textile ."Product":../staging/Product.textile Desc	|	|"Dim"Product":../staging/Product.textile ":../datastore/Dim"Product":../staging/Product.textile .textile ."Product":../staging/Product.textile Desc	|One to one mapping	|
+|	|"Product":../staging/Product.textile ."Product":../staging/Product.textile Type	|	|"Dim"Product":../staging/Product.textile ":../datastore/Dim"Product":../staging/Product.textile .textile ."Product":../staging/Product.textile Type	|One to one mapping	|
 |SELECTION_CRITERIA	|FROM [schema]."Product":../staging/Product.textile  WHERE "Product":../staging/Product.textile .Meta_LatestUpdate_TaskExecutionInstanceId  > @LatestSuccessfulTaskExecutionInstanceID|
 
