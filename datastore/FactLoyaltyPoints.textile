@@ -1,0 +1,14 @@
+
+h2. ARTEFACT: FactLoyaltyPoints
+
+DESCRIPTION: Loyalty points transactional fact table
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|CustomerId	|Foreign key to DimCustomer	|int	|	|-1	|TRUE	|	|FALSE	|
+|AwardedDateId	|Awarded Date	|int	|	|99991231	|TRUE	|	|FALSE	|
+|ProgramName	|ProgramName	|nvarchar	|20	|	|FALSE	|	|FALSE	|
+|PointsType	|PointsType	|nchar	|6	|	|FALSE	|	|FALSE	|
+|PointsAmount	|PointsAmount	|int	|	|0	|TRUE	|	|FALSE	|
+|MemberNumber	|MemberNumber	|nvarchar	|20	|	|FALSE	|	|FALSE	|
+|LoyaltyPointsKey	|LoyaltyPointsKey	|int	|	|	|FALSE	|	|FALSE|
+

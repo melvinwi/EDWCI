@@ -14,6 +14,7 @@ Product	prefix	Reserved for DimProduct	NA
 Counter	suffix	Counter	NA
 Postal	prefix	Mailing Address prefix	NA
 Residential	prefix	Site Address prefix	NA
+LoyaltyPoints	prefix	Loyalty Points prefix	NA
 AddressLine1	suffix	Address Line 1	NA
 Suburb	suffix	Address Suburb	NA
 Postcode	suffix	Address Postcode	NA
@@ -33,7 +34,12 @@ Title	prefix	Title	NA
 First	prefix	First	NA
 Last	prefix	Last	NA
 Party	prefix	Party	NA
+Points	prefix	Points	NA
+Program	prefix	Program	NA
+AwardedDate	prefix	Awarded	NA
+MemberNumber	any	MemberNumber	NA
 Name	suffix	Name	NA
+Amount	suffix	Amount	NA
 MiddleInitial	suffix	MiddleInitial	NA
 Primary	prefix	Primary	NA
 Secondary	prefix	Secondary	NA
