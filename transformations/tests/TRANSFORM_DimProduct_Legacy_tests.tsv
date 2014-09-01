@@ -7,3 +7,4 @@ REUSE_SQL	FROM [schema].Product WHERE Product.Meta_LatestUpdate_TaskExecutionIns
 [REUSE_SQL] AND ProductKey = 'Lumo Advantage'	WHERE ProductKey = 'Lumo Advantage'	source[0].ProductKey.should.equal(destination[0].ProductKey)	1:1 map rule
 [REUSE_SQL] AND ProductKey = 'Lumo Advantage'	WHERE ProductKey = 'Lumo Advantage'	source[0].ProductName.should.equal(destination[0].ProductName)	1:1 map rule
 [REUSE_SQL] AND ProductKey = 'Lumo Advantage'	WHERE ProductKey = 'Lumo Advantage'	source[0].ProductDesc.should.equal(destination[0].ProductDesc)	1:1 map rule
+[REUSE_SQL] AND ProductKey = 'Lumo Advantage'	WHERE ProductKey = 'Lumo Advantage'	source[0].ProductType.should.equal(destination[0].ProductType)	1:1 map rule

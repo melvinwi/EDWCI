@@ -8,4 +8,4 @@ Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALS
 ProductKey	Product key	nvarchar	30		FALSE	FALSE	FALSE
 ProductName	Product name	nvarchar	100		FALSE	FALSE	FALSE
 ProductDesc	Product Description	nvarchar	100		FALSE	FALSE	FALSE
-ProducType	Product Type	nchar	6		FALSE	FALSE	FALSE
+ProductType	Product Type	nchar	6		FALSE	FALSE	FALSE
