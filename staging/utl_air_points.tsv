@@ -1,0 +1,22 @@
+# design artefact							
+# ARTEFACT: utl_air_points							
+# DESCRIPTION: Loyalty Points transactional table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+air_points_id	air_points_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_party_id	seq_party_id	numeric	"18,0"		FALSE	FALSE	FALSE
+virgin_member_id	virgin_member_id	varchar	10		FALSE	FALSE	FALSE
+points_type	points_type	varchar	10		FALSE	FALSE	FALSE
+points_amount	points_amount	numeric	"18,0"		FALSE	FALSE	FALSE
+points_exported	points_exported	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_ar_invoice_id	seq_ar_invoice_id	numeric	"18,0"		FALSE	FALSE	FALSE
+fully_exported	fully_exported	varchar	1		FALSE	FALSE	FALSE
+one_off_reason	one_off_reason	varchar	20		FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
