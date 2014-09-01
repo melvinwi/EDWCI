@@ -1,0 +1,12 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_FactLoyaltyPoints				
+# DESCRIPTION: Promote loyalty points from Orion tables to DataStore 				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+	_DimCustomer.CustomerId		FactLoyaltyPoints.CustomerId	One to one mapping
+"CONVERT(NCHAR(8), ISNULL("	utl_air_points.insert_datetime	", '9999-12-31'), 112)"	FactLoyaltyPoints.AwardedDateId	One to one mapping
+/*	utl_air_points.insert_datetime	*/ 'Velocity'	FactLoyaltyPoints.ProgramName	Static
+CAST(CASE	utl_air_points.points_type	WHEN 'ONEOFF' THEN 'Oneoff' WHEN 'BONUS' THEN 'Bonus' WHEN 'BASE' THEN 'Base' ELSE NULL END AS nchar(6))	FactLoyaltyPoints.PointsType	Decode
+	utl_air_points.points_amount		FactLoyaltyPoints.PointsAmount	One to one mapping
+	utl_air_points.virgin_member_id		FactLoyaltyPoints.MemberNumber	One to one mapping
+	utl_air_points.air_points_id		FactLoyaltyPoints.LoyaltyPointsKey	One to one mapping
+SELECTION_CRITERIA	FROM /* Staging */ [schema].utl_air_points INNER JOIN /* Dimensional */ [schema].DimCustomer AS _DimCustomer ON _DimCustomer.CustomerKey = utl_air_points.seq_party_id WHERE _DimCustomer.Meta_IsCurrent = 1 AND utl_air_points.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID			
