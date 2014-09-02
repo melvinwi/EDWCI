@@ -33,9 +33,9 @@ SELECT DimAccount.AccountKey,
        DimProduct.ProductName,
        DimProduct.ProductDesc,
        DimProduct.ProductType,
-       FactContract.ContractStartDateId,
-       FactContract.ContractEndDateId,
-       FactContract.ContractTerminatedDateId,
+       CONVERT(DATE, CAST(FactContract.ContractStartDateId AS NCHAR(8)), 112) AS ContractStartDateId,
+       CONVERT(DATE, CAST(FactContract.ContractEndDateId AS NCHAR(8)), 112) AS ContractEndDateId,
+       CONVERT(DATE, CAST(FactContract.ContractTerminatedDateId AS NCHAR(8)), 112) AS ContractTerminatedDateId,
        FactContract.ContractStatus,
        FactContract.ContractKey,
        DATEDIFF(DAY,
@@ -46,6 +46,7 @@ SELECT DimAccount.AccountKey,
                   ELSE CONVERT(DATETIME, CAST(FactContract.ContractTerminatedDateId AS NCHAR(8)), 112)
                 END) AS ContractTenure,
        FactContract.ContractCounter,
+       (DimAccount.Meta_IsCurrent & DimService.Meta_IsCurrent & DimProduct.Meta_IsCurrent) AS Meta_IsCurrent,
        (SELECT MAX(Meta_EffectiveStartDate)
         FROM   (VALUES (DimAccount.Meta_EffectiveStartDate),
                        (DimService.Meta_EffectiveStartDate),
@@ -58,9 +59,6 @@ FROM   DW_Dimensional.DW.FactContract
 INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactContract.AccountId
 INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactContract.ServiceId
 INNER  JOIN DW_Dimensional.DW.DimProduct ON DimProduct.ProductId = FactContract.ProductId
-WHERE  DimAccount.Meta_IsCurrent = 1
-AND    DimService.Meta_IsCurrent = 1
-AND    DimProduct.Meta_IsCurrent = 1
 
 
 GO
