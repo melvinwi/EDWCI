@@ -1,0 +1,10 @@
+# design artefact							
+# ARTEFACT: ref_credit_control_category							
+# DESCRIPTION: Credit Control Category - as a look up table - manual entry							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+seq_credit_status_id	seq_credit_status_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_credit_status_code	seq_credit_status_code	varchar	10		FALSE	FALSE	FALSE
+credit_control_category	credit_control_category	varchar	50		FALSE	FALSE	FALSE

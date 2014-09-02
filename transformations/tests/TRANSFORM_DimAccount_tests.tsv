@@ -29,4 +29,4 @@ REUSE_SQL	"FROM [schema].nc_client INNER JOIN [schema].crm_party ON nc_client.se
 [REUSE_SQL] AND party_code = '1705150'	WHERE AccountCode = '1705150'	source[0].seq_credit_status_desc.should.equal(destination[0].CreditControlStatus)	1:1 map rule (Body Corporate)
 [REUSE_SQL] AND party_code = '1840601'	WHERE AccountCode = '1840601'	source[0].seq_credit_status_desc.should.equal(destination[0].CreditControlStatus)	1:1 map rule (Account Under Disconnected)
 [REUSE_SQL] AND party_code = '1705145'	WHERE AccountCode = '1705145'	source[0].seq_credit_status_desc.should.equal(destination[0].CreditControlStatus)	1:1 map rule (Government Assistance Programme)
-[REUSE_SQL] AND party_code = '1840519'	WHERE AccountCode = '1840519'	source[0].MaxAccountStatusDate.getFullYear().should.equal('2012')	1:1 map rule (Account Closed Date)
+[REUSE_SQL] AND party_code = '1705145'	WHERE AccountCode = '1705145'	source[0].MaxAccountStatusDate.getFullYear().should.equal(2012)	1:1 map rule (Account Closed Date)
