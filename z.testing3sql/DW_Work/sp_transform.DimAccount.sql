@@ -1,7 +1,7 @@
 USE [DW_Work]
 GO
 
-/****** Object:  StoredProcedure [transform].[DimAccount]    Script Date: 27/08/2014 12:55:06 PM ******/
+/****** Object:  StoredProcedure [transform].[DimAccount]    Script Date: 2/09/2014 12:11:33 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -51,25 +51,32 @@ BEGIN
                                   LEFT OUTER JOIN [DW_Staging].[orion].utl_account_status
                    ON utl_account_status.accnt_status_id = nc_product_item.accnt_status_id
               GROUP BY nc_client.seq_party_id) 
-        INSERT INTO [temp].DimAccount (
-        DimAccount.AccountCode,
+        INSERT INTO temp.DimAccount (
         DimAccount.AccountKey,
+        DimAccount.AccountCode,
         DimAccount.PostalAddressLine1,
         DimAccount.PostalSuburb,
         DimAccount.PostalPostcode,
         DimAccount.PostalState,
+        DimAccount.PostalStateAsProvided,
         DimAccount.MyAccountStatus,
         DimAccount.CreationDate,
         DimAccount.AccountStatus,
-        DimAccount.PaymentMethod) 
+        DimAccount.PaymentMethod,
+        DimAccount.InvoiceDeliveryMethod,
+        DimAccount.CreditControlStatus) 
         SELECT
+        CAST ( nc_client.seq_party_id AS int) ,
         CASE
         WHEN ISNUMERIC (crm_party.party_code) = 1 THEN CAST ( crm_party.party_code AS int) 
         END,
-        CAST ( nc_client.seq_party_id AS int) ,
         CAST ( crm_party.postal_addr_1 AS nvarchar (100)) ,
         CAST ( crm_party.postal_addr_2 AS nvarchar (50)) ,
         CAST ( crm_party.postal_post_code AS nchar (4)) ,
+        CASE
+        WHEN LEFT (UPPER ( crm_party.postal_addr_3) , 3) IN ('ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA') THEN LEFT (UPPER (crm_party.postal_addr_3) , 3) 
+            ELSE NULL
+        END,
         CAST ( crm_party.postal_addr_3 AS nchar (3)) ,
         CAST (CASE nc_client.cz_registered
               WHEN 'Y' THEN 'Registered'
@@ -88,12 +95,18 @@ BEGIN
               WHEN 18 THEN 'Direct Debit'
               WHEN 22 THEN 'Credit Card'
                   ELSE NULL
-              END AS nvarchar (20)) 
+              END AS nvarchar (20)) ,
+        CAST ( nc_inv_deliver_mode.inv_del_mode_desc AS nvarchar (50)) ,
+        CAST ( nc_credit_control_status.seq_credit_status_desc AS nvarchar (50)) 
           FROM
                [DW_Staging].[orion].nc_client INNER JOIN [DW_Staging].[orion].crm_party
                ON nc_client.seq_party_id = crm_party.seq_party_id
                               INNER JOIN accountStatus AS _accountStatus
                ON _accountStatus.seq_party_id = nc_client.seq_party_id
+                              LEFT JOIN [DW_Staging].[orion].nc_credit_control_status
+               ON nc_credit_control_status.seq_credit_status_id = nc_client.seq_credit_status_id
+                              LEFT JOIN [DW_Staging].[orion].nc_inv_deliver_mode
+               ON nc_inv_deliver_mode.seq_inv_del_mode_id = nc_client.seq_inv_del_mode_id
           WHERE crm_party.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
             OR nc_client.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
             OR _accountStatus.Meta_HasChanged = 1;
@@ -107,3 +120,4 @@ BEGIN
 END;
 
 GO
+
