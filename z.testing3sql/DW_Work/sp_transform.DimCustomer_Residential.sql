@@ -1,7 +1,7 @@
 USE [DW_Work]
 GO
 
-/****** Object:  StoredProcedure [transform].[DimCustomer_Residential]    Script Date: 27/08/2014 12:56:21 PM ******/
+/****** Object:  StoredProcedure [transform].[DimCustomer_Residential]    Script Date: 2/09/2014 12:11:46 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -36,11 +36,11 @@ BEGIN
                             ELSE 0
                         END) AS Meta_HasChanged
               FROM
-                   [DW_Staging].[orion].nc_client LEFT OUTER JOIN [DW_Staging].[orion].nc_product
+                   DW_Staging.orion.nc_client LEFT OUTER JOIN DW_Staging.orion.nc_product
                    ON nc_product.seq_party_id = nc_client.seq_party_id
-                                  LEFT OUTER JOIN [DW_Staging].[orion].nc_product_item
+                                              LEFT OUTER JOIN DW_Staging.orion.nc_product_item
                    ON nc_product_item.seq_product_id = nc_product.seq_product_id
-                                  LEFT OUTER JOIN [DW_Staging].[orion].utl_account_status
+                                              LEFT OUTER JOIN DW_Staging.orion.utl_account_status
                    ON utl_account_status.accnt_status_id = nc_product_item.accnt_status_id
               GROUP BY nc_client.seq_party_id) , ombudsmanComplaints
         AS (SELECT Complaint.ClientId,
@@ -49,14 +49,25 @@ BEGIN
                         WHEN Complaint.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID THEN 1
                             ELSE 0
                         END) AS Meta_HasChanged
-              FROM [DW_Staging].[complaints].Complaint
+              FROM DW_Staging.complaints.Complaint
               WHERE Complaint.IsOmbudsman = 1
                 AND Complaint.DateCreated > DATEADD (YEAR, -1, GETDATE ()) 
               GROUP BY Complaint.ClientId,
-                       Complaint.IsOmbudsman) 
+                       Complaint.IsOmbudsman) , joinDate
+        AS (SELECT nc_client.seq_party_id,
+                   MIN (ISNULL (nc_product.voice_ver_date, '9999-12-31')) AS EarliestVVDate,
+                   MAX (CASE
+                        WHEN nc_client.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
+                          OR nc_product.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID THEN 1
+                            ELSE 0
+                        END) AS Meta_HasChanged
+              FROM
+                   DW_Staging.orion.nc_client LEFT OUTER JOIN DW_Staging.orion.nc_product
+                   ON nc_product.seq_party_id = nc_client.seq_party_id
+              GROUP BY nc_client.seq_party_id) 
         INSERT INTO temp.DimCustomer (
-        DimCustomer.CustomerCode,
         DimCustomer.CustomerKey,
+        DimCustomer.CustomerCode,
         DimCustomer.Title,
         DimCustomer.Firstname,
         DimCustomer.MiddleInitial,
@@ -66,10 +77,12 @@ BEGIN
         DimCustomer.PostalSuburb,
         DimCustomer.PostalPostcode,
         DimCustomer.PostalState,
+        DimCustomer.PostalStateAsProvided,
         DimCustomer.ResidentialAddressLine1,
         DimCustomer.ResidentialSuburb,
         DimCustomer.ResidentialPostcode,
         DimCustomer.ResidentialState,
+        DimCustomer.ResidentialStateAsProvided,
         DimCustomer.PrimaryPhone,
         DimCustomer.PrimaryPhoneType,
         DimCustomer.SecondaryPhone,
@@ -79,12 +92,15 @@ BEGIN
         DimCustomer.DateOfBirth,
         DimCustomer.CustomerType,
         DimCustomer.CustomerStatus,
-        DimCustomer.OmbudsmanComplaints) 
+        DimCustomer.OmbudsmanComplaints,
+        DimCustomer.CreationDate,
+        DimCustomer.JoinDate,
+        DimCustomer.PrivacyPreferredStatus) 
         SELECT
+        CAST ( nc_client.seq_party_id AS int) ,
         CASE
         WHEN ISNUMERIC (crm_party.party_code) = 1 THEN CAST ( crm_party.party_code AS int) 
         END,
-        CAST ( nc_client.seq_party_id AS int) ,
         CAST ( crm_party.title AS nchar (3)) ,
         CAST ( crm_party.first_name AS nvarchar (100)) ,
         CAST ( crm_party.initials AS nchar (10)) ,
@@ -93,10 +109,18 @@ BEGIN
         CAST ( crm_party.postal_addr_1 AS nvarchar (100)) ,
         CAST ( crm_party.postal_addr_2 AS nvarchar (50)) ,
         CAST ( crm_party.postal_post_code AS nchar (4)) ,
+        CASE
+        WHEN LEFT (UPPER ( crm_party.postal_addr_3) , 3) IN ('ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA') THEN LEFT (UPPER (crm_party.postal_addr_3) , 3) 
+            ELSE NULL
+        END,
         CAST ( crm_party.postal_addr_3 AS nchar (3)) ,
         CAST ( crm_party.street_addr_1 AS nvarchar (100)) ,
         CAST ( crm_party.street_addr_2 AS nvarchar (50)) ,
         CAST ( crm_party.street_post_code AS nchar (4)) ,
+        CASE
+        WHEN LEFT (UPPER ( crm_party.street_addr_3) , 3) IN ('ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA') THEN LEFT (UPPER (crm_party.street_addr_3) , 3) 
+            ELSE NULL
+        END,
         CAST ( crm_party.street_addr_3 AS nchar (3)) ,
         CAST (CONCAT ( crm_party.std_code, crm_party.phone_no) AS nvarchar (24)) ,
         CAST (CASE crm_party.primary_phone_type_id
@@ -129,22 +153,37 @@ BEGIN
         CAST (CASE _ombudsmanComplaints.IsOmbudsman
               WHEN 1 THEN 'Yes'
                   ELSE 'No'
-              END AS nchar (3)) 
+              END AS nchar (3)) ,
+        crm_party.insert_datetime,
+        CASE
+        WHEN _joinDate.EarliestVVDate = '9999-12-31' THEN nc_client.insert_datetime
+            ELSE _joinDate.EarliestVVDate
+        END,
+        CASE nc_client.promo_allowed
+        WHEN 'E' THEN 'Preferred contact by email'
+        WHEN 'P' THEN 'Preferred contact by phone'
+        WHEN 'Y' THEN 'Preferred contact by mail'
+        WHEN 'N' THEN 'Privacy: Do Not Contact'
+            ELSE NULL
+        END
           FROM
-               [DW_Staging].[orion].nc_client INNER JOIN [DW_Staging].[orion].crm_party
+               DW_Staging.orion.nc_client INNER JOIN DW_Staging.orion.crm_party
                ON nc_client.seq_party_id = crm_party.seq_party_id
-                              INNER JOIN [DW_Staging].[orion].crm_element_hierarchy
+                                          INNER JOIN DW_Staging.orion.crm_element_hierarchy
                ON crm_element_hierarchy.element_id = crm_party.seq_party_id
-                              INNER JOIN customerStatus AS _customerStatus
+                                          INNER JOIN customerStatus AS _customerStatus
                ON _customerStatus.seq_party_id = nc_client.seq_party_id
-                              LEFT OUTER JOIN ombudsmanComplaints AS _ombudsmanComplaints
+                                          LEFT OUTER JOIN ombudsmanComplaints AS _ombudsmanComplaints
                ON _ombudsmanComplaints.ClientId = crm_party.party_code
+                                          LEFT OUTER JOIN joinDate AS _joinDate
+               ON _joinDate.seq_party_id = nc_client.seq_party_id
           WHERE crm_element_hierarchy.seq_element_type_id = '9'
             AND (crm_party.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
               OR nc_client.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
               OR crm_element_hierarchy.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
               OR _customerStatus.Meta_HasChanged = 1
-              OR _ombudsmanComplaints.Meta_HasChanged = 1);
+              OR _ombudsmanComplaints.Meta_HasChanged = 1
+              OR _joinDate.Meta_HasChanged = 1);
 
     SELECT 0 AS ExtractRowCount,
            @@ROWCOUNT AS InsertRowCount,
@@ -155,5 +194,4 @@ BEGIN
 END;
 
 GO
-
 

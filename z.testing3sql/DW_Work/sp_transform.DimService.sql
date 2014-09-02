@@ -1,7 +1,7 @@
 USE [DW_Work]
 GO
 
-/****** Object:  StoredProcedure [transform].[DimService]    Script Date: 27/08/2014 12:56:46 PM ******/
+/****** Object:  StoredProcedure [transform].[DimService]    Script Date: 2/09/2014 12:12:16 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -50,5 +50,4 @@ BEGIN
 END;
 
 GO
-
 
