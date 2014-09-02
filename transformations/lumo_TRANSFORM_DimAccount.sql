@@ -13,7 +13,7 @@ EXEC DW_Utility.config.GetLatestSuccessfulTaskExecutionInstanceID
 END
 --/
 
-	;WITH accountStatus AS (SELECT nc_client.seq_party_id, MAX (CASE WHEN utl_account_status.accnt_status_class_id = '2' THEN 1 ELSE 0 END) AS StatusOpen, MAX (CASE WHEN utl_account_status.accnt_status_class_id = '3' THEN 1 ELSE 0 END) AS StatusPending, MAX (CASE WHEN utl_account_status.accnt_status_class_id = '4' THEN 1 ELSE 0 END) AS StatusError, MAX (CASE WHEN nc_client.Meta_LatestUpdate_TaskExecutionInstanceId >= @LatestSuccessfulTaskExecutionInstanceID OR nc_product.Meta_LatestUpdate_TaskExecutionInstanceId >= @LatestSuccessfulTaskExecutionInstanceID OR nc_product_item.Meta_LatestUpdate_TaskExecutionInstanceId >= @LatestSuccessfulTaskExecutionInstanceID THEN 1 ELSE 0 END) AS Meta_HasChanged FROM lumo.nc_client LEFT OUTER JOIN lumo.nc_product ON nc_product.seq_party_id = nc_client.seq_party_id LEFT OUTER JOIN lumo.nc_product_item ON nc_product_item.seq_product_id = nc_product.seq_product_id LEFT OUTER JOIN lumo.utl_account_status ON utl_account_status.accnt_status_id = nc_product_item.accnt_status_id GROUP BY nc_client.seq_party_id)
+	;WITH accountStatus AS (SELECT nc_client.seq_party_id, MIN(accnt_status_date) AS MinAccountStatusDate, MAX (accnt_status_date) AS MaxAccountStatusDate, MAX (CASE WHEN utl_account_status.accnt_status_class_id = '2' THEN 1 ELSE 0 END) AS StatusOpen, MAX (CASE WHEN utl_account_status.accnt_status_class_id = '3' THEN 1 ELSE 0 END) AS StatusPending, MAX (CASE WHEN utl_account_status.accnt_status_class_id = '4' THEN 1 ELSE 0 END) AS StatusError, MAX (CASE WHEN nc_client.Meta_LatestUpdate_TaskExecutionInstanceId >= @LatestSuccessfulTaskExecutionInstanceID OR nc_product.Meta_LatestUpdate_TaskExecutionInstanceId >= @LatestSuccessfulTaskExecutionInstanceID OR nc_product_item.Meta_LatestUpdate_TaskExecutionInstanceId >= @LatestSuccessfulTaskExecutionInstanceID THEN 1 ELSE 0 END) AS Meta_HasChanged FROM lumo.nc_client LEFT OUTER JOIN lumo.nc_product ON nc_product.seq_party_id = nc_client.seq_party_id LEFT OUTER JOIN lumo.nc_product_item ON nc_product_item.seq_product_id = nc_product.seq_product_id LEFT OUTER JOIN lumo.utl_account_status ON utl_account_status.accnt_status_id = nc_product_item.accnt_status_id GROUP BY nc_client.seq_party_id)
 	INSERT INTO lumo.DimAccount (
 		DimAccount.AccountCode,
 		DimAccount.AccountKey,
@@ -26,7 +26,8 @@ END
 		DimAccount.AccountStatus,
 		DimAccount.PaymentMethod,
 		DimAccount.InvoiceDeliveryMethod,
-		DimAccount.CreditControlStatus)
+		DimAccount.CreditControlStatus,
+		DimAccount.AccountClosedDate)
 	  SELECT
 		CASE WHEN ISNUMERIC (crm_party.party_code) = 1 THEN CAST( crm_party.party_code AS int) END,
 		CAST( nc_client.seq_party_id AS int),
@@ -39,7 +40,8 @@ END
 		CAST (CASE WHEN _accountStatus.StatusOpen = 1 THEN 'Open' WHEN _accountStatus.StatusPending = 1 THEN 'Pending' WHEN _accountStatus.StatusError = 1 THEN 'Error' ELSE 'Closed' END AS nchar (10)),
 		CAST (CASE nc_client.seq_pay_method_id WHEN 14 THEN 'Cheque' WHEN 17 THEN 'Direct Credit' WHEN 18 THEN 'Direct Debit' WHEN 22 THEN 'Credit Card' ELSE NULL END AS NVARCHAR(20)),
 		CAST( nc_inv_deliver_mode.inv_del_mode_desc AS nvarchar(50)),
-		CAST( nc_credit_control_status.seq_credit_status_desc AS nvarchar(50))
+		CAST( nc_credit_control_status.seq_credit_status_desc AS nvarchar(50)),
+		CAST(CASE WHEN ( _accountStatus.StatusOpen = 1 OR  _accountStatus.StatusPending = 1  OR _accountStatus.StatusError = 1 ) THEN NULL ELSE _accountStatus.MaxAccountStatusDate END AS DATETIME)
 	  FROM lumo.nc_client INNER JOIN lumo.crm_party ON nc_client.seq_party_id = crm_party.seq_party_id INNER JOIN accountStatus AS _accountStatus ON _accountStatus.seq_party_id = nc_client.seq_party_id LEFT JOIN lumo.nc_credit_control_status ON nc_credit_control_status.seq_credit_status_id = nc_client.seq_int_crd_chk_id LEFT JOIN lumo.nc_inv_deliver_mode ON nc_inv_deliver_mode.seq_inv_del_mode_id = nc_client.seq_inv_del_mode_id WHERE (crm_party.Meta_LatestUpdate_TaskExecutionInstanceId >= @LatestSuccessfulTaskExecutionInstanceID OR nc_client.Meta_LatestUpdate_TaskExecutionInstanceId >= @LatestSuccessfulTaskExecutionInstanceID OR _accountStatus.Meta_HasChanged = 1);
 
 SELECT 0 AS ExtractRowCount,
