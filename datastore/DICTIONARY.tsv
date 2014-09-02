@@ -51,6 +51,7 @@ AccountCreatedDate	any	To be used when describing First item in a compound value
 AccountClosedDate	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
 AccountBillStartDate	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
 CreditControlStatus	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
+CreditControlCategory	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
 InvoiceDeliveryMethod	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
 PaymentMethod	any	To be used when describing First item in a compound value - e.g. a First name of customers or contacts	John
 LAST	prefix	To be used when describing the Last item in a compound value - e.g. a Surname of customers or contacts	Smith	

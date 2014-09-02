@@ -14,5 +14,6 @@ AccountStatus	Account Status	nchar	10		FALSE		FALSE
 AccountCreatedDate	AccountCreatedDate	datetime			FALSE		FALSE
 AccountClosedDate	Closed date	datetime			FALSE		FALSE
 CreditControlStatus	Credit Control Status of a customer	nvarchar	50		FALSE		FALSE
+CreditControlCategory	CreditControlCategory	nvarchar	50		FALSE		FALSE
 InvoiceDeliveryMethod	The way the invoice is delivered to a customer	nvarchar	30		FALSE		FALSE
 PaymentMethod	The way of customer paying an invoice	nvarchar	20		FALSE		FALSE
