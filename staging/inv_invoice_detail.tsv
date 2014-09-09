@@ -1,0 +1,46 @@
+# design artefact							
+# ARTEFACT: inv_invoice_detail							
+# DESCRIPTION: Invoice Detail table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+seq_invoice_header_id 	seq_invoice_header_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+seq_invoice_detail_id 	seq_invoice_detail_id 	numeric	"18, 0"		TRUE	TRUE	FALSE
+transaction_reference 	transaction_reference 	varchar	40		FALSE	FALSE	FALSE
+transaction_date 	transaction_date 	datetime			FALSE	FALSE	FALSE
+any_text1 	any_text1 	varchar	100		FALSE	FALSE	FALSE
+any_num1 	any_num1 	money			FALSE	FALSE	FALSE
+any_text2 	any_text2 	varchar	100		FALSE	FALSE	FALSE
+any_num2 	any_num2 	money			FALSE	FALSE	FALSE
+any_text3 	any_text3 	varchar	100		FALSE	FALSE	FALSE
+any_num3 	any_num3 	money			FALSE	FALSE	FALSE
+any_text4 	any_text4 	varchar	100		FALSE	FALSE	FALSE
+any_num4 	any_num4 	money			FALSE	FALSE	FALSE
+item_code 	item_code 	varchar	40		FALSE	FALSE	FALSE
+detail_desc 	detail_desc 	varchar	255		FALSE	FALSE	FALSE
+quantity 	quantity 	money			FALSE	FALSE	FALSE
+multiplier 	multiplier 	numeric	"12, 4"		FALSE	FALSE	FALSE
+unit_price 	unit_price 	money			FALSE	FALSE	FALSE
+net_amount 	net_amount 	money			FALSE	FALSE	FALSE
+tax_amount 	tax_amount 	money			FALSE	FALSE	FALSE
+total_amount 	total_amount 	money			FALSE	FALSE	FALSE
+discount_amount 	discount_amount 	money			FALSE	FALSE	FALSE
+active 	active 	char	1		FALSE	FALSE	FALSE
+insert_datetime 	insert_datetime 	datetime			FALSE	FALSE	FALSE
+insert_user 	insert_user 	varchar	20		FALSE	FALSE	FALSE
+insert_process 	insert_process 	varchar	20		FALSE	FALSE	FALSE
+update_datetime 	update_datetime 	datetime			FALSE	FALSE	FALSE
+update_user 	update_user 	varchar	20		FALSE	FALSE	FALSE
+update_process 	update_process 	varchar	20		FALSE	FALSE	FALSE
+seq_bus_unit_id 	seq_bus_unit_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+seq_client_charge_id 	seq_client_charge_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+seq_product_type_id 	seq_product_type_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+gst_inclusive 	gst_inclusive 	varchar	1		FALSE	FALSE	FALSE
+tax_dtl_amount_1 	tax_dtl_amount_1 	money			FALSE	FALSE	FALSE
+tax_dtl_amount_2 	tax_dtl_amount_2 	money			FALSE	FALSE	FALSE
+tax_dtl_amount_3 	tax_dtl_amount_3 	money			FALSE	FALSE	FALSE
+tax_dtl_amount_4 	tax_dtl_amount_4 	money			FALSE	FALSE	FALSE
+tax_dtl_amount_5 	tax_dtl_amount_5 	money			FALSE	FALSE	FALSE
+tax_dtl_amount_6 	tax_dtl_amount_6 	money			FALSE	FALSE	FALSE
+seq_product_item_id 	seq_product_item_id 	numeric	"18, 0"		FALSE	FALSE	FALSE

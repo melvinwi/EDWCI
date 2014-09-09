@@ -1,0 +1,42 @@
+
+h2. ARTEFACT: ar_adjust
+
+DESCRIPTION: Accounts Receivable adjustment table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|Meta_ChangeFlag	|Meta: Row Change flag	|bit	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|seq_ar_adjust_id 	|	|numeric	|"18, 0"	|	|TRUE	|TRUE	|FALSE	|
+|seq_party_id 	|	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_adj_reason_id 	|	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|adj_date 	|	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|statement_id 	|	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|adj_amount 	|	|numeric	|"17, 2"	|	|FALSE	|FALSE	|FALSE	|
+|posted_date 	|	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|allocated 	|	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|notes 	|	|varchar	|max	|	|FALSE	|FALSE	|FALSE	|
+|active 	|	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime 	|	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user 	|	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process 	|	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime 	|	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user 	|	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process 	|	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|seq_accounting_period_id 	|	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|allocated_amount 	|	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|seq_bus_unit_id 	|	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_ar_invoice_id 	|	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_rcpt_id 	|	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|GL_posted_date 	|	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|GL_accounting_period 	|	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|export_seq 	|	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|invoice_message 	|	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|tax_dtl_amount_1 	|	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|tax_dtl_amount_2 	|	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|tax_dtl_amount_3 	|	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|tax_dtl_amount_4 	|	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|tax_dtl_amount_5 	|	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|tax_dtl_amount_6 	|	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|write_off_export_id 	|	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE|
+
