@@ -1,0 +1,27 @@
+
+h2. ARTEFACT: utl_pp_schedule_type
+
+DESCRIPTION: Schedule Type reference table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|Meta_ChangeFlag	|Meta: Row Change flag	|bit	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|sched_type_id 	|sched_type_id 	|numeric	|"18, 0"	|	|TRUE	|TRUE	|FALSE	|
+|sched_class_id 	|sched_class_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_product_type_id 	|seq_product_type_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|sched_type_code 	|sched_type_code 	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|sched_type_desc 	|sched_type_desc 	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|active 	|active 	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime 	|insert_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user 	|insert_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process 	|insert_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime 	|update_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user 	|update_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process 	|update_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|default_option 	|default_option 	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|trans_type_id 	|trans_type_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_account_id 	|seq_account_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|use_simple_schedule 	|use_simple_schedule 	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|minimum_charge_freq 	|minimum_charge_freq 	|varchar	|20	|	|FALSE	|FALSE	|FALSE|
+

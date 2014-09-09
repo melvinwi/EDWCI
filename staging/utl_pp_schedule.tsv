@@ -1,0 +1,24 @@
+# design artefact							
+# ARTEFACT: utl_pp_schedule							
+# DESCRIPTION: Schedule reference table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+sched_id 	sched_id 	numeric	"18, 0"		TRUE	TRUE	FALSE
+price_plan_id 	price_plan_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+sched_type_id 	sched_type_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+meter_type_id 	meter_type_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+capacity_id 	capacity_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+band_header_id 	band_header_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+active 	active 	char	1		FALSE	FALSE	FALSE
+insert_datetime 	insert_datetime 	datetime			FALSE	FALSE	FALSE
+insert_user 	insert_user 	varchar	20		FALSE	FALSE	FALSE
+insert_process 	insert_process 	varchar	20		FALSE	FALSE	FALSE
+update_datetime 	update_datetime 	datetime			FALSE	FALSE	FALSE
+update_user 	update_user 	varchar	20		FALSE	FALSE	FALSE
+update_process 	update_process 	varchar	20		FALSE	FALSE	FALSE
+contractable 	contractable 	char	1		FALSE	FALSE	FALSE
+summ_all_in_class 	summ_all_in_class 	char	1		FALSE	FALSE	FALSE
+invoice_desc 	invoice_desc 	varchar	100		FALSE	FALSE	FALSE
+seq_account_id 	seq_account_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
