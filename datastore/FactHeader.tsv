@@ -1,0 +1,10 @@
+# design artefact							
+# ARTEFACT: FactHeader							
+# DESCRIPTION: Header fact table							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+AccountId	Foreign key to DimAccount	int		-1	TRUE		FALSE
+IssueDateId	Issue Date	int		99991231	TRUE		FALSE
+DueDateId	Due Date	int		99991231	TRUE		FALSE
+HeaderType	Header Type	nchar	7		TRUE		FALSE
+PaidOnTime	PaidOnTime	nchar	3		TRUE		FALSE
+HeaderKey	Header Key	int		-1	TRUE		FALSE

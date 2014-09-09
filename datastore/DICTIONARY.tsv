@@ -1,63 +1,80 @@
-# standards artefact                                                               	                       	                         	              	
-# ARTEFACT: DICTIONARY                                                             	                       	                         	              	
-# DESCRIPTION: a valid list of valid business names, descriptions and sample values	                       	                         	              	
-NAME                                                                               	PREFIX_OR_SUFFIX_OR_ANY	DESCRIPTION              	EXAMPLE_VALUES	
-Key                                                                                	suffix                 	Identifier               	NA
-AccountBillStartDate                                                               	any                    	Identifier               	NA
-Id                                                                                 	suffix                 	Identifier               	NA
-Code                                                                               	suffix                 	Identifier               	NA
-Account                                                                            	prefix                 	Reserved for DimAccount  	NA
-Customer                                                                           	prefix                 	Reserved for DimCustomer 	NA
-Service                                                                            	prefix                 	Reserved for DimService  	NA
-Contract                                                                           	prefix                 	Reserved for FactContract	NA
-Product                                                                            	prefix                 	Reserved for DimProduct  	NA
-Counter                                                                            	suffix                 	Counter                  	NA
-Postal                                                                             	prefix                 	Mailing Address prefix   	NA
-Residential                                                                        	prefix                 	Site Address prefix      	NA
-LoyaltyPoints                                                                      	prefix                 	Loyalty Points prefix    	NA
-AddressLine1                                                                       	suffix                 	Address Line 1           	NA
-Suburb                                                                             	suffix                 	Address Suburb           	NA
-Postcode                                                                           	suffix                 	Address Postcode         	NA
-State                                                                              	suffix                 	Address State            	NA
-StateAsProvided                                                                    	suffix                 	Address State            	NA
-Status                                                                             	suffix                 	Status flag or value     	NA
-MyAccount                                                                          	prefix                 	My Account Service prefix	NA
-Date                                                                               	suffix                 	Date prefix              	NA
-Creation                                                                           	prefix                 	Date prefix              	NA
-Closed                                                                             	any                    	Closed                   	NA
-BillStart                                                                          	any                    	Bill Start               	NA
-CreditControl                                                                      	prefix                 	Credit Control           	NA
-InvoiceDelivery                                                                    	prefix                 	Credit Control           	NA
-Payment                                                                            	prefix                 	Credit Control           	NA
-Method                                                                             	suffix                 	Method                   	NA
-Title                                                                              	prefix                 	Title                    	NA
-First                                                                              	prefix                 	First                    	NA
-Last                                                                               	prefix                 	Last                     	NA
-Party                                                                              	prefix                 	Party                    	NA
-Points                                                                             	prefix                 	Points                   	NA
-Program                                                                            	prefix                 	Program                  	NA
-AwardedDate                                                                        	prefix                 	Awarded                  	NA
-MemberNumber                                                                       	any                    	MemberNumber             	NA
-Name                                                                               	suffix                 	Name                     	NA
-Amount                                                                             	suffix                 	Amount                   	NA
-MiddleInitial                                                                      	suffix                 	MiddleInitial            	NA
-Primary                                                                            	prefix                 	Primary                  	NA
-Secondary                                                                          	prefix                 	Secondary                	NA
-Mobile                                                                             	prefix                 	Mobile                   	NA
-Phone                                                                              	any                    	Phone                    	NA
-Type                                                                               	suffix                 	Type                     	NA
-Email                                                                              	any                    	Email                    	NA
-DateOfBirth                                                                        	any                    	Date of Birth            	NA
-OmbudsmanComplaints                                                                	any                    	Ombudsman Complaints     	NA
-MarketIdentifier                                                                   	any                    	Market Identifier        	NA
-StartDate                                                                          	any                    	Start Date               	NA
-EndDate                                                                            	any                    	End Date                 	NA
-Join                                                                               	prefix                 	Join                     	NA
-Relationship                                                                       	any                    	Relationship             	NA
-EffectiveStartDate                                                                 	any                    	Start Date               	NA
-EffectiveEndDate                                                                   	any                    	End Date                 	NA
-TerminatedDate                                                                     	any                    	Terminated               	NA
-Desc                                                                               	suffix                 	Description              	NA
-PrivacyPreferred                                                                   	prefix                 	Privacy Preferred        	NA
-Creation                                                                           	any                    	Creation                 	NA
-Category                                                                           	suffix                 	Category                 	NA
+# standards artefact				
+# ARTEFACT: DICTIONARY				
+# DESCRIPTION: a valid list of valid business names, descriptions and sample values				
+NAME	PREFIX_OR_SUFFIX_OR_ANY	DESCRIPTION	EXAMPLE_VALUES	
+Key	suffix	Identifier	NA
+AccountBillStartDate	any	Identifier	NA
+Id	suffix	Identifier	NA
+Code	suffix	Identifier	NA
+Account	prefix	Reserved for DimAccount	NA
+Customer	prefix	Reserved for DimCustomer 	NA
+Service	prefix	Reserved for DimService	NA
+Contract	prefix	Reserved for FactContract	NA
+Product	prefix	Reserved for DimProduct	NA
+Counter	suffix	Counter	NA
+Postal	prefix	Mailing Address prefix	NA
+Residential	prefix	Site Address prefix	NA
+LoyaltyPoints	prefix	Loyalty Points prefix	NA
+AddressLine1	suffix	Address Line 1	NA
+Suburb	suffix	Address Suburb	NA
+Postcode	suffix	Address Postcode	NA
+State	suffix	Address State	NA
+StateAsProvided	suffix	Address State	NA
+Status	suffix	Status flag or value	NA
+MyAccount	prefix	My Account Service prefix	NA
+Date	suffix	Date suffix	NA
+Creation	prefix	Date prefix	NA
+Closed	any	Closed	NA
+BillStart	any	Bill Start	NA
+CreditControl	prefix	Credit Control	NA
+InvoiceDelivery	prefix	Credit Control	NA
+Payment	prefix	Credit Control	NA
+Method	suffix	Method	NA
+Title	prefix	Title	NA
+First	prefix	First	NA
+Last	prefix	Last	NA
+Party	prefix	Party	NA
+Points	prefix	Points	NA
+Program	prefix	Program	NA
+AwardedDate	prefix	Awarded	NA
+MemberNumber	any	MemberNumber	NA
+Name	suffix	Name	NA
+Amount	suffix	Amount	NA
+MiddleInitial	suffix	MiddleInitial	NA
+Primary	prefix	Primary	NA
+Secondary	prefix	Secondary	NA
+Mobile	prefix	Mobile	NA
+Phone	any	Phone	NA
+Type	suffix	Type	NA
+Email	any	Email	NA
+DateOfBirth	any	Date of Birth	NA
+OmbudsmanComplaints	any	Ombudsman Complaints	NA
+MarketIdentifier	any	Market Identifier	NA
+StartDate	any	Start Date	NA
+EndDate	any	End Date	NA
+Join	prefix	Join	NA
+Relationship	any	Relationship	NA
+EffectiveStartDate	any	Start Date	NA
+EffectiveEndDate	any	End Date	NA
+TerminatedDate	any	Terminated	NA
+Desc	suffix	Description	NA
+PrivacyPreferred	prefix	Privacy Preferred	NA
+Creation	any	Creation	NA
+Category	suffix	Category	NA
+FinancialAccount	prefix	Reserved for DimFinancialAccount	NA
+Level1Name		any	Level 1 Name	NA
+Level2Name		any	Level 2 Name	NA
+Level3Name		any	Level 3 Name	NA
+UnitType	prefix	Reserved for DimUnitType	NA
+MultiplicationFactorToBase	any	Multiplication Factor To Base	NA
+IssueDate	any	Issue Date	NA
+DueDate	any	Due Date	NA
+Header	any	Header	NA
+PaidOnTime	any	Paid On Time	NA
+TransactionDate	any	Transaction Date	NA
+Version	any	Version	NA
+Units	any	Units	NA
+TransactionKey	any	Transaction Key	NA
+Value	any	Value	NA
+Currency	any	Currency	NA
+GST	any	GST	NA
