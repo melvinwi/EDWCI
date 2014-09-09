@@ -1,0 +1,45 @@
+# design artefact							
+# ARTEFACT: ar_receipt							
+# DESCRIPTION: Accounts Receivable payment receipt table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+seq_rcpt_id 	seq_rcpt_id 	numeric	"18, 0"		TRUE	TRUE	FALSE
+seq_rcpt_batch_id 	seq_rcpt_batch_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+account_name 	account_name 	varchar	100		FALSE	FALSE	FALSE
+bank_branch 	bank_branch 	varchar	100		FALSE	FALSE	FALSE
+seq_bank_id 	seq_bank_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+seq_party_id 	seq_party_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+statement_id 	statement_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+rcpt_date 	rcpt_date 	datetime			FALSE	FALSE	FALSE
+rcpt_amount 	rcpt_amount 	numeric	"17, 2"		FALSE	FALSE	FALSE
+allocated 	allocated 	varchar	1		FALSE	FALSE	FALSE
+posted_date 	posted_date 	datetime			FALSE	FALSE	FALSE
+active 	active 	char	1		FALSE	FALSE	FALSE
+insert_datetime 	insert_datetime 	datetime			FALSE	FALSE	FALSE
+insert_user 	insert_user 	varchar	20		FALSE	FALSE	FALSE
+insert_process 	insert_process 	varchar	20		FALSE	FALSE	FALSE
+update_datetime 	update_datetime 	datetime			FALSE	FALSE	FALSE
+update_user 	update_user 	varchar	20		FALSE	FALSE	FALSE
+update_process 	update_process 	varchar	20		FALSE	FALSE	FALSE
+reference 	reference 	varchar	200		FALSE	FALSE	FALSE
+seq_accounting_period_id 	seq_accounting_period_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+credit_card_no 	credit_card_no 	varchar	8000		FALSE	FALSE	FALSE
+credit_card_expiry 	credit_card_expiry 	varchar	5		FALSE	FALSE	FALSE
+allocated_amount 	allocated_amount 	money			FALSE	FALSE	FALSE
+credit_card_type_code 	credit_card_type_code 	varchar	20		FALSE	FALSE	FALSE
+credit_card_verif_no 	credit_card_verif_no 	varchar	4		FALSE	FALSE	FALSE
+credit_card_name 	credit_card_name 	varchar	100		FALSE	FALSE	FALSE
+pension_no 	pension_no 	varchar	20		FALSE	FALSE	FALSE
+GL_posted_date 	GL_posted_date 	datetime			FALSE	FALSE	FALSE
+GL_accounting_period 	GL_accounting_period 	numeric	"18, 0"		FALSE	FALSE	FALSE
+export_seq 	export_seq 	int			FALSE	FALSE	FALSE
+ocr_payment_det_id 	ocr_payment_det_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+location_code 	location_code 	varchar	20		FALSE	FALSE	FALSE
+authentication_no 	authentication_no 	varchar	100		FALSE	FALSE	FALSE
+encrypt_credit_card_no 	encrypt_credit_card_no 	varbinary	2000		FALSE	FALSE	FALSE
+cc_result_code 	cc_result_code 	varchar	20		FALSE	FALSE	FALSE
+cc_result_msg 	cc_result_msg 	varchar	500		FALSE	FALSE	FALSE
+cc_trans_id 	cc_trans_id 	varchar	100		FALSE	FALSE	FALSE
+credit_card_post_code 	credit_card_post_code 	varchar	10		FALSE	FALSE	FALSE

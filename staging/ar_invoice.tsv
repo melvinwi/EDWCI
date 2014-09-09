@@ -1,0 +1,38 @@
+# design artefact							
+# ARTEFACT: ar_invoice							
+# DESCRIPTION: Accounts Receivable invoicing table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+seq_ar_invoice_id 	seq_ar_invoice_id 	numeric	"18, 0"		TRUE	TRUE	FALSE
+seq_party_id 	seq_party_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+allocated 	allocated 	varchar	1		FALSE	FALSE	FALSE
+posted_date 	posted_date 	datetime			FALSE	FALSE	FALSE
+opening_balance 	opening_balance 	numeric	"17, 2"		FALSE	FALSE	FALSE
+adjustment_amount 	adjustment_amount 	numeric	"17, 2"		FALSE	FALSE	FALSE
+receipt_amount 	receipt_amount 	numeric	"17, 2"		FALSE	FALSE	FALSE
+new_charge_amount 	new_charge_amount 	numeric	"17, 2"		FALSE	FALSE	FALSE
+tax_amount 	tax_amount 	numeric	"17, 2"		FALSE	FALSE	FALSE
+closing_balance 	closing_balance 	numeric	"17, 2"		FALSE	FALSE	FALSE
+prompt_payment_discount 	prompt_payment_discount 	numeric	"17, 2"		FALSE	FALSE	FALSE
+paid_promptly 	paid_promptly 	varchar	1		FALSE	FALSE	FALSE
+invoice_reference 	invoice_reference 	varchar	40		FALSE	FALSE	FALSE
+active 	active 	char	1		FALSE	FALSE	FALSE
+insert_datetime 	insert_datetime 	datetime			FALSE	FALSE	FALSE
+insert_user 	insert_user 	varchar	20		FALSE	FALSE	FALSE
+insert_process 	insert_process 	varchar	20		FALSE	FALSE	FALSE
+update_datetime 	update_datetime 	datetime			FALSE	FALSE	FALSE
+update_user 	update_user 	varchar	20		FALSE	FALSE	FALSE
+update_process 	update_process 	varchar	20		FALSE	FALSE	FALSE
+reversal 	reversal 	varchar	1		FALSE	FALSE	FALSE
+seq_accounting_period_id 	seq_accounting_period_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+allocated_amount 	allocated_amount 	money			FALSE	FALSE	FALSE
+invoice_due_date 	invoice_due_date 	datetime			FALSE	FALSE	FALSE
+fully_allocated_date 	fully_allocated_date 	datetime			FALSE	FALSE	FALSE
+eligible_for_ppd 	eligible_for_ppd 	varchar	1		FALSE	FALSE	FALSE
+GL_posted_date 	GL_posted_date 	datetime			FALSE	FALSE	FALSE
+GL_accounting_period 	GL_accounting_period 	numeric	"18, 0"		FALSE	FALSE	FALSE
+export_seq 	export_seq 	int			FALSE	FALSE	FALSE
+batch_alloc_date 	batch_alloc_date 	datetime			FALSE	FALSE	FALSE
+invoice_ppd_date 	invoice_ppd_date 	datetime			FALSE	FALSE	FALSE
