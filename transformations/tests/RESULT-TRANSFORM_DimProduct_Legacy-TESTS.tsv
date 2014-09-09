@@ -1,9 +1,9 @@
 # transformation test result artefact
 # ARTEFACT: TRANSFORM_DimProduct_Legacy
-# CREATED DATE: 2014-09-01T103808
+# CREATED DATE: 2014-09-09T132744
 
-2014-09-01 10:38:10	2	PASSED	source.length.should.equal(destination.length)	{"obj":9,"params":{"operator":"to be","expected":9,"showDiff":true},"negate":false}
-2014-09-01 10:38:11	3	PASSED	source[0].ProductKey.should.equal(destination[0].ProductKey)	{"obj":"Lumo Advantage","params":{"operator":"to be","expected":"Lumo Advantage","showDiff":true},"negate":false}
-2014-09-01 10:38:12	4	PASSED	source[0].ProductName.should.equal(destination[0].ProductName)	{"obj":"Lumo Advantage","params":{"operator":"to be","expected":"Lumo Advantage","showDiff":true},"negate":false}
-2014-09-01 10:38:13	5	PASSED	source[0].ProductDesc.should.equal(destination[0].ProductDesc)	{"obj":"Best rates available","params":{"operator":"to be","expected":"Best rates available","showDiff":true},"negate":false}
-2014-09-01 10:38:13	6	PASSED	source[0].ProductType.should.equal(destination[0].ProductType)	{"obj":"Legacy","params":{"operator":"to be","expected":"Legacy","showDiff":true},"negate":false}
+2014-09-09 13:27:45	2	PASSED	source.length.should.equal(destination.length)	{"obj":9,"params":{"operator":"to be","expected":9,"showDiff":true},"negate":false}
+2014-09-09 13:27:46	3	PASSED	source[0].ProductKey.should.equal(destination[0].ProductKey)	{"obj":"Lumo Advantage","params":{"operator":"to be","expected":"Lumo Advantage","showDiff":true},"negate":false}
+2014-09-09 13:27:47	4	PASSED	source[0].ProductName.should.equal(destination[0].ProductName)	{"obj":"Lumo Advantage","params":{"operator":"to be","expected":"Lumo Advantage","showDiff":true},"negate":false}
+2014-09-09 13:27:47	5	PASSED	source[0].ProductDesc.should.equal(destination[0].ProductDesc)	{"obj":"Best rates available","params":{"operator":"to be","expected":"Best rates available","showDiff":true},"negate":false}
+2014-09-09 13:27:48	6	PASSED	source[0].ProductType.should.equal(destination[0].ProductType)	{"obj":"Legacy","params":{"operator":"to be","expected":"Legacy","showDiff":true},"negate":false}
