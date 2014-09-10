@@ -1,0 +1,11 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_DimFinancialAccount				
+# DESCRIPTION: Promote services from Orion site table to DataStore 				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+CAST(	ar_account.seq_account_id	AS int)	DimFinancialAccount.FinancialAccountKey	One to one mapping with int cast
+CAST(	ar_account.account_desc	AS nvarchar(100))	DimFinancialAccount.FinancialAccountName	One to one mapping with nvarchar cast
+CAST(	ar_account.dr_cr	AS nchar(10))	DimFinancialAccount.FinancialAccountType	One to one mapping with nvarchar cast
+CAST(	ar_account.account_desc	AS nvarchar(100))	DimFinancialAccount.Level1Name	
+CAST(	ar_account_group.account_group_desc	AS nvarchar(100))	DimFinancialAccount.Level2Name	
+/*	ar_account.account_desc	*/ N'Lumo Energy'	DimFinancialAccount.Level3Name	
+SELECTION_CRITERIA	FROM [schema].ar_account INNER JOIN [schema].ar_account_group ON ar_account_group.account_group_id = ar_account.account_group_id WHERE ar_account.Meta_LatestUpdate_TaskExecutionInstanceId  > @LatestSuccessfulTaskExecutionInstanceID OR ar_account_group.Meta_LatestUpdate_TaskExecutionInstanceId  > @LatestSuccessfulTaskExecutionInstanceID			
