@@ -1,0 +1,10 @@
+
+h2. ARTEFACT: DimUnitType
+
+DESCRIPTION: Unit Type dimension table
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|UnitTypeKey	|Unit Type Key	|nvarchar	|30	|	|TRUE	|	|FALSE	|
+|UnitTypeName	|Unit Type Name	|nchar	|10	|	|FALSE	|	|FALSE	|
+|MultiplicationFactorToBase	|Multiplication Factor To Base	|decimal	|"12,4"	|	|FALSE	|	|FALSE|
+

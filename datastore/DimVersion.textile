@@ -1,0 +1,9 @@
+
+h2. ARTEFACT: DimVersion
+
+DESCRIPTION: Version dimension table
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|VersionKey	|Version Key	|nchar	|10	|	|TRUE	|	|FALSE	|
+|VersionName	|Version Name	|nchar	|10	|	|FALSE	|	|FALSE|
+

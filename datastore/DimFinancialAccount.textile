@@ -1,0 +1,13 @@
+
+h2. ARTEFACT: DimFinancialAccount
+
+DESCRIPTION: Financial Account dimension table
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|FinancialAccountKey	|Financial Account Key	|int	|	|	|TRUE	|	|FALSE	|
+|FinancialAccountName	|Financial Account Name	|nvarchar	|100	|	|FALSE	|	|FALSE	|
+|FinancialAccountType	|Financial Account Type	|nchar	|10	|	|FALSE	|	|FALSE	|
+|Level1Name	|Level 1 Name	|nvarchar	|100	|	|FALSE	|	|FALSE	|
+|Level2Name	|Level 2 Name	|nvarchar	|100	|	|FALSE	|	|FALSE	|
+|Level3Name	|Level 3 Name	|nvarchar	|100	|	|FALSE	|	|FALSE|
+
