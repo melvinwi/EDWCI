@@ -1,0 +1,23 @@
+# design artefact							
+# ARTEFACT: inv_charge_item							
+# DESCRIPTION: Invoice Charge Item reference table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+seq_charge_item_id 	seq_charge_item_id 	numeric	"18, 0"		TRUE	TRUE	FALSE
+seq_charge_group_id 	seq_charge_group_id 	numeric	"18, 0 "		FALSE	FALSE	FALSE
+charge_item_code 	charge_item_code 	varchar	10		FALSE	FALSE	FALSE
+charge_item_desc 	charge_item_desc 	varchar	100		FALSE	FALSE	FALSE
+invoice_desc 	invoice_desc 	varchar	255		FALSE	FALSE	FALSE
+charge_amount 	charge_amount 	money			FALSE	FALSE	FALSE
+active 	active 	char	1		FALSE	FALSE	FALSE
+insert_datetime 	insert_datetime 	datetime			FALSE	FALSE	FALSE
+insert_user 	insert_user 	varchar	20		FALSE	FALSE	FALSE
+insert_process 	insert_process 	varchar	20		FALSE	FALSE	FALSE
+update_datetime 	update_datetime 	datetime			FALSE	FALSE	FALSE
+update_user 	update_user 	varchar	20		FALSE	FALSE	FALSE
+update_process 	update_process 	varchar	20		FALSE	FALSE	FALSE
+seq_account_id 	seq_account_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+incl_in_discount_calcs 	incl_in_discount_calcs 	varchar	1		FALSE	FALSE	FALSE
+apply_tax 	apply_tax 	varchar	1		FALSE	FALSE	FALSE

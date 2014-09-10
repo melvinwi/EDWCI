@@ -1,0 +1,32 @@
+
+h2. ARTEFACT: ar_adjust_reason
+
+DESCRIPTION: Accounts Receivable adjustment reason reference table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|Meta_ChangeFlag	|Meta: Row Change flag	|bit	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|seq_adj_reason_id 	|seq_adj_reason_id 	|numeric	|"18, 0"	|	|TRUE	|TRUE	|FALSE	|
+|seq_account_id 	|seq_account_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_adj_class_id 	|seq_adj_class_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|cust_tran_multiplier 	|cust_tran_multiplier 	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|adj_code 	|adj_code 	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|adj_desc 	|adj_desc 	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|adj_statement_desc 	|adj_statement_desc 	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|active 	|active 	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime 	|insert_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user 	|insert_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process 	|insert_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime 	|update_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user 	|update_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process 	|update_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|gst_inclusive 	|gst_inclusive 	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|user_select 	|user_select 	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|rev_seq_adj_reason_id 	|rev_seq_adj_reason_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|invoice_adj_only 	|invoice_adj_only 	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|wo_seq_adj_reason_id 	|wo_seq_adj_reason_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|alloc_from_rcpt_only 	|alloc_from_rcpt_only 	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|auto_approval_threshold 	|auto_approval_threshold 	|numeric	|"18, 2"	|	|FALSE	|FALSE	|FALSE	|
+|inv_split 	|inv_split 	|varchar	|1	|	|FALSE	|FALSE	|FALSE|
+
