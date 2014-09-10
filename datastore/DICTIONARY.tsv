@@ -71,12 +71,13 @@ IssueDate	any	Issue Date	NA
 DueDate	any	Due Date	NA
 Header	any	Header	NA
 PaidOnTime	any	Paid On Time	NA
-TransactionDate	any	Transaction Date	NA
 Version	any	Version	NA
 Units	any	Units	NA
 TransactionKey	any	Transaction Key	NA
 Value	any	Value	NA
 Currency	any	Currency	NA
-GST	any	GST	NA
+Tax	any	Tax	NA
 VersionKey	any	Version Key	NA
 VersionName	any	Version Name	NA
+Transaction	prefix	Transaction	NA
+TransactionDateId	any	Transaction Date ID	NA
