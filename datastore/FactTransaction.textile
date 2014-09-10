@@ -1,0 +1,20 @@
+
+h2. ARTEFACT: FactTransaction
+
+DESCRIPTION: Transaction fact table
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|AccountId	|Foreign key to DimAccount	|int	|	|-1	|TRUE	|	|FALSE	|
+|ServiceId	|Foreign key to DimService	|int	|	|-1	|TRUE	|	|FALSE	|
+|ProductId	|Foreign key to DimProduct	|int	|	|-1	|TRUE	|	|FALSE	|
+|FinancialAccountId	|Foreign key to DimFinancialAccount	|int	|	|-1	|TRUE	|	|FALSE	|
+|TransactionDateId	|Transaction Date	|int	|	|99991231	|TRUE	|	|FALSE	|
+|VersionId	|Foreign key to DimVersion	|int	|	|-1	|TRUE	|	|FALSE	|
+|UnitTypeId	|Foreign key to DimUnitType	|int	|	|-1	|TRUE	|	|FALSE	|
+|Units	|Units	|decimal	|"18,4"	|	|TRUE	|	|FALSE	|
+|Value	|Value	|money	|	|	|TRUE	|	|FALSE	|
+|Currency	|Currency	|nchar	|3	|	|TRUE	|	|FALSE	|
+|Tax	|Tax	|money	|	|	|TRUE	|	|FALSE	|
+|TransactionDesc	|Transaction Description	|nvarchar	|100	|	|TRUE	|	|FALSE	|
+|TransactionKey	|Transaction Key	|int	|	|-1	|TRUE	|	|FALSE|
+
