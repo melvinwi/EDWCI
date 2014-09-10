@@ -1,0 +1,12 @@
+# design test artefact			
+# ARTEFACT: TRANSFORM_DimFinancialAccount_tests			
+# DESCRIPTION: Test each transformation rule			
+SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
+REUSE_SQL	FROM [schema].ar_account INNER JOIN [schema].ar_account_group ON ar_account_group.account_group_id = ar_account.account_group_id WHERE ar_account.Meta_LatestUpdate_TaskExecutionInstanceId  > -2 OR ar_account_group.Meta_LatestUpdate_TaskExecutionInstanceId  > -2		
+[REUSE_SQL]		source.length.should.equal(destination.length)	row counts should match
+[REUSE_SQL] AND seq_account_id = '1'	WHERE FinancialAccountKey = '1'	source[0].seq_account_id.should.equal(destination[0].FinancialAccountKey)	1:1 map rule
+[REUSE_SQL] AND seq_account_id = '1'	WHERE FinancialAccountKey = '1'	source[0].account_desc.should.equal(destination[0].FinancialAccountName)	1:1 map rule
+[REUSE_SQL] AND seq_account_id = '1'	WHERE FinancialAccountKey = '1'	source[0].dr_cr.should.equal(destination[0].FinancialAccountType.trim())	1:1 map rule plus trim
+[REUSE_SQL] AND seq_account_id = '1'	WHERE FinancialAccountKey = '1'	source[0].account_desc.should.equal(destination[0].Level1Name)	1:1 map rule
+[REUSE_SQL] AND seq_account_id = '1'	WHERE FinancialAccountKey = '1'	source[0].account_group_desc.should.equal(destination[0].Level2Name)	1:1 map rule
+[REUSE_SQL] AND seq_account_id = '1'	WHERE FinancialAccountKey = '1'	'Lumo Energy'.should.equal(destination[0].Level3Name)	Static test

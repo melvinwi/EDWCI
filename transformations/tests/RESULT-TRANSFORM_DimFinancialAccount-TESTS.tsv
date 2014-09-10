@@ -1,0 +1,11 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_DimFinancialAccount
+# CREATED DATE: 2014-09-10T150926
+
+2014-09-10 15:09:27	2	PASSED	source.length.should.equal(destination.length)	{"obj":29,"params":{"operator":"to be","expected":29,"showDiff":true},"negate":false}
+2014-09-10 15:09:28	3	PASSED	source[0].seq_account_id.should.equal(destination[0].FinancialAccountKey)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2014-09-10 15:09:29	4	PASSED	source[0].account_desc.should.equal(destination[0].FinancialAccountName)	{"obj":"Prompt Payment Disc","params":{"operator":"to be","expected":"Prompt Payment Disc","showDiff":true},"negate":false}
+2014-09-10 15:09:29	5	PASSED	source[0].dr_cr.should.equal(destination[0].FinancialAccountType.trim())	{"obj":"DEBIT","params":{"operator":"to be","expected":"DEBIT","showDiff":true},"negate":false}
+2014-09-10 15:09:30	6	PASSED	source[0].account_desc.should.equal(destination[0].Level1Name)	{"obj":"Prompt Payment Disc","params":{"operator":"to be","expected":"Prompt Payment Disc","showDiff":true},"negate":false}
+2014-09-10 15:09:31	7	PASSED	source[0].account_group_desc.should.equal(destination[0].Level2Name)	{"obj":"Prompt Payment Disc","params":{"operator":"to be","expected":"Prompt Payment Disc","showDiff":true},"negate":false}
+2014-09-10 15:09:31	8	PASSED	'Lumo Energy'.should.equal(destination[0].Level3Name)	{"obj":"Lumo Energy","params":{"operator":"to be","expected":"Lumo Energy","showDiff":true},"negate":false}

@@ -1,0 +1,14 @@
+
+h2. ARTEFACT: TRANSFORM_DimFinancialAccount
+
+DESCRIPTION: Promote services from Orion site table to DataStore
+
+|*SOURCE_FUNCTION_PREFIX*	|*SOURCE*	|*SOURCE_FUNCTION_SUFFIX*	|*DESTINATION*	|*DESCRIPTION*	|
+|CAST(	|"ar_account":../staging/ar_account.textile .seq_account_id	|AS int)	|"DimFinancialAccount":../datastore/DimFinancialAccount.textile .FinancialAccountKey	|One to one mapping with int cast	|
+|CAST(	|"ar_account":../staging/ar_account.textile .account_desc	|AS nvarchar(100))	|"DimFinancialAccount":../datastore/DimFinancialAccount.textile .FinancialAccountName	|One to one mapping with nvarchar cast	|
+|CAST(	|"ar_account":../staging/ar_account.textile .dr_cr	|AS nchar(10))	|"DimFinancialAccount":../datastore/DimFinancialAccount.textile .FinancialAccountType	|One to one mapping with nvarchar cast	|
+|CAST(	|"ar_account":../staging/ar_account.textile .account_desc	|AS nvarchar(100))	|"DimFinancialAccount":../datastore/DimFinancialAccount.textile .Level1Name	|	|
+|CAST(	|"ar_account":../staging/ar_account.textile _group.account_group_desc	|AS nvarchar(100))	|"DimFinancialAccount":../datastore/DimFinancialAccount.textile .Level2Name	|	|
+|/*	|"ar_account":../staging/ar_account.textile .account_desc	|*/ N'Lumo Energy'	|"DimFinancialAccount":../datastore/DimFinancialAccount.textile .Level3Name	|	|
+|SELECTION_CRITERIA	|FROM [schema]."ar_account":../staging/ar_account.textile  INNER JOIN [schema]."ar_account":../staging/ar_account.textile _group ON "ar_account":../staging/ar_account.textile _group.account_group_id = "ar_account":../staging/ar_account.textile .account_group_id WHERE "ar_account":../staging/ar_account.textile .Meta_LatestUpdate_TaskExecutionInstanceId  > @LatestSuccessfulTaskExecutionInstanceID OR "ar_account":../staging/ar_account.textile _group.Meta_LatestUpdate_TaskExecutionInstanceId  > @LatestSuccessfulTaskExecutionInstanceID|
+
