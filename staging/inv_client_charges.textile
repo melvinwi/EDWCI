@@ -1,0 +1,40 @@
+
+h2. ARTEFACT: inv_client_charges
+
+DESCRIPTION: Invoice Client Charges transactional table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|Meta_ChangeFlag	|Meta: Row Change flag	|bit	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|seq_client_charge_id 	|seq_client_charge_id 	|numeric	|"18, 0"	|	|TRUE	|TRUE	|FALSE	|
+|seq_charge_item_id 	|seq_charge_item_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_party_id 	|seq_party_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_invoice_header_id 	|seq_invoice_header_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_invoice_detail_id 	|seq_invoice_detail_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|charge_date 	|charge_date 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|charge_amount 	|charge_amount 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|active 	|active 	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime 	|insert_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user 	|insert_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process 	|insert_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime 	|update_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user 	|update_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process 	|update_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|invoice_description 	|invoice_description 	|varchar	|255	|	|FALSE	|FALSE	|FALSE	|
+|seq_recurring_charge_id 	|seq_recurring_charge_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|notes 	|notes 	|varchar	|255	|	|FALSE	|FALSE	|FALSE	|
+|approved 	|approved 	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|approved_date 	|approved_date 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|approved_user 	|approved_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|seq_product_item_id 	|seq_product_item_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|ntinv_id 	|ntinv_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|tax_dtl_amount_1 	|tax_dtl_amount_1 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|tax_dtl_amount_2 	|tax_dtl_amount_2 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|tax_dtl_amount_3 	|tax_dtl_amount_3 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|tax_dtl_amount_4 	|tax_dtl_amount_4 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|tax_dtl_amount_5 	|tax_dtl_amount_5 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|tax_dtl_amount_6 	|tax_dtl_amount_6 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|tax_rate_history_id 	|tax_rate_history_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|inv_smoothing_washup_id 	|inv_smoothing_washup_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE|
+
