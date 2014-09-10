@@ -1,0 +1,31 @@
+
+h2. ARTEFACT: utl_charge_transaction
+
+DESCRIPTION: Charges transactional table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|Meta_ChangeFlag	|Meta: Row Change flag	|bit	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|charge_trans_id 	|charge_trans_id 	|numeric	|"18, 0"	|	|TRUE	|TRUE	|FALSE	|
+|charge_date 	|charge_date 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|seq_invoice_header_id 	|seq_invoice_header_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_invoice_detail_id 	|seq_invoice_detail_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_party_id 	|seq_party_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_charge_item_id 	|seq_charge_item_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_client_charge_id 	|seq_client_charge_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|charge_item_code 	|charge_item_code 	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|charge_item_desc 	|charge_item_desc 	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|invoice_desc 	|invoice_desc 	|varchar	|255	|	|FALSE	|FALSE	|FALSE	|
+|net_amount 	|net_amount 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|tax_amount 	|tax_amount 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|total_amount 	|total_amount 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|gl_code 	|gl_code 	|varchar	|50	|	|FALSE	|FALSE	|FALSE	|
+|reversal 	|reversal 	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime 	|insert_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user 	|insert_user 	|varchar	|50	|	|FALSE	|FALSE	|FALSE	|
+|insert_process 	|insert_process 	|varchar	|50	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime 	|update_datetime 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_user 	|update_user 	|varchar	|50	|	|FALSE	|FALSE	|FALSE	|
+|update_process 	|update_process 	|varchar	|50	|	|FALSE	|FALSE	|FALSE|
+
