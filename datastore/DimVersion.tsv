@@ -2,5 +2,5 @@
 # ARTEFACT: DimVersion							
 # DESCRIPTION: Version dimension table							
 COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
-UnitTypeKey	Unit Type Key	nchar	10		TRUE		FALSE
-UnitTypeName	Unit Type Name	nchar	10		FALSE		FALSE
+VersionKey	Version Key	nchar	10		TRUE		FALSE
+VersionName	Version Name	nchar	10		FALSE		FALSE

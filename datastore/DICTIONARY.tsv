@@ -78,3 +78,5 @@ TransactionKey	any	Transaction Key	NA
 Value	any	Value	NA
 Currency	any	Currency	NA
 GST	any	GST	NA
+VersionKey	any	Version Key	NA
+VersionName	any	Version Name	NA
