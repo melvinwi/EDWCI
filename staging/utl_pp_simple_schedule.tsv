@@ -1,0 +1,27 @@
+# design artefact							
+# ARTEFACT: utl_pp_simple_schedule							
+# DESCRIPTION: Payment Plan Simple Schedule table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+pp_simple_sched_id	pp_simple_sched_id	numeric	"18,0"		FALSE	FALSE	FALSE
+network_id	network_id	numeric	"18,0"		FALSE	FALSE	FALSE
+pp_simple_sched_code	pp_simple_sched_code	varchar	20		FALSE	FALSE	FALSE
+pp_simple_sched_desc	pp_simple_sched_desc	varchar	100		FALSE	FALSE	FALSE
+sched_type_id	sched_type_id	numeric	"18,0"		FALSE	FALSE	FALSE
+pattern_class	pattern_class	varchar	20		FALSE	FALSE	FALSE
+invoice_desc	invoice_desc	varchar	60		FALSE	FALSE	FALSE
+active	active	char	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+price_class_id	price_class_id	numeric	"18,0"		FALSE	FALSE	FALSE
+tou_usage_price_plan	tou_usage_price_plan	varchar	1		FALSE	FALSE	FALSE
+meter_type_id	meter_type_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_rev_account_id	seq_rev_account_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_cost_account_id	seq_cost_account_id	numeric	"18,0"		FALSE	FALSE	FALSE
+period_of_avail_id	period_of_avail_id	numeric	"18,0"		FALSE	FALSE	FALSE
+site_id	site_id	numeric	"18,0"		FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE

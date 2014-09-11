@@ -1,0 +1,18 @@
+# design artefact							
+# ARTEFACT: utl_meter_class							
+# DESCRIPTION: Meter Class reference table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+meter_class_id	meter_class_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_product_type_id	seq_product_type_id	numeric	"18,0"		FALSE	FALSE	FALSE
+meter_class_code	meter_class_code	varchar	10		FALSE	FALSE	FALSE
+meter_class_desc	meter_class_desc	varchar	10		FALSE	FALSE	FALSE
+active	active	char	10		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+uom_id	uom_id	numeric	"18,0"		FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE

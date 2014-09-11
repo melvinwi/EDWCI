@@ -1,0 +1,17 @@
+# design artefact							
+# ARTEFACT: crm_party							
+# DESCRIPTION: Party table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+seq_party_type_id	seq_party_type_id	numeric	"18,0"		FALSE	FALSE	FALSE
+element_struct_code	element_struct_code	varchar	10		FALSE	FALSE	FALSE
+party_type	party_type	varchar	10		FALSE	FALSE	FALSE
+party_type_desc	party_type_desc	varchar	100		FALSE	FALSE	FALSE
+active	active	char	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE

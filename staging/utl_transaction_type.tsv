@@ -1,0 +1,17 @@
+# design artefact							
+# ARTEFACT: utl_transaction_type							
+# DESCRIPTION: Transaction type table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+trans_type_id	trans_type_id	numeric	"18,0"		FALSE	FALSE	FALSE
+trans_type_code	trans_type_code	varchar	10		FALSE	FALSE	FALSE
+trans_type_desc	trans_type_desc	varchar	100		FALSE	FALSE	FALSE
+active	active	char	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+invoiced_flag	invoiced_flag	varchar	1		FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
