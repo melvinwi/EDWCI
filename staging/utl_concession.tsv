@@ -1,0 +1,34 @@
+# design artefact							
+# ARTEFACT: utl_concession							
+# DESCRIPTION: Concession table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+concession_id	concession_id	numeric	"18,0"		FALSE	FALSE	FALSE
+price_plan_id	price_plan_id	numeric	"18,0"		FALSE	FALSE	FALSE
+concession_type_id	concession_type_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_product_type_id	seq_product_type_id	numeric	"18,0"		FALSE	FALSE	FALSE
+concession_code	concession_code	varchar	10		FALSE	FALSE	FALSE
+concession_desc	concession_desc	varchar	100		FALSE	FALSE	FALSE
+discount_pct	discount_pct	numeric	"18,4"		FALSE	FALSE	FALSE
+consumption_cap	consumption_cap	numeric	"18,4"		FALSE	FALSE	FALSE
+concessions_per_year	concessions_per_year	int			FALSE	FALSE	FALSE
+concession_amount	concession_amount	money			FALSE	FALSE	FALSE
+start_period	start_period	datetime			FALSE	FALSE	FALSE
+end_period	end_period	datetime			FALSE	FALSE	FALSE
+active	active	char	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+admin_rate	admin_rate	money			FALSE	FALSE	FALSE
+district_id	district_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_account_id	seq_account_id	numeric	"18,0"		FALSE	FALSE	FALSE
+network_id	network_id	numeric	"18,0"		FALSE	FALSE	FALSE
+ls_machine_type_code	ls_machine_type_code	varchar	20		FALSE	FALSE	FALSE
+manual_trans	manual_trans	varchar	10		FALSE	FALSE	FALSE
+inc_discounts	inc_discounts	varchar	1		FALSE	FALSE	FALSE
+inc_solar_cal	inc_solar_cal	varchar	1		FALSE	FALSE	FALSE
+capping	capping	varchar	1		FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
