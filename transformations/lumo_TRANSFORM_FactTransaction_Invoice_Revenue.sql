@@ -36,7 +36,7 @@ END
 		CONVERT(NCHAR(8), COALESCE( utl_transaction.transaction_date , '9999-12-31'), 112),
 		COALESCE( _DimVersion.VersionId , -1),
 		COALESCE( _DimUnitType.UnitTypeId , -1),
-		COALESCE( utl_transaction.unit_quantity , 0) * COALESCE(utl_transaction.multiplier, 0),
+		COALESCE( utl_transaction.unit_quantity , 0.0) * COALESCE(utl_transaction.multiplier, 0.0) * COALESCE(utl_transaction.trans_loss_factor, 1.0) * COALESCE(utl_transaction.dist_loss_factor, 1.0),
 		COALESCE( utl_transaction.net_amount , 0),
 		/* utl_transaction.trans_id */ 'AUD',
 		COALESCE( utl_transaction.net_amount , 0) * COALESCE(utl_transaction.tax_rate, 0),
