@@ -10,7 +10,7 @@ COALESCE(	_DimFinancialAccount.FinancialAccountKey	", -1)"	FactTransaction.Finan
 "CONVERT(NCHAR(8), COALESCE("	utl_transaction.transaction_date	", '9999-12-31'), 112)"	FactTransaction.TransactionDateId	One to one mapping with int cast
 COALESCE(	_DimVersion.VersionId	", -1)"	FactTransaction.VersionId	One to one mapping
 COALESCE(	_DimUnitType.UnitTypeId	", -1)"	FactTransaction.UnitTypeId	One to one mapping
-COALESCE(	utl_transaction.unit_quantity	", 0.0) * COALESCE(utl_transaction.multiplier, 0.0) * COALESCE(utl_transaction.trans_loss_factor, 1.0) * COALESCE(utl_transaction.dist_loss_factor, 1.0)"	FactTransaction.Units	Multiply unit quantities
+COALESCE(	utl_transaction.unit_quantity	", 0) * COALESCE(utl_transaction.multiplier, 0)"	FactTransaction.Units	Multiply unit quantities
 COALESCE(	utl_transaction.net_amount	", 0)"	FactTransaction.Value	One to one mapping
 /*	utl_transaction.trans_id	*/ 'AUD'	FactTransaction.Currency	Default
 COALESCE(	utl_transaction.net_amount	", 0) * COALESCE(utl_transaction.tax_rate, 0)"	FactTransaction.Tax	Derive the tax amount
