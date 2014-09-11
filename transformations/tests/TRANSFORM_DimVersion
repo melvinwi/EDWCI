@@ -1,0 +1,2 @@
+2014-09-11 12:17:35	FAILED	error executing sourceSQL (SELECT _Versions.VersionKey,_Versions.VersionName FROM lumo.Versions AS _Versions AND VersionKey = 'Actual'): AssertionError: expected [RequestError: Incorrect syntax near the keyword 'AND'.] to not exist
+2014-09-11 12:17:36	FAILED	error executing sourceSQL (SELECT _Versions.VersionKey,_Versions.VersionName FROM lumo.Versions AS _Versions AND VersionKey = 'Actual'): AssertionError: expected [RequestError: Incorrect syntax near the keyword 'AND'.] to not exist
