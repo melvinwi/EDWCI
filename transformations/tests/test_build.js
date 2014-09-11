@@ -10,6 +10,7 @@ var exec = require('child_process').exec;
 
 
 
+
 function test_build(artefactName, object, schema, design, selectionCriteria) // Constructor
 {
 
@@ -163,31 +164,41 @@ function testProcedure(artefactName, sourceTables, destinationTables, object, so
 
             sourceTables = tmpSourceTables;
 
+            // if there are no source tables left (i.e. all views prefixed with _)
+            if (sourceTables.length==0) {
+                // execute proc then check mapping was successfully applied to each destination column
+                // check each column contains source data
+                runTests(artefactName, sourceTables, destinationTables, sourceColumnsString, destinationColumnsString, schema, selectionCriteria);
+            }
+            else {
 
-            var count = 0;
 
-            // load source test data
-            for (var i=0; i<sourceTables.length; i++) {
-                
-                loadTestData(sourceTables[i], object, schema, function(res) { 
+                var count = 0;
+
+
+                // load source test data
+                for (var i=0; i<sourceTables.length; i++) {
                     
-                    if (res=='OK') {
+                    loadTestData(sourceTables[i], object, schema, function(res) { 
+                        
+                        if (res=='OK') {
 
-                        count++
+                            count++
 
-                        if (count==sourceTables.length) { // all data is loaded...
+                            if (count==sourceTables.length) { // all data is loaded...
 
-                            // execute proc then check mapping was successfully applied to each destination column
-                            // check each column contains source data
-                            runTests(artefactName, sourceTables, destinationTables, sourceColumnsString, destinationColumnsString, schema, selectionCriteria);
+                                // execute proc then check mapping was successfully applied to each destination column
+                                // check each column contains source data
+                                runTests(artefactName, sourceTables, destinationTables, sourceColumnsString, destinationColumnsString, schema, selectionCriteria);
 
+                            }
                         }
-                    }
-                    else {
-                        //process.exit();
-                    }
+                        else {
+                            //process.exit();
+                        }
 
-                });
+                    });
+                }
             }
 
 

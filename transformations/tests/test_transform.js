@@ -101,6 +101,11 @@ function logIt(artefactName, data, isResult) {
 
 function run(artefactName, sourceTables, destinationTables, sourceColumns, destinationColumns, schema, design, selectionCriteria) {
 	
+	// for condition where there are no source tables (e.g. only views prefixed with _)
+	if (sourceTables.toString()=='true') {
+		sourceTables = '';
+	}
+
 	sourceTables = sourceTables.split(',');
 	var sourceTablesFrom = '';
 
