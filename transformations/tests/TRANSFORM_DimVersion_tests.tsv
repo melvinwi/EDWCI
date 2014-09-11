@@ -1,8 +1,8 @@
-# design test artefact			
-# ARTEFACT: TRANSFORM_DimVersion_tests			
-# DESCRIPTION: Test each transformation rule			
-SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
-REUSE_SQL	FROM [schema].Versions AS _Versions		
-[REUSE_SQL]		source.length.should.equal(destination.length)	row counts should match
-[REUSE_SQL] AND VersionKey = 'Actual'	WHERE VersionKey = 'Actual'	source[0].VersionKey.should.equal(destination[0].VersionKey.trim())	1:1 map rule
-[REUSE_SQL] AND VersionKey = 'Actual'	WHERE VersionKey = 'Actual'	source[0].VersionName.should.equal(destination[0].VersionName.trim())	1:1 map rule
+# design test artefact                      	                                   	                                                                     	
+# ARTEFACT: TRANSFORM_DimVersion_tests      	                                   	                                                                     	
+# DESCRIPTION: Test each transformation rule	                                   	                                                                     	
+SOURCE_SELECTION_CRITERIA                   	DESTINATION_SELECTION_CRITERIA     	TEST                                                                 	DESCRIPTION
+REUSE_SQL                                   	FROM [schema].Versions AS _Versions	                                                                     	
+[REUSE_SQL]                                 	                                   	source.length.should.equal(destination.length)                       	row counts should match
+[REUSE_SQL] WHERE VersionKey = 'Actual'     	WHERE VersionKey = 'Actual'        	source[0].VersionKey.should.equal(destination[0].VersionKey.trim())  	1:1 map rule
+[REUSE_SQL] WHERE VersionKey = 'Actual'     	WHERE VersionKey = 'Actual'        	source[0].VersionName.should.equal(destination[0].VersionName.trim())	1:1 map rule

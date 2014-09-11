@@ -1,0 +1,7 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_DimVersion
+# CREATED DATE: 2014-09-11T122108
+
+2014-09-11 12:21:10	2	PASSED	source.length.should.equal(destination.length)	{"obj":3,"params":{"operator":"to be","expected":3,"showDiff":true},"negate":false}
+2014-09-11 12:21:12	3	PASSED	source[0].VersionKey.should.equal(destination[0].VersionKey.trim())	{"obj":"Actual","params":{"operator":"to be","expected":"Actual","showDiff":true},"negate":false}
+2014-09-11 12:21:13	4	PASSED	source[0].VersionName.should.equal(destination[0].VersionName.trim())	{"obj":"Actual","params":{"operator":"to be","expected":"Actual","showDiff":true},"negate":false}
