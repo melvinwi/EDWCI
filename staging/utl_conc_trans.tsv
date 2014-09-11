@@ -1,0 +1,42 @@
+# design artefact							
+# ARTEFACT: utl_conc_trans							
+# DESCRIPTION: Concession Transactions table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+trans_id	trans_id	numeric	"18,0"		FALSE	FALSE	FALSE
+trans_date	trans_date	datetime			FALSE	FALSE	FALSE
+concession_id	concession_id	numeric	"18,0"		FALSE	FALSE	FALSE
+conc_card_id	conc_card_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_product_item_id	seq_product_item_id	numeric	"18,0"		FALSE	FALSE	FALSE
+period_id	period_id	numeric	"18,0"		FALSE	FALSE	FALSE
+seq_invoice_header_id	seq_invoice_header_id	numeric	"18,0"		FALSE	FALSE	FALSE
+invoiced_cust	invoiced_cust	varchar	1		FALSE	FALSE	FALSE
+dcs_invoice_number	dcs_invoice_number	varchar	50		FALSE	FALSE	FALSE
+dcs_invoice_date	dcs_invoice_date	datetime			FALSE	FALSE	FALSE
+invoiced_dcs	invoiced_dcs	varchar	1		FALSE	FALSE	FALSE
+net_amount	net_amount	money			FALSE	FALSE	FALSE
+trans_desc	trans_desc	varchar	255		FALSE	FALSE	FALSE
+active	active	char	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+seq_ar_adjust_id	seq_ar_adjust_id	numeric	"18,0"		FALSE	FALSE	FALSE
+manual_trans	manual_trans	varchar	1		FALSE	FALSE	FALSE
+days	days	numeric	"8,4"		FALSE	FALSE	FALSE
+unit_rate	unit_rate	money			FALSE	FALSE	FALSE
+unit_quantity	unit_quantity	numeric	"18,9"		FALSE	FALSE	FALSE
+backdate_conc_id	backdate_conc_id	numeric	"18,0"		FALSE	FALSE	FALSE
+conc_buffer_amt	conc_buffer_amt	money			FALSE	FALSE	FALSE
+seq_ar_conc_adjust_id	seq_ar_conc_adjust_id	numeric	"18,0"		FALSE	FALSE	FALSE
+net_amount_ppd	net_amount_ppd	money			FALSE	FALSE	FALSE
+net_amount_no_ppd	net_amount_no_ppd	money			FALSE	FALSE	FALSE
+admin_fee	admin_fee	numeric	"18,4"		FALSE	FALSE	FALSE
+multiplier	multiplier	numeric	"18,2"		FALSE	FALSE	FALSE
+conc_start_date	conc_start_date	datetime			FALSE	FALSE	FALSE
+conc_end_date	conc_end_date	datetime			FALSE	FALSE	FALSE
+base_period_id	base_period_id	numeric	"16,0"		FALSE	FALSE	FALSE
+base_invoice_header_id	base_invoice_header_id	numeric	"16,0"		FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
