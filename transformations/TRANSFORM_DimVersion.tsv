@@ -1,0 +1,7 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_DimVersion				
+# DESCRIPTION: Promote versions from static load view to DataStore 				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+	_Versions.VersionKey		DimVersion.VersionKey	One to one mapping
+	_Versions.VersionName		DimVersion.VersionName	One to one mapping
+SELECTION_CRITERIA	FROM [schema].Versions AS _Versions			
