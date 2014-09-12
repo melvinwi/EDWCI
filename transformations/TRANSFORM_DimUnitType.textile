@@ -1,0 +1,11 @@
+
+h2. ARTEFACT: TRANSFORM_DimUnitType
+
+DESCRIPTION: Promote units of measurement from orion reference table to DataStore
+
+|*SOURCE_FUNCTION_PREFIX*	|*SOURCE*	|*SOURCE_FUNCTION_SUFFIX*	|*DESTINATION*	|*DESCRIPTION*	|
+|CAST(	|"utl_unit_of_measure":../staging/utl_unit_of_measure.textile .uom_id	|AS nvarchar(30))	|"DimUnitType":../datastore/DimUnitType.textile .UnitTypeKey	|One to one mapping	|
+|CAST(	|"utl_unit_of_measure":../staging/utl_unit_of_measure.textile .uom_desc	|AS nchar(10))	|"DimUnitType":../datastore/DimUnitType.textile .UnitTypeName	|One to one mapping	|
+|CASE LEFT(	|"utl_unit_of_measure":../staging/utl_unit_of_measure.textile .uom_desc	|",4) WHEN 'Kilo' THEN 1000 WHEN 'Thou' THEN 1000 WHEN 'Mill' THEN 1000000 WHEN 'Mega' THEN 1000000 ELSE 1 END"	|"DimUnitType":../datastore/DimUnitType.textile .MultiplicationFactorToBase	|Case statement	|
+|SELECTION_CRITERIA	|FROM [schema]."utl_unit_of_measure":../staging/utl_unit_of_measure.textile  WHERE "utl_unit_of_measure":../staging/utl_unit_of_measure.textile .Meta_LatestUpdate_TaskExecutionInstanceId  > @LatestSuccessfulTaskExecutionInstanceID|
+
