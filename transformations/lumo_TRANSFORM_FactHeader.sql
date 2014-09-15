@@ -13,13 +13,13 @@ EXEC DW_Utility.config.GetLatestSuccessfulTaskExecutionInstanceID
 END
 --/
 
-	INSERT INTO lumo.FactTransaction (
-		FactTransaction.AccountId,
-		FactTransaction.IssueDateId,
-		FactTransaction.DueDateId,
-		FactTransaction.HeaderType,
-		FactTransaction.PaidOnTime,
-		FactTransaction.HeaderKey)
+	INSERT INTO lumo.FactHeader (
+		FactHeader.AccountId,
+		FactHeader.IssueDateId,
+		FactHeader.DueDateId,
+		FactHeader.HeaderType,
+		FactHeader.PaidOnTime,
+		FactHeader.HeaderKey)
 	  SELECT
 		_DimAccount.AccountId,
 		CONVERT(NCHAR(8), COALESCE( inv_invoice_header.invoice_date , '9999-12-31'), 112),
