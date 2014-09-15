@@ -32,7 +32,7 @@ END
 		_DimAccount.AccountId,
 		COALESCE( _DimService.ServiceId , -1),
 		COALESCE( _DimProduct.ProductId , -1),
-		COALESCE( _DimFinancialAccount.FinancialAccountKey , -1),
+		COALESCE( _DimFinancialAccount.FinancialAccountId , -1),
 		CONVERT(NCHAR(8), COALESCE( utl_transaction.transaction_date , '9999-12-31'), 112),
 		COALESCE( _DimVersion.VersionId , -1),
 		/* utl_transaction.trans_id */ -1,

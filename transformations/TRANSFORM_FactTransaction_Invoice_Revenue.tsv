@@ -6,7 +6,7 @@ WITH_STATEMENTS	"WITH pricePlan AS (SELECT utl_account_price_plan.seq_product_it
 	_DimAccount.AccountId		FactTransaction.AccountId	One to one mapping
 COALESCE(	_DimService.ServiceId	", -1)"	FactTransaction.ServiceId	One to one mapping
 COALESCE(	_DimProduct.ProductId	", -1)"	FactTransaction.ProductId	One to one mapping
-COALESCE(	_DimFinancialAccount.FinancialAccountKey	", -1)"	FactTransaction.FinancialAccountId	One to one mapping
+COALESCE(	_DimFinancialAccount.FinancialAccountId	", -1)"	FactTransaction.FinancialAccountId	One to one mapping
 "CONVERT(NCHAR(8), COALESCE("	utl_transaction.transaction_date	", '9999-12-31'), 112)"	FactTransaction.TransactionDateId	One to one mapping with int cast
 COALESCE(	_DimVersion.VersionId	", -1)"	FactTransaction.VersionId	One to one mapping
 COALESCE(	_DimUnitType.UnitTypeId	", -1)"	FactTransaction.UnitTypeId	One to one mapping
