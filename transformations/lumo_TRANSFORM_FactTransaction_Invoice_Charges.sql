@@ -33,16 +33,16 @@ END
 		COALESCE( _DimService.ServiceId , -1),
 		COALESCE( _DimProduct.ProductId , -1),
 		COALESCE( _DimFinancialAccount.FinancialAccountKey , -1),
-		CONVERT(NCHAR(8), COALESCE( utl_charge_transaction.charge_date , '9999-12-31'), 112),
+		CONVERT(NCHAR(8), COALESCE( inv_client_charges.charge_date , '9999-12-31'), 112),
 		COALESCE( _DimVersion.VersionId , -1),
-		/* utl_charge_transaction.charge_trans_id */ -1,
-		/* utl_charge_transaction.charge_trans_id */ 0,
-		COALESCE( utl_charge_transaction.net_amount , 0),
-		/* utl_charge_transaction.charge_trans_id */ 'AUD',
-		COALESCE( utl_charge_transaction.tax_amount , 0),
-		utl_charge_transaction.charge_item_desc,
-		/* utl_charge_transaction.charge_trans_id */ 'CHG' + CAST(utl_charge_transaction.charge_trans_id AS NVARCHAR(11))
-	  FROM /* Staging */ lumo.utl_charge_transaction INNER JOIN /* Staging */ lumo.inv_charge_item ON inv_charge_item.seq_charge_item_id = utl_charge_transaction.seq_charge_item_id LEFT JOIN /* Staging */ lumo.inv_client_charges ON inv_client_charges.seq_client_charge_id = utl_charge_transaction.seq_client_charge_id LEFT JOIN /* Staging */ lumo.nc_product_item ON nc_product_item.seq_product_item_id = inv_client_charges.seq_product_item_id LEFT JOIN productKey as _productKey ON _productKey.seq_product_item_id = inv_client_charges.seq_product_item_id INNER JOIN /* Dimensional */ lumo.DimAccount AS _DimAccount ON _DimAccount.AccountKey = utl_charge_transaction.seq_party_id AND _DimAccount.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimService AS _DimService ON _DimService.ServiceKey = nc_product_item.site_id AND _DimService.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimProduct AS _DimProduct ON _DimProduct.ProductKey = _productKey.ProductKey AND _DimProduct.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimFinancialAccount AS _DimFinancialAccount ON _DimFinancialAccount.FinancialAccountKey = inv_charge_item.seq_account_id AND _DimFinancialAccount.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimVersion AS _DimVersion ON _DimVersion.VersionKey = 'Actual'WHERE (utl_charge_transaction.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR inv_charge_item.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR inv_client_charges.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nc_product_item.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _productKey.Meta_HasChanged = 1);
+		/* inv_client_charges.seq_client_charge_id */ -1,
+		/* inv_client_charges.seq_client_charge_id */ 0,
+		COALESCE( inv_invoice_detail.net_amount , inv_client_charges.charge_amount, 0),
+		/* inv_client_charges.seq_client_charge_id */ 'AUD',
+		COALESCE( inv_invoice_detail.tax_amount , ROUND(inv_client_charges.charge_amount / 10,2),0),
+		CAST( inv_client_charges.invoice_description AS nvarchar(100)),
+		/* inv_client_charges.seq_client_charge_id */ 'CHG' + CAST(inv_client_charges.seq_client_charge_id AS NVARCHAR(11))
+	  FROM /* Staging */ lumo.inv_client_charges INNER JOIN /* Staging */ lumo.inv_charge_item ON inv_charge_item.seq_charge_item_id = inv_client_charges.seq_charge_item_id LEFT JOIN /* Staging */ lumo.nc_product_item ON nc_product_item.seq_product_item_id = inv_client_charges.seq_product_item_id LEFT JOIN productKey as _productKey ON _productKey.seq_product_item_id = inv_client_charges.seq_product_item_id LEFT JOIN DW_Staging.orion.inv_invoice_detail ON inv_invoice_detail.seq_invoice_detail_id = inv_client_charges.seq_invoice_detail_id INNER JOIN /* Dimensional */ lumo.DimAccount AS _DimAccount ON _DimAccount.AccountKey = inv_client_charges.seq_party_id AND _DimAccount.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimService AS _DimService ON _DimService.ServiceKey = nc_product_item.site_id AND _DimService.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimProduct AS _DimProduct ON _DimProduct.ProductKey = _productKey.ProductKey AND _DimProduct.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimFinancialAccount AS _DimFinancialAccount ON _DimFinancialAccount.FinancialAccountKey = inv_charge_item.seq_account_id AND _DimFinancialAccount.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimVersion AS _DimVersion ON _DimVersion.VersionKey = 'Actual'WHERE (inv_charge_item.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR inv_client_charges.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nc_product_item.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR inv_invoice_detail.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _productKey.Meta_HasChanged = 1);
 
 SELECT 0 AS ExtractRowCount,
 @@ROWCOUNT AS InsertRowCount,
