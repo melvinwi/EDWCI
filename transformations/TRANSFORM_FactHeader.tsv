@@ -1,0 +1,11 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_FactHeader				
+# DESCRIPTION: Promote invoice headers from Orion tables to DataStore 				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+	_DimAccount.AccountId		FactTransaction.AccountId	One to one mapping
+"CONVERT(NCHAR(8), COALESCE("	inv_invoice_header.invoice_date	", '9999-12-31'), 112)"	FactTransaction.IssueDateId	One to one mapping with int cast
+"CONVERT(NCHAR(8), COALESCE("	ar_invoice.invoice_due_date	", '9999-12-31'), 112)"	FactTransaction.DueDateId	One to one mapping with int cast
+/*	inv_invoice_header.invoice_reference	*/ 'Invoice'	FactTransaction.HeaderType	Default
+CASE	ar_invoice.paid_promptly	WHEN 'Y' THEN 'Yes' ELSE 'No' END	FactTransaction.PaidOnTime	One to one mapping with conversion
+	inv_invoice_header.invoice_reference		FactTransaction.HeaderKey	One to one mapping
+SELECTION_CRITERIA	"FROM /* Staging */ [schema].inv_invoice_header INNER JOIN /* Staging */ [schema].ar_invoice ON ar_invoice.seq_ar_invoice_id = inv_invoice_header.seq_invoice_header_id INNER JOIN /* Staging */ [schema].nc_client ON nc_client.seq_party_id = ar_invoice.seq_party_id INNER JOIN /* Staging */ [schema].crm_element_hierarchy ON crm_element_hierarchy.element_id = nc_client.seq_party_id AND crm_element_hierarchy.element_struct_code = 'CLIENT' INNER JOIN /* Staging */ [schema].crm_party_type ON crm_party_type.seq_party_type_id = crm_element_hierarchy.seq_element_type_id AND crm_party_type.party_type <> 'SUBCLIENT' INNER JOIN /* Dimensional */ [schema].DimAccount AS _DimAccount ON _DimAccount.AccountKey = nc_client.seq_party_id AND _DimAccount.Meta_IsCurrent = 1 WHERE (inv_invoice_header.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR ar_invoice.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nc_client.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR crm_element_hierarchy.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR crm_party_type.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID)"			
