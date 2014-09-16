@@ -132,11 +132,11 @@ function test_dictionary(artefactName, object, schema, useUnderscoreAsDelimiter,
                         }
 
                         // check that all the values
-                        if (size!=checked) {
-                            wasSuccessfulInner = false; // failed 
+                        if (size<=checked) {
+                            wasSuccessfulInner = true; // success 
                         }
                         else {
-                            wasSuccessfulInner = true; // success
+                            wasSuccessfulInner = false; // failed
                         }
                     }
                 }
