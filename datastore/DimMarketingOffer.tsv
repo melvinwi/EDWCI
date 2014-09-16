@@ -1,0 +1,7 @@
+# designartefact							
+# ARTEFACT: DimMarketingOffer							
+# DESCRIPTION: Offer dimension table							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+MarketingOfferKey	Offer key used in the source	int			FALSE	FALSE	FALSE
+MarketingOfferShortDesc	Short description of offer	nvarchar	20		FALSE	FALSE	FALSE
+MarketingOfferDesc	Offer description for this offer	nvarchar	4000		FALSE	FALSE	FALSE

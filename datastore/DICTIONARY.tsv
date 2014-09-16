@@ -23,6 +23,8 @@ StateAsProvided	suffix	Address State	NA
 Status	suffix	Status flag or value	NA
 MyAccount	prefix	My Account Service prefix	NA
 Date	suffix	Date suffix	NA
+DateId	suffix	Date identifier used on facts suffix	99991231
+Time	suffix	Time data types may use this suffix	00:00:00
 Creation	prefix	Date prefix	NA
 Closed	any	Closed	NA
 BillStart	any	Bill Start	NA
@@ -57,6 +59,7 @@ Relationship	any	Relationship	NA
 EffectiveStartDate	any	Start Date	NA
 EffectiveEndDate	any	End Date	NA
 TerminatedDate	any	Terminated	NA
+ShortDesc	suffix	short description that may be used in drop down boxes	NA
 Desc	suffix	Description	NA
 PrivacyPreferred	prefix	Privacy Preferred	NA
 Creation	any	Creation	NA
@@ -81,3 +84,9 @@ VersionKey	any	Version Key	NA
 VersionName	any	Version Name	NA
 Transaction	prefix	Transaction	NA
 TransactionDateId	any	Transaction Date ID	NA
+MarketingCampaign	prefix	describes marketing campaign attributes	NA
+MarketingOffer	prefix	describes marketing campaign attributes	NA
+Contact	prefix	to contact a customer	NA
+PrivacyAssessment	prefix	identifies privacy officer related attributes	NA
+Activity	prefix	describes activity attributes in the context of the table it resides	NA
+MarketingCompaignActivityKey	any	specific column used in defining marketing campaign activities	NA

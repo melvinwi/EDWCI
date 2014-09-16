@@ -1,0 +1,15 @@
+
+h2. ARTEFACT: TRANSFORM_DimMarketingCampaign
+
+DESCRIPTION: Promote DimMarketingCampaign from spreadsheet sourced tables to DataStore
+
+|*SOURCE_FUNCTION_PREFIX*	|*SOURCE*	|*SOURCE_FUNCTION_SUFFIX*	|*DESTINATION*	|*DESCRIPTION*	|
+|	|csv_"DimMarketingCampaign":../datastore/DimMarketingCampaign.textile .MarketingCampaignKey	|	|"DimMarketingCampaign":../datastore/DimMarketingCampaign.textile .MarketingCampaignKey	|One to one mapping	|
+|	|csv_"DimMarketingCampaign":../datastore/DimMarketingCampaign.textile .MarketingCampaignShortDesc	|	|"DimMarketingCampaign":../datastore/DimMarketingCampaign.textile .MarketingCampaignShortDesc	|One to one mapping	|
+|	|csv_"DimMarketingCampaign":../datastore/DimMarketingCampaign.textile .MarketingCampaignDesc	|	|"DimMarketingCampaign":../datastore/DimMarketingCampaign.textile .MarketingCampaignDesc	|One to one mapping	|
+|	|csv_"DimMarketingCampaign":../datastore/DimMarketingCampaign.textile .MarketingCampaignStartDate	|	|"DimMarketingCampaign":../datastore/DimMarketingCampaign.textile .MarketingCampaignStartDate	|One to one mapping	|
+|	|csv_"DimMarketingCampaign":../datastore/DimMarketingCampaign.textile .MarketingCampaignEndDate	|	|"DimMarketingCampaign":../datastore/DimMarketingCampaign.textile .MarketingCampaignEndDate	|One to one mapping	|
+|	|csv_"DimMarketingCampaign":../datastore/DimMarketingCampaign.textile .ContactType	|	|"DimMarketingCampaign":../datastore/DimMarketingCampaign.textile .ContactType	|One to one mapping	|
+|	|csv_"DimMarketingCampaign":../datastore/DimMarketingCampaign.textile .PrivacyAssessmentKey	|	|"DimMarketingCampaign":../datastore/DimMarketingCampaign.textile .PrivacyAssessmentKey	|One to one mapping	|	|
+|SELECTION_CRITERIA	|"FROM [schema].csv_"DimMarketingCampaign":../datastore/DimMarketingCampaign.textile "|
+

@@ -1,0 +1,8 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_DimMarketingOffer
+# CREATED DATE: 2014-09-16T174858
+
+2014-09-16 17:48:59	1	PASSED	source.length.should.equal(destination.length)	{"obj":2,"params":{"operator":"to be","expected":2,"showDiff":true},"negate":false}
+2014-09-16 17:49:00	2	PASSED	source[0].MarketingOfferKey.should.equal(destination[0].MarketingOfferKey)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2014-09-16 17:49:00	3	PASSED	source[0].MarketingOfferShortDesc.should.equal(destination[0].MarketingOfferShortDesc)	{"obj":"QFlix","params":{"operator":"to be","expected":"QFlix","showDiff":true},"negate":false}
+2014-09-16 17:49:01	4	PASSED	source[0].MarketingOfferDesc.should.equal(destination[0].MarketingOfferDesc)	{"obj":"Quickflix","params":{"operator":"to be","expected":"Quickflix","showDiff":true},"negate":false}

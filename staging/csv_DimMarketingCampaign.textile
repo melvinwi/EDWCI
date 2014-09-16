@@ -1,0 +1,14 @@
+
+h2. ARTEFACT: csv_DimMarketingCampaign
+
+DESCRIPTION: Campaign dimension csv source from marketing spreadsheet
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|MarketingCampaignKey	|Campaign key used in the source	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|MarketingCampaignShortDesc	|Short description of offer	|nvarchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|MarketingCampaignDesc	|Description of offer	|nvarchar	|4000	|	|FALSE	|FALSE	|FALSE	|
+|MarketingCampaignStartDate	|Start date in format 9999-12-31	|nvarchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|MarketingCampaignEndDate	|End date in format 9999-12-31	|nvarchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|ContactType	|Contact method	|nvarchar	|50	|	|FALSE	|FALSE	|FALSE	|
+|PrivacyAssessmentKey	|An identifier provided by the privacy officer following assessment	|nvarchar	|50	|	|FALSE	|FALSE	|FALSE|
+

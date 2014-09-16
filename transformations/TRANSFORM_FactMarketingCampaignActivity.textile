@@ -1,0 +1,15 @@
+
+h2. ARTEFACT: TRANSFORM_FactMarketingCampaignActivity
+
+DESCRIPTION: Promote FactMarketingCampaignActivity from spreadsheet sourced tables to DataStore
+
+|*SOURCE_FUNCTION_PREFIX*	|*SOURCE*	|*SOURCE_FUNCTION_SUFFIX*	|*DESTINATION*	|*DESCRIPTION*	|
+|	|csv_"FactMarketingCampaignActivity":../datastore/FactMarketingCampaignActivity.textile .MarketingCampaignId	|	|"FactMarketingCampaignActivity":../datastore/FactMarketingCampaignActivity.textile .MarketingCampaignId	|One to one mapping	|
+|	|csv_"FactMarketingCampaignActivity":../datastore/FactMarketingCampaignActivity.textile .MarketingOfferId	|	|"FactMarketingCampaignActivity":../datastore/FactMarketingCampaignActivity.textile .MarketingOfferId	|One to one mapping	|
+|	|_DimCustomer.CustomerId	|	|"FactMarketingCampaignActivity":../datastore/FactMarketingCampaignActivity.textile .CustomerId	|One to one mapping	|
+|REPLACE(	|csv_"FactMarketingCampaignActivity":../datastore/FactMarketingCampaignActivity.textile .ActivityDateId	|, '-', '')	|"FactMarketingCampaignActivity":../datastore/FactMarketingCampaignActivity.textile .ActivityDateId	|One to one mapping	|
+|	|csv_"FactMarketingCampaignActivity":../datastore/FactMarketingCampaignActivity.textile .ActivityTime	|	|"FactMarketingCampaignActivity":../datastore/FactMarketingCampaignActivity.textile .ActivityTime	|One to one mapping	|
+|	|csv_"FactMarketingCampaignActivity":../datastore/FactMarketingCampaignActivity.textile .ActivityType	|	|"FactMarketingCampaignActivity":../datastore/FactMarketingCampaignActivity.textile .ActivityType	|One to one mapping	|
+|CAST(CONCAT(	|csv_"FactMarketingCampaignActivity":../datastore/FactMarketingCampaignActivity.textile .MarketingCompaignActivityKey, '-',csv_"FactMarketingCampaignActivity":../datastore/FactMarketingCampaignActivity.textile .ActivityDateId, '-', csv_"FactMarketingCampaignActivity":../datastore/FactMarketingCampaignActivity.textile .ActivityTime	| ) AS nvarchar(255))	|"FactMarketingCampaignActivity":../datastore/FactMarketingCampaignActivity.textile .MarketingCompaignActivityKey	|Construct unique identifier for each transaction	|
+|SELECTION_CRITERIA	|"FROM [schema].csv_"FactMarketingCampaignActivity":../datastore/FactMarketingCampaignActivity.textile  INNER JOIN [schema].DimCustomer as _DimCustomer ON _DimCustomer.CustomerKey = csv_"FactMarketingCampaignActivity":../datastore/FactMarketingCampaignActivity.textile .CustomerKey AND _DimCustomer.Meta_IsCurrent = 1"|
+

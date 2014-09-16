@@ -1,0 +1,14 @@
+
+h2. ARTEFACT: csv_FactMarketingCampaignActivity
+
+DESCRIPTION: Marketing campaign activity fact csv source from marketing spreadsheet
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|MarketingCampaignId	|Foreign key to DimMarketingCampaign	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|MarketingOfferId	|Foreign key to DimMarketingOffer	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|CustomerKey	|Orion key to be used to lookup DimCustomer Customer Id in transform	|nvarchar	|8	|	|FALSE	|FALSE	|FALSE	|
+|ActivityDateId	|Date of the activity 9999-12-31	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|ActivityTime	|Time of the activity 00:00:00	|nvarchar	|8	|	|FALSE	|FALSE	|FALSE	|
+|ActivityType	|Type of activity - Offered, Accepted, Rejected	|nvarchar	|40	|	|FALSE	|FALSE	|FALSE	|
+|MarketingCompaignActivityKey	|Key from source system to identify and relate activity items concat with date time for uniqueness	|nvarchar	|255	|	|FALSE	|FALSE	|FALSE|
+
