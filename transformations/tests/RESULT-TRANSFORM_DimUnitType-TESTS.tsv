@@ -1,9 +1,9 @@
 # transformation test result artefact
 # ARTEFACT: TRANSFORM_DimUnitType
-# CREATED DATE: 2014-09-11T170543
+# CREATED DATE: 2014-09-16T161423
 
-2014-09-11 17:05:44	2	PASSED	source.length.should.equal(destination.length)	{"obj":23,"params":{"operator":"to be","expected":23,"showDiff":true},"negate":false}
-2014-09-11 17:05:44	3	PASSED	source[0].uom_id.toString().should.equal(destination[0].UnitTypeKey)	{"obj":"1","params":{"operator":"to be","expected":"1","showDiff":true},"negate":false}
-2014-09-11 17:05:45	4	PASSED	source[0].uom_desc.should.equal(destination[0].UnitTypeName.trim())	{"obj":"Amps","params":{"operator":"to be","expected":"Amps","showDiff":true},"negate":false}
-2014-09-11 17:05:46	5	PASSED	parseInt(1).should.equal(destination[0].MultiplicationFactorToBase)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
-2014-09-11 17:05:46	6	PASSED	parseInt(1000).should.equal(destination[0].MultiplicationFactorToBase)	{"obj":1000,"params":{"operator":"to be","expected":1000,"showDiff":true},"negate":false}
+2014-09-16 16:14:24	2	PASSED	source.length.should.equal(destination.length)	{"obj":23,"params":{"operator":"to be","expected":23,"showDiff":true},"negate":false}
+2014-09-16 16:14:25	3	PASSED	source[0].uom_id.toString().should.equal(destination[0].UnitTypeKey)	{"obj":"1","params":{"operator":"to be","expected":"1","showDiff":true},"negate":false}
+2014-09-16 16:14:26	4	PASSED	source[0].uom_desc.should.equal(destination[0].UnitTypeName.trim())	{"obj":"Amps","params":{"operator":"to be","expected":"Amps","showDiff":true},"negate":false}
+2014-09-16 16:14:26	5	PASSED	parseInt(1).should.equal(destination[0].MultiplicationFactorToBase)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2014-09-16 16:14:27	6	PASSED	parseInt(1000).should.equal(destination[0].MultiplicationFactorToBase)	{"obj":1000,"params":{"operator":"to be","expected":1000,"showDiff":true},"negate":false}
