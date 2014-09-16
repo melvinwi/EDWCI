@@ -9,5 +9,5 @@ DESCRIPTION: Header fact table
 |DueDateId	|Due Date	|int	|	|99991231	|TRUE	|	|FALSE	|
 |HeaderType	|Header Type	|nchar	|7	|	|TRUE	|	|FALSE	|
 |PaidOnTime	|PaidOnTime	|nchar	|3	|	|TRUE	|	|FALSE	|
-|HeaderKey	|Header Key	|varchar	|20	|	|TRUE	|	|FALSE|
+|HeaderKey	|Header Key	|nvarchar	|20	|	|TRUE	|	|FALSE|
 
