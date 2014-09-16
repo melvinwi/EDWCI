@@ -1,0 +1,28 @@
+# design artefact							
+# ARTEFACT: nc_tax_rate_history							
+# DESCRIPTION: Tax Rate History reference table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+tax_rate_history_id 	tax_rate_history_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+seq_tax_ind_id 	seq_tax_ind_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+start_date 	start_date 	datetime			FALSE	FALSE	FALSE
+end_date 	end_date 	datetime			FALSE	FALSE	FALSE
+tax_rate 	tax_rate 	numeric	"18, 6"		FALSE	FALSE	FALSE
+active 	active 	char	1		FALSE	FALSE	FALSE
+insert_datetime 	insert_datetime 	datetime			FALSE	FALSE	FALSE
+insert_user 	insert_user 	varchar	20		FALSE	FALSE	FALSE
+insert_process 	insert_process 	varchar	20		FALSE	FALSE	FALSE
+update_datetime 	update_datetime 	datetime			FALSE	FALSE	FALSE
+update_user 	update_user 	varchar	20		FALSE	FALSE	FALSE
+update_process 	update_process 	varchar	20		FALSE	FALSE	FALSE
+deter_1 	deter_1 	varchar	100		FALSE	FALSE	FALSE
+deter_2 	deter_2 	varchar	100		FALSE	FALSE	FALSE
+tax_dtl_rate_1 	tax_dtl_rate_1 	numeric	"18, 6"		FALSE	FALSE	FALSE
+tax_dtl_rate_2 	tax_dtl_rate_2 	numeric	"18, 6"		FALSE	FALSE	FALSE
+tax_dtl_rate_3 	tax_dtl_rate_3 	numeric	"18, 6"		FALSE	FALSE	FALSE
+tax_dtl_rate_4 	tax_dtl_rate_4 	numeric	"18, 6"		FALSE	FALSE	FALSE
+tax_dtl_rate_5 	tax_dtl_rate_5 	numeric	"18, 6"		FALSE	FALSE	FALSE
+tax_dtl_rate_6 	tax_dtl_rate_6 	numeric	"18, 6"		FALSE	FALSE	FALSE
+external_reference 	external_reference 	varchar	20		FALSE	FALSE	FALSE

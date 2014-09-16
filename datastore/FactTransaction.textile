@@ -16,5 +16,5 @@ DESCRIPTION: Transaction fact table
 |Currency	|Currency	|nchar	|3	|	|TRUE	|	|FALSE	|
 |Tax	|Tax	|money	|	|	|TRUE	|	|FALSE	|
 |TransactionDesc	|Transaction Description	|nvarchar	|100	|	|TRUE	|	|FALSE	|
-|TransactionKey	|Transaction Key	|int	|	|-1	|TRUE	|	|FALSE|
+|TransactionKey	|Transaction Key	|nvarchar	|20	|	|TRUE	|	|FALSE|
 
