@@ -1,0 +1,12 @@
+# test artefact			
+# ARTEFACT: TRANSFORM_DimMarketingCampaign_tests			
+# DESCRIPTION: Test each transformation rule			
+SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
+FROM [schema].csv_DimMarketingCampaign		source.length.should.equal(destination.length)	row counts should match
+FROM [schema].csv_DimMarketingCampaign WHERE MarketingCampaignKey = '1'	WHERE MarketingCampaignKey = '1'	source[0].MarketingCampaignKey.should.equal(destination[0].MarketingCampaignKey)	one to one
+FROM [schema].csv_DimMarketingCampaign WHERE MarketingCampaignKey = '1'	WHERE MarketingCampaignKey = '1'	source[0].MarketingCampaignShortDesc.should.equal(destination[0].MarketingCampaignShortDesc)	one to one
+FROM [schema].csv_DimMarketingCampaign WHERE MarketingCampaignKey = '1'	WHERE MarketingCampaignKey = '1'	source[0].MarketingCampaignDesc.should.equal(destination[0].MarketingCampaignDesc)	one to one
+FROM [schema].csv_DimMarketingCampaign WHERE MarketingCampaignKey = '1'	WHERE MarketingCampaignKey = '1'	source[0].MarketingCampaignStartDate.should.equal('2014-09-01')	one to one
+FROM [schema].csv_DimMarketingCampaign WHERE MarketingCampaignKey = '1'	WHERE MarketingCampaignKey = '1'	source[0].MarketingCampaignEndDate.should.equal('2014-09-20')	one to one
+FROM [schema].csv_DimMarketingCampaign WHERE MarketingCampaignKey = '1'	WHERE MarketingCampaignKey = '1'	source[0].ContactType.should.equal(destination[0].ContactType)	one to one
+FROM [schema].csv_DimMarketingCampaign WHERE MarketingCampaignKey = '1'	WHERE MarketingCampaignKey = '1'	source[0].PrivacyAssessmentKey.should.equal(destination[0].PrivacyAssessmentKey)	one to one

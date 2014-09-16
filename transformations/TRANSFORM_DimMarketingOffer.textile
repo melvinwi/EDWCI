@@ -1,0 +1,11 @@
+
+h2. ARTEFACT: TRANSFORM_DimMarketingOffer
+
+DESCRIPTION: Promote DimMarketingOffer from spreadsheet sourced tables to DataStore
+
+|*SOURCE_FUNCTION_PREFIX*	|*SOURCE*	|*SOURCE_FUNCTION_SUFFIX*	|*DESTINATION*	|*DESCRIPTION*	|
+|	|csv_"DimMarketingOffer":../datastore/DimMarketingOffer.textile .MarketingOfferKey	|	|"DimMarketingOffer":../datastore/DimMarketingOffer.textile .MarketingOfferKey	|One to one mapping	|
+|	|csv_"DimMarketingOffer":../datastore/DimMarketingOffer.textile .MarketingOfferShortDesc	|	|"DimMarketingOffer":../datastore/DimMarketingOffer.textile .MarketingOfferShortDesc	|One to one mapping	|
+|	|csv_"DimMarketingOffer":../datastore/DimMarketingOffer.textile .MarketingOfferDesc	|	|"DimMarketingOffer":../datastore/DimMarketingOffer.textile .MarketingOfferDesc	|One to one mapping	|	|
+|SELECTION_CRITERIA	|"FROM [schema].csv_"DimMarketingOffer":../datastore/DimMarketingOffer.textile "|
+

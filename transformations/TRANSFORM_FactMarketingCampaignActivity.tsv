@@ -1,0 +1,12 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_FactMarketingCampaignActivity				
+# DESCRIPTION: Promote FactMarketingCampaignActivity from spreadsheet sourced tables to DataStore 				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+	csv_FactMarketingCampaignActivity.MarketingCampaignId		FactMarketingCampaignActivity.MarketingCampaignId	One to one mapping
+	csv_FactMarketingCampaignActivity.MarketingOfferId		FactMarketingCampaignActivity.MarketingOfferId	One to one mapping
+	_DimCustomer.CustomerId		FactMarketingCampaignActivity.CustomerId	One to one mapping
+REPLACE(	csv_FactMarketingCampaignActivity.ActivityDateId	, '-', '')	FactMarketingCampaignActivity.ActivityDateId	One to one mapping
+	csv_FactMarketingCampaignActivity.ActivityTime		FactMarketingCampaignActivity.ActivityTime	One to one mapping
+	csv_FactMarketingCampaignActivity.ActivityType		FactMarketingCampaignActivity.ActivityType	One to one mapping
+CAST(CONCAT(	csv_FactMarketingCampaignActivity.MarketingCompaignActivityKey, '-',csv_FactMarketingCampaignActivity.ActivityDateId, '-', csv_FactMarketingCampaignActivity.ActivityTime	 ) AS nvarchar(255))	FactMarketingCampaignActivity.MarketingCompaignActivityKey	Construct unique identifier for each transaction
+SELECTION_CRITERIA	"FROM [schema].csv_FactMarketingCampaignActivity INNER JOIN [schema].DimCustomer as _DimCustomer ON _DimCustomer.CustomerKey = csv_FactMarketingCampaignActivity.CustomerKey AND _DimCustomer.Meta_IsCurrent = 1"			

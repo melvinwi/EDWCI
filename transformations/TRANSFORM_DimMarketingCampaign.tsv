@@ -1,0 +1,12 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_DimMarketingCampaign				
+# DESCRIPTION: Promote DimMarketingCampaign from spreadsheet sourced tables to DataStore 				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+	csv_DimMarketingCampaign.MarketingCampaignKey		DimMarketingCampaign.MarketingCampaignKey	One to one mapping
+	csv_DimMarketingCampaign.MarketingCampaignShortDesc		DimMarketingCampaign.MarketingCampaignShortDesc	One to one mapping
+	csv_DimMarketingCampaign.MarketingCampaignDesc		DimMarketingCampaign.MarketingCampaignDesc	One to one mapping
+	csv_DimMarketingCampaign.MarketingCampaignStartDate		DimMarketingCampaign.MarketingCampaignStartDate	One to one mapping
+	csv_DimMarketingCampaign.MarketingCampaignEndDate		DimMarketingCampaign.MarketingCampaignEndDate	One to one mapping
+	csv_DimMarketingCampaign.ContactType		DimMarketingCampaign.ContactType	One to one mapping
+	csv_DimMarketingCampaign.PrivacyAssessmentKey		DimMarketingCampaign.PrivacyAssessmentKey	One to one mapping	
+SELECTION_CRITERIA	"FROM [schema].csv_DimMarketingCampaign"			
