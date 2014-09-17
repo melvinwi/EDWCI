@@ -1,2 +1,2 @@
-MarketingCampaignId	MarketingOfferId	CustomerKey	ActivityDateId	ActivityTime	ActivityType	MarketingCompaignActivityKey
+MarketingCampaignId	MarketingOfferId	CustomerKey	ActivityDateId	ActivityTime	ActivityType	MarketingCampaignActivityKey
 1	1	2102891	9999-12-31	00:00:00	Offered	1-1-Loyalty-QFlix

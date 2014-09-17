@@ -1,12 +1,12 @@
 # transformation test result artefact
 # ARTEFACT: TRANSFORM_DimMarketingCampaign
-# CREATED DATE: 2014-09-16T182941
+# CREATED DATE: 2014-09-17T121214
 
-2014-09-16 18:29:43	1	PASSED	source.length.should.equal(destination.length)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
-2014-09-16 18:29:43	2	PASSED	source[0].MarketingCampaignKey.should.equal(destination[0].MarketingCampaignKey)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
-2014-09-16 18:29:44	3	PASSED	source[0].MarketingCampaignShortDesc.should.equal(destination[0].MarketingCampaignShortDesc)	{"obj":"Loyalty","params":{"operator":"to be","expected":"Loyalty","showDiff":true},"negate":false}
-2014-09-16 18:29:44	4	PASSED	source[0].MarketingCampaignDesc.should.equal(destination[0].MarketingCampaignDesc)	{"obj":"Loyalty Campaign Pilot","params":{"operator":"to be","expected":"Loyalty Campaign Pilot","showDiff":true},"negate":false}
-2014-09-16 18:29:45	5	PASSED	source[0].MarketingCampaignStartDate.should.equal('2014-09-01')	{"obj":"2014-09-01","params":{"operator":"to be","expected":"2014-09-01","showDiff":true},"negate":false}
-2014-09-16 18:29:45	6	PASSED	source[0].MarketingCampaignEndDate.should.equal('2014-09-20')	{"obj":"2014-09-20","params":{"operator":"to be","expected":"2014-09-20","showDiff":true},"negate":false}
-2014-09-16 18:29:46	7	PASSED	source[0].ContactType.should.equal(destination[0].ContactType)	{"obj":"Email","params":{"operator":"to be","expected":"Email","showDiff":true},"negate":false}
-2014-09-16 18:29:47	8	PASSED	source[0].PrivacyAssessmentKey.should.equal(destination[0].PrivacyAssessmentKey)	{"obj":"A12345","params":{"operator":"to be","expected":"A12345","showDiff":true},"negate":false}
+2014-09-17 12:12:32	1	PASSED	source.length.should.equal(destination.length)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2014-09-17 12:12:52	2	PASSED	source[0].MarketingCampaignKey.should.equal(destination[0].MarketingCampaignKey)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2014-09-17 12:13:02	3	PASSED	source[0].MarketingCampaignShortDesc.should.equal(destination[0].MarketingCampaignShortDesc)	{"obj":"Loyalty","params":{"operator":"to be","expected":"Loyalty","showDiff":true},"negate":false}
+2014-09-17 12:13:14	4	PASSED	source[0].MarketingCampaignDesc.should.equal(destination[0].MarketingCampaignDesc)	{"obj":"Loyalty Campaign Pilot","params":{"operator":"to be","expected":"Loyalty Campaign Pilot","showDiff":true},"negate":false}
+2014-09-17 12:13:26	5	PASSED	source[0].MarketingCampaignStartDate.should.equal('2014-09-01')	{"obj":"2014-09-01","params":{"operator":"to be","expected":"2014-09-01","showDiff":true},"negate":false}
+2014-09-17 12:13:38	6	PASSED	source[0].MarketingCampaignEndDate.should.equal('2014-09-20')	{"obj":"2014-09-20","params":{"operator":"to be","expected":"2014-09-20","showDiff":true},"negate":false}
+2014-09-17 12:13:51	7	PASSED	source[0].ContactType.should.equal(destination[0].ContactType)	{"obj":"Email","params":{"operator":"to be","expected":"Email","showDiff":true},"negate":false}
+2014-09-17 12:14:07	8	PASSED	source[0].PrivacyAssessmentKey.should.equal(destination[0].PrivacyAssessmentKey)	{"obj":"A12345","params":{"operator":"to be","expected":"A12345","showDiff":true},"negate":false}
