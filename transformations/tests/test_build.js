@@ -87,7 +87,13 @@ function test_build(artefactName, object, schema, design, selectionCriteria) // 
                 var colParts = object[i].SOURCE.split(',');
                 for (var x=0; x<colParts.length; x++) {
                     if (colParts[x].trim().length>0) {
-                        sourceColumnsArray[sourceColumnsArray.length] = colParts[x].trim();
+                        colParts[x] = colParts[x].trim();
+                        if (colParts[x].substring(0,1)=="'" || colParts[x].substring(0,1)=='"') {
+                            // ignore
+                        }
+                        else {
+                            sourceColumnsArray[sourceColumnsArray.length] = colParts[x];
+                        }
                     }
                 }
             }
