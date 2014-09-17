@@ -8,5 +8,5 @@ SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
 REPLACE(	csv_FactMarketingCampaignActivity.ActivityDateId	, '-', '')	FactMarketingCampaignActivity.ActivityDateId	One to one mapping
 	csv_FactMarketingCampaignActivity.ActivityTime		FactMarketingCampaignActivity.ActivityTime	One to one mapping
 	csv_FactMarketingCampaignActivity.ActivityType		FactMarketingCampaignActivity.ActivityType	One to one mapping
-CAST(CONCAT(	csv_FactMarketingCampaignActivity.MarketingCompaignActivityKey, '-',csv_FactMarketingCampaignActivity.ActivityDateId, '-', csv_FactMarketingCampaignActivity.ActivityTime	 ) AS nvarchar(255))	FactMarketingCampaignActivity.MarketingCompaignActivityKey	Construct unique identifier for each transaction
+CAST(CONCAT(	"csv_FactMarketingCampaignActivity.MarketingCampaignActivityKey, '-', csv_FactMarketingCampaignActivity.CustomerKey, '-', csv_FactMarketingCampaignActivity.ActivityDateId, '-', csv_FactMarketingCampaignActivity.ActivityTime"	 ) AS nvarchar(255))	FactMarketingCampaignActivity.MarketingCampaignActivityKey	Construct unique identifier for each transaction
 SELECTION_CRITERIA	"FROM [schema].csv_FactMarketingCampaignActivity INNER JOIN [schema].DimCustomer as _DimCustomer ON _DimCustomer.CustomerKey = csv_FactMarketingCampaignActivity.CustomerKey AND _DimCustomer.Meta_IsCurrent = 1"			

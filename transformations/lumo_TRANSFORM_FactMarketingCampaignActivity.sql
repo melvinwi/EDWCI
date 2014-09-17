@@ -20,7 +20,7 @@ END
 		FactMarketingCampaignActivity.ActivityDateId,
 		FactMarketingCampaignActivity.ActivityTime,
 		FactMarketingCampaignActivity.ActivityType,
-		FactMarketingCampaignActivity.MarketingCompaignActivityKey)
+		FactMarketingCampaignActivity.MarketingCampaignActivityKey)
 	  SELECT
 		csv_FactMarketingCampaignActivity.MarketingCampaignId,
 		csv_FactMarketingCampaignActivity.MarketingOfferId,
@@ -28,8 +28,8 @@ END
 		REPLACE( csv_FactMarketingCampaignActivity.ActivityDateId , '-', ''),
 		csv_FactMarketingCampaignActivity.ActivityTime,
 		csv_FactMarketingCampaignActivity.ActivityType,
-		CAST(CONCAT( csv_FactMarketingCampaignActivity.MarketingCompaignActivityKey, '-',csv_FactMarketingCampaignActivity.ActivityDateId, '-', csv_FactMarketingCampaignActivity.ActivityTime ) AS nvarchar(255))
-	  FROM /* Staging */ lumo.csv_FactMarketingCampaignActivity INNER JOIN /* Dimensional */ staticdims.DimCustomer as _DimCustomer ON _DimCustomer.CustomerKey = csv_FactMarketingCampaignActivity.CustomerKey AND _DimCustomer.Meta_IsCurrent = 1;
+		CAST(CONCAT( csv_FactMarketingCampaignActivity.MarketingCampaignActivityKey, '-',csv_FactMarketingCampaignActivity.CustomerKey, '-',csv_FactMarketingCampaignActivity.ActivityDateId, '-', csv_FactMarketingCampaignActivity.ActivityTime ) AS nvarchar(255))
+	  FROM lumo.csv_FactMarketingCampaignActivity INNER JOIN lumo.DimCustomer as _DimCustomer ON _DimCustomer.CustomerKey = csv_FactMarketingCampaignActivity.CustomerKey AND _DimCustomer.Meta_IsCurrent = 1;
 
 SELECT 0 AS ExtractRowCount,
 @@ROWCOUNT AS InsertRowCount,

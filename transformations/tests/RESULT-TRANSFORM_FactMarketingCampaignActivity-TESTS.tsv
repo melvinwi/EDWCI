@@ -1,11 +1,11 @@
 # transformation test result artefact
 # ARTEFACT: TRANSFORM_FactMarketingCampaignActivity
-# CREATED DATE: 2014-09-16T155407
+# CREATED DATE: 2014-09-17T130922
 
-2014-09-16 15:54:08	1	PASSED	source.length.should.equal(destination.length)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
-2014-09-16 15:54:08	2	PASSED	source[0].MarketingCampaignId.should.equal(destination[0].MarketingCampaignId)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
-2014-09-16 15:54:09	3	PASSED	source[0].MarketingOfferId.should.equal(destination[0].MarketingOfferId)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
-2014-09-16 15:54:09	4	PASSED	source[0].CustomerId.should.equal(destination[0].CustomerId)	{"obj":2,"params":{"operator":"to be","expected":2,"showDiff":true},"negate":false}
-2014-09-16 15:54:10	5	PASSED	Number(source[0].ActivityDateId.replace(/-/g, '')).should.equal(destination[0].ActivityDateId)	{"obj":99991231,"params":{"operator":"to be","expected":99991231,"showDiff":true},"negate":false}
-2014-09-16 15:54:10	6	PASSED	source[0].ActivityType.should.equal(destination[0].ActivityType)	{"obj":"Offered","params":{"operator":"to be","expected":"Offered","showDiff":true},"negate":false}
-2014-09-16 15:54:11	7	PASSED	(source[0].MarketingCompaignActivityKey+'-'+source[0].ActivityDateId+'-'+source[0].ActivityTime).should.equal(destination[0].MarketingCompaignActivityKey)	{"obj":"1-1-Loyalty-QFlix-9999-12-31-00:00:00","params":{"operator":"to be","expected":"1-1-Loyalty-QFlix-9999-12-31-00:00:00","showDiff":true},"negate":false}
+2014-09-17 13:09:29	1	PASSED	source.length.should.equal(destination.length)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2014-09-17 13:09:31	2	PASSED	source[0].MarketingCampaignId.should.equal(destination[0].MarketingCampaignId)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2014-09-17 13:09:33	3	PASSED	source[0].MarketingOfferId.should.equal(destination[0].MarketingOfferId)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2014-09-17 13:09:35	4	PASSED	source[0].CustomerId.should.equal(destination[0].CustomerId)	{"obj":2,"params":{"operator":"to be","expected":2,"showDiff":true},"negate":false}
+2014-09-17 13:09:39	5	PASSED	Number(source[0].ActivityDateId.replace(/-/g, '')).should.equal(destination[0].ActivityDateId)	{"obj":99991231,"params":{"operator":"to be","expected":99991231,"showDiff":true},"negate":false}
+2014-09-17 13:09:43	6	PASSED	source[0].ActivityType.should.equal(destination[0].ActivityType)	{"obj":"Offered","params":{"operator":"to be","expected":"Offered","showDiff":true},"negate":false}
+2014-09-17 13:09:45	7	PASSED	(source[0].MarketingCampaignActivityKey+'-'+source[0].CustomerKey+'-'+source[0].ActivityDateId+'-'+source[0].ActivityTime).should.equal(destination[0].MarketingCampaignActivityKey)	{"obj":"1-1-Loyalty-QFlix-2102891-9999-12-31-00:00:00","params":{"operator":"to be","expected":"1-1-Loyalty-QFlix-2102891-9999-12-31-00:00:00","showDiff":true},"negate":false}
