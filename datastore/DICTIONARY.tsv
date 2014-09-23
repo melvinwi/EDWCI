@@ -62,3 +62,21 @@ ID	suffix	All Id columns to be suffixed with _ID	ACCOUNT_ID
 ACCOUNT	prefix	The customer account items will be prefixed with this	XX112233	
 TYPE	any	The type values such as Account Type or Customer Type	A,B	
 NUMBER	suffix	Identifiers that are shared with and known by third-parties	ABC123
+OrganisationId	any	*Id	Melvin
+OrganisationKey	any	*Key	Melvin
+OrganisationCode	any	*Code	Melvin
+Level1Code	any	*LevelCode	Melvin
+Level1Name	any	*LevelName	Melvin
+Level1StructureName	any	*StructureName	Melvin
+Level2Code	any	*LevelCode	Melvin
+Level2Name	any	*LevelName	Melvin
+Level2StructureName	any	*StructureName	Melvin
+Level3Code	any	*LevelCode	Melvin
+Level3Name	any	*LevelName	Melvin
+Level3StructureName	any	*StructureName	Melvin
+Level4Code	any	*LevelCode	Melvin
+Level4Name	any	*LevelName	Melvin
+Level4StructureName	any	*StructureName	Melvin
+Level5Code	any	*LevelCode	Melvin
+Level5Name	any	*LevelName	Melvin
+Level5StructureName	any	*StructureName	Melvin
