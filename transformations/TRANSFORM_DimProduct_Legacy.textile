@@ -1,12 +1,12 @@
 
 h2. ARTEFACT: TRANSFORM_DimProduct
 
-DESCRIPTION: Promote products from static load table to DataStore
+DESCRIPTION: Promote products from static load view to DataStore
 
 |*SOURCE_FUNCTION_PREFIX*	|*SOURCE*	|*SOURCE_FUNCTION_SUFFIX*	|*DESTINATION*	|*DESCRIPTION*	|
-|	|"Product":../staging/Product.textile ."Product":../staging/Product.textile Key	|	|"Dim"Product":../staging/Product.textile ":../datastore/Dim"Product":../staging/Product.textile .textile ."Product":../staging/Product.textile Key	|One to one mapping	|
-|	|"Product":../staging/Product.textile ."Product":../staging/Product.textile Name	|	|"Dim"Product":../staging/Product.textile ":../datastore/Dim"Product":../staging/Product.textile .textile ."Product":../staging/Product.textile Name	|One to one mapping	|
-|	|"Product":../staging/Product.textile ."Product":../staging/Product.textile Desc	|	|"Dim"Product":../staging/Product.textile ":../datastore/Dim"Product":../staging/Product.textile .textile ."Product":../staging/Product.textile Desc	|One to one mapping	|
-|	|"Product":../staging/Product.textile ."Product":../staging/Product.textile Type	|	|"Dim"Product":../staging/Product.textile ":../datastore/Dim"Product":../staging/Product.textile .textile ."Product":../staging/Product.textile Type	|One to one mapping	|
-|SELECTION_CRITERIA	|FROM [schema]."Product":../staging/Product.textile  WHERE "Product":../staging/Product.textile .Meta_LatestUpdate_TaskExecutionInstanceId  > @LatestSuccessfulTaskExecutionInstanceID|
+|	|_Product.ProductKey	|	|"DimProduct":../datastore/DimProduct.textile .ProductKey	|One to one mapping	|
+|	|_Product.ProductName	|	|"DimProduct":../datastore/DimProduct.textile .ProductName	|One to one mapping	|
+|	|_Product.ProductDesc	|	|"DimProduct":../datastore/DimProduct.textile .ProductDesc	|One to one mapping	|
+|	|_Product.ProductType	|	|"DimProduct":../datastore/DimProduct.textile .ProductType	|One to one mapping	|
+|SELECTION_CRITERIA	|FROM [schema].Product AS _Product|
 

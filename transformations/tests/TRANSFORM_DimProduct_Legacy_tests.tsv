@@ -2,9 +2,9 @@
 # ARTEFACT: TRANSFORM_DimProduct_tests			
 # DESCRIPTION: Test each transformation rule			
 SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
-REUSE_SQL	FROM [schema].Product WHERE Product.Meta_LatestUpdate_TaskExecutionInstanceId  > -2		
+REUSE_SQL	FROM [schema].Product AS _Product		
 [REUSE_SQL]		source.length.should.equal(destination.length)	row counts should match
-[REUSE_SQL] AND ProductKey = 'Lumo Advantage'	WHERE ProductKey = 'Lumo Advantage'	source[0].ProductKey.should.equal(destination[0].ProductKey)	1:1 map rule
-[REUSE_SQL] AND ProductKey = 'Lumo Advantage'	WHERE ProductKey = 'Lumo Advantage'	source[0].ProductName.should.equal(destination[0].ProductName)	1:1 map rule
-[REUSE_SQL] AND ProductKey = 'Lumo Advantage'	WHERE ProductKey = 'Lumo Advantage'	source[0].ProductDesc.should.equal(destination[0].ProductDesc)	1:1 map rule
-[REUSE_SQL] AND ProductKey = 'Lumo Advantage'	WHERE ProductKey = 'Lumo Advantage'	source[0].ProductType.should.equal(destination[0].ProductType)	1:1 map rule
+[REUSE_SQL] WHERE ProductKey = 'Lumo Advantage'	WHERE ProductKey = 'Lumo Advantage'	source[0].ProductKey.should.equal(destination[0].ProductKey)	1:1 map rule
+[REUSE_SQL] WHERE ProductKey = 'Lumo Advantage'	WHERE ProductKey = 'Lumo Advantage'	source[0].ProductName.should.equal(destination[0].ProductName)	1:1 map rule
+[REUSE_SQL] WHERE ProductKey = 'Lumo Advantage'	WHERE ProductKey = 'Lumo Advantage'	source[0].ProductDesc.should.equal(destination[0].ProductDesc)	1:1 map rule
+[REUSE_SQL] WHERE ProductKey = 'Lumo Advantage'	WHERE ProductKey = 'Lumo Advantage'	source[0].ProductType.should.equal(destination[0].ProductType)	1:1 map rule
