@@ -1,0 +1,9 @@
+Meta_ChangeFlag	Meta_Insert_TaskExecutionInstanceId	Meta_LatestUpdate_TaskExecutionInstanceId	seq_rcpt_batch_type_id	rcpt_batch_type_code	rcpt_batch_type_desc	active	insert_datetime	insert_user	insert_process	update_datetime	update_user	update_process	req_bank_ac_flag	req_credit_card_flag
+1	-1	-1	1	CHEQUE	Cheque Run	Y	2001-09-19 14:39:33.787	DEAN	MTRECBTCH	2003-05-26 14:38:03.420	DEAN	MTRECBTCH	Y	N
+1	-1	-1	3	DIRECT	Direct Debit	Y	2001-09-19 14:39:33.787	DEAN	MTRECBTCH	2003-05-26 14:38:03.420	DEAN	MTRECBTCH	N	N
+1	-1	-1	5	CASH	Batch Of Cash Payments	Y	2001-09-19 14:40:22.017	DEAN	MTRECBTCH	2003-05-26 14:38:03.420	DEAN	MTRECBTCH	N	N
+1	-1	-1	6	DRCTCREDIT	Direct Credit Batch	Y	2001-09-19 14:40:22.017	DEAN	MTRECBTCH	2003-05-26 14:38:03.420	DEAN	MTRECBTCH	N	N
+1	-1	-1	10	CRDCARD	Credit Card	Y	2004-03-03 12:54:21.673	DEAN	MTRECBTCH	NULL	NULL	NULL	N	Y
+1	-1	-1	11	WESTPAC	Imported From Westpac	Y	2004-07-14 07:09:34.077	ADMIN	ADMIN	NULL	NULL	NULL	N	N
+1	-1	-1	12	CBAPYMT	CBA Payments	Y	2007-01-16 05:44:14.090	CUTLASS	DATALOAD	NULL	NULL	NULL	N	N
+1	-1	-1	14	AUSPOST	Australia Post Billpay	Y	2012-11-25 08:42:23.320	PTM-DB10	DATALOAD	NULL	NULL	NULL	N	N
