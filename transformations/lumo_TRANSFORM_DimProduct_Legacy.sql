@@ -19,11 +19,11 @@ END
 		DimProduct.ProductDesc,
 		DimProduct.ProductType)
 	  SELECT
-		Product.ProductKey,
-		Product.ProductName,
-		Product.ProductDesc,
-		Product.ProductType
-	  FROM lumo.Product WHERE Product.Meta_LatestUpdate_TaskExecutionInstanceId  > @LatestSuccessfulTaskExecutionInstanceID;
+		_Product.ProductKey,
+		_Product.ProductName,
+		_Product.ProductDesc,
+		_Product.ProductType
+	  FROM lumo.Product AS _Product;
 
 SELECT 0 AS ExtractRowCount,
 @@ROWCOUNT AS InsertRowCount,
