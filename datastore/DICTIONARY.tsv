@@ -68,6 +68,21 @@ FinancialAccount	prefix	Reserved for DimFinancialAccount	NA
 Level1Name		any	Level 1 Name	NA
 Level2Name		any	Level 2 Name	NA
 Level3Name		any	Level 3 Name	NA
+Level4Name		any	Level 4 Name	NA
+Level5Name		any	Level 5 Name	NA
+Level1Code		any	Level 1 Code	NA
+Level2Code		any	Level 2 Code	NA
+Level3Code		any	Level 3 Code	NA
+Level4Code		any	Level 4 Code	NA
+Level5Code		any	Level 5 Code	NA
+Level1StructureName		any	Level 1 Structure Name	NA
+Level2StructureName		any	Level 2 Structure Name	NA
+Level3StructureName		any	Level 3 Structure Name	NA
+Level4StructureName		any	Level 4 Structure Name	NA
+Level5StructureName		any	Level 5 Structure Name	NA
+OrganisationId		any	Organisation Id	NA
+OrganisationKey		any	Organisation Key	NA
+OrganisationCode		any	Organisation Key	NA
 UnitType	prefix	Reserved for DimUnitType	NA
 MultiplicationFactorToBase	any	Multiplication Factor To Base	NA
 IssueDate	any	Issue Date	NA

@@ -1,0 +1,5 @@
+# design test artefact			
+# ARTEFACT: TRANSFORM_DimOrganisation_tests			
+# DESCRIPTION: Test each transformation rule			
+SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
+FROM [schema].crm_party WHERE seq_party_id = 2644763	WHERE OrganisationId = 2644763	source[0].seq_party_id.should.equal(destination[0].OrganisationId)	One to One
