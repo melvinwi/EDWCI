@@ -2,7 +2,6 @@
 # ARTEFACT: DimOrganisation							
 # DESCRIPTION: Organisation dimension table							
 COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
-OrganisationId	Organisation Id	INT			FALSE		FALSE
 OrganisationKey	Customer Code used in the transaction system (party code)	INT			FALSE		FALSE
 OrganisationCode	Organisation Code used in the transaction system (party code)	NCHAR	10		FALSE		FALSE
 Level1Code	Level 1 Code	NCHAR	10		FALSE		FALSE
