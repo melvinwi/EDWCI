@@ -1,0 +1,12 @@
+# design artefact							
+# ARTEFACT: FactActivity							
+# DESCRIPTION: Activity fact table							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+CustomerId	Foreign key to DimCustomer	int		-1	TRUE		FALSE
+RepresentativeId	Foreign key to DimRepresentative	int		-1	TRUE		FALSE
+OrganisationId	Foreign key to DimOrganisation	int		-1	TRUE		FALSE
+ActivityTypeId	Foreign key to DimActivityType	int		-1	TRUE		FALSE
+ActivityDateId	Activity Date	int		99991231	TRUE		FALSE
+ActivityTime	Activity Time	time	2		TRUE		FALSE
+ActivityNotes	Activity Notes	nvarchar	max		TRUE		FALSE
+ActivityKey	Activity Key	int		-1	TRUE		FALSE
