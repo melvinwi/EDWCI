@@ -113,3 +113,5 @@ RepresentativeFirstName		any	RepresentativeFirstName	NA
 RepresentativeInitial		any	RepresentativeInitial	NA
 RepresentativeLastName		any	RepresentativeLastName	NA
 RepresentativeFullName		any	RepresentativeFullName	NA
+ActivityTypeId		any	ActivityTypeId	NA
+ActivityNotes		any	ActivityNotes	NA
