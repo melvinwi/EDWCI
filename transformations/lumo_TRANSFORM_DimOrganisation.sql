@@ -23,8 +23,8 @@ END
 		DimOrganisation.Level3Name,
 		DimOrganisation.Level4Name)
 	  SELECT
-		CAST( _Level1.OrgCode AS nchar(10)),
-		CAST( _Level1.OrgId AS int),
+		CAST(ISNULL( _Level1.OrgCode, ISNULL(_Level2.OrgCode, _Level3.OrgCode) ) AS nchar(10)),
+		CAST(ISNULL( _Level1.OrgId, ISNULL(_Level2.OrgId, _Level3.OrgId) ) AS int),
 		CAST(ISNULL( _Level1.OrgName, ISNULL(_Level2.OrgName, _Level3.OrgName) ) AS nvarchar(100)),
 		CAST( _Level1.OrgName AS nvarchar(100)),
 		CAST( _Level2.OrgName AS nvarchar(100)),
