@@ -105,3 +105,10 @@ Contact	prefix	to contact a customer	NA
 PrivacyAssessment	prefix	identifies privacy officer related attributes	NA
 Activity	prefix	describes activity attributes in the context of the table it resides	NA
 MarketingCompaignActivityKey	any	specific column used in defining marketing campaign activities	NA
+RepresentativeId		any	RepresentativeId	NA
+RepresentativeKey		any	RepresentativeKey	NA
+RepresentativeCode		any	RepresentativeCode	NA
+RepresentativeFirstName		any	RepresentativeFirstName	NA
+RepresentativeInitial		any	RepresentativeInitial	NA
+RepresentativeLastName		any	RepresentativeLastName	NA
+RepresentativeFullName		any	RepresentativeFullName	NA
