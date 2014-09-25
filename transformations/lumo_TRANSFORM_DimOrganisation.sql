@@ -17,6 +17,7 @@ END
 	INSERT INTO lumo.DimOrganisation (
 		DimOrganisation.OrganisationCode,
 		DimOrganisation.OrganisationKey,
+		DimOrganisation.OrganisationName,
 		DimOrganisation.Level1Name,
 		DimOrganisation.Level2Name,
 		DimOrganisation.Level3Name,
@@ -24,6 +25,7 @@ END
 	  SELECT
 		CAST( _Level1.OrgCode AS nchar(10)),
 		CAST( _Level1.OrgId AS int),
+		CAST(ISNULL( _Level1.OrgName, ISNULL(_Level2.OrgName, _Level3.OrgName) ) AS nvarchar(100)),
 		CAST( _Level1.OrgName AS nvarchar(100)),
 		CAST( _Level2.OrgName AS nvarchar(100)),
 		CAST( _Level3.OrgName AS nvarchar(100)),

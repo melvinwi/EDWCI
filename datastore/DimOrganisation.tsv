@@ -4,6 +4,7 @@
 COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
 OrganisationKey	Customer Code used in the transaction system (party code)	INT			FALSE		FALSE
 OrganisationCode	Organisation Code used in the transaction system (party code)	NCHAR	10		FALSE		FALSE
+OrganisationName	Organisation Name 	NVARCHAR	100		FALSE		FALSE
 Level1Name	Level 1 Name	NVARCHAR	100		FALSE		FALSE
 Level2Name	Level 2 Name	NVARCHAR	100		FALSE		FALSE
 Level3Name	Level 3 Name	NVARCHAR	100		FALSE		FALSE
