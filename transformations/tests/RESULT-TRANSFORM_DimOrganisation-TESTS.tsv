@@ -1,5 +1,4 @@
 # transformation test result artefact
 # ARTEFACT: TRANSFORM_DimOrganisation
-# CREATED DATE: 2014-09-24T190703
+# CREATED DATE: 2014-09-25T155953
 
-2014-09-24 19:07:05	2	PASSED	source.length.should.equal(destination.length)	{"obj":100,"params":{"operator":"to be","expected":100,"showDiff":true},"negate":false}
