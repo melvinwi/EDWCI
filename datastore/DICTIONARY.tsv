@@ -82,7 +82,8 @@ Level4StructureName		any	Level 4 Structure Name	NA
 Level5StructureName		any	Level 5 Structure Name	NA
 OrganisationId		any	Organisation Id	NA
 OrganisationKey		any	Organisation Key	NA
-OrganisationCode		any	Organisation Key	NA
+OrganisationCode		any	Organisation Code	NA
+OrganisationName		any	Organisation Name	NA
 UnitType	prefix	Reserved for DimUnitType	NA
 MultiplicationFactorToBase	any	Multiplication Factor To Base	NA
 IssueDate	any	Issue Date	NA
