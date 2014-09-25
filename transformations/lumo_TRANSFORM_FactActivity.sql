@@ -13,16 +13,16 @@ EXEC DW_Utility.config.GetLatestSuccessfulTaskExecutionInstanceID
 END
 --/
 
-	;WITH _crmElementHierarchy AS (SELECT crm_element_hierarchy.element_id, crm_element_hierarchy.element_struct_code, crm_element_hierarchy.parent_id, crm_element_hierarchy.Meta_LatestUpdate_TaskExecutionInstanceId, row_number() OVER (PARTITION BY crm_element_hierarchy.element_id ORDER BY crm_element_hierarchy.start_date1 DESC) AS recency FROM/* Staging */ lumo.crm_element_hierarchy)
+	;WITH crmElementHierarchy AS (SELECT crm_element_hierarchy.element_id, crm_element_hierarchy.element_struct_code, crm_element_hierarchy.parent_id, crm_element_hierarchy.Meta_LatestUpdate_TaskExecutionInstanceId, row_number() OVER (PARTITION BY crm_element_hierarchy.element_id ORDER BY crm_element_hierarchy.start_date1 DESC) AS recency FROM /* Staging */ lumo.crm_element_hierarchy)
 	INSERT INTO lumo.FactActivity (
 		FactActivity.CustomerId,
 		FactActivity.RepresentativeId,
-		FactActivity.,
-		FactActivity.,
-		FactActivity.,
-		FactActivity.,
-		FactActivity.,
-		FactActivity.)
+		FactActivity.OrganisationId,
+		FactActivity.ActivityTypeId,
+		FactActivity.ActivityDateId,
+		FactActivity.ActivityTime,
+		FactActivity.ActivityNotes,
+		FactActivity.ActivityKey)
 	  SELECT
 		_DimCustomer.CustomerId,
 		COALESCE( _DimRepresentative.RepresentativeId , -1),
