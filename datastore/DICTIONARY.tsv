@@ -110,8 +110,8 @@ RepresentativeId		any	RepresentativeId	NA
 RepresentativeKey		any	RepresentativeKey	NA
 RepresentativeCode		any	RepresentativeCode	NA
 RepresentativeFirstName		any	RepresentativeFirstName	NA
-RepresentativeInitial		any	RepresentativeInitial	NA
+RepresentativeMiddleInitial		any	RepresentativeMiddleInitial	NA
 RepresentativeLastName		any	RepresentativeLastName	NA
-RepresentativeFullName		any	RepresentativeFullName	NA
+RepresentativePartyName		any	RepresentativePartyName	NA
 ActivityTypeId		any	ActivityTypeId	NA
 ActivityNotes		any	ActivityNotes	NA
