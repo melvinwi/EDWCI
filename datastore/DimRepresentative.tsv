@@ -2,10 +2,8 @@
 # ARTEFACT: DimRepresentative							
 # DESCRIPTION: Representative dimension table							
 COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
-RepresentativeId	RepresentativeId	INT			TRUE	TRUE	TRUE
 RepresentativeKey	RepresentativeKey	INT	10		FALSE		FALSE
-RepresentativeCode	RepresentativeCode	NCHAR	10		FALSE		FALSE
 RepresentativeFirstName	RepresentativeFirstName	NVARCHAR	100		FALSE		FALSE
-RepresentativeInitial	RepresentativeMiddleName	NCHAR	10		FALSE		FALSE
+RepresentativeMiddleInitial	RepresentativeMiddleInitial	NCHAR	10		FALSE		FALSE
 RepresentativeLastName	RepresentativeLastName	NVARCHAR	100		FALSE		FALSE
-RepresentativeFullName	RepresentativeFullName	NVARCHAR	100		FALSE		FALSE
+RepresentativePartyName	RepresentativePartyName	NVARCHAR	100		FALSE		FALSE
