@@ -1,4 +1,5 @@
 Meta_ChangeFlag	Meta_Insert_TaskExecutionInstanceId	Meta_LatestUpdate_TaskExecutionInstanceId	active	insert_datetime	insert_user	insert_process	update_datetime	update_user	update_process	element_id	element_struct_code	parent_id	parent_element_struct_code	seq_element_type_id	start_date	end_date	start_date1	end_date1	department_head
+1	-1	-1	N	2014-03-14 10:56:11	GRAHAMA	CMS2	2009-03-14 10:56:11	KAME	CMS2	73742	STAFF	63080	DEPARTMENT	4	2004-03-14 10:56:11	NULL	2004-03-14 10:56:11	NULL	N
 1	-1	-1	Y	2012-03-14 10:56:11	crm	CMS10	2012-03-14 10:56:11	NULL	NULL	2341387	CLIENT	3	COMPANY	9	2012-03-14 10:56:11	NULL	2012-03-14 10:56:11	NULL	N
 1	-1	-1	Y	2012-03-14 10:56:11	crm	CMS11	2012-03-14 10:56:11	NULL	NULL	2341388	CONTACT	2341387	CLIENT	10	2012-03-14 10:56:11	NULL	2012-03-14 10:56:11	NULL	N
 1	-1	-1	Y	2012-03-14 10:56:11	crm	CMS12	2012-03-14 10:56:11	NULL	NULL	2341539	CLIENT	3	COMPANY	8	2012-03-14 10:56:11	NULL	2012-03-14 10:56:11	NULL	N

@@ -1,7 +1,9 @@
 # transformation test result artefact
 # ARTEFACT: TRANSFORM_DimRepresentative
-# CREATED DATE: 2014-09-29T112651
+# CREATED DATE: 2014-09-29T115645
 
-2014-09-29 11:26:53	2	PASSED	source.length.should.equal(destination.length)	{"obj":0,"params":{"operator":"to be","expected":0,"showDiff":true},"negate":false}
-2014-09-29 11:26:53	3	FAILED	source[0].elementId.should.equal(destination[0].RepresentativeKey.trim()) problem processing test - please update	TypeError: Cannot read property 'elementId' of undefined
-2014-09-29 11:26:54	4	FAILED	source[0].first_name.should.equal(destination[0].FirstName.trim()) problem processing test - please update	TypeError: Cannot read property 'first_name' of undefined
+2014-09-29 11:56:47	2	PASSED	source.length.should.equal(destination.length)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2014-09-29 11:56:48	3	PASSED	source[0].element_id.should.equal(destination[0].RepresentativeKey)	{"obj":73742,"params":{"operator":"to be","expected":73742,"showDiff":true},"negate":false}
+2014-09-29 11:56:48	4	PASSED	source[0].first_name.should.equal(destination[0].RepresentativeFirstName)	{"obj":"Bob","params":{"operator":"to be","expected":"Bob","showDiff":true},"negate":false}
+2014-09-29 11:56:49	5	PASSED	source[0].last_name.should.equal(destination[0].RepresentativeLastName)	{"obj":"Smith","params":{"operator":"to be","expected":"Smith","showDiff":true},"negate":false}
+2014-09-29 11:56:50	6	PASSED	source[0].party_name.should.equal(destination[0].RepresentativePartyName)	{"obj":"Bob Smith","params":{"operator":"to be","expected":"Bob Smith","showDiff":true},"negate":false}

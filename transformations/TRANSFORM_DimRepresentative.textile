@@ -1,0 +1,14 @@
+
+h2. ARTEFACT: TRANSFORM_DimRepresentative
+
+DESCRIPTION: Construct Sales Representative Structure from Orion tables to DataStore
+
+|*SOURCE_FUNCTION_PREFIX*	|*SOURCE*	|*SOURCE_FUNCTION_SUFFIX*	|*DESTINATION*	|*DESCRIPTION*	|
+|WITH_STATEMENTS	|"WITH crmElementHierarchy AS (SELECT crm_element_hierarchy.element_id, crm_element_hierarchy.element_struct_code, crm_element_hierarchy.parent_id, crm_element_hierarchy.parent_element_struct_code, crm_element_hierarchy.Meta_LatestUpdate_TaskExecutionInstanceId, row_number() OVER (PARTITION BY crm_element_hierarchy.element_id ORDER BY crm_element_hierarchy.start_date1 DESC) AS recency FROM /* Staging */ [schema].crm_element_hierarchy WHERE crm_element_hierarchy.element_struct_code IN ('SALES', 'STAFF'))"	|	|	|Deduplicate crm_element_hierarchy selecting the latest information	|
+|	|_representative.element_id	|	|"DimRepresentative":../datastore/DimRepresentative.textile .RepresentativeKey	|One to one mapping	|
+|	|"crm_party":../staging/crm_party.textile .first_name	|	|"DimRepresentative":../datastore/DimRepresentative.textile .RepresentativeFirstName	|One to one mapping	|
+|	|"crm_party":../staging/crm_party.textile .initials	|	|"DimRepresentative":../datastore/DimRepresentative.textile .RepresentativeMiddleInitial	|One to one mapping	|
+|	|"crm_party":../staging/crm_party.textile .last_name	|	|"DimRepresentative":../datastore/DimRepresentative.textile .RepresentativeLastName	|One to one mapping	|
+|	|"crm_party":../staging/crm_party.textile .party_name	|	|"DimRepresentative":../datastore/DimRepresentative.textile .RepresentativePartyName	|One to one mapping	|
+|SELECTION_CRITERIA	|FROM crmElementHierarchy AS _representative INNER JOIN /* Staging */ [schema]."crm_party":../staging/crm_party.textile  ON "crm_party":../staging/crm_party.textile .seq_party_id = _representative.element_id WHERE _representative.recency = 1 AND _representative.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID|
+
