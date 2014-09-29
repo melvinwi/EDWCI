@@ -1,0 +1,7 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_DimRepresentative
+# CREATED DATE: 2014-09-29T112651
+
+2014-09-29 11:26:53	2	PASSED	source.length.should.equal(destination.length)	{"obj":0,"params":{"operator":"to be","expected":0,"showDiff":true},"negate":false}
+2014-09-29 11:26:53	3	FAILED	source[0].elementId.should.equal(destination[0].RepresentativeKey.trim()) problem processing test - please update	TypeError: Cannot read property 'elementId' of undefined
+2014-09-29 11:26:54	4	FAILED	source[0].first_name.should.equal(destination[0].FirstName.trim()) problem processing test - please update	TypeError: Cannot read property 'first_name' of undefined

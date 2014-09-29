@@ -8,4 +8,4 @@ WITH_STATEMENTS	"WITH crmElementHierarchy AS (SELECT crm_element_hierarchy.eleme
 	crm_party.initials		DimRepresentative.RepresentativeMiddleInitial	One to one mapping
 	crm_party.last_name		DimRepresentative.RepresentativeLastName	One to one mapping
 	crm_party.party_name		DimRepresentative.RepresentativePartyName	One to one mapping
-SELECTION_CRITERIA	"FROM crmElementHierarchy _representative INNER JOIN /* Staging */ [schema].crm_party ON crm_party.seq_party_id = _representative.element_id WHERE _representative.recency = 1 AND _representative.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID"			
+SELECTION_CRITERIA	FROM crmElementHierarchy AS _representative INNER JOIN /* Staging */ [schema].crm_party ON crm_party.seq_party_id = _representative.element_id WHERE _representative.recency = 1 AND _representative.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID			
