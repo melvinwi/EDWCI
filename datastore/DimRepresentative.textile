@@ -3,15 +3,10 @@ h2. ARTEFACT: DimRepresentative
 
 DESCRIPTION: Representative dimension table
 
-|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT
-*	|
-|RepresentativeKey	|RepresentativeKey	|INT	|10	|	|FALSE	|	|FALSE
-	|
-|RepresentativeFirstName	|RepresentativeFirstName	|NVARCHAR	|100	|	|FALSE	|	|FALSE
-	|
-|RepresentativeInitial	|RepresentativeMiddleName	|NCHAR	|10	|	|FALSE	|	|FALSE
-	|
-|RepresentativeLastName	|RepresentativeLastName	|NVARCHAR	|100	|	|FALSE	|	|FALSE
-	|
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|RepresentativeKey	|RepresentativeKey	|INT	|10	|	|FALSE	|	|FALSE	|
+|RepresentativeFirstName	|RepresentativeFirstName	|NVARCHAR	|100	|	|FALSE	|	|FALSE	|
+|RepresentativeMiddleInitial	|RepresentativeMiddleInitial	|NCHAR	|10	|	|FALSE	|	|FALSE	|
+|RepresentativeLastName	|RepresentativeLastName	|NVARCHAR	|100	|	|FALSE	|	|FALSE	|
 |RepresentativePartyName	|RepresentativePartyName	|NVARCHAR	|100	|	|FALSE	|	|FALSE|
 
