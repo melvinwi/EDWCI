@@ -26,7 +26,7 @@ END
 		crm_party.initials,
 		crm_party.last_name,
 		crm_party.party_name
-	  FROM crmElementHierarchy _representative INNER JOIN /* Staging */ lumo.crm_party ON crm_party.seq_party_id = _representative.element_id WHERE _representative.recency = 1 AND _representative.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID;
+	  FROM crmElementHierarchy AS _representative INNER JOIN /* Staging */ lumo.crm_party ON crm_party.seq_party_id = _representative.element_id WHERE _representative.recency = 1 AND _representative.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID;
 
 SELECT 0 AS ExtractRowCount,
 @@ROWCOUNT AS InsertRowCount,
