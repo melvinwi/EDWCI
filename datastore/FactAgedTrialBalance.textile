@@ -1,0 +1,14 @@
+
+h2. ARTEFACT: FactAgedTrialBalance
+
+DESCRIPTION: Aged Trial Balance periodic snapshot fact table
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|AccountId	|Foreign key to DimAccount	|int	|	|-1	|TRUE	|	|FALSE	|
+|ATBDateId	|Foreign key to DimDate	|int	|	|99991231	|TRUE	|	|FALSE	|
+|CurrentPeriod	|Current monies not yet due	|money	|	|0	|TRUE	|	|FALSE	|
+|Days1To30	|Monies due 1 to 30	|money	|	|0	|TRUE	|	|FALSE	|
+|Days31To60	|Monies due 31 to 60	|money	|	|0	|TRUE	|	|FALSE	|
+|Days61To90	|Monies due 61 to 90	|money	|	|0	|TRUE	|	|FALSE	|
+|Days90Plus	|Monies due 90 plus	|money	|	|0	|TRUE	|	|FALSE|
+
