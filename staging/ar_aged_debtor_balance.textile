@@ -1,0 +1,37 @@
+
+h2. ARTEFACT: ar_adjust
+
+DESCRIPTION: Accounts Receivable adjustment table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|Meta_ChangeFlag	|Meta: Row Change flag	|bit	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|seq_party_id 	|seq_party_id 	|numeric	|"18, 0"	|	|TRUE	|TRUE	|FALSE	|
+|current_period 	|current_period 	|numeric	|"17, 2"	|	|FALSE	|FALSE	|FALSE	|
+|days_30 	|days_30 	|numeric	|"17, 2"	|	|FALSE	|FALSE	|FALSE	|
+|days_60 	|days_60 	|numeric	|"17, 2"	|	|FALSE	|FALSE	|FALSE	|
+|days_90 	|days_90 	|numeric	|"17, 2"	|	|FALSE	|FALSE	|FALSE	|
+|days_90_plus 	|days_90_plus 	|numeric	|"17, 2"	|	|FALSE	|FALSE	|FALSE	|
+|active 	|active 	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime 	|insert_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user 	|insert_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process 	|insert_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime 	|update_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user 	|update_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process 	|update_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|debtor_anl_1 	|debtor_anl_1 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|debtor_anl_2 	|debtor_anl_2 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|debtor_anl_3 	|debtor_anl_3 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|debtor_anl_4 	|debtor_anl_4 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|debtor_anl_5 	|debtor_anl_5 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|debtor_anl_6 	|debtor_anl_6 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|debtor_anl_7 	|debtor_anl_7 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|debtor_anl_8 	|debtor_anl_8 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|debtor_anl_9 	|debtor_anl_9 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|debtor_anl_10 	|debtor_anl_10 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|cm_overdue 	|cm_overdue 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|cm_current  	|cm_current  	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|bad_debt_provision 	|bad_debt_provision 	|numeric	|"18, 2"	|	|FALSE	|FALSE	|FALSE	|
+|bad_debt_group_id 	|bad_debt_group_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE|
+

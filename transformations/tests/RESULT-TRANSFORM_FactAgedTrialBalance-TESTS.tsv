@@ -1,0 +1,10 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_FactAgedTrialBalance
+# CREATED DATE: 2014-09-29T153446
+
+2014-09-29 15:34:47	2	PASSED	source.length.should.equal(destination.length)	{"obj":10,"params":{"operator":"to be","expected":10,"showDiff":true},"negate":false}
+2014-09-29 15:34:48	3	PASSED	source[0].current_period.should.equal(destination[0].CurrentPeriod)	{"obj":0,"params":{"operator":"to be","expected":0,"showDiff":true},"negate":false}
+2014-09-29 15:34:49	4	PASSED	source[0].days_30.should.equal(destination[0].Days1To30)	{"obj":0,"params":{"operator":"to be","expected":0,"showDiff":true},"negate":false}
+2014-09-29 15:34:50	5	PASSED	source[0].days_60.should.equal(destination[0].Days31To60)	{"obj":336.07,"params":{"operator":"to be","expected":336.07,"showDiff":true},"negate":false}
+2014-09-29 15:34:50	6	PASSED	source[0].days_90.should.equal(destination[0].Days61To90)	{"obj":0,"params":{"operator":"to be","expected":0,"showDiff":true},"negate":false}
+2014-09-29 15:34:51	7	PASSED	source[0].days_90_plus.should.equal(destination[0].Days90Plus)	{"obj":0,"params":{"operator":"to be","expected":0,"showDiff":true},"negate":false}

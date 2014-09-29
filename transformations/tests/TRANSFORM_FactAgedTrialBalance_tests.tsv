@@ -1,0 +1,11 @@
+# test artefact			
+# ARTEFACT: TRANSFORM_FactAgedTrialBalance_tests			
+# DESCRIPTION: Test each transformation rule			
+SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
+REUSE_SQL	FROM /* Staging */ [schema].ar_aged_debtor_balance INNER JOIN /* Dimensional */ staticDims.DimAccount as _DimAccount ON _DimAccount.AccountKey = ar_aged_debtor_balance.seq_party_id AND _DimAccount.Meta_IsCurrent = 1		
+[REUSE_SQL]		source.length.should.equal(destination.length)	row counts should match
+[REUSE_SQL] AND AccountId = 4	WHERE AccountId = 4	source[0].current_period.should.equal(destination[0].CurrentPeriod)	1:1 map rule
+[REUSE_SQL] AND AccountId = 4	WHERE AccountId = 4	source[0].days_30.should.equal(destination[0].Days1To30)	1:1 map rule
+[REUSE_SQL] AND AccountId = 4	WHERE AccountId = 4	source[0].days_60.should.equal(destination[0].Days31To60)	1:1 map rule
+[REUSE_SQL] AND AccountId = 4	WHERE AccountId = 4	source[0].days_90.should.equal(destination[0].Days61To90)	1:1 map rule
+[REUSE_SQL] AND AccountId = 4	WHERE AccountId = 4	source[0].days_90_plus.should.equal(destination[0].Days90Plus)	1:1 map rule

@@ -1,0 +1,15 @@
+
+h2. ARTEFACT: TRANSFORM_FactAgedTrialBalance
+
+DESCRIPTION: Promote FactAgedTrialBalance from Orion tables to DataStore
+
+|*SOURCE_FUNCTION_PREFIX*	|*SOURCE*	|*SOURCE_FUNCTION_SUFFIX*	|*DESTINATION*	|*DESCRIPTION*	|
+|	|_DimAccount.AccountId	|	|"FactAgedTrialBalance":../datastore/FactAgedTrialBalance.textile .AccountId	|One to one mapping	|
+|"CONVERT(NCHAR(8), ISNULL("	|"ar_aged_debtor_balance":../staging/ar_aged_debtor_balance.textile .update_datetime	|", '9999-12-31'), 112)"	|"FactAgedTrialBalance":../datastore/FactAgedTrialBalance.textile .ATBDateId	|One to one mapping	|
+|COALESCE(	|"ar_aged_debtor_balance":../staging/ar_aged_debtor_balance.textile .current_period	|", 0.00)"	|"FactAgedTrialBalance":../datastore/FactAgedTrialBalance.textile .CurrentPeriod	|One to one mapping	|
+|COALESCE(	|"ar_aged_debtor_balance":../staging/ar_aged_debtor_balance.textile .days_30	|", 0.00)"	|"FactAgedTrialBalance":../datastore/FactAgedTrialBalance.textile .Days1To30	|One to one mapping	|
+|COALESCE(	|"ar_aged_debtor_balance":../staging/ar_aged_debtor_balance.textile .days_60	|", 0.00)"	|"FactAgedTrialBalance":../datastore/FactAgedTrialBalance.textile .Days31To60	|One to one mapping	|
+|COALESCE(	|"ar_aged_debtor_balance":../staging/ar_aged_debtor_balance.textile .days_90	|", 0.00)"	|"FactAgedTrialBalance":../datastore/FactAgedTrialBalance.textile .Days61To90	|One to one mapping	|
+|COALESCE(	|"ar_aged_debtor_balance":../staging/ar_aged_debtor_balance.textile .days_90_plus	|", 0.00)"	|"FactAgedTrialBalance":../datastore/FactAgedTrialBalance.textile .Days90Plus	|Construct unique identifier for each transaction	|
+|SELECTION_CRITERIA	|FROM /* Staging */ [schema]."ar_aged_debtor_balance":../staging/ar_aged_debtor_balance.textile  INNER JOIN /* Dimensional */ [schema].DimAccount as _DimAccount ON _DimAccount.AccountKey = "ar_aged_debtor_balance":../staging/ar_aged_debtor_balance.textile .seq_party_id AND _DimAccount.Meta_IsCurrent = 1|
+
