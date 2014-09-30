@@ -32,6 +32,7 @@ CreditControl	prefix	Credit Control	NA
 InvoiceDelivery	prefix	Credit Control	NA
 Payment	prefix	Credit Control	NA
 Method	suffix	Method	NA
+ActivityNotes	any	Activity Notes	NA
 Title	prefix	Title	NA
 First	prefix	First	NA
 Last	prefix	Last	NA
