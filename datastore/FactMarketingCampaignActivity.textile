@@ -5,10 +5,6 @@ DESCRIPTION: Marketing campaign activity fact table
 
 |*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
 |MarketingCampaignId	|Foreign key to DimMarketingCampaign	|int	|	|-1	|TRUE	|FALSE	|FALSE	|
-|MarketingOfferId	|Foreign key to DimMarketingOffer	|int	|	|-1	|TRUE	|FALSE	|FALSE	|
-|CustomerId	|Foreign key to DimCustomer	|int	|	|-1	|TRUE	|FALSE	|FALSE	|
-|ActivityDateId	|Date of the activity	|int	|	|99991231	|TRUE	|FALSE	|FALSE	|
-|ActivityTime	|	|time	|0	|'00:00:00'	|TRUE	|FALSE	|FALSE	|
-|ActivityType	|Type of activity - Offered, Accepted, Rejected	|nvarchar	|40	|	|TRUE	|FALSE	|FALSE	|
-|MarketingCompaignActivityKey	|Key from source system to identify and relate activity items concat with date time for uniqueness	|nvarchar	|255	|-1	|TRUE	|FALSE	|FALSE|
+|ActivityTypeId	|Foreign key to DimActivityType	|int	|	|-1	|TRUE	|FALSE	|FALSE	|
+|MarketingCampaignActivityKey	|Key from source system to identify and relate activity items concat with date time for uniqueness	|nvarchar	|255	|-1	|TRUE	|FALSE	|FALSE|
 
