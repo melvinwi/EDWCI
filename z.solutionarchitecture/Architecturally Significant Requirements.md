@@ -53,7 +53,10 @@ None
 
 ### Significant Non-Functional Requirements
 
-TODO!
+NFR1. Audit - audit all access to personal information stored in the data warehouse
+
+NFR2. Variable Data Currency - ensure data can enter the data warehouse at varying speeds based on business needs
+
 
 
 ### Significant Facts
