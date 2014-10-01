@@ -12,6 +12,7 @@ var dbClient = null;
 
 var DB_USERNAME = '';
 var DB_PASSWORD = '';
+var DB_DOMAIN = '';
 
 // default values below; override with --profle=<profilename> in config.json
 var DB_SERVER;
@@ -41,6 +42,13 @@ if (eval('config.Profiles[0].'+PROFILE_NAME)==undefined) {
 else {
 	profile = eval('config.Profiles[0].'+PROFILE_NAME+'[0]');
 }
+
+if (profile.DBDomain!=undefined) {
+	if (profile.DBDomain.length>0) {
+		DB_DOMAIN = profile.DBDomain;
+	}
+}
+
 
 if (profile.DBType==undefined) {
 	console.log('DB CONFIG ERROR: config.json profile "'+PROFILE_NAME+'" missing "DBType"\n');
@@ -127,13 +135,28 @@ function initDBClient(callback) {
 	}
 	else if (DB_TYPE=='SQLSERVER') {
 
-		var config = {
-		    user: DB_USERNAME,
-		    password: DB_PASSWORD,
-		    server: DB_SERVER, // You can use 'localhost\\instance' to connect to named instance
-		    options: {
-		        encrypt: false // Use this if you're on Windows Azure
-		    }
+		var config = {};
+
+		if (DB_DOMAIN.length>0) {
+			config = {
+			    user: DB_USERNAME,
+			    password: DB_PASSWORD,
+			    domain: DB_DOMAIN,
+			    server: DB_SERVER, // You can use 'localhost\\instance' to connect to named instance
+			    options: {
+			        encrypt: false // Use this if you're on Windows Azure
+			    }
+			}
+		}
+		else {
+			config = {
+			    user: DB_USERNAME,
+			    password: DB_PASSWORD,
+			    server: DB_SERVER, // You can use 'localhost\\instance' to connect to named instance
+			    options: {
+			        encrypt: false // Use this if you're on Windows Azure
+			    }
+			}
 		}
 
 		this.dbClient = new mssql.Connection(config, function(err) {
