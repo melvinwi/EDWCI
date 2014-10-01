@@ -1,0 +1,12 @@
+{
+  "API": 
+    {
+      "CustomerRating":
+        {
+          "sql": "SELECT '{{id}}' as CustomerId, 'My Name' as CustomerName, 'Gold' as CustomerRating",
+          "parameters" : [
+          		{"name": "id", "default": "", "mandatory": true}
+          ]
+        }
+    }
+  }

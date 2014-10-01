@@ -1,0 +1,15 @@
+
+/* This is how the SSL certificate is generated using openssl on Mac or Linux
+ * 
+ * It is appropriate for developer purposes or in house apps.
+*/
+
+
+// Generating the private key
+openssl genrsa -des3 -out server.key 1024
+
+// Generating the CSR (certificate signing request)
+openssl req -new -key server.key -out server.csr
+
+// Generating the self signed certificate with a 10 year expiry
+openssl x509 -req -days 3650 -in server.csr -signkey server.key -out server.crt 

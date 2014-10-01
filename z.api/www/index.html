@@ -1,0 +1,47 @@
+<html ng-app="webapp">
+	<head>
+		<title>Web App</title>
+		<script src="/js/angular.min.js"></script>
+		<script src="/js/angular-route.min.js"></script>
+		<script src="/js/angular-resource.min.js"></script>
+		<script src="/js/webapp.js"></script>
+
+		<script>
+			angular.module('app', ['ngRoute']);
+		</script>
+	</head>	
+
+	<body> 
+		<div ng-controller="AppController">
+		
+			<div ng-show="showLoginController">
+				<h3>Login</h3>
+				<form name="login">
+					<p>{{status}}</p>
+					<label>Username: </label><input type="text" ng-model="login.username" required>
+					<br>
+					<label>Password: </label><input type="password" ng-model="login.password" required>
+					<br>
+					<button ng-click="loginUser(login)">Login</button>
+				</form>
+			</div>
+
+
+			<div ng-show="showAccountController">
+				<h3>Customer Rating</h3>
+				<form name="account">
+					<p>{{customerRatingStatus}}</p>
+					<label>Account Id: </label><input type="text" ng-model="account.id" required>
+					<br>
+					<button ng-click="getCustomerRating(account)">Get Status</button>
+				</form>
+				<p/>
+				<label>Customer Name:&nbsp; </label><label>{{customerName}}</label><br/>
+				<label>Customer Rating:  </label><label>{{customerRating}}</label>
+			</div>
+
+		</div>	
+
+
+	</body>
+</html>
