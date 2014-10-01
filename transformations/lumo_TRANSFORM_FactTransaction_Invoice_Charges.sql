@@ -26,6 +26,7 @@ END
 		FactTransaction.Value,
 		FactTransaction.Currency,
 		FactTransaction.Tax,
+		FactTransaction.TransactionType,
 		FactTransaction.TransactionDesc,
 		FactTransaction.TransactionKey)
 	  SELECT
@@ -40,6 +41,7 @@ END
 		COALESCE( inv_client_charges.charge_amount , 0),
 		/* inv_client_charges.seq_client_charge_id */ 'AUD',
 		( inv_client_charges.charge_amount * COALESCE (_taxRate.tax_rate, 0)),
+		/* inv_client_charges.seq_client_charge_id */ 'Client Charges',
 		CAST( inv_client_charges.invoice_description AS nvarchar(100)),
 		'CHG' + CAST( inv_client_charges.seq_client_charge_id AS NVARCHAR(11))
 	  FROM /* Staging */ lumo.inv_client_charges INNER JOIN /* Staging */ lumo.inv_charge_item ON inv_charge_item.seq_charge_item_id = inv_client_charges.seq_charge_item_id LEFT JOIN /* Staging */ lumo.nc_product_item ON nc_product_item.seq_product_item_id = inv_client_charges.seq_product_item_id LEFT JOIN productKey AS _productKey ON _productKey.seq_product_item_id = inv_client_charges.seq_product_item_id INNER JOIN /* Dimensional */ lumo.DimAccount AS _DimAccount ON _DimAccount.AccountKey = inv_client_charges.seq_party_id AND _DimAccount.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimService AS _DimService ON _DimService.ServiceKey = nc_product_item.site_id AND _DimService.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimProduct AS _DimProduct ON _DimProduct.ProductKey = _productKey.ProductKey AND _DimProduct.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimFinancialAccount AS _DimFinancialAccount ON _DimFinancialAccount.FinancialAccountKey = inv_charge_item.seq_account_id AND _DimFinancialAccount.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimVersion AS _DimVersion ON _DimVersion.VersionKey = 'Actual'LEFT JOIN taxRate AS _taxRate ON _taxRate.seq_client_charge_id = inv_client_charges.seq_client_charge_id WHERE inv_client_charges.approved ='Y'AND (inv_charge_item.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR inv_client_charges.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nc_product_item.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _productKey.Meta_HasChanged = 1 OR _taxRate.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID);
