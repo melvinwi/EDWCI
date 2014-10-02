@@ -13,23 +13,16 @@ EXEC DW_Utility.config.GetLatestSuccessfulTaskExecutionInstanceID
 END
 --/
 
+	;WITH factMarketingCampaignActivity AS (SELECT DISTINCT csv_FactMarketingCampaignActivity.MarketingCampaignKey, csv_FactMarketingCampaignActivity.MarketingOfferKey FROM /* Staging */ lumo.csv_FactMarketingCampaignActivity)
 	INSERT INTO lumo.FactMarketingCampaignActivity (
 		FactMarketingCampaignActivity.MarketingCampaignId,
-		FactMarketingCampaignActivity.MarketingOfferId,
-		FactMarketingCampaignActivity.CustomerId,
-		FactMarketingCampaignActivity.ActivityDateId,
-		FactMarketingCampaignActivity.ActivityTime,
-		FactMarketingCampaignActivity.ActivityType,
+		FactMarketingCampaignActivity.ActivityTypeId,
 		FactMarketingCampaignActivity.MarketingCampaignActivityKey)
 	  SELECT
-		csv_FactMarketingCampaignActivity.MarketingCampaignId,
-		csv_FactMarketingCampaignActivity.MarketingOfferId,
-		_DimCustomer.CustomerId,
-		REPLACE( csv_FactMarketingCampaignActivity.ActivityDateId , '-', ''),
-		csv_FactMarketingCampaignActivity.ActivityTime,
-		csv_FactMarketingCampaignActivity.ActivityType,
-		CAST(CONCAT( csv_FactMarketingCampaignActivity.MarketingCampaignActivityKey, '-',csv_FactMarketingCampaignActivity.CustomerKey, '-',csv_FactMarketingCampaignActivity.ActivityDateId, '-', csv_FactMarketingCampaignActivity.ActivityTime ) AS nvarchar(255))
-	  FROM lumo.csv_FactMarketingCampaignActivity INNER JOIN lumo.DimCustomer as _DimCustomer ON _DimCustomer.CustomerKey = csv_FactMarketingCampaignActivity.CustomerKey AND _DimCustomer.Meta_IsCurrent = 1;
+		_DimMarketingCampaign.MarketingCampaignId,
+		_DimActivityType.ActivityTypeId,
+		CAST( _factMarketingCampaignActivity.MarketingCampaignKey AS NVARCHAR(MAX)) + ' - ' + CAST(_factMarketingCampaignActivity.MarketingOfferKey AS NVARCHAR(MAX))
+	  FROM factMarketingCampaignActivity AS _factMarketingCampaignActivity INNER JOIN /* Dimensional */ lumo.DimMarketingCampaign AS _DimMarketingCampaign ON _DimMarketingCampaign.MarketingCampaignKey = _factMarketingCampaignActivity.MarketingCampaignKey INNER JOIN /* Dimensional */ lumo.DimActivityType AS _DimActivityType ON _DimActivityType.ActivityTypeKey = _factMarketingCampaignActivity.MarketingOfferKey AND _DimActivityType.Meta_IsCurrent = 1;
 
 SELECT 0 AS ExtractRowCount,
 @@ROWCOUNT AS InsertRowCount,
