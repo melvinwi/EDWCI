@@ -2,11 +2,8 @@
 # ARTEFACT: TRANSFORM_FactMarketingCampaignActivity				
 # DESCRIPTION: Promote FactMarketingCampaignActivity from spreadsheet sourced tables to DataStore 				
 SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
-	csv_FactMarketingCampaignActivity.MarketingCampaignId		FactMarketingCampaignActivity.MarketingCampaignId	One to one mapping
-	csv_FactMarketingCampaignActivity.MarketingOfferId		FactMarketingCampaignActivity.MarketingOfferId	One to one mapping
-	_DimCustomer.CustomerId		FactMarketingCampaignActivity.CustomerId	One to one mapping
-REPLACE(	csv_FactMarketingCampaignActivity.ActivityDateId	, '-', '')	FactMarketingCampaignActivity.ActivityDateId	One to one mapping
-	csv_FactMarketingCampaignActivity.ActivityTime		FactMarketingCampaignActivity.ActivityTime	One to one mapping
-	csv_FactMarketingCampaignActivity.ActivityType		FactMarketingCampaignActivity.ActivityType	One to one mapping
-CAST(CONCAT(	"csv_FactMarketingCampaignActivity.MarketingCampaignActivityKey, '-', csv_FactMarketingCampaignActivity.CustomerCode, '-', csv_FactMarketingCampaignActivity.ActivityDateId, '-', csv_FactMarketingCampaignActivity.ActivityTime"	 ) AS nvarchar(255))	FactMarketingCampaignActivity.MarketingCampaignActivityKey	Construct unique identifier for each transaction
-SELECTION_CRITERIA	"FROM [schema].csv_FactMarketingCampaignActivity INNER JOIN [schema].DimCustomer as _DimCustomer ON _DimCustomer.CustomerCode = csv_FactMarketingCampaignActivity.CustomerCode AND _DimCustomer.Meta_IsCurrent = 1"			
+WITH_STATEMENTS	"WITH factMarketingCampaignActivity AS (SELECT DISTINCT csv_FactMarketingCampaignActivity.MarketingCampaignKey, csv_FactMarketingCampaignActivity.MarketingOfferKey FROM /* Staging */ [schema].csv_FactMarketingCampaignActivity)"			Distinct view of csv_FactMarketingCampaignActivity
+	_DimMarketingCampaign.MarketingCampaignId		FactMarketingCampaignActivity.MarketingCampaignId	One to one mapping
+	_DimActivityType.ActivityTypeId		FactMarketingCampaignActivity.ActivityTypeId	One to one mapping
+CAST(	_factMarketingCampaignActivity.MarketingCampaignKey	"AS NVARCHAR(MAX)) + ' - ' + CAST(_factMarketingCampaignActivity.MarketingOfferKey AS NVARCHAR(MAX))"	FactMarketingCampaignActivity.MarketingCampaignActivityKey	Construct unique identifier for each transaction
+SELECTION_CRITERIA	"FROM factMarketingCampaignActivity AS _factMarketingCampaignActivity INNER JOIN /* Dimensional */ [schema].DimMarketingCampaign AS _DimMarketingCampaign ON _DimMarketingCampaign.MarketingCampaignKey = _factMarketingCampaignActivity.MarketingCampaignKey INNER JOIN /* Dimensional */ [schema].DimActivityType AS _DimActivityType ON _DimActivityType.ActivityTypeKey = _factMarketingCampaignActivity.MarketingOfferKey AND _DimActivityType.Meta_IsCurrent = 1"			
