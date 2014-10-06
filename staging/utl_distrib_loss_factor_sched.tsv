@@ -1,0 +1,19 @@
+# design artefact							
+# ARTEFACT: utl_distrib_loss_factor_sched							
+# DESCRIPTION: Loss Factor reference table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+dlf_sched_id 	dlf_sched_id 	numeric	"18, 0"		TRUE	TRUE	FALSE
+dlf_id 	dlf_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+dlf_factor 	dlf_factor 	numeric	"18, 4"		FALSE	FALSE	FALSE
+start_date 	start_date 	datetime			FALSE	FALSE	FALSE
+end_date 	end_date 	datetime			FALSE	FALSE	FALSE
+active 	active 	char	1		FALSE	FALSE	FALSE
+insert_datetime 	insert_datetime 	datetime			FALSE	FALSE	FALSE
+insert_user 	insert_user 	varchar	20		FALSE	FALSE	FALSE
+insert_process 	insert_process 	varchar	20		FALSE	FALSE	FALSE
+update_datetime 	update_datetime 	datetime			FALSE	FALSE	FALSE
+update_user 	update_user 	varchar	20		FALSE	FALSE	FALSE
+update_process 	update_process 	varchar	20		FALSE	FALSE	FALSE

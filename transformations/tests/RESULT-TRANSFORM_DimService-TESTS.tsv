@@ -1,9 +1,11 @@
 # transformation test result artefact
 # ARTEFACT: TRANSFORM_DimService
-# CREATED DATE: 2014-09-09T132840
+# CREATED DATE: 2014-10-06T112404
 
-2014-09-09 13:28:41	2	PASSED	source.length.should.equal(destination.length)	{"obj":53,"params":{"operator":"to be","expected":53,"showDiff":true},"negate":false}
-2014-09-09 13:28:42	3	PASSED	source[0].site_id.should.equal(destination[0].ServiceKey)	{"obj":696059,"params":{"operator":"to be","expected":696059,"showDiff":true},"negate":false}
-2014-09-09 13:28:42	4	PASSED	source[0].site_identifier.should.equal(destination[0].MarketIdentifier)	{"obj":"62035678901","params":{"operator":"to be","expected":"62035678901","showDiff":true},"negate":false}
-2014-09-09 13:28:43	5	PASSED	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	{"obj":"Electricity","params":{"operator":"to be","expected":"Electricity","showDiff":true},"negate":false}
-2014-09-09 13:28:44	6	PASSED	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	{"obj":"Gas","params":{"operator":"to be","expected":"Gas","showDiff":true},"negate":false}
+2014-10-06 11:24:06	2	PASSED	source.length.should.equal(destination.length)	{"obj":53,"params":{"operator":"to be","expected":53,"showDiff":true},"negate":false}
+2014-10-06 11:24:07	3	PASSED	source[0].site_id.should.equal(destination[0].ServiceKey)	{"obj":696059,"params":{"operator":"to be","expected":696059,"showDiff":true},"negate":false}
+2014-10-06 11:24:08	4	PASSED	source[0].site_identifier.should.equal(destination[0].MarketIdentifier)	{"obj":"62035678901","params":{"operator":"to be","expected":"62035678901","showDiff":true},"negate":false}
+2014-10-06 11:24:08	5	PASSED	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	{"obj":"Electricity","params":{"operator":"to be","expected":"Electricity","showDiff":true},"negate":false}
+2014-10-06 11:24:09	6	PASSED	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	{"obj":"Gas","params":{"operator":"to be","expected":"Gas","showDiff":true},"negate":false}
+2014-10-06 11:24:10	7	PASSED	source[0].dlf_factor.should.equal(destination[0].LossFactor)	{"obj":1.0701,"params":{"operator":"to be","expected":1.0701,"showDiff":true},"negate":false}
+2014-10-06 11:24:13	8	PASSED	source[0].dlf_factor.should.equal(destination[0].LossFactor)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
