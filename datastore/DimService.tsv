@@ -2,6 +2,7 @@
 # ARTEFACT: DimService							
 # DESCRIPTION: Service dimension table							
 COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
-ServiceKey	Site ID from the source system	int			FALSE		FALSE
-MarketIdentifier	NMI or MIRN	nvarchar	30		FALSE		FALSE
-ServiceType	Service Type	nvarchar	11		FALSE		FALSE
+ServiceKey	Site ID from the source system	int			FALSE	FALSE	FALSE
+MarketIdentifier	NMI or MIRN	nvarchar	30		FALSE	FALSE	FALSE
+ServiceType	Service Type	nvarchar	11		FALSE	FALSE	FALSE
+LossFactor	Distributor Loss Factor	decimal	"6,4"		FALSE	FALSE	FALSE
