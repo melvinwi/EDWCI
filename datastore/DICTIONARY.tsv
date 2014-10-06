@@ -124,3 +124,6 @@ Days90Plus		suffix	Days90Plus	NA
 LossFactor		any	LossFactor	NA
 EstimatedDailyConsumption		any	Estimated Daily Consumption	NA
 MeteringType		any	Metering Type	NA
+PricePlanKey		prefix	PricePlanKey	NA
+PricePlanCode		prefix	PricePlanCode	NA
+PricePlanValueRatio		prefix	PricePlanValueRatio	NA
