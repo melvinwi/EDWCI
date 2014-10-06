@@ -1,0 +1,12 @@
+
+h2. ARTEFACT: DimPricePlan
+
+DESCRIPTION: Price Plan dimension table
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT
+*	|
+|PricePlanKey	|Price Plan Key	|int	|	|	|TRUE	|	|FALSE
+	|
+|PricePlanCode	|Price Plan Code	|nvarchar	|20	|	|FALSE	|	|FALSE
+	|
+|PricePlanValueRatio	|Price Plan Value Ratio	|decimal	|"3,2"	|	|FALSE	|	|FALSE
