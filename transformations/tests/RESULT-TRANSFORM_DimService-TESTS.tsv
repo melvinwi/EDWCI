@@ -1,11 +1,16 @@
 # transformation test result artefact
 # ARTEFACT: TRANSFORM_DimService
-# CREATED DATE: 2014-10-06T112404
+# CREATED DATE: 2014-10-06T162048
 
-2014-10-06 11:24:06	2	PASSED	source.length.should.equal(destination.length)	{"obj":53,"params":{"operator":"to be","expected":53,"showDiff":true},"negate":false}
-2014-10-06 11:24:07	3	PASSED	source[0].site_id.should.equal(destination[0].ServiceKey)	{"obj":696059,"params":{"operator":"to be","expected":696059,"showDiff":true},"negate":false}
-2014-10-06 11:24:08	4	PASSED	source[0].site_identifier.should.equal(destination[0].MarketIdentifier)	{"obj":"62035678901","params":{"operator":"to be","expected":"62035678901","showDiff":true},"negate":false}
-2014-10-06 11:24:08	5	PASSED	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	{"obj":"Electricity","params":{"operator":"to be","expected":"Electricity","showDiff":true},"negate":false}
-2014-10-06 11:24:09	6	PASSED	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	{"obj":"Gas","params":{"operator":"to be","expected":"Gas","showDiff":true},"negate":false}
-2014-10-06 11:24:10	7	PASSED	source[0].dlf_factor.should.equal(destination[0].LossFactor)	{"obj":1.0701,"params":{"operator":"to be","expected":1.0701,"showDiff":true},"negate":false}
-2014-10-06 11:24:13	8	PASSED	source[0].dlf_factor.should.equal(destination[0].LossFactor)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2014-10-06 16:20:50	2	PASSED	source.length.should.equal(destination.length)	{"obj":53,"params":{"operator":"to be","expected":53,"showDiff":true},"negate":false}
+2014-10-06 16:20:51	3	PASSED	source[0].site_id.should.equal(destination[0].ServiceKey)	{"obj":696059,"params":{"operator":"to be","expected":696059,"showDiff":true},"negate":false}
+2014-10-06 16:20:52	4	PASSED	source[0].site_identifier.should.equal(destination[0].MarketIdentifier)	{"obj":"62035678901","params":{"operator":"to be","expected":"62035678901","showDiff":true},"negate":false}
+2014-10-06 16:20:52	5	PASSED	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	{"obj":"Electricity","params":{"operator":"to be","expected":"Electricity","showDiff":true},"negate":false}
+2014-10-06 16:20:53	6	PASSED	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	{"obj":"Gas","params":{"operator":"to be","expected":"Gas","showDiff":true},"negate":false}
+2014-10-06 16:20:54	7	PASSED	source[0].dlf_factor.should.equal(destination[0].LossFactor)	{"obj":1.0701,"params":{"operator":"to be","expected":1.0701,"showDiff":true},"negate":false}
+2014-10-06 16:20:55	8	PASSED	source[0].dlf_factor.should.equal(destination[0].LossFactor)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2014-10-06 16:20:55	9	PASSED	parseFloat('40.9817').should.equal(destination[0].EstimatedDailyConsumption)	{"obj":40.9817,"params":{"operator":"to be","expected":40.9817,"showDiff":true},"negate":false}
+2014-10-06 16:20:56	10	PASSED	source[0].metering_type.should.equal(destination[0].MeteringType.trim())	{"obj":"TOU","params":{"operator":"to be","expected":"TOU","showDiff":true},"negate":false}
+2014-10-06 16:20:57	11	PASSED	source[0].addr_suburb.should.equal(destination[0].ResidentialSuburb)	{"obj":"WILLIAMSTOWN","params":{"operator":"to be","expected":"WILLIAMSTOWN","showDiff":true},"negate":false}
+2014-10-06 16:20:58	12	PASSED	source[0].addr_postcode.should.equal(destination[0].ResidentialPostcode.trim())	{"obj":"3016","params":{"operator":"to be","expected":"3016","showDiff":true},"negate":false}
+2014-10-06 16:20:59	13	PASSED	source[0].addr_city.should.equal(destination[0].ResidentialState.trim())	{"obj":"VIC","params":{"operator":"to be","expected":"VIC","showDiff":true},"negate":false}

@@ -1,0 +1,72 @@
+
+h2. ARTEFACT: utl_meter
+
+DESCRIPTION: Meter table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|Meta_ChangeFlag	|Meta: Row Change flag	|bit	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|meter_id 	|meter_id 	|numeric	|"18, 0"	|	|FALSE	|TRUE	|FALSE	|
+|site_id 	|site_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|usage_profile_id 	|usage_profile_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|meter_type_id 	|meter_type_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|meter_code 	|meter_code 	|varchar	|50	|	|FALSE	|FALSE	|FALSE	|
+|meter_register 	|meter_register 	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|multiplier 	|multiplier 	|numeric	|"18, 6"	|	|FALSE	|FALSE	|FALSE	|
+|est_daily_consumption 	|est_daily_consumption 	|numeric	|"18, 6"	|	|FALSE	|FALSE	|FALSE	|
+|active 	|active 	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime 	|insert_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user 	|insert_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process 	|insert_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime 	|update_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user 	|update_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process 	|update_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|dial_format 	|dial_format 	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|meter_header_id 	|meter_header_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|datastream_suffix 	|datastream_suffix 	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|compressibility 	|compressibility 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|reg_pressure 	|reg_pressure 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|altitude 	|altitude 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|inlet_pressure 	|inlet_pressure 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|pp_simple_sched_id 	|pp_simple_sched_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|meter_owner 	|meter_owner 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|period_of_avail 	|period_of_avail 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|relay_owner 	|relay_owner 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|meter_status_code 	|meter_status_code 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|meter_units 	|meter_units 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|meter_status_date 	|meter_status_date 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|meter_reader_if_status 	|meter_reader_if_status 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|meter_reader_id 	|meter_reader_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|wholesale_price_sched_id 	|wholesale_price_sched_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|controlled 	|controlled 	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|network_tariff_code 	|network_tariff_code 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|read_cycle_code 	|read_cycle_code 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|meter_status_id 	|meter_status_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|provisional 	|provisional 	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|next_sched_read_date 	|next_sched_read_date 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|meter_suffix 	|meter_suffix 	|varchar	|2	|	|FALSE	|FALSE	|FALSE	|
+|read_cycle_type_code 	|read_cycle_type_code 	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|time_of_day 	|time_of_day 	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|estimation_method 	|estimation_method 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|imperial_meter 	|imperial_meter 	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|read_sequence 	|read_sequence 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|direction_ind 	|direction_ind 	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|est_annual_consumption 	|est_annual_consumption 	|numeric	|"18, 6"	|	|FALSE	|FALSE	|FALSE	|
+|period_of_avail_id 	|period_of_avail_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|meter_location_id 	|meter_location_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|meter_notes 	|meter_notes 	|varchar	|256	|	|FALSE	|FALSE	|FALSE	|
+|install_date 	|install_date 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|removal_date 	|removal_date 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|meter_category_id 	|meter_category_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|energy_flow_direction 	|energy_flow_direction 	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|usage_desc_id 	|usage_desc_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|market_meter_code 	|market_meter_code 	|varchar	|50	|	|FALSE	|FALSE	|FALSE	|
+|market_meter_register 	|market_meter_register 	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|last_meter_read_insert_date 	|last_meter_read_insert_date 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|vm_start_date 	|vm_start_date 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|vm_end_date 	|vm_end_date 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|virtual_meter_type_id 	|virtual_meter_type_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|meter_timing 	|meter_timing 	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|installation_type 	|installation_type 	|varchar	|4	|	|FALSE	|FALSE	|FALSE|
+
