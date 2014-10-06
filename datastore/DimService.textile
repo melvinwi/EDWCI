@@ -7,5 +7,10 @@ DESCRIPTION: Service dimension table
 |ServiceKey	|Site ID from the source system	|int	|	|	|FALSE	|FALSE	|FALSE	|
 |MarketIdentifier	|NMI or MIRN	|nvarchar	|30	|	|FALSE	|FALSE	|FALSE	|
 |ServiceType	|Service Type	|nvarchar	|11	|	|FALSE	|FALSE	|FALSE	|
-|LossFactor	|Distributor Loss Factor	|decimal	|"6,4"	|	|FALSE	|FALSE	|FALSE|
+|LossFactor	|Distributor Loss Factor	|decimal	|"6,4"	|	|FALSE	|FALSE	|FALSE	|
+|EstimatedDailyConsumption	|Estimated Daily Consumption	|decimal	|"18,6"	|	|FALSE	|FALSE	|FALSE	|
+|MeteringType	|Metering Type	|nchar	|6	|	|FALSE	|FALSE	|FALSE	|
+|ResidentialSuburb	|Residential Suburb	|nvarchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|ResidentialPostcode	|Residential Postcode	|nchar	|4	|	|FALSE	|FALSE	|FALSE	|
+|ResidentialState	|Residential State	|nchar	|3	|	|FALSE	|FALSE	|FALSE|
 
