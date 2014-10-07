@@ -17,10 +17,14 @@ END
 	INSERT INTO lumo.DimPricePlan (
 		DimPricePlan.PricePlanKey,
 		DimPricePlan.PricePlanCode,
+		DimPricePlan.PricePlanName,
+		DimPricePlan.PricePlanDiscountPercentage,
 		DimPricePlan.PricePlanValueRatio)
 	  SELECT
 		utl_price_plan.price_plan_id,
 		utl_price_plan.price_plan_code,
+		utl_price_plan.price_plan_desc,
+		utl_price_plan.discount_pct,
 		_value_code.variation_from_market
 	  FROM /* Staging */ lumo.utl_price_plan LEFT JOIN value_code AS _value_code ON _value_code.price_plan_code = utl_price_plan.price_plan_code AND _value_code.recency = 1 WHERE utl_price_plan.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _value_code.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID;
 

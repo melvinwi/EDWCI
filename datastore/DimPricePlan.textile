@@ -3,10 +3,10 @@ h2. ARTEFACT: DimPricePlan
 
 DESCRIPTION: Price Plan dimension table
 
-|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT
-*	|
-|PricePlanKey	|Price Plan Key	|int	|	|	|TRUE	|	|FALSE
-	|
-|PricePlanCode	|Price Plan Code	|nvarchar	|20	|	|FALSE	|	|FALSE
-	|
-|PricePlanValueRatio	|Price Plan Value Ratio	|decimal	|"3,2"	|	|FALSE	|	|FALSE
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|PricePlanKey	|Price Plan Key	|int	|	|	|TRUE	|FALSE	|FALSE	|
+|PricePlanCode	|Price Plan Code	|nvarchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|PricePlanName	|Price Plan Name	|nvarchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|PricePlanDiscountPercentage	|Price Plan Discount Percentage	|decimal	|"5,4"	|	|FALSE	|FALSE	|FALSE	|
+|PricePlanValueRatio	|Price Plan Value Ratio	|decimal	|"3,2"	|	|FALSE	|FALSE	|FALSE|
+
