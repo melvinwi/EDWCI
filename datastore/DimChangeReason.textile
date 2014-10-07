@@ -1,0 +1,10 @@
+
+h2. ARTEFACT: DimChangeReason
+
+DESCRIPTION: Change Reason dimension table
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|ChangeReasonKey	|Activity key used in the source	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|ChangeReasonCode	|Activity code used in the source	|nchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|ChangeReasonDesc	|Activity description	|nvarchar	|100	|	|FALSE	|FALSE	|FALSE|
+

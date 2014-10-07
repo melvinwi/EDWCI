@@ -1,0 +1,8 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_DimChangeReason
+# CREATED DATE: 2014-10-07T182245
+
+2014-10-07 18:22:46	2	PASSED	source.length.should.equal(destination.length)	{"obj":90,"params":{"operator":"to be","expected":90,"showDiff":true},"negate":false}
+2014-10-07 18:22:47	3	PASSED	source[0].change_reason_id.should.equal(destination[0].ChangeReasonKey)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2014-10-07 18:22:48	4	PASSED	source[0].change_reason_code.should.equal(destination[0].ChangeReasonCode.trim())	{"obj":"1000","params":{"operator":"to be","expected":"1000","showDiff":true},"negate":false}
+2014-10-07 18:22:49	5	PASSED	source[0].change_reason_desc.should.equal(destination[0].ChangeReasonDesc)	{"obj":"Change Retailer","params":{"operator":"to be","expected":"Change Retailer","showDiff":true},"negate":false}

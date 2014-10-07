@@ -1,0 +1,9 @@
+# design test artefact                      	                                   	                                                                     	
+# ARTEFACT: TRANSFORM_DimVersion_tests      	                                   	                                                                     	
+# DESCRIPTION: Test each transformation rule	                                   	                                                                     	
+SOURCE_SELECTION_CRITERIA                   	DESTINATION_SELECTION_CRITERIA     	TEST                                                                 	DESCRIPTION
+REUSE_SQL                                   	FROM [schema].nem_change_reason	                                                                     	
+[REUSE_SQL]                                 	                                   	source.length.should.equal(destination.length)                       	row counts should match
+[REUSE_SQL] WHERE change_reason_id = 1	WHERE ChangeReasonKey = 1	source[0].change_reason_id.should.equal(destination[0].ChangeReasonKey)  	1:1 map rule
+[REUSE_SQL] WHERE change_reason_id = 1	WHERE ChangeReasonKey = 1	source[0].change_reason_code.should.equal(destination[0].ChangeReasonCode.trim())  	1:1 map rule
+[REUSE_SQL] WHERE change_reason_id = 1	WHERE ChangeReasonKey = 1	source[0].change_reason_desc.should.equal(destination[0].ChangeReasonDesc)  	1:1 map rule

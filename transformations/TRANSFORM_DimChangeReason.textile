@@ -1,0 +1,11 @@
+
+h2. ARTEFACT: TRANSFORM_DimChangeReason
+
+DESCRIPTION: Promote DimChangeReason from Orion tables to DataStore
+
+|*SOURCE_FUNCTION_PREFIX*	|*SOURCE*	|*SOURCE_FUNCTION_SUFFIX*	|*DESTINATION*	|*DESCRIPTION*	|
+|	|"nem_change_reason":../staging/nem_change_reason.textile .change_reason_id	|	|"DimChangeReason":../datastore/DimChangeReason.textile .ChangeReasonKey	|One to one mapping	|
+|	|"nem_change_reason":../staging/nem_change_reason.textile .change_reason_code	|	|"DimChangeReason":../datastore/DimChangeReason.textile .ChangeReasonCode	|One to one mapping	|
+|	|"nem_change_reason":../staging/nem_change_reason.textile .change_reason_desc	|	|"DimChangeReason":../datastore/DimChangeReason.textile .ChangeReasonDesc	|One to one mapping	|
+|SELECTION_CRITERIA	|FROM /* Staging */ [schema]."nem_change_reason":../staging/nem_change_reason.textile  WHERE "nem_change_reason":../staging/nem_change_reason.textile .Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID|
+
