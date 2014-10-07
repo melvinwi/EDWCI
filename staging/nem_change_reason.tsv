@@ -1,0 +1,25 @@
+# design artefact							
+# ARTEFACT: nem_change_reason							
+# DESCRIPTION: Market Change Reason reference table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+change_reason_id 	change_reason_id 	numeric	"18, 0"		TRUE	TRUE	FALSE
+change_reason_code 	change_reason_code 	varchar	10		FALSE	FALSE	FALSE
+change_reason_desc 	change_reason_desc 	varchar	100		FALSE	FALSE	FALSE
+switch_reason_flag 	switch_reason_flag 	char	1		FALSE	FALSE	FALSE
+active 	active 	char	1		FALSE	FALSE	FALSE
+insert_datetime 	insert_datetime 	datetime			FALSE	FALSE	FALSE
+insert_user 	insert_user 	varchar	20		FALSE	FALSE	FALSE
+insert_process 	insert_process 	varchar	20		FALSE	FALSE	FALSE
+update_datetime 	update_datetime 	datetime			FALSE	FALSE	FALSE
+update_user 	update_user 	varchar	20		FALSE	FALSE	FALSE
+update_process 	update_process 	varchar	20		FALSE	FALSE	FALSE
+end_date_required 	end_date_required 	varchar	1		FALSE	FALSE	FALSE
+bus_days_in_past 	bus_days_in_past 	int			FALSE	FALSE	FALSE
+bus_days_in_future 	bus_days_in_future 	int			FALSE	FALSE	FALSE
+seq_product_type_id 	seq_product_type_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+site_class_id 	site_class_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+retro_cr_code 	retro_cr_code 	varchar	10		FALSE	FALSE	FALSE
+future_cr_code 	future_cr_code 	varchar	10		FALSE	FALSE	FALSE

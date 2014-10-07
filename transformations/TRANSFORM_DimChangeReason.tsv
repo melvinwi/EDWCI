@@ -1,0 +1,8 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_DimChangeReason				
+# DESCRIPTION: Promote DimChangeReason from Orion tables to DataStore				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+	nem_change_reason.change_reason_id		DimChangeReason.ChangeReasonKey	One to one mapping
+	nem_change_reason.change_reason_code		DimChangeReason.ChangeReasonCode	One to one mapping
+	nem_change_reason.change_reason_desc		DimChangeReason.ChangeReasonDesc	One to one mapping
+SELECTION_CRITERIA	FROM /* Staging */ [schema].nem_change_reason WHERE nem_change_reason.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID			
