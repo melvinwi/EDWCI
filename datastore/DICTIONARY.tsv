@@ -129,3 +129,4 @@ PricePlanCode		prefix	PricePlanCode	NA
 PricePlanValueRatio		prefix	PricePlanValueRatio	NA
 PricePlanName		prefix	PricePlanName	NA
 PricePlanDiscountPercentage		prefix	PricePlanDiscountPercentage	NA
+PricePlanId		prefix	PricePlanId	NA
