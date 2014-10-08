@@ -1,0 +1,13 @@
+# design artefact							
+# ARTEFACT: FactMarketTransaction							
+# DESCRIPTION: Market transaction factless fact table							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+AccountId	Foreign key to DimAccount	int		-1	TRUE		FALSE
+ServiceId	Foreign key to DimService	int		-1	TRUE		FALSE
+ChangeReasonId	Foreign key to DimChangeReason	int		-1	TRUE		FALSE
+TransactionDateId	Transaction Date	int		99991231	TRUE		FALSE
+TransactionType	Transaction Type	nvarchar	100		TRUE		FALSE
+TransactionStatus	Transaction Status	nvarchar	100		TRUE		FALSE
+TransactionKey	Transaction ID from the source system	int		-1	TRUE		FALSE
+ParticipantCode	Participant Code	nvarchar	20		FALSE		FALSE
+TransactionCounter	Counter (=1)	tinyint		1	TRUE		FALSE

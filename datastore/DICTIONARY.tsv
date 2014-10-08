@@ -123,6 +123,7 @@ Days31To60		suffix	Days31To60	NA
 Days61To90		suffix	Days61To90	NA
 Days90Plus		suffix	Days90Plus	NA
 LossFactor		any	LossFactor	NA
+ParticipantCode		any	Participant	NA
 EstimatedDailyConsumption		any	Estimated Daily Consumption	NA
 MeteringType		any	Metering Type	NA
 PricePlanKey		prefix	PricePlanKey	NA
