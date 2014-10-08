@@ -1,0 +1,25 @@
+# design artefact							
+# ARTEFACT: nem_transaction_type							
+# DESCRIPTION: Market Transaction Type reference table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+trans_type_id 	trans_type_id 	numeric	"18, 0"		TRUE	TRUE	FALSE
+trans_type_code 	trans_type_code 	varchar	10		FALSE	FALSE	FALSE
+trans_type_desc 	trans_type_desc 	varchar	100		FALSE	FALSE	FALSE
+manual_trans_flag 	manual_trans_flag 	char	1		FALSE	FALSE	FALSE
+response_reqd_flag 	response_reqd_flag 	char	1		FALSE	FALSE	FALSE
+inbox_flag 	inbox_flag 	char	1		FALSE	FALSE	FALSE
+outbox_flag 	outbox_flag 	char	1		FALSE	FALSE	FALSE
+active 	active 	char	1		FALSE	FALSE	FALSE
+insert_datetime 	insert_datetime 	datetime			FALSE	FALSE	FALSE
+insert_user 	insert_user 	varchar	20		FALSE	FALSE	FALSE
+insert_process 	insert_process 	varchar	20		FALSE	FALSE	FALSE
+update_datetime 	update_datetime 	datetime			FALSE	FALSE	FALSE
+update_user 	update_user 	varchar	20		FALSE	FALSE	FALSE
+update_process 	update_process 	varchar	20		FALSE	FALSE	FALSE
+market_interface_code 	market_interface_code 	varchar	20		FALSE	FALSE	FALSE
+xml_trans_type 	xml_trans_type 	varchar	100		FALSE	FALSE	FALSE
+trans_type_group 	trans_type_group 	varchar	20		FALSE	FALSE	FALSE
+copy_file_flag 	copy_file_flag 	varchar	1		FALSE	FALSE	FALSE

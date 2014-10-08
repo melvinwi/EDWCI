@@ -1,0 +1,50 @@
+# design artefact							
+# ARTEFACT: nem_transaction							
+# DESCRIPTION: Market Transaction table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+trans_id 	trans_id 	numeric	"18, 0"		TRUE	TRUE	FALSE
+trans_status_id 	trans_status_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+file_header_id 	file_header_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+trans_type_id 	trans_type_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+site_id 	site_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+seq_product_item_id 	seq_product_item_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+objection_id 	objection_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+change_reason_id 	change_reason_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+nem_trans_id 	nem_trans_id 	varchar	100		FALSE	FALSE	FALSE
+trans_date 	trans_date 	datetime			FALSE	FALSE	FALSE
+nem_init_trans_id 	nem_init_trans_id 	varchar	100		FALSE	FALSE	FALSE
+outgoing_flag 	outgoing_flag 	char	1		FALSE	FALSE	FALSE
+xml_text 	xml_text 	varchar	max		FALSE	FALSE	FALSE
+receipt_trans_id 	receipt_trans_id 	varchar	100		FALSE	FALSE	FALSE
+receipt_date 	receipt_date 	datetime			FALSE	FALSE	FALSE
+receipt_status 	receipt_status 	varchar	20		FALSE	FALSE	FALSE
+comments 	comments 	varchar	1000		FALSE	FALSE	FALSE
+error_message 	error_message 	varchar	1000		FALSE	FALSE	FALSE
+active 	active 	char	1		FALSE	FALSE	FALSE
+insert_datetime 	insert_datetime 	datetime			FALSE	FALSE	FALSE
+insert_user 	insert_user 	varchar	20		FALSE	FALSE	FALSE
+insert_process 	insert_process 	varchar	20		FALSE	FALSE	FALSE
+update_datetime 	update_datetime 	datetime			FALSE	FALSE	FALSE
+update_user 	update_user 	varchar	20		FALSE	FALSE	FALSE
+update_process 	update_process 	varchar	20		FALSE	FALSE	FALSE
+participant_code 	participant_code 	varchar	20		FALSE	FALSE	FALSE
+RequestID 	RequestID 	varchar	30		FALSE	FALSE	FALSE
+nem_objection_id 	nem_objection_id 	varchar	100		FALSE	FALSE	FALSE
+actual_change_date 	actual_change_date 	varchar	10		FALSE	FALSE	FALSE
+cancellation_id 	cancellation_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+network_section_id 	network_section_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+processing_status 	processing_status 	varchar	20		FALSE	FALSE	FALSE
+init_receipt_trans_id 	init_receipt_trans_id 	varchar	100		FALSE	FALSE	FALSE
+init_nem_objection_id 	init_nem_objection_id 	varchar	100		FALSE	FALSE	FALSE
+start_date 	start_date 	datetime			FALSE	FALSE	FALSE
+end_date 	end_date 	datetime			FALSE	FALSE	FALSE
+imbalance_amount 	imbalance_amount 	numeric	"18, 4"		FALSE	FALSE	FALSE
+objection_status 	objection_status 	varchar	20		FALSE	FALSE	FALSE
+alert_key_info 	alert_key_info 	varchar	100		FALSE	FALSE	FALSE
+alert_context 	alert_context 	varchar	1000		FALSE	FALSE	FALSE
+acknowledgement_id 	acknowledgement_id 	varchar	100		FALSE	FALSE	FALSE
+error_id 	error_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+proposed_change_date 	proposed_change_date 	varchar	10		FALSE	FALSE	FALSE

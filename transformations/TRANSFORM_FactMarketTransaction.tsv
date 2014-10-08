@@ -1,0 +1,14 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_FactMarketTransaction				
+# DESCRIPTION: Promote market transactions from Orion tables to DataStore 				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+ISNULL(	_DimAccount.AccountId	",-1)"	FactMarketTransaction.AccountId	One to one mapping
+ISNULL(	_DimService.ServiceId	",-1)"	FactMarketTransaction.ServiceId	One to one mapping
+ISNULL(	_DimChangeReason.ChangeReasonId	",-1)"	FactMarketTransaction.ChangeReasonId	One to one mapping with ISNULL
+"CONVERT(NCHAR(8), ISNULL("	nem_transaction.trans_date	", '9999-12-31'), 112)"	FactMarketTransaction.TransactionDateId	One to one mapping with int cast
+	nem_transaction_type.trans_type_desc		FactMarketTransaction.TransactionType	One to one mapping with int cast
+	nem_trans_status.trans_status_desc		FactMarketTransaction.TransactionStatus	One to one mapping with int cast
+	nem_transaction.trans_id		FactMarketTransaction.TransactionKey	Decode account status into readable values
+	nem_transaction.participant_code		FactMarketTransaction.ParticipantCode	One to one mapping with int cast
+/*	nem_transaction.trans_id	*/ 1	FactMarketTransaction.TransactionCounter	Default with int cast
+SELECTION_CRITERIA	FROM /* Staging */ [schema].nem_transaction INNER JOIN /* Staging */ [schema].nem_transaction_type ON nem_transaction_type.trans_type_id = nem_transaction.trans_type_id INNER JOIN /* Staging */ [schema].nem_trans_status ON nem_trans_status.trans_status_id = nem_transaction.trans_status_id LEFT JOIN /* Staging */ [schema].nc_product_item ON nc_product_item.seq_product_item_id = nem_transaction.seq_product_item_id LEFT JOIN /* Staging */ [schema].nc_product ON nc_product.seq_product_id = nc_product_item.seq_product_id LEFT JOIN /* Dimensional */ [schema].DimAccount AS _DimAccount ON _DimAccount.AccountKey = nc_product.seq_party_id AND _DimAccount.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ [schema].DimService AS _DimService ON _DimService.ServiceKey = nem_transaction.site_id AND _DimService.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ [schema].DimChangeReason AS _DimChangeReason ON _DimChangeReason.ChangeReasonKey = nem_transaction.change_reason_id AND _DimChangeReason.Meta_IsCurrent = 1 WHERE nem_transaction.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nem_transaction_type.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nem_trans_status.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID			
