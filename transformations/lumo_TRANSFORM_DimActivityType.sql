@@ -13,16 +13,16 @@ EXEC DW_Utility.config.GetLatestSuccessfulTaskExecutionInstanceID
 END
 --/
 
-	;WITH crmActivityType AS (SELECT crm_activity_type.act_type_code, crm_activity_type.act_type_desc, row_number() OVER (PARTITION BY crm_activity_type.act_type_code ORDER BY crm_activity_type.seq_act_type_id DESC) AS recency FROM /* Staging */ lumo.crm_activity_type)
 	INSERT INTO lumo.DimActivityType (
 		DimActivityType.ActivityTypeKey,
 		DimActivityType.ActivityTypeCode,
 		DimActivityType.ActivityTypeDesc)
 	  SELECT
-		csv_DimMarketingOffer.MarketingOfferKey,
-		csv_DimMarketingOffer.MarketingOfferShortDesc,
-		COALESCE( _crmActivityType.act_type_desc , csv_DimMarketingOffer.MarketingOfferDesc)
-	  FROM /* Staging */ lumo.csv_DimMarketingOffer LEFT OUTER JOIN crmActivityType AS _crmActivityType ON _crmActivityType.act_type_code = csv_DimMarketingOffer.MarketingOfferShortDesc AND _crmActivityType.recency = 1;
+		CAST( crm_activity_type.seq_act_type_id AS int),
+		CAST( crm_activity_type.act_type_code AS nvarchar(20)),
+		CAST( crm_activity_type.act_type_desc AS nvarchar(100))
+	  FROM lumo.crm_activity_type WHERE (act_type_desc LIKE '%disconnection notice%' OR  act_type_desc LIKE '%complaint%' OR  act_type_desc LIKE '%enquiry%') AND (crm_activity_type.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID)
+;
 
 SELECT 0 AS ExtractRowCount,
 @@ROWCOUNT AS InsertRowCount,
