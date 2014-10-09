@@ -10,4 +10,6 @@ TransactionType	Transaction Type	nvarchar	100		TRUE		FALSE
 TransactionStatus	Transaction Status	nvarchar	100		TRUE		FALSE
 TransactionKey	Transaction ID from the source system	int		-1	TRUE		FALSE
 ParticipantCode	Participant Code	nvarchar	20		FALSE		FALSE
+NEMTransactionKey	Market Transaction ID	nvarchar	100		FALSE		FALSE
+NEMInitialTransactionKey	Initial Market Transaction ID	nvarchar	100		FALSE		FALSE
 TransactionCounter	Counter (=1)	tinyint		1	TRUE		FALSE
