@@ -1,0 +1,9 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_DimActivityType				
+# DESCRIPTION: Promote DimMarketingOffer from spreadsheet sourced tables to DataStore				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+WITH_STATEMENTS	"WITH crmActivityType AS (SELECT crm_activity_type.act_type_code, crm_activity_type.act_type_desc, row_number() OVER (PARTITION BY crm_activity_type.act_type_code ORDER BY crm_activity_type.seq_act_type_id DESC) AS recency FROM /* Staging */ [schema].crm_activity_type)"			act_type_code is not guaranteed to be unique
+	csv_DimMarketingOffer.MarketingOfferKey		DimActivityType.ActivityTypeKey	One to one mapping
+	csv_DimMarketingOffer.MarketingOfferShortDesc		DimActivityType.ActivityTypeCode	One to one mapping
+COALESCE(	_crmActivityType.act_type_desc	", csv_DimMarketingOffer.MarketingOfferDesc)"	DimActivityType.ActivityTypeDesc	One to one mapping
+SELECTION_CRITERIA	"FROM /* Staging */ [schema].csv_DimMarketingOffer LEFT OUTER JOIN crmActivityType AS _crmActivityType ON _crmActivityType.act_type_code = csv_DimMarketingOffer.MarketingOfferShortDesc AND _crmActivityType.recency = 1"			

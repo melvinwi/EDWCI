@@ -1,0 +1,7 @@
+# design test artefact                      	                                   	                                                                     	
+# ARTEFACT: TRANSFORM_DimActivityType_tests      	                                   	                                                                     	
+# DESCRIPTION: Test each transformation rule	                                   	                                                                     	
+SOURCE_SELECTION_CRITERIA                   	DESTINATION_SELECTION_CRITERIA     	TEST                                                                 	DESCRIPTION
+REUSE_SQL                                   	FROM [schema].crm_activity_type	                                                                     	
+[REUSE_SQL]                                 	                                   	source.length.should.equal(destination.length)                       	row counts should match
+[REUSE_SQL] WHERE act_type_code = 'COMPL_MS'	WHERE ActivityTypeCode = 'COMPL_MS'	source[0].act_type_desc.should.equal(destination[0].ActivityTypeDesc)  	1:1 map rule

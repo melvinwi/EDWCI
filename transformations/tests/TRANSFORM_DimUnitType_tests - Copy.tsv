@@ -1,0 +1,10 @@
+# design test artefact			
+# ARTEFACT: TRANSFORM_DimUnitType_tests			
+# DESCRIPTION: Test each transformation rule			
+SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
+REUSE_SQL	FROM [schema].utl_unit_of_measure WHERE utl_unit_of_measure.Meta_LatestUpdate_TaskExecutionInstanceId  > -2		
+[REUSE_SQL]		source.length.should.equal(destination.length)	row counts should match
+[REUSE_SQL] AND uom_id = '1'	WHERE UnitTypeKey = '1'	source[0].uom_id.toString().should.equal(destination[0].UnitTypeKey)	1:1 map rule
+[REUSE_SQL] AND uom_id = '1'	WHERE UnitTypeKey = '1'	source[0].uom_desc.should.equal(destination[0].UnitTypeName.trim())	1:1 map rule
+[REUSE_SQL] AND uom_id = '1'	WHERE UnitTypeKey = '1'	parseInt(1).should.equal(destination[0].MultiplicationFactorToBase)	1:1 map rule
+[REUSE_SQL] AND uom_id = '2'	WHERE UnitTypeKey = '2'	parseInt(1000).should.equal(destination[0].MultiplicationFactorToBase)	1:1 map rule
