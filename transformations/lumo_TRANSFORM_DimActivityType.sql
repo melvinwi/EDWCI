@@ -13,16 +13,16 @@ EXEC DW_Utility.config.GetLatestSuccessfulTaskExecutionInstanceID
 END
 --/
 
+	;WITH Complaints AS  (  SELECT [seq_act_type_id], [act_type_Code], [act_type_desc] FROM lumo.crm_activity_type WHERE seq_act_category_id IN (7,33,59) AND Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID) , Enquiries AS (  SELECT  _ca.[seq_act_type_id], _ca.[act_type_Code], _ca.[act_type_desc]  FROM lumo.[crm_activity_type]  _ca  JOIN (SELECT DISTINCT    seq_act_type_id    FROM lumo.[crm_activity]    WHERE 1=1    AND  seq_act_source_id IN(3,6,8,13,22)         ) _crm_activity    ON _ca.[seq_act_type_id] = _crm_activity.[seq_act_type_id]      WHERE 1=1  AND Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID   ) ,DisconnectionNotice AS (    SELECT _ca.[seq_act_type_id], _ca.[act_type_Code], _ca.[act_type_desc]   FROM lumo.[crm_activity_type] _ca   JOIN (SELECT DISTINCT     seq_act_type_id     FROM lumo.[ar_treatment_detail]      WHERE  1=1     AND   treat_det_id IN (3,4,5,6)      ) _crm_activity    ON _ca.[seq_act_type_id] = _crm_activity.[seq_act_type_id]   WHERE 1=1   AND Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID   )
 	INSERT INTO lumo.DimActivityType (
 		DimActivityType.ActivityTypeKey,
 		DimActivityType.ActivityTypeCode,
 		DimActivityType.ActivityTypeDesc)
 	  SELECT
-		CAST( crm_activity_type.seq_act_type_id AS int),
-		CAST( crm_activity_type.act_type_code AS nvarchar(20)),
-		CAST( crm_activity_type.act_type_desc AS nvarchar(100))
-	  FROM lumo.crm_activity_type WHERE (act_type_desc LIKE '%disconnection notice%' OR  act_type_desc LIKE '%complaint%' OR  act_type_desc LIKE '%enquiry%') AND (crm_activity_type.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID)
-;
+		CAST( _ActivityType.seq_act_type_id AS int),
+		CAST( _ActivityType.act_type_code AS nvarchar(20)),
+		CAST( _ActivityType.act_type_desc AS nvarchar(100))
+	  FROM (SELECT * FROM Complaints UNION SELECT * FROM Enquiries UNION SELECT * FROM DisconnectionNotice) _ActivityType;
 
 SELECT 0 AS ExtractRowCount,
 @@ROWCOUNT AS InsertRowCount,

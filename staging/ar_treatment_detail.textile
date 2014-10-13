@@ -1,0 +1,39 @@
+
+h2. ARTEFACT: ar_treatment_detail
+
+DESCRIPTION: Treatment Details from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|Meta_ChangeFlag	|Meta: Row Change flag	|bit	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|treat_det_id	|treat_det_id	|numeric	|"18,0"	|	|TRUE	|TRUE	|FALSE	|
+|treat_type_id	|treat_type_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_act_type_id	|seq_act_type_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|treat_det_code	|treat_det_code	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|treat_det_desc	|treat_det_desc	|varchar	|50	|	|FALSE	|FALSE	|FALSE	|
+|treat_det_bus_days	|treat_det_bus_days	|int	|"10,0"	|	|FALSE	|FALSE	|FALSE	|
+|active	|active	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime	|insert_datetime	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user	|insert_user	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process	|insert_process	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime	|update_datetime	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user	|update_user	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process	|update_process	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|penalty_points	|penalty_points	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|min_amount	|min_amount	|numeric	|"14,2"	|	|FALSE	|FALSE	|FALSE	|
+|paid_perc_criteria	|paid_perc_criteria	|numeric	|"18,6"	|	|FALSE	|FALSE	|FALSE	|
+|seq_charge_item_id	|seq_charge_item_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|dca_action	|dca_action	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|sms_message	|sms_message	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|printable_treatment	|printable_treatment	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|disconnection_event	|disconnection_event	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|ddate_bus_days	|ddate_bus_days	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|disposition_contact	|disposition_contact	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|treatment_flatfile	|treatment_flatfile	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|min_BH_calls	|min_BH_calls	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|min_AH_calls	|min_AH_calls	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|message	|message	|varchar	|400	|	|FALSE	|FALSE	|FALSE	|
+|seq_disposition_class_id	|seq_disposition_class_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_product_type_id	|seq_product_type_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE|
+
