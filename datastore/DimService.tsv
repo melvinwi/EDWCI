@@ -11,3 +11,4 @@ MeteringType	Metering Type	nchar	6		FALSE	FALSE	FALSE
 ResidentialSuburb	Residential Suburb	nvarchar	100		FALSE	FALSE	FALSE
 ResidentialPostcode	Residential Postcode	nchar	4		FALSE	FALSE	FALSE
 ResidentialState	Residential State	nchar	3		FALSE	FALSE	FALSE
+NextScheduledReadDate	NextScheduledReadDate	date			FALSE	FALSE	FALSE

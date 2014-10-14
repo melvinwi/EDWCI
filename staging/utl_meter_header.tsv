@@ -1,0 +1,35 @@
+# design artefact							
+# ARTEFACT: utl_meter_header							
+# DESCRIPTION: Meter Header table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+meter_header_id 	meter_header_id 	numeric	"18, 0"		FALSE	TRUE	FALSE
+site_id 	site_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+meter_code 	meter_code 	varchar	50		FALSE	FALSE	FALSE
+next_sched_read_date 	next_sched_read_date 	datetime			FALSE	FALSE	FALSE
+meter_location 	meter_location 	varchar	100		FALSE	FALSE	FALSE
+meter_hazard 	meter_hazard 	varchar	100		FALSE	FALSE	FALSE
+meter_route 	meter_route 	varchar	100		FALSE	FALSE	FALSE
+meter_use 	meter_use 	varchar	100		FALSE	FALSE	FALSE
+meter_point 	meter_point 	varchar	100		FALSE	FALSE	FALSE
+meter_manufacturer 	meter_manufacturer 	varchar	100		FALSE	FALSE	FALSE
+meter_model 	meter_model 	varchar	100		FALSE	FALSE	FALSE
+meter_constant 	meter_constant 	varchar	100		FALSE	FALSE	FALSE
+transformer_location 	transformer_location 	varchar	100		FALSE	FALSE	FALSE
+transformer_type 	transformer_type 	varchar	100		FALSE	FALSE	FALSE
+transformer_ratio 	transformer_ratio 	varchar	100		FALSE	FALSE	FALSE
+active 	active 	char	1		FALSE	FALSE	FALSE
+insert_datetime 	insert_datetime 	datetime			FALSE	FALSE	FALSE
+insert_user 	insert_user 	varchar	20		FALSE	FALSE	FALSE
+insert_process 	insert_process 	varchar	20		FALSE	FALSE	FALSE
+update_datetime 	update_datetime 	datetime			FALSE	FALSE	FALSE
+update_user 	update_user 	varchar	20		FALSE	FALSE	FALSE
+update_process 	update_process 	varchar	20		FALSE	FALSE	FALSE
+tou_usage_profile_id 	tou_usage_profile_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+meter_serial 	meter_serial 	varchar	40		FALSE	FALSE	FALSE
+install_date 	install_date 	datetime			FALSE	FALSE	FALSE
+meter_register 	meter_register 	varchar	10		FALSE	FALSE	FALSE
+meter_reader_id 	meter_reader_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+market_read_type_code 	market_read_type_code 	varchar	20		FALSE	FALSE	FALSE

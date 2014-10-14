@@ -23,6 +23,7 @@ State	suffix	Address State	NA
 StateAsProvided	suffix	Address State	NA
 Status	suffix	Status flag or value	NA
 MyAccount	prefix	My Account Service prefix	NA
+NextScheduledRead	prefix	Next Scheduled Read prefix	NA
 Date	suffix	Date suffix	NA
 DateId	suffix	Date identifier used on facts suffix	99991231
 Time	suffix	Time data types may use this suffix	00:00:00
