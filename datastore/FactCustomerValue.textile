@@ -1,0 +1,14 @@
+
+h2. ARTEFACT: FactCustomerValue
+
+DESCRIPTION: Customer Value fact table
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT
+*	|
+|CustomerId	|Foreign key to DimCustomer	|int	|	|-1	|TRUE	|	|FALSE
+	|
+|ValuationDateId	|Valuation Date	|int	|	|99991231	|TRUE	|	|FALSE
+	|
+|ValueRating	|Value Rating	|nvarchar	|8	|	|TRUE	|	|FALSE
+	|
+
