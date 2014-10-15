@@ -1,8 +1,0 @@
-
-h2. ARTEFACT: VCustomer
-
-DESCRIPTION: view of DimCustomer
-
-|*ATTRIBUTE_NAME*	|*DEFINITION*	|*RULE_DESCRIPTION*	|*DATASTORE_OBJECTS*	|*DATASTORE_ATTRIBUTES*	|
-|Count	|Count of Customers	|count(DimCustomer.CustomerKey)	|DimCustomer	|CustomerKey|
-
