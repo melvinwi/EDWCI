@@ -1,6 +1,18 @@
 CREATE VIEW Views.vRetentionDiallerList
 AS
-WITH   phoneNumbers
+WITH   notifications
+       AS (SELECT FactMarketTransaction.AccountId,
+                  FactMarketTransaction.ServiceId,
+                  FactMarketTransaction.ChangeReasonId,
+                  FactMarketTransaction.TransactionDateId,
+                  FactMarketTransaction.TransactionStatus,
+                  FactMarketTransaction.ParticipantCode,
+                  ROW_NUMBER() OVER (PARTITION BY DimAccount.AccountKey, DimService.ServiceKey ORDER BY FactMarketTransaction.TransactionDateId DESC) AS RC
+           FROM   DW_Dimensional.DW.FactMarketTransaction
+           INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactMarketTransaction.AccountId
+           INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactMarketTransaction.ServiceId
+           WHERE  FactMarketTransaction.TransactionType = N'NOTIFICATION'),
+       phoneNumbers
        AS (SELECT CustomerKey,
                   CASE
                     WHEN LEFT(PrimaryPhone,2) IN (N'01',N'02',N'03',N'05',N'06',N'07',N'08',N'09') AND LEN(PrimaryPhone) = 10 THEN PrimaryPhone
@@ -21,7 +33,7 @@ WITH   phoneNumbers
            FROM   DW_Dimensional.DW.DimCustomer
            INNER  JOIN DW_Dimensional.DW.FactActivity ON FactActivity.CustomerId = DimCustomer.CustomerId
            INNER  JOIN DW_Dimensional.DW.DimActivityType ON DimActivityType.ActivityTypeId = FactActivity.ActivityTypeId
-           -- Checks for 'CR1000 Retained' and 'Outbound Retention - Retain' activity within the last 10 days	
+           -- Checks for 'CR1000 Retained' and 'Outbound Retention - Retain' activity within the last 10 days 
            WHERE  (DimActivityType.ActivityTypeKey IN (1010, -- CR 1000 Retained
                                                        1057, -- Inbound: Retained
                                                        2122, -- Retention - Inbound Retain Added 18/05/2012 as Hari's request (BIU -415)
@@ -51,12 +63,26 @@ WITH   phoneNumbers
            OR     (DimActivityType.ActivityTypeKey IN (1903, -- Outbound Retention - Callback
                                                        2130) -- Retention - Outbound Call Back Added 09/05/2012 at Hari's request (BIU-386)
                    AND DATEDIFF(DAY, CONVERT(NCHAR(8), FactActivity.ActivityDateId, 112), GETDATE()) <= 5)),
+       agedTrialBalance
+       AS (SELECT FactAgedTrialBalance.AccountId,
+                  Days61To90,
+                  Days90Plus,
+                  ROW_NUMBER () OVER (PARTITION BY FactAgedTrialBalance.AccountId ORDER BY FactAgedTrialBalance.ATBDateId DESC) AS RC
+           FROM   DW_Dimensional.DW.FactAgedTrialBalance),
+       service
+       AS (SELECT DimAccount.AccountCode,
+                  MIN(NextScheduledReadDate) AS NextScheduledReadDate
+           FROM   DW_Dimensional.DW.DimAccount
+           INNER  JOIN DW_Dimensional.DW.FactContract ON FactContract.AccountId = DimAccount.AccountId
+           INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactContract.ServiceId
+           WHERE  NextScheduledReadDate IS NOT NULL
+           GROUP  BY DimAccount.AccountCode),
        CallList
        AS (SELECT ISNULL(DimCustomer.PartyName,'') AS [Name],
-       	          ISNULL(DimCustomer.ResidentialAddressLine1,'') AS [ADDRESS],
-       	          ISNULL(DimCustomer.ResidentialSuburb,'') AS [SUBURB],
-       	          ISNULL(DimCustomer.PostalPostcode,'') AS [POSTCODE],
-       	          ISNULL(DimCustomer.ResidentialState,'') AS [ZONE],
+                  ISNULL(DimCustomer.ResidentialAddressLine1,'') AS [ADDRESS],
+                  ISNULL(DimCustomer.ResidentialSuburb,'') AS [SUBURB],
+                  ISNULL(DimCustomer.PostalPostcode,'') AS [POSTCODE],
+                  ISNULL(DimCustomer.ResidentialState,'') AS [ZONE],
                   CASE
                     WHEN phoneNumbers.HomePhone1 IS NOT NULL THEN phoneNumbers.HomePhone1
                     WHEN phoneNumbers.HomePhone2 IS NOT NULL THEN phoneNumbers.HomePhone2
@@ -90,10 +116,10 @@ WITH   phoneNumbers
                   END AS [Mobile],
                   'TODO' AS [CONTACTS 10], --Count of dispositions in last 10 days specific to retention
                   'TODO' AS [CONTACTS CR], --Count of dispositions since CR date
-                  DATEDIFF(DAY,CONVERT (date, CAST (FactMarketTransaction.TransactionDateId AS nchar (8)) , 112),GETDATE()) AS [CRRAISED], -- Number of days since CR raised
-                  'TODO' AS [CRLOST], -- Number of days before CR is due to be completed (next scheduled read date)
+                  DATEDIFF(DAY,CONVERT (date, CAST (notifications.TransactionDateId AS nchar (8)) , 112),GETDATE()) AS [CRRAISED], -- Number of days since CR raised
+                  COALESCE(CONVERT(NCHAR(10), DATEDIFF(DAY, GETDATE(), NextScheduledReadDate)), '') AS [CRLOST], -- Number of days before CR is due to be completed (next scheduled read date)
                   'TODO' AS [CRRETAIN], -- Last sales involvement code if it was a retain (optional)
-                  ISNULL(FactMarketTransaction.ParticipantCode,'') AS [COMPETITOR],
+                  ISNULL(notifications.ParticipantCode,'') AS [COMPETITOR],
                   '' AS [SKILLNAME],
                   CASE vRetentionValue.Rating
                     WHEN 'Silver' THEN 2
@@ -121,24 +147,27 @@ WITH   phoneNumbers
                   '' AS [PREVIOUSCONTACT],
                   '' AS [JOB],
                   ISNULL(DimCustomer.PrivacyPreferredStatus,'') AS [Privacy],
-                  ROW_NUMBER () OVER (PARTITION BY DimCustomer.CustomerCode ORDER BY FactMarketTransaction.TransactionDateId) AS RC
-       FROM   DW_Dimensional.DW.FactMarketTransaction
-       INNER  JOIN DW_Dimensional.DW.DimChangeReason ON DimChangeReason.ChangeReasonId = FactMarketTransaction.ChangeReasonId AND DimChangeReason.Meta_IsCurrent = 1
-       INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactMarketTransaction.AccountId AND DimAccount.Meta_IsCurrent = 1
+                  ROW_NUMBER () OVER (PARTITION BY DimCustomer.CustomerCode ORDER BY notifications.TransactionDateId) AS RC
+       FROM   notifications
+       INNER  JOIN DW_Dimensional.DW.DimChangeReason ON DimChangeReason.ChangeReasonId = notifications.ChangeReasonId AND DimChangeReason.Meta_IsCurrent = 1
+       INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = notifications.AccountId AND DimAccount.Meta_IsCurrent = 1
        INNER  JOIN DW_Dimensional.DW.FactCustomerAccount ON FactCustomerAccount.AccountId = DimAccount.AccountId
        INNER  JOIN DW_Dimensional.DW.DimCustomer ON DimCustomer.CustomerId = FactCustomerAccount.CustomerId AND DimCustomer.Meta_IsCurrent = 1
        INNER  JOIN phoneNumbers ON phoneNumbers.CustomerKey = DimCustomer.CustomerKey
        INNER  JOIN DW_Access.Views.vRetentionValue ON vRetentionValue.CustomerCode = DimCustomer.CustomerCode
        LEFT   JOIN retentionActivities ON retentionActivities.CustomerCode = DimCustomer.CustomerCode
-       WHERE  DimChangeReason.ChangeReasonCode IN (N'1000',N'1010',N'0001',N'0003')
-       AND    FactMarketTransaction.TransactionStatus = N'Requested'
-       AND    FactMarketTransaction.TransactionType = N'NOTIFICATION'
+       LEFT   JOIN agedTrialBalance ON agedTrialBalance.AccountId = DimAccount.AccountId AND agedTrialBalance.RC = 1
+       LEFT   JOIN service ON service.AccountCode = DimAccount.AccountCode
+       WHERE  notifications.RC = 1
+       AND    DimChangeReason.ChangeReasonCode IN (N'1000',N'1010',N'0001',N'0003')
+       AND    notifications.TransactionStatus IN (N'Requested', N'Pending')
        AND    DimCustomer.CustomerType = N'Residential'
-       AND    NOT ISNULL(FactMarketTransaction.ParticipantCode,'VENCORP') IN (N'VEPL',N'VEGAS',N'SAEPL',N'QEPL',N'NSWEPL',N'LUMOUSR')
+       AND    NOT ISNULL(notifications.ParticipantCode,'VENCORP') IN (N'VEPL',N'VEGAS',N'SAEPL',N'QEPL',N'NSWEPL',N'LUMOUSR')
        AND    DimAccount.AccountStatus = 'Open'
        AND    (DimAccount.CreditControlStatus LIKE 'Standard%' OR DimAccount.CreditControlStatus LIKE 'Payplan%')
        AND    retentionActivities.CustomerCode IS NULL
-       AND    FactMarketTransaction.TransactionDateId BETWEEN 20140701 AND 20140713)
+       AND    COALESCE(agedTrialBalance.Days61To90 + agedTrialBalance.Days90Plus, 0) < 500
+       AND    CONVERT(DATETIME, CAST(notifications.TransactionDateId AS NCHAR(8)), 112) BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE())
 SELECT [Name],
        [ADDRESS],
        [SUBURB],
