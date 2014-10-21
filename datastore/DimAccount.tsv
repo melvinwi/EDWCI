@@ -17,3 +17,5 @@ CreditControlCategory	CreditControlCategory	nvarchar	50		FALSE		FALSE
 InvoiceDeliveryMethod	The way the invoice is delivered to a customer	nvarchar	30		FALSE		FALSE
 PaymentMethod	The way of customer paying an invoice	nvarchar	20		FALSE		FALSE
 MyAccountStatus	My Account Status	nvarchar	14		FALSE		FALSE
+ACN	ACN	nvarchar	100		FALSE		FALSE
+ABN	ABN	nvarchar	100		FALSE		FALSE
