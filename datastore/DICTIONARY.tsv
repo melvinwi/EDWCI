@@ -136,6 +136,7 @@ PricePlanId		prefix	PricePlanId	NA
 ActivityTypeKey		any	ActivityTypeKey		NA
 ActivityTypeCode	any	ActivityTypeCode	NA 
 ActivityTypeDesc	any	ActivityTypeDesc	NA
+ActivityCommunicationMethod	any	ActivityCommunicationMethod	NA
 NEMInitialTransactionKey	any	NEMInitialTransactionKey	NA
 ACN	any	ActivityTypeKey		NA
 ABN	any	ActivityTypeKey		NA

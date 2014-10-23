@@ -9,5 +9,6 @@ ActivityTypeId	Foreign key to DimActivityType	int		-1	TRUE		FALSE
 ActivityDateId	Activity Date	int		99991231	TRUE		FALSE
 ActivityTime	Activity Time	time			TRUE		FALSE
 ActivityCategory	Activity Category	nvarchar	20		FALSE		FALSE
+ActivityCommunicationMethod	Activity Communication Method	nvarchar	25		FALSE		FALSE
 ActivityNotes	Activity Notes	nvarchar	max		TRUE		FALSE
 ActivityKey	Activity Key	int		-1	TRUE		FALSE
