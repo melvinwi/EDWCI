@@ -13,5 +13,6 @@ DESCRIPTION: Service dimension table
 |ResidentialSuburb	|Residential Suburb	|nvarchar	|100	|	|FALSE	|FALSE	|FALSE	|
 |ResidentialPostcode	|Residential Postcode	|nchar	|4	|	|FALSE	|FALSE	|FALSE	|
 |ResidentialState	|Residential State	|nchar	|3	|	|FALSE	|FALSE	|FALSE	|
-|NextScheduledReadDate	|NextScheduledReadDate	|date	|	|	|FALSE	|FALSE	|FALSE|
+|NextScheduledReadDate	|NextScheduledReadDate	|date	|	|	|FALSE	|FALSE	|FALSE	|
+|FRMPDate	|FRMP Date	|date	|	|	|FALSE	|FALSE	|FALSE|
 
