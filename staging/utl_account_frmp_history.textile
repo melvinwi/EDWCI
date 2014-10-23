@@ -1,0 +1,24 @@
+
+h2. ARTEFACT: utl_account_frmp_history
+
+DESCRIPTION: FRMP History table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|Meta_ChangeFlag	|Meta: Row Change flag	|bit	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|accnt_frmp_id 	|accnt_frmp_id 	|numeric	|"18, 0"	|	|TRUE	|TRUE	|FALSE	|
+|seq_product_item_id 	|seq_product_item_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|frmp_date 	|frmp_date 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|event_date 	|event_date 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|active 	|active 	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime 	|insert_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user 	|insert_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process 	|insert_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime 	|update_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user 	|update_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process 	|update_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|site_id 	|site_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|trans_id 	|trans_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|move_in 	|move_in 	|char	|1	|	|FALSE	|FALSE	|FALSE|
+

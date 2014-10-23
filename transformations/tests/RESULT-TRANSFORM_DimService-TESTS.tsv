@@ -1,16 +1,16 @@
 # transformation test result artefact
 # ARTEFACT: TRANSFORM_DimService
-# CREATED DATE: 2014-10-06T162048
+# CREATED DATE: 2014-10-23T180559
 
-2014-10-06 16:20:50	2	PASSED	source.length.should.equal(destination.length)	{"obj":53,"params":{"operator":"to be","expected":53,"showDiff":true},"negate":false}
-2014-10-06 16:20:51	3	PASSED	source[0].site_id.should.equal(destination[0].ServiceKey)	{"obj":696059,"params":{"operator":"to be","expected":696059,"showDiff":true},"negate":false}
-2014-10-06 16:20:52	4	PASSED	source[0].site_identifier.should.equal(destination[0].MarketIdentifier)	{"obj":"62035678901","params":{"operator":"to be","expected":"62035678901","showDiff":true},"negate":false}
-2014-10-06 16:20:52	5	PASSED	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	{"obj":"Electricity","params":{"operator":"to be","expected":"Electricity","showDiff":true},"negate":false}
-2014-10-06 16:20:53	6	PASSED	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	{"obj":"Gas","params":{"operator":"to be","expected":"Gas","showDiff":true},"negate":false}
-2014-10-06 16:20:54	7	PASSED	source[0].dlf_factor.should.equal(destination[0].LossFactor)	{"obj":1.0701,"params":{"operator":"to be","expected":1.0701,"showDiff":true},"negate":false}
-2014-10-06 16:20:55	8	PASSED	source[0].dlf_factor.should.equal(destination[0].LossFactor)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
-2014-10-06 16:20:55	9	PASSED	parseFloat('40.9817').should.equal(destination[0].EstimatedDailyConsumption)	{"obj":40.9817,"params":{"operator":"to be","expected":40.9817,"showDiff":true},"negate":false}
-2014-10-06 16:20:56	10	PASSED	source[0].metering_type.should.equal(destination[0].MeteringType.trim())	{"obj":"TOU","params":{"operator":"to be","expected":"TOU","showDiff":true},"negate":false}
-2014-10-06 16:20:57	11	PASSED	source[0].addr_suburb.should.equal(destination[0].ResidentialSuburb)	{"obj":"WILLIAMSTOWN","params":{"operator":"to be","expected":"WILLIAMSTOWN","showDiff":true},"negate":false}
-2014-10-06 16:20:58	12	PASSED	source[0].addr_postcode.should.equal(destination[0].ResidentialPostcode.trim())	{"obj":"3016","params":{"operator":"to be","expected":"3016","showDiff":true},"negate":false}
-2014-10-06 16:20:59	13	PASSED	source[0].addr_city.should.equal(destination[0].ResidentialState.trim())	{"obj":"VIC","params":{"operator":"to be","expected":"VIC","showDiff":true},"negate":false}
+2014-10-23 18:06:04	2	PASSED	source.length.should.equal(destination.length)	{"obj":53,"params":{"operator":"to be","expected":53,"showDiff":true},"negate":false}
+2014-10-23 18:06:05	3	PASSED	source[0].site_id.should.equal(destination[0].ServiceKey)	{"obj":696059,"params":{"operator":"to be","expected":696059,"showDiff":true},"negate":false}
+2014-10-23 18:06:05	4	PASSED	source[0].site_identifier.should.equal(destination[0].MarketIdentifier)	{"obj":"62035678901","params":{"operator":"to be","expected":"62035678901","showDiff":true},"negate":false}
+2014-10-23 18:06:06	5	PASSED	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	{"obj":"Electricity","params":{"operator":"to be","expected":"Electricity","showDiff":true},"negate":false}
+2014-10-23 18:06:07	6	PASSED	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].ServiceType)	{"obj":"Gas","params":{"operator":"to be","expected":"Gas","showDiff":true},"negate":false}
+2014-10-23 18:06:08	7	PASSED	source[0].dlf_factor.should.equal(destination[0].LossFactor)	{"obj":1.0701,"params":{"operator":"to be","expected":1.0701,"showDiff":true},"negate":false}
+2014-10-23 18:06:09	8	FAILED	source[0].dlf_factor.should.equal(destination[0].LossFactor) problem processing test - please update	TypeError: Cannot read property 'should' of null
+2014-10-23 18:06:10	9	PASSED	parseFloat('40.9817').should.equal(destination[0].EstimatedDailyConsumption)	{"obj":40.9817,"params":{"operator":"to be","expected":40.9817,"showDiff":true},"negate":false}
+2014-10-23 18:06:10	10	PASSED	source[0].metering_type.should.equal(destination[0].MeteringType.trim())	{"obj":"TOU","params":{"operator":"to be","expected":"TOU","showDiff":true},"negate":false}
+2014-10-23 18:06:11	11	PASSED	source[0].addr_suburb.should.equal(destination[0].ResidentialSuburb)	{"obj":"WILLIAMSTOWN","params":{"operator":"to be","expected":"WILLIAMSTOWN","showDiff":true},"negate":false}
+2014-10-23 18:06:12	12	PASSED	source[0].addr_postcode.should.equal(destination[0].ResidentialPostcode.trim())	{"obj":"3016","params":{"operator":"to be","expected":"3016","showDiff":true},"negate":false}
+2014-10-23 18:06:13	13	PASSED	source[0].addr_city.should.equal(destination[0].ResidentialState.trim())	{"obj":"VIC","params":{"operator":"to be","expected":"VIC","showDiff":true},"negate":false}
