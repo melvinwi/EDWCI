@@ -7,3 +7,8 @@ Business context and logical architecture layers desribed.
 > * [Logical Architecture - Layers](High Level Design#Logical Architecture - Layers)
 
 
+
+
+
+
+
