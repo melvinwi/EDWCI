@@ -32,3 +32,4 @@ OmbudsmanComplaints	Ombudsman Complaints	nchar	3		FALSE		FALSE
 CreationDate	Creation Date	date			FALSE		FALSE
 JoinDate	Join Date	date			FALSE		FALSE
 PrivacyPreferredStatus	Privacy Preferred Status	nvarchar	30		FALSE		FALSE
+InferredGender	Inferred Gender	nchar	6		FALSE		FALSE

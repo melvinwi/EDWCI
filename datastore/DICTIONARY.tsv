@@ -13,6 +13,7 @@ Service	prefix	Reserved for DimService	NA
 Contract	prefix	Reserved for FactContract	NA
 Product	prefix	Reserved for DimProduct	NA
 Counter	suffix	Counter	NA
+InferredGender	any	Inferred Gender	NA
 Postal	prefix	Mailing Address prefix	NA
 ChangeReason	prefix	Reserved for DimChangeReason	NA
 Residential	prefix	Site Address prefix	NA
