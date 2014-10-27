@@ -44,7 +44,8 @@ END
 		DimCustomer.OmbudsmanComplaints,
 		DimCustomer.CreationDate,
 		DimCustomer.JoinDate,
-		DimCustomer.PrivacyPreferredStatus)
+		DimCustomer.PrivacyPreferredStatus,
+		DimCustomer.InferredGender)
 	  SELECT
 		CAST( nc_client.seq_party_id AS int),
 		CASE WHEN ISNUMERIC (crm_party.party_code) = 1 THEN CAST( crm_party.party_code AS int) END,
@@ -75,8 +76,9 @@ END
 		CAST(CASE _ombudsmanComplaints.IsOmbudsman WHEN 1 THEN 'Yes' ELSE 'No' END AS nchar(3)),
 		crm_party.insert_datetime,
 		CASE WHEN _joinDate.EarliestVVDate = '9999-12-31' THEN nc_client.insert_datetime ELSE _joinDate.EarliestVVDate END,
-		CASE nc_client.promo_allowed WHEN 'E' THEN 'Preferred contact by email' WHEN 'P' THEN 'Preferred contact by phone' WHEN 'Y' THEN 'Preferred contact by mail' WHEN 'N' THEN 'Privacy: Do Not Contact' ELSE NULL END
-	  FROM lumo.nc_client INNER JOIN lumo.crm_party ON nc_client.seq_party_id = crm_party.seq_party_id INNER JOIN lumo.crm_element_hierarchy ON crm_element_hierarchy.element_id = crm_party.seq_party_id INNER JOIN customerStatus AS _customerStatus ON _customerStatus.seq_party_id = nc_client.seq_party_id LEFT OUTER JOIN ombudsmanComplaints AS _ombudsmanComplaints ON _ombudsmanComplaints.ClientId = crm_party.party_code LEFT OUTER JOIN joinDate AS _joinDate ON _joinDate.seq_party_id = nc_client.seq_party_id WHERE crm_element_hierarchy.seq_element_type_id = '9'AND (crm_party.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nc_client.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR crm_element_hierarchy.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _customerStatus.Meta_HasChanged = 1 OR _ombudsmanComplaints.Meta_HasChanged = 1 OR _joinDate.Meta_HasChanged = 1);
+		CASE nc_client.promo_allowed WHEN 'E' THEN 'Preferred contact by email' WHEN 'P' THEN 'Preferred contact by phone' WHEN 'Y' THEN 'Preferred contact by mail' WHEN 'N' THEN 'Privacy: Do Not Contact' ELSE NULL END,
+		CASE crm_party.title WHEN 'Mr' THEN 'Male' WHEN 'Mrs'  THEN 'Female' WHEN 'Ms'  THEN 'Female' WHEN 'Miss' THEN 'Female' WHEN 'Mss' THEN 'Female' ELSE _Gender.Gender END
+	  FROM lumo.nc_client INNER JOIN lumo.crm_party ON nc_client.seq_party_id = crm_party.seq_party_id INNER JOIN lumo.crm_element_hierarchy ON crm_element_hierarchy.element_id = crm_party.seq_party_id INNER JOIN customerStatus AS _customerStatus ON _customerStatus.seq_party_id = nc_client.seq_party_id LEFT OUTER JOIN ombudsmanComplaints AS _ombudsmanComplaints ON _ombudsmanComplaints.ClientId = crm_party.party_code LEFT OUTER JOIN joinDate AS _joinDate ON _joinDate.seq_party_id = nc_client.seq_party_id LEFT OUTER JOIN /* Lookup */ lumo.Gender AS _Gender ON _Gender.FirstName = LTRIM(RTRIM(crm_party.first_name)) WHERE crm_element_hierarchy.seq_element_type_id = '9'AND (crm_party.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nc_client.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR crm_element_hierarchy.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _customerStatus.Meta_HasChanged = 1 OR _ombudsmanComplaints.Meta_HasChanged = 1 OR _joinDate.Meta_HasChanged = 1);
 
 SELECT 0 AS ExtractRowCount,
 @@ROWCOUNT AS InsertRowCount,
