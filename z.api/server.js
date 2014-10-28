@@ -25,7 +25,7 @@ app.use(express.static(__dirname + '/www'));
 
 
 // global vars
-var SSL_PORT = 7070; 	// for all API calls
+var SSL_PORT = 4443; 	// for all API calls
 var PORT = 8080; 		// may be used for static content
 var DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss' // for logging - see function log(message)
 var DATE_FORMAT_EXPIRATION = 'YYYY-MM-DDTHH:mm:ss' // for logging - see function log(message)
@@ -63,6 +63,11 @@ app.get('/api/:APIName/:token', function(req, res) {
 		if (object==undefined) { // token has expired or is invalid
 			var errMessage = JSON.parse('{ "ERROR": "token '+req.params.token+' has expired" }');
 			log(JSON.stringify(errMessage));
+			res.set({
+				'Cache-Control': 'no-cache, no-store, must-revalidate',
+				'Pragma': 'no-cache',
+				'Expires': '0'
+			});
 			res.send(errMessage);
 		}
 		else {
@@ -79,7 +84,7 @@ app.get('/api/:APIName/:token', function(req, res) {
 
 				// get sql statement from config
 				var sqlStatement = eval('config.API.'+req.params.APIName+'.sql');
-
+				
 				// replace all {{params}} embedded in sql
 				var errored = false;
 				var apiParams = eval('config.API.'+req.params.APIName+'.parameters')
@@ -89,6 +94,8 @@ app.get('/api/:APIName/:token', function(req, res) {
 						var name = ''+apiParams[i].name+'';
 						
 						sqlStatement = eval('sqlStatement.replace(/'+name+'/g, req.param(name))');
+						
+					//	log('INFO: API SQL: "'+sqlStatement+'"');
 
 						if (req.param(apiParams[i].name)==undefined && apiParams[i].mandatory==true) {
 							var errMessage = JSON.parse('{ "ERROR" : "mandatory URL parameter ?'+apiParams[i].name+'=[value] missing for API '+req.params.APIName+'" }')
@@ -110,12 +117,22 @@ app.get('/api/:APIName/:token', function(req, res) {
 						db.sql(sqlStatement , function(err, result) {
 							if (err) {
 								var errMessage = err;
-								log(JSON.stringifyerrMessage);
-								res.send(errMessage); // send back to requestor
+								log('ERROR: '+JSON.stringifyerrMessage);
+								res.set({
+									'Cache-Control': 'no-cache, no-store, must-revalidate',
+									'Pragma': 'no-cache',
+									'Expires': '0'
+								});
+								res.send(errMessage); // send back to requester
 							}
 							else {
-								log('INFO: '+JSON.stringify(result));
-								res.send(JSON.parse('{ "'+req.params.APIName+'":'+JSON.stringify(result)+" }")); // send back to requestor
+						//		log('INFO: '+JSON.stringify(result));
+								res.set({
+									'Cache-Control': 'no-cache, no-store, must-revalidate',
+									'Pragma': 'no-cache',
+									'Expires': '0'
+								});
+								res.send(JSON.parse('{ "'+req.params.APIName+'":'+JSON.stringify(result)+" }")); // send back to requester
 							}
 						});
 					}
@@ -136,6 +153,7 @@ app.get('/api/:APIName/:token', function(req, res) {
 
 //// //// //// //// AUTHENTICATION //// //// //// //// 
 
+
 // authenticate
 app.get('/auth/:username/:password', function(req, res) {
 
@@ -145,10 +163,21 @@ app.get('/auth/:username/:password', function(req, res) {
 		if (err) {
 			var errMessage = JSON.parse('{ "ERROR": "'+err+'" }');
 			log(JSON.stringify(errMessage));
-			res.send(errMessage)
+			res.set({
+				'Cache-Control': 'no-cache, no-store, must-revalidate',
+				'Pragma': 'no-cache',
+				'Expires': '0'
+			});
+			var errMessageToSend = JSON.parse('{ "ERROR": "Login failed for '+req.params.username+'" }');
+			res.send(errMessageToSend)
 		}
 		else {
 			log('INFO: token issued for user "'+req.params.username+'" - '+object.token);
+			res.set({
+				'Cache-Control': 'no-cache, no-store, must-revalidate',
+				'Pragma': 'no-cache',
+				'Expires': '0'
+			});
 			res.send(object);
 		}
 	});
@@ -267,10 +296,10 @@ function log(message) {
 
 
 // init app listeners
-app.listen(PORT)
+//app.listen(PORT)
 https.createServer(options, app).listen(SSL_PORT);
 log('listening on port '+SSL_PORT+' (HTTPS)');
-log('listening on port '+PORT+' (HTTP)');
+//log('listening on port '+PORT+' (HTTP)');
 
 
 

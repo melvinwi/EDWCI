@@ -3,9 +3,9 @@
     {
       "CustomerRating":
         {
-          "sql": "SELECT '{{id}}' as CustomerId, 'My Name' as CustomerName, 'Gold' as CustomerRating",
+          "sql": "SELECT CustomerCode as CustomerId, ResidentialState as CustomerState, PartyName as CustomerName, Rating as CustomerRating FROM DW_Access.Views.vCustomerRetentionValue WHERE CustomerCode = theCustomerId",
           "parameters" : [
-          		{"name": "id", "default": "", "mandatory": true}
+          		{"name": "theCustomerId", "default": "", "mandatory": true}
           ]
         }
     }
