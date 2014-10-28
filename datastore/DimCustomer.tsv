@@ -4,7 +4,7 @@
 COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
 CustomerKey	Customer Number used in the transaction system (Party ID)	int			TRUE		FALSE
 CustomerCode	Customer Code used in the transaction system (party code)	int			TRUE		FALSE
-Title	"Title, Salutation"	nchar	3		FALSE		FALSE
+Title	"Title, Salutation"	nchar	4		FALSE		FALSE
 FirstName	First Name	nvarchar	100		FALSE		FALSE
 MiddleInitial	Middle Initial(s)	nchar	10		FALSE		FALSE
 LastName	Last Name	nvarchar	100		FALSE		FALSE
