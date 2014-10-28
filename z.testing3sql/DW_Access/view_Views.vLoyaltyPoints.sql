@@ -1,16 +1,6 @@
-USE [DW_Access]
-GO
-
-/****** Object:  View [Views].[vLoyaltyPoints]    Script Date: 2/09/2014 12:15:13 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-
 CREATE VIEW [Views].[vLoyaltyPoints]
-AS SELECT		 DimDate.Date AS AwardedDate,
+AS 
+SELECT		    DimDate.[Date] AS AwardedDate,
                 DimDate.DateId AS AwardedDateId,
                 ISNULL (NULLIF (FactLoyaltyPoints.ProgramName, '') , '{Unknown}') AS ProgramName,
                 ISNULL (NULLIF (FactLoyaltyPoints.PointsType, '') , '{Unk}') AS PointsType,
@@ -40,9 +30,12 @@ AS SELECT		 DimDate.Date AS AwardedDate,
                 ISNULL (NULLIF (DimCustomer.SecondaryPhoneType, '') , '{Unk}') AS SecondaryPhoneType,
                 ISNULL (NULLIF (DimCustomer.MobilePhone, '') , '{Unknown}') AS MobilePhone,
                 ISNULL (NULLIF (DimCustomer.Email, '') , '{Unknown}') AS Email,
-                DimCustomer.DateOfBirth,
-                DATEDIFF (YEAR, DimCustomer.DateOfBirth, GETDATE ()) AS Age,
-                ISNULL (NULLIF (DimCustomer.CustomerType, '') , '{Unknown}') AS CustomerType,
+                DimCustomer.DateOfBirth
+              , DATEDIFF(YEAR, DimCustomer.DateOfBirth, GETDATE())
+                - CASE WHEN DATEDIFF(DAY, GETDATE(), DATEADD(YEAR, DATEDIFF (YEAR, DimCustomer.DateOfBirth, GETDATE()), DimCustomer.DateOfBirth)) > 0
+                       THEN 1 ELSE 0 --this is to subtract birthdays that are yet to occur in the current year
+                  END															AS Age
+              , ISNULL (NULLIF (DimCustomer.CustomerType, '') , '{Unknown}') AS CustomerType,
                 ISNULL (NULLIF (DimCustomer.CustomerStatus, '') , '{Unk}') AS CustomerStatus,
                 ISNULL (NULLIF (DimCustomer.OmbudsmanComplaints, '') , '{U}') AS OmbudsmanComplaints,
                 DimCustomer.CreationDate,
@@ -53,7 +46,3 @@ AS SELECT		 DimDate.Date AS AwardedDate,
           ON DimCustomer.CustomerId = FactLoyaltyPoints.CustomerId
                                               INNER JOIN DW_Dimensional.DW.DimDate
           ON DimDate.DateId = FactLoyaltyPoints.AwardedDateId;
-
-
-GO
-
