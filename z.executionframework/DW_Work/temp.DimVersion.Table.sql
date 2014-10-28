@@ -1,0 +1,12 @@
+USE [DW_Work]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [temp].[DimVersion](
+	[VersionKey] [nchar](10) NULL DEFAULT (NULL),
+	[VersionName] [nchar](10) NULL DEFAULT (NULL)
+) ON [PRIMARY]
+
+GO

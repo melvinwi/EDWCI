@@ -22,10 +22,13 @@ AS
   JG      02.10.2014    Added PrecedentTaskIds
   <YOUR ROW HERE>     
   
-  Usage:
-    EXEC [reports].[GetApplicationExecutionOverview] NULL
-    --SELECT * FROM dbo.ApplicationExecutionInstance ORDER BY StartDateTime DESC
-
+  Useful:
+      SELECT * FROM dbo.ApplicationExecutionInstance ORDER BY StartDateTime DESC
+      EXEC [reports].[GetApplicationExecutionOverview] NULL
+      
+      DECLARE @TaskExecutionInstanceID INT = NULL
+	    SELECT * FROM log.TaskExecutionError WHERE TaskExecutionInstanceID = @TaskExecutionInstanceID
+      SELECT * FROM log.TaskExecutionVariableLog WHERE TaskExecutionInstanceID = @TaskExecutionInstanceID
   */
 
 IF @ApplicationExecutionInstanceID IS NULL
