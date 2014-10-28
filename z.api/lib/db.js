@@ -17,7 +17,7 @@ var DB_DOMAIN = '';
 // default values below; override with --profle=<profilename> in config.json
 var DB_SERVER;
 var DB_PORT;
-var DB_TYPE; // MYSQL or HANA
+var DB_TYPE; // MYSQL or HANA or SQLSERVER
 var PROFILE_NAME= 'SQLSERVER'; // refers to the name in the db_config.json
 
 
@@ -48,7 +48,6 @@ if (profile.DBDomain!=undefined) {
 		DB_DOMAIN = profile.DBDomain;
 	}
 }
-
 
 if (profile.DBType==undefined) {
 	console.log('DB CONFIG ERROR: config.json profile "'+PROFILE_NAME+'" missing "DBType"\n');
@@ -92,7 +91,7 @@ else {
 
 
 
-// overide user pass in the config.json
+// override user pass in the config.json
 function setUsernamePassword(username, password) { // init username / password
 	DB_USERNAME = username
 	DB_PASSWORD = password
@@ -104,7 +103,7 @@ function initDBClient(callback) {
 
 	if (DB_TYPE=='HANA') {
 
-		// attempt the database connnection
+		// attempt the database connection
 		this.dbClient = hdb.createClient({
 		    host     : DB_SERVER,
 		    port     : DB_PORT,
@@ -136,36 +135,37 @@ function initDBClient(callback) {
 	else if (DB_TYPE=='SQLSERVER') {
 
 		var config = {};
-
+		
 		if (DB_DOMAIN.length>0) {
 			config = {
-			    user: DB_USERNAME,
-			    password: DB_PASSWORD,
-			    domain: DB_DOMAIN,
-			    server: DB_SERVER, // You can use 'localhost\\instance' to connect to named instance
-			    options: {
-			        encrypt: false // Use this if you're on Windows Azure
-			    }
+				user: DB_USERNAME,
+				password: DB_PASSWORD,
+				domain: DB_DOMAIN,
+				server: DB_SERVER, // You can use 'localhost\\instance' to connect to named instance
+				options: {
+					encrypt: false // Use this if you're on Windows Azure
+				}
 			}
 		}
-		else {
+		else
+		{
 			config = {
-			    user: DB_USERNAME,
-			    password: DB_PASSWORD,
-			    server: DB_SERVER, // You can use 'localhost\\instance' to connect to named instance
-			    options: {
-			        encrypt: false // Use this if you're on Windows Azure
-			    }
+				user: DB_USERNAME,
+				password: DB_PASSWORD,
+				server: DB_SERVER, // You can use 'localhost\\instance' to connect to named instance
+				options: {
+					encrypt: false // Use this if you're on Windows Azure
+				}
 			}
 		}
-
+		
 		this.dbClient = new mssql.Connection(config, function(err) {
 		    if (err) {
-		    	debug("ERROR: couldn't connect to database " + DB_SERVER + ":" + DB_PORT + "\n" + err);
+		    	debug("ERROR: couldn't connect to database " + DB_SERVER + "\n" + err);
 		    	callback(err, undefined);
 		    }	
 		    else {	
-		    	debug("connected to database " + DB_SERVER + ":" + DB_PORT);    
+		    	debug("connected to database " + DB_SERVER);    
 		    	callback(undefined, this.dbClient);
 		    }
 		});
@@ -325,7 +325,7 @@ function sqlSubstitution(statement, valueArray, callback) {
 		}
 
 		else {
-			var errString = "ERROR: incorrect DB_TYPE ("+DB_TYPE+') - only HANA or MYSQL are supported'
+			var errString = "ERROR: incorrect DB_TYPE ("+DB_TYPE+') - only HANA or MYSQL OR SQLSERVER are supported'
 			process.stderr.write(errString);
 			callback(errString, undefined);
 		}
@@ -334,18 +334,11 @@ function sqlSubstitution(statement, valueArray, callback) {
 
 
 
-
-
-
-
 function debug(string) {
 	if (DEBUG==true) {
 		console.log('DEBUG: '+string);
 	}
 }
-
-
-
 
 
 

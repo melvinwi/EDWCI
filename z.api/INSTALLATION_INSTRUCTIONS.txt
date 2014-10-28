@@ -1,0 +1,25 @@
+=================================
+DT-API Deployment Instructions
+=================================
+
+1) Extract DT-API\ to preferred installation directory
+
+2) Replace server.* files in DT-API\certificates\ with a signed certificate
+
+3) Edit DT-API\server.js and replace the passphrase for the certificate
+
+4) Edit DT-API\lib\db_config.json to point to the database (no credidentials required)
+
+5) Edit DT-API\start_server.bat and replace the directory with the installation directory
+
+6) Open an elevated command prompt
+
+7) CD to the DT-API\ directory
+
+8) Run the command:
+nssm install "Data Transformation API Server" "<REPLACE_WITH_INSTALL_DIRECTORY>\DT-API\start_server.bat"
+nssm start "Data Transformation API Server"
+
+9) Navigate to https://localhost:4443/ to confirm deployment
+
+(Run nssm remove "Data Transformation API Server" to uninstall the service)

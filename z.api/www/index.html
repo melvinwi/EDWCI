@@ -1,6 +1,101 @@
 <html ng-app="webapp">
 	<head>
-		<title>Web App</title>
+		<title>Customer Value Rating | Lumo Energy</title>
+		    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<link href="../css/bootstrap.css" rel="stylesheet">
+		<link href="../css/ladda-themeless.min.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+		color: #4D5459;
+      }
+
+      .form-signin {
+        max-width: 350px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #FEEAD1;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(77,84,89,.55);
+           -moz-box-shadow: 0 1px 2px rgba(77,84,89,.55);
+                box-shadow: 0 1px 2px rgba(77,84,89,.55);
+      }
+      .form-signin .form-signin-heading,
+      .form-signin .checkbox {
+        margin-bottom: 10px;
+
+      }
+      .form-signin input[type="text"],
+      .form-signin input[type="password"] {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 7px 9px;
+		
+      }
+	  
+	  .form-signin-heading {
+	  font-size: 22px;
+	  }
+	  
+	  .label-strong {
+		font-weight: bold;
+		white-space: nowrap;
+		display: inline;
+	}
+	
+	.label-result {
+	white-space: nowrap;
+		display: inline;
+		}
+	
+	
+	label {
+	white-space: nowrap;
+	
+	}
+	
+	.p-error {
+	color: red;
+	}
+	
+	#logo {
+	 position: absolute;
+      top: 0;
+
+      left: 0;
+
+      margin-top: 20px;
+	  margin-left: 20px;
+	}
+
+	
+	.btn-inverse {
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #363636;
+  *background-color: #222222;
+  background-image: -moz-linear-gradient(top, #4D5459 #222222);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4D5459), to(#222222));
+  background-image: -webkit-linear-gradient(top, #4D5459, #222222);
+  background-image: -o-linear-gradient(top, #4D5459, #222222);
+  background-image: linear-gradient(to bottom, #4D5459, #222222);
+  background-repeat: repeat-x;
+  border-color: #222222 #222222 #000000;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff444444', endColorstr='#ff222222', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+	
+    </style>
+    <link href="../css/bootstrap-responsive.css" rel="stylesheet">
+
 		<script src="/js/angular.min.js"></script>
 		<script src="/js/angular-route.min.js"></script>
 		<script src="/js/angular-resource.min.js"></script>
@@ -9,39 +104,69 @@
 		<script>
 			angular.module('app', ['ngRoute']);
 		</script>
+		
 	</head>	
 
 	<body> 
+	<div class="container">
 		<div ng-controller="AppController">
 		
 			<div ng-show="showLoginController">
-				<h3>Login</h3>
-				<form name="login">
-					<p>{{status}}</p>
+				
+				<form name="login" class="form-signin">
+				<h2 class="form-signin-heading">Login</h2>
+					<p class="p-error">{{status}}</p>
 					<label>Username: </label><input type="text" ng-model="login.username" required>
 					<br>
 					<label>Password: </label><input type="password" ng-model="login.password" required>
 					<br>
-					<button ng-click="loginUser(login)">Login</button>
+					<button class="btn btn-inverse" ng-click="loginUser(login)">Login</button>
 				</form>
 			</div>
 
 
-			<div ng-show="showAccountController">
-				<h3>Customer Rating</h3>
-				<form name="account">
+			<div ng-show="showAccountController" class="accountController">
+				<form name="account" class="form-signin">
+					<h2 class="form-signin-heading">Customer Rating</h2>
 					<p>{{customerRatingStatus}}</p>
-					<label>Account Id: </label><input type="text" ng-model="account.id" required>
+					<label>Customer Code: </label><input type="text" ng-model="account.id" required>
 					<br>
-					<button ng-click="getCustomerRating(account)">Get Status</button>
+					<button class="btn btn-inverse ladda-button" data-style="expand-left" ng-click="getCustomerRating(account)"><span class="ladda-label">Get Rating</span></button>
 				</form>
 				<p/>
-				<label>Customer Name:&nbsp; </label><label>{{customerName}}</label><br/>
-				<label>Customer Rating:  </label><label>{{customerRating}}</label>
+				<div class="form-signin">
+				<label class="label-strong">Customer Code: </label><label class="label-result">{{customerCode}}</label><br/><br/>
+				<label class="label-strong">Customer Name: </label><label class="label-result">{{customerName}}</label><br/><br/>
+				<label class="label-strong">Customer State: </label><label class="label-result">{{customerState}}</label><br/><br/>
+				<label class="label-strong">Customer Rating:  </label><label class="label-result">{{customerRating}}</label><br/><br/>
+				<label class="label-strong">Maximum Electricity Offer:  </label><label class="label-result">{{maxElecOffer}}</label><br/><br/>
+				<label class="label-strong">Maximum Gas Offer:  </label><label class="label-result">{{maxGasOffer}}</label><br/><br/>
+				<label class="label-strong">Potential Inducement:  </label><label class="label-result">{{potentialInducement}}</label>
+				</div>
 			</div>
 
 		</div>	
 
+</div>
+<img src="../img/logo.png" alt="Lumo Energy" id="logo" width="120px" height="120px" />
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap-transition.js"></script>
+    <script src="../js/bootstrap-alert.js"></script>
+    <script src="../js/bootstrap-modal.js"></script>
+    <script src="../js/bootstrap-dropdown.js"></script>
+    <script src="../js/bootstrap-scrollspy.js"></script>
+    <script src="../js/bootstrap-tab.js"></script>
+    <script src="../js/bootstrap-tooltip.js"></script>
+    <script src="../js/bootstrap-popover.js"></script>
+    <script src="../js/bootstrap-button.js"></script>
+    <script src="../js/bootstrap-collapse.js"></script>
+    <script src="../js/bootstrap-carousel.js"></script>
+    <script src="../js/bootstrap-typeahead.js"></script>
+	<script src="../js/spin.min.js"></script>
+	<script src="../js/ladda.min.js"></script>
+	<script>
+		Ladda.bind('.accountController button', {timeout: 500 } );
+	</script>
 
 	</body>
 </html>
