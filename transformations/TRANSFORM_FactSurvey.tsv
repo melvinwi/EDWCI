@@ -1,0 +1,14 @@
+# design artefact						
+# ARTEFACT: TRANSFORM_FactSurvey						
+# DESCRIPTION: Promote Responses from CSV tables to DataStore 						
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION		
+WITH_STATEMENTS	"WITH _CX_Monitor AS ( SELECT     CX_Monitor.QuestionDescription      ,CX_Monitor.QuestionKey     ,CASE WHEN(CASE WHEN (CHARINDEX('#', CX_Monitor.QuestionKey)) = (LEN(CX_Monitor.QuestionKey)) THEN 1 ELSE 0 END) = 0        THEN REPLACE(SUBSTRING(CX_Monitor.QuestionKey, CHARINDEX(',', CX_Monitor.QuestionKey), LEN(CX_Monitor.QuestionKey)), ',', '')        ELSE CX_Monitor.QuestionKey END AS QuestionId     ,CX_Monitor.RespondentId      ,CX_Monitor.Data      ,CX_Monitor.Meta_Insert_TaskExecutionInstanceId      ,CX_Monitor.Meta_LatestUpdate_TaskExecutionInstanceId     ,SUBSTRING(CX_Monitor.QuestionDescription,CHARINDEX(' ',CX_Monitor.QuestionDescription)+1,LEN(CX_Monitor.QuestionDescription)) AS QuestionRef       FROM [Schema].CX_Monitor       WHERE 1=1     AND  CHARINDEX('Q',CX_Monitor.QuestionDescription) > 0      AND  CHARINDEX('x.',CX_Monitor.QuestionDescription) = 0  ) , _CX_Monitor_Cust AS ( SELECT     CX_Monitor.QuestionDescription      ,CX_Monitor.QuestionKey      ,CX_Monitor.RespondentId      ,CX_Monitor.Data      ,CX_Monitor.Meta_Insert_TaskExecutionInstanceId      ,CX_Monitor.Meta_LatestUpdate_TaskExecutionInstanceId      FROM [Schema].CX_Monitor       WHERE 1=1     AND  CX_Monitor.QuestionKey = 'PARTY' )"			Price plan temporary table price plans of each contract and product name temporary table provides the name of the product for each contract		
+	_CX_Monitor_Cust.Data		FactSurvey.CustomerId	One to one mapping		
+	_CX_Monitor.QuestionRef		FactSurvey.QuestionId	One to one mapping		
+"CONVERT(DATETIME,CONVERT(CHAR,"	GETDATE()	",103),103)"	FactSurvey.ResponseDateId	One to one mapping		
+	_CX_MonitorCodes.Label		FactSurvey.Response	One to one mapping		
+	_CX_Monitor.RespondentId		FactSurvey.RespondentKey	One to one mapping		
+CAST((REPLACE(SUBSTRING(	_CX_Monitor.QuestionKey	", CHARINDEX(',', _CX_Monitor.QuestionKey), LEN(_CX_Monitor.QuestionKey)), '#', ''))AS VARCHAR(MAX))
+  + '' + CAST((REPLACE(SUBSTRING(_CX_Monitor.QuestionKey, CHARINDEX('#', _CX_Monitor.QuestionKey), LEN(_CX_Monitor.QuestionKey)), '#', ''))AS VARCHAR(MAX))
+  + '' + CAST(_CX_Monitor.RespondentId AS VARCHAR(MAX))"	FactSurvey.ResponseKey	One to one mapping		
+SELECTION_CRITERIA	FROM [Schema].CX_MonitorCodes  _CX_MonitorCodes LEFT JOIN _CX_Monitor ON _CX_MonitorCodes.QuestionKey = _CX_Monitor.QuestionId   AND _CX_MonitorCodes.Value = _CX_Monitor.Data  LEFT JOIN _CX_Monitor_Cust ON _CX_Monitor.RespondentId = _CX_Monitor_Cust.RespondentId  WHERE 1=1  AND _CX_Monitor.QuestionId IS NOT NULL					

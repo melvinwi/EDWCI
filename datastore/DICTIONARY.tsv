@@ -142,3 +142,8 @@ ActivityCommunicationMethod	any	ActivityCommunicationMethod	NA
 NEMInitialTransactionKey	any	NEMInitialTransactionKey	NA
 ACN	any	ActivityTypeKey		NA
 ABN	any	ActivityTypeKey		NA
+Question	any	Question		NA
+ResponseDateId		any	ResponseDateId		NA
+Response	any	Response		NA
+RespondentKey		any	RespondentKey		NA
+ResponseKey		any	ResponseKey		NA

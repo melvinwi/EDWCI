@@ -1,0 +1,10 @@
+# design artefact							
+# ARTEFACT: FactSurvey							
+# DESCRIPTION: Survey transactional fact table							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+CustomerId	Foreign key to DimCustomer	int		-1	TRUE		FALSE
+QuestionId	Foreign key to DimQuestion	int		-1	TRUE		FALSE
+ResponseDateId	Response Date	int		99991231	TRUE		FALSE
+Response	Response	nvarchar	255		FALSE		FALSE
+RespondentKey	Respondent Key	int			FALSE		FALSE
+ResponseKey	Respond Key	int			FALSE		FALSE
