@@ -129,9 +129,12 @@ Characteristics:
 􏰀
 * Fact tables are implemented using SQL Server Tables.
 
+
 Tables contain the following metadata columns to support auditing:
-􏰀	* Meta_Insert_TaskExecutionInstanceId
-􏰀 	* Meta_LatestUpdate_TaskExecutionInstanceId
+􏰀
+	* Meta_Insert_TaskExecutionInstanceId
+􏰀
+ 	* Meta_LatestUpdate_TaskExecutionInstanceId
 
 
 **COMPONENT: Dimension Tables**
@@ -147,11 +150,16 @@ Characteristics:
 * Dimension tables are implemented using SQL Server Tables.
 
 Tables contain the following metadata columns to support the requirements of Access Views, audit and a future Archiving component:
+
 􏰀	* Meta_IsCurrent
-􏰀	* Meta_EffectiveStartDate
-􏰀	* Meta_EffectiveEndDate
-􏰀	* Meta_Insert_TaskExecutionInstanceId
-􏰀	* Meta_LatestUpdate_TaskExecutionInstanceId
+􏰀
+	* Meta_EffectiveStartDate
+􏰀
+	* Meta_EffectiveEndDate
+􏰀
+	* Meta_Insert_TaskExecutionInstanceId
+􏰀
+	* Meta_LatestUpdate_TaskExecutionInstanceId
 
 
 ### LAYER: Access
