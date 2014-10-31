@@ -2,6 +2,6 @@
 # ARTEFACT: TRANSFORM_DimQuestion				
 # DESCRIPTION: Promote DimQuestion from CSV tables to DataStore				
 SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
-SUBSTRING(	_CX_Monitor.QuestionDescription	",CHARINDEX(' ',_CX_Monitor.QuestionDescription)+1,LEN(_CX_Monitor.QuestionDescription))"	DimQuestion.QuestionKey	One to one mapping
+DISTINCT SUBSTRING(	_CX_Monitor.QuestionDescription	",CHARINDEX(' ',_CX_Monitor.QuestionDescription)+1,LEN(_CX_Monitor.QuestionDescription))"	DimQuestion.QuestionKey	One to one mapping
 SUBSTRING(	_CX_Monitor.QuestionDescription	",CHARINDEX(' ',_CX_Monitor.QuestionDescription)+1,LEN(_CX_Monitor.QuestionDescription))"	DimQuestion.Question	One to one mapping
 SELECTION_CRITERIA	"FROM [schema].CX_Monitor AS _CX_Monitor WHERE CHARINDEX('Q',_CX_Monitor.QuestionDescription) > 0 AND CHARINDEX('x.',_CX_Monitor.QuestionDescription) = 0 AND _CX_Monitor.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID"			
