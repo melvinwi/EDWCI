@@ -7,4 +7,4 @@ QuestionId	Foreign key to DimQuestion	int		-1	TRUE		FALSE
 ResponseDateId	Response Date	int		99991231	TRUE		FALSE
 Response	Response	nvarchar	255		FALSE		FALSE
 RespondentKey	Respondent Key	int			FALSE		FALSE
-ResponseKey	Respond Key	int			FALSE		FALSE
+ResponseKey	Respond Key	nvarchar	255		FALSE		FALSE

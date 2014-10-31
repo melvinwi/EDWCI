@@ -2,5 +2,5 @@
 # ARTEFACT: DimQuestion							
 # DESCRIPTION: Question dimension table							
 COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
-QuestionKey	Customer Number used in the transaction system (Party ID)	int			TRUE		FALSE
+QuestionKey	QuestionKey	nvarchar	255		FALSE		FALSE
 Question	Question	nvarchar	255		FALSE		FALSE
