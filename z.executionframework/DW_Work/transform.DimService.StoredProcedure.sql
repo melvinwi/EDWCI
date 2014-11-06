@@ -27,7 +27,7 @@ BEGIN
                         WHEN NULLIF(utl_meter.next_sched_read_date,'9999-12-31') < GETDATE () THEN NULL
                             ELSE NULLIF(utl_meter.next_sched_read_date,'9999-12-31')
                         END) AS NextScheduledReadDate,
-                   MAX (CASE
+                   SUM (CASE
                         WHEN utl_meter.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID THEN 1
                             ELSE 0
                         END) AS Meta_HasChanged
@@ -39,21 +39,20 @@ BEGIN
                         WHEN NULLIF(utl_meter_header.next_sched_read_date,'9999-12-31') < GETDATE () THEN NULL
                             ELSE NULLIF(utl_meter_header.next_sched_read_date,'9999-12-31')
                         END) AS NextScheduledReadDate,
-                   MAX (CASE
+                   SUM (CASE
                         WHEN utl_meter_header.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID THEN 1
                             ELSE 0
                         END) AS Meta_HasChanged
               FROM DW_Staging.orion.utl_meter_header
               GROUP BY utl_meter_header.site_id) ,
-		    siteFRMPStartDate
+		    siteFRMPDate
 		    AS (SELECT utl_account_frmp_history.site_id,
-       MAX (utl_account_frmp_history.frmp_date) AS FRMPDate,
-       MAX (CASE
+       MIN (utl_account_frmp_history.frmp_date) AS FRMPDate,
+       SUM (CASE
             WHEN utl_account_frmp_history.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID THEN 1
                 ELSE 0
             END) AS Meta_HasChanged
   FROM DW_Staging.orion.utl_account_frmp_history
-  WHERE utl_account_frmp_history.move_in = 'Y'
   GROUP BY utl_account_frmp_history.site_id)
         INSERT INTO temp.DimService (
         DimService.ServiceKey,
@@ -91,7 +90,7 @@ BEGIN
         WHEN '3' THEN _meterDailyConsumptionAndReadDate.NextScheduledReadDate
             ELSE NULL
         END,
-	   _siteFRMPStartDate.FRMPDate
+	   _siteFRMPDate.FRMPDate
           FROM
                DW_Staging.orion.utl_site LEFT JOIN DW_Staging.orion.utl_distrib_loss_factor_sched
                ON utl_distrib_loss_factor_sched.dlf_id = utl_site.dlf_id
@@ -99,15 +98,15 @@ BEGIN
                ON _meterDailyConsumptionAndReadDate.site_id = utl_site.site_id
                                          LEFT JOIN meterHeaderNextScheduledReadDate AS _meterHeaderNextScheduledReadDate
                ON _meterHeaderNextScheduledReadDate.site_id = utl_site.site_id
-			                          LEFT JOIN siteFRMPStartDate AS _siteFRMPStartDate
-               ON _siteFRMPStartDate.site_id = utl_site.site_id
+			                          LEFT JOIN siteFRMPDate AS _siteFRMPDate
+               ON _siteFRMPDate.site_id = utl_site.site_id
           WHERE ISNULL (utl_distrib_loss_factor_sched.start_date, '1900-01-01') < GETDATE () 
             AND ISNULL (utl_distrib_loss_factor_sched.end_date, '9999-12-31') > GETDATE () 
             AND (utl_site.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
               OR utl_distrib_loss_factor_sched.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
-              OR _meterDailyConsumptionAndReadDate.Meta_HasChanged = 1
-              OR _meterHeaderNextScheduledReadDate.Meta_HasChanged = 1
-		    OR _siteFRMPStartDate.Meta_HasChanged = 1);
+              OR _meterDailyConsumptionAndReadDate.Meta_HasChanged > 0
+              OR _meterHeaderNextScheduledReadDate.Meta_HasChanged > 0
+		    OR _siteFRMPDate.Meta_HasChanged > 0);
 
     SELECT 0 AS ExtractRowCount,
            @@ROWCOUNT AS InsertRowCount,

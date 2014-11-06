@@ -25,15 +25,14 @@ CREATE TABLE [orion].[crm_element_hierarchy](
 	[end_date1] [datetime] NULL,
 	[department_head] [varchar](1) NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NULL,
-	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NULL,
- CONSTRAINT [UC_crm_element_hierarchy] UNIQUE NONCLUSTERED 
-(
-	[element_id] ASC,
-	[parent_id] ASC,
-	[start_date1] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
-) ON [data]
+	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NULL
+) ON [PRIMARY]
 
 GO
 SET ANSI_PADDING OFF
+GO
+CREATE NONCLUSTERED INDEX [IX_orion_crm_element_hierarchy_Meta_LatestUpdateId] ON [orion].[crm_element_hierarchy]
+(
+	[Meta_LatestUpdate_TaskExecutionInstanceId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
 GO

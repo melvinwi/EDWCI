@@ -7,74 +7,68 @@ GO
 
 
 
-
-
 CREATE VIEW [Views].[vTransaction]
 AS
+WITH CustomerType
+AS (SELECT DimCustomer.CustomerKey, DimCustomer.CustomerType FROM DW_Dimensional.DW.DimCustomer WHERE DimCustomer.Meta_IsCurrent = 1)
 SELECT -- DimAccount
-       DimAccountCurrent.AccountCode,
-       DimAccountCurrent.PostalAddressLine1,
-       DimAccountCurrent.PostalSuburb,
-       DimAccountCurrent.PostalPostcode,
-       DimAccountCurrent.PostalState,
-       DimAccountCurrent.PostalStateAsProvided,
-       DimAccountCurrent.MyAccountStatus,
-       DimAccountCurrent.AccountCreationDate,
-       DimAccountCurrent.AccountStatus,
-       DimAccountCurrent.AccountClosedDate,
-       DimAccountCurrent.CreditControlStatus,
-       DimAccountCurrent.InvoiceDeliveryMethod,
-       DimAccountCurrent.PaymentMethod,
-       DimAccountCurrent.CreditControlCategory,
-       DimAccountCurrent.ACN,
-       DimAccountCurrent.ABN,
-       DimAccountCurrent.AccountType,
-	  -- DimService
-	  DimServiceCurrent.MarketIdentifier,
-       DimServiceCurrent.ServiceType,
-       DimServiceCurrent.LossFactor,
-       DimServiceCurrent.EstimatedDailyConsumption,
-       DimServiceCurrent.MeteringType,
-       DimServiceCurrent.ResidentialSuburb,
-       DimServiceCurrent.ResidentialPostcode,
-       DimServiceCurrent.ResidentialState,
-       DimServiceCurrent.NextScheduledReadDate,
-       DimServiceCurrent.FRMPDate,
-	  -- DimProduct
-	  DimProductCurrent.ProductName,
-       DimProductCurrent.ProductDesc,
-       DimProductCurrent.ProductType,
-	  -- DimFinancialAccount
-	  DimFinancialAccountCurrent.FinancialAccountName,
-       DimFinancialAccountCurrent.FinancialAccountType,
-       DimFinancialAccountCurrent.Level1Name,
-       DimFinancialAccountCurrent.Level2Name,
-       DimFinancialAccountCurrent.Level3Name,
-	  -- DimVersion
-	  DimVersionCurrent.VersionName,
-	  -- DimUnitType
-	  DimUnitTypeCurrent.UnitTypeName,
-       DimUnitTypeCurrent.MultiplicationFactorToBase,
+       DimAccount.AccountCode,
+       ISNULL(NULLIF(DimAccount.PostalAddressLine1,''),'{Unknown}') AS PostalAddressLine1,
+       ISNULL(NULLIF(DimAccount.PostalSuburb,''),'{Unknown}') AS PostalSuburb,
+       ISNULL(NULLIF(DimAccount.PostalPostcode,''),'{Un}') AS PostalPostcode,
+       ISNULL(NULLIF(DimAccount.PostalState,''),'{U}') AS PostalState,
+       ISNULL(NULLIF(DimAccount.PostalStateAsProvided,''),'{U}') AS PostalStateAsProvided,
+       ISNULL(NULLIF(DimAccount.AccountStatus,''),'{Unkn}') AS AccountStatus,
+       DimAccount.AccountCreationDate,
+       DimAccount.AccountClosedDate,
+       ISNULL(NULLIF(DimAccount.CreditControlStatus,''),'{Unknown}') AS CreditControlStatus,
+       ISNULL(NULLIF(DimAccount.CreditControlCategory,''),'{Unknown}') AS CreditControlCategory,
+       ISNULL(NULLIF(DimAccount.InvoiceDeliveryMethod,''),'{Unknown}') AS InvoiceDeliveryMethod,
+       ISNULL(NULLIF(DimAccount.PaymentMethod,''),'{Unknown}') AS PaymentMethod,
+       ISNULL(NULLIF(DimAccount.MyAccountStatus,''),'{Unknown}') AS MyAccountStatus,
+       -- DimService
+       ISNULL(NULLIF(DimService.MarketIdentifier,''),'{Unknown}') AS MarketIdentifier,
+       ISNULL(NULLIF(DimService.ServiceType,''),'{Unknown}') AS ServiceType,
+	  DimService.LossFactor,
+	  DimService.EstimatedDailyConsumption,
+	  ISNULL(NULLIF(DimService.MeteringType,''),'{Unk}') AS MeteringType,
+	  ISNULL(NULLIF(DimService.ResidentialSuburb,''),'{Unknown}') AS ServiceResidentialSuburb,
+	  ISNULL(NULLIF(DimService.ResidentialPostcode,''),'{U}') AS ServiceResidentialPostcode,
+	  ISNULL(NULLIF(DimService.ResidentialState,''),'{U}') AS ServiceResidentialState,
+       -- DimProduct
+       ISNULL(NULLIF(DimProduct.ProductName,''),'{Unknown}') AS ProductName,
+       ISNULL(NULLIF(DimProduct.ProductDesc,''),'{Unknown}') AS ProductDesc,
+       ISNULL(NULLIF(DimProduct.ProductType,''),'{Unk}') AS ProductType,
+       -- DimFinancialAccount
+       ISNULL(NULLIF(DimFinancialAccount.FinancialAccountName,''),'{Unknown}') AS FinancialAccountName,
+       ISNULL(NULLIF(DimFinancialAccount.FinancialAccountType,''),'{Unknown}') AS FinancialAccountType,
+       ISNULL(NULLIF(DimFinancialAccount.Level1Name,''),'{Unknown}') AS Level1Name,
+       ISNULL(NULLIF(DimFinancialAccount.Level2Name,''),'{Unknown}') AS Level2Name,
+       ISNULL(NULLIF(DimFinancialAccount.Level3Name,''),'{Unknown}') AS Level3Name,
+       CONVERT(DATE, CAST(FactTransaction.TransactionDateId AS NCHAR(8)), 112) AS TransactionDate,
+       -- DimVersion
+       ISNULL(NULLIF(DimVersion.VersionName,''),'{Unknown}') AS VersionName,
+       -- DimUnitType
+       ISNULL(NULLIF(DimUnitType.UnitTypeName,''),'{Unknown}') AS UnitTypeName,
+       DimUnitType.MultiplicationFactorToBase,
+	  -- CustomerType
+	  ISNULL(NULLIF(CustomerType.CustomerType,''),'{Unknown}') AS CustomerType,
 	  --FactTransaction
-	  CONVERT(DATE, CAST(FactTransaction.TransactionDateId AS NCHAR(8)), 112) AS TransactionDate,
-	  FactTransaction.Units,
+       FactTransaction.Units,
        FactTransaction.Value,
        FactTransaction.Currency,
        FactTransaction.Tax,
-       FactTransaction.TransactionType,
-	  FactTransaction.TransactionDesc	  
+       ISNULL(NULLIF(FactTransaction.TransactionDesc,''),'{Unknown}') AS TransactionDesc
 FROM   DW_Dimensional.DW.FactTransaction
-LEFT   JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactTransaction.AccountId
-LEFT   JOIN DW_Dimensional.DW.DimAccount AS DimAccountCurrent ON DimAccountCurrent.AccountKey = DimAccount.AccountKey AND DimAccountCurrent.Meta_IsCurrent = 1
-LEFT   JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactTransaction.ServiceId
-LEFT   JOIN DW_Dimensional.DW.DimService AS DimServiceCurrent ON DimServiceCurrent.ServiceKey = DimService.ServiceKey AND DimServiceCurrent.Meta_IsCurrent = 1
-LEFT   JOIN DW_Dimensional.DW.DimProduct ON DimProduct.ProductId = FactTransaction.ProductId
-LEFT   JOIN DW_Dimensional.DW.DimProduct AS DimProductCurrent ON DimProductCurrent.ProductKey = DimProduct.ProductKey AND DimProductCurrent.Meta_IsCurrent = 1
-LEFT   JOIN DW_Dimensional.DW.DimFinancialAccount ON DimFinancialAccount.FinancialAccountId = FactTransaction.FinancialAccountId
-LEFT   JOIN DW_Dimensional.DW.DimFinancialAccount AS DimFinancialAccountCurrent ON DimFinancialAccountCurrent.FinancialAccountKey = DimFinancialAccount.FinancialAccountKey AND DimFinancialAccountCurrent.Meta_IsCurrent = 1
-LEFT   JOIN DW_Dimensional.DW.DimVersion AS DimVersionCurrent ON DimVersionCurrent.VersionId = FactTransaction.VersionId
-LEFT   JOIN DW_Dimensional.DW.DimUnitType ON DimUnitType.UnitTypeId = FactTransaction.UnitTypeId
-LEFT   JOIN DW_Dimensional.DW.DimUnitType AS DimUnitTypeCurrent ON DimUnitTypeCurrent.UnitTypeKey = DimUnitType.UnitTypeKey AND DimUnitTypeCurrent.Meta_IsCurrent = 1
+INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactTransaction.AccountId
+INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactTransaction.ServiceId
+INNER  JOIN DW_Dimensional.DW.DimProduct ON DimProduct.ProductId = FactTransaction.ProductId
+INNER  JOIN DW_Dimensional.DW.DimFinancialAccount ON DimFinancialAccount.FinancialAccountId = FactTransaction.FinancialAccountId
+INNER  JOIN DW_Dimensional.DW.DimVersion ON DimVersion.VersionId = FactTransaction.VersionId
+INNER  JOIN DW_Dimensional.DW.DimUnitType ON DimUnitType.UnitTypeId = FactTransaction.UnitTypeId
+LEFT   JOIN CustomerType ON CustomerType.CustomerKey = DimAccount.AccountKey
+
+
 
 
 GO

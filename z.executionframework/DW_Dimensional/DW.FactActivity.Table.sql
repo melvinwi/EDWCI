@@ -13,12 +13,10 @@ CREATE TABLE [DW].[FactActivity](
 	[ActivityTime] [time](7) NULL,
 	[ActivityCommunicationMethod] [nvarchar](30) NULL,
 	[ActivityCategory] [nvarchar](20) NULL,
-	[ActivityNotes] [nvarchar](4000) NULL,
+	[ActivityNotes] [nvarchar](max) NULL,
 	[ActivityKey] [int] NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
 	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NULL
-) ON [data]
+) ON [data] TEXTIMAGE_ON [data]
 
-GO
-CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactActivity] ON [DW].[FactActivity] WITH (DROP_EXISTING = OFF) ON [data]
 GO

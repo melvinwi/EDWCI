@@ -4,9 +4,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
-
-
 CREATE VIEW [Views].[vCustomer]
 AS 
 WITH   factActivity
@@ -49,13 +46,9 @@ SELECT CustomerCode,
        CreationDate,
        JoinDate,
        ISNULL(NULLIF(PrivacyPreferredStatus, ''),'{Unknown}') AS PrivacyPreferredStatus,
-	  ISNULL(NULLIF(InferredGender, ''),'{Unk}') AS InferredGender,
        -- factActivity
        ISNULL(factActivity.ActivityNotes, '{Unknown}') AS LatestActivityNotes
 FROM   DW_Dimensional.DW.DimCustomer
 LEFT   JOIN factActivity ON factActivity.CustomerKey = DimCustomer.CustomerKey AND factActivity.recency = 1
 WHERE  Meta_IsCurrent = 1;
-
-
-
 GO

@@ -13,8 +13,8 @@ CREATE TABLE [temp].[FactActivity](
 	[ActivityTime] [time](7) NULL,
 	[ActivityCommunicationMethod] [nvarchar](30) NULL,
 	[ActivityCategory] [nvarchar](20) NULL,
-	[ActivityNotes] [nvarchar](4000) NULL,
+	[ActivityNotes] [nvarchar](max) NULL,
 	[ActivityKey] [int] NULL
-) ON [data]
+) ON [data] TEXTIMAGE_ON [data]
 
 GO

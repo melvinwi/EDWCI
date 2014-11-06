@@ -7,7 +7,6 @@ GO
 
 
 
-
 CREATE VIEW [Views].[vServiceHistorical]
 AS SELECT        ISNULL(NULLIF(MarketIdentifier,''),'{Unknown}') AS MarketIdentifier,
                  ISNULL(NULLIF(ServiceType,''),'{Unknown}') AS ServiceType,
@@ -17,7 +16,6 @@ AS SELECT        ISNULL(NULLIF(MarketIdentifier,''),'{Unknown}') AS MarketIdenti
 			  ISNULL(NULLIF(ResidentialSuburb,''),'{Unknown}') AS ResidentialSuburb,
 			  ISNULL(NULLIF(ResidentialPostcode,''),'{U}') AS ResidentialPostcode,
 			  ISNULL(NULLIF(ResidentialState,''),'{U}') AS ResidentialState,
-			  NextScheduledReadDate,
 			  FRMPDate,
 			  Meta_IsCurrent,
 			  Meta_EffectiveStartDate,
@@ -25,7 +23,6 @@ AS SELECT        ISNULL(NULLIF(MarketIdentifier,''),'{Unknown}') AS MarketIdenti
      FROM DW_Dimensional.DW.DimService
 	WHERE ServiceId > 0;
 	
-
 
 
 

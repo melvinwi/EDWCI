@@ -4,7 +4,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE PROCEDURE [transform].[DimAccount]
 @TaskExecutionInstanceID int
 ,
@@ -67,8 +66,7 @@ BEGIN
         DimAccount.PaymentMethod,
         DimAccount.MyAccountStatus,
         DimAccount.ACN,
-        DimAccount.ABN,
-	   DimAccount.AccountType) 
+        DimAccount.ABN) 
         SELECT
         CAST ( nc_client.seq_party_id AS int) ,
         CASE
@@ -109,23 +107,11 @@ BEGIN
               WHEN 'Y' THEN 'Registered'
                   ELSE 'Not Registered'
               END AS nvarchar (14)) ,
-	   CASE WHEN crm_element_hierarchy.seq_element_type_id = '8' THEN 
-		  CAST (NULLIF ( nc_client.user_defined_1 , '') AS nvarchar (100))
-	   ELSE NULL END,
-        CASE WHEN crm_element_hierarchy.seq_element_type_id = '8' THEN 
-		  CAST (NULLIF ( nc_client.user_defined_2 , '') AS nvarchar (100))
-	   ELSE NULL END,
-	   CAST (CASE crm_element_hierarchy.seq_element_type_id
-              WHEN '9' THEN 'Residential'
-              WHEN '8' THEN 'Business'
-                  ELSE NULL
-              END AS nchar (11)) 
+        CAST (NULLIF ( nc_client.user_defined_1 , '') AS nvarchar (100)) ,
+        CAST (NULLIF ( nc_client.user_defined_2 , '') AS nvarchar (100)) 
           FROM
                DW_Staging.orion.nc_client INNER JOIN DW_Staging.orion.crm_party
                ON nc_client.seq_party_id = crm_party.seq_party_id
-					   INNER JOIN DW_Staging.orion.crm_element_hierarchy
-               ON crm_element_hierarchy.element_id = nc_client.seq_party_id
-			AND crm_element_hierarchy.seq_element_type_id IN (8,9)
                               INNER JOIN accountStatus AS _accountStatus
                ON _accountStatus.seq_party_id = nc_client.seq_party_id
                               LEFT JOIN DW_Staging.orion.nc_credit_control_status
@@ -145,5 +131,4 @@ BEGIN
            0 AS ErrorRowCount;
 
 END;
-
 GO

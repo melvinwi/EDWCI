@@ -8,7 +8,7 @@ CREATE TABLE [DW].[DimCustomer](
 	[CustomerId] [int] IDENTITY(1,1) NOT NULL,
 	[CustomerKey] [int] NULL DEFAULT (NULL),
 	[CustomerCode] [int] NULL DEFAULT (NULL),
-	[Title] [nchar](4) NULL DEFAULT (NULL),
+	[Title] [nchar](3) NULL DEFAULT (NULL),
 	[FirstName] [nvarchar](100) NULL DEFAULT (NULL),
 	[MiddleInitial] [nchar](10) NULL DEFAULT (NULL),
 	[LastName] [nvarchar](100) NULL DEFAULT (NULL),
@@ -41,7 +41,6 @@ CREATE TABLE [DW].[DimCustomer](
 	[Meta_EffectiveEndDate] [datetime2](0) NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
 	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NULL,
-	[InferredGender] [nchar](6) NULL,
  CONSTRAINT [PK_DW.DimCustomer] PRIMARY KEY CLUSTERED 
 (
 	[CustomerId] ASC
@@ -72,32 +71,6 @@ GO
 SET ANSI_PADDING ON
 
 GO
-CREATE NONCLUSTERED INDEX [_dta_index_DimCustomer_9_902294274__K32_K17_K7_K1] ON [DW].[DimCustomer]
-(
-	[Meta_IsCurrent] ASC,
-	[ResidentialState] ASC,
-	[LastName] ASC,
-	[CustomerId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
-GO
-SET ANSI_PADDING ON
-
-GO
-CREATE NONCLUSTERED INDEX [_dta_index_DimCustomer_9_902294274__K32_K17_K7_K1_15_25_26_37] ON [DW].[DimCustomer]
-(
-	[Meta_IsCurrent] ASC,
-	[ResidentialState] ASC,
-	[LastName] ASC,
-	[CustomerId] ASC
-)
-INCLUDE ( 	[ResidentialSuburb],
-	[DateOfBirth],
-	[CustomerType],
-	[InferredGender]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
-GO
-SET ANSI_PADDING ON
-
-GO
 CREATE NONCLUSTERED INDEX [_dta_index_DimCustomer_9_902294274__K32_K2_K1_K3_8_17] ON [DW].[DimCustomer]
 (
 	[Meta_IsCurrent] ASC,
@@ -107,13 +80,4 @@ CREATE NONCLUSTERED INDEX [_dta_index_DimCustomer_9_902294274__K32_K2_K1_K3_8_17
 )
 INCLUDE ( 	[PartyName],
 	[ResidentialState]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
-GO
-SET ANSI_PADDING ON
-
-GO
-CREATE NONCLUSTERED INDEX [_dta_index_DimCustomer_9_902294274__K4_1] ON [DW].[DimCustomer]
-(
-	[Title] ASC
-)
-INCLUDE ( 	[CustomerId]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
 GO

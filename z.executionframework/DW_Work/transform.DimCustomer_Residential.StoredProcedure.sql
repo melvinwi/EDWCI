@@ -4,7 +4,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE PROCEDURE [transform].[DimCustomer_Residential]
 @TaskExecutionInstanceID int
 ,
@@ -92,14 +91,13 @@ BEGIN
         DimCustomer.OmbudsmanComplaints,
         DimCustomer.CreationDate,
         DimCustomer.JoinDate,
-        DimCustomer.PrivacyPreferredStatus,
-	   DimCustomer.InferredGender) 
+        DimCustomer.PrivacyPreferredStatus) 
         SELECT
         CAST ( nc_client.seq_party_id AS int) ,
         CASE
         WHEN ISNUMERIC (crm_party.party_code) = 1 THEN CAST ( crm_party.party_code AS int) 
         END,
-        CAST ( crm_party.title AS nchar (4)) ,
+        CAST ( crm_party.title AS nchar (3)) ,
         CAST ( crm_party.first_name AS nvarchar (100)) ,
         CAST ( crm_party.initials AS nchar (10)) ,
         CAST ( crm_party.last_name AS nvarchar (100)) ,
@@ -146,11 +144,11 @@ BEGIN
               END AS nchar (11)) ,
         CAST (CASE _customerStatus.CustomerStatus
               WHEN 1 THEN 'Active'
-                  ELSE    'Inactive'
+                  ELSE 'Inactive'
               END AS nchar (8)) ,
         CAST (CASE _ombudsmanComplaints.IsOmbudsman
               WHEN 1 THEN 'Yes'
-                  ELSE    'No'
+                  ELSE 'No'
               END AS nchar (3)) ,
         crm_party.insert_datetime,
         CASE
@@ -163,15 +161,7 @@ BEGIN
         WHEN 'Y' THEN 'Preferred contact by mail'
         WHEN 'N' THEN 'Privacy: Do Not Contact'
             ELSE NULL
-        END,
-	   CASE crm_party.title
-		  WHEN 'Mr'   THEN 'Male'
-		  WHEN 'Mrs'  THEN 'Female'
-		  WHEN 'Ms'   THEN 'Female'
-		  WHEN 'Miss' THEN 'Female'
-		  WHEN 'Mss'  THEN 'Female'
-		  ELSE _Gender.Gender
-	   END
+        END
           FROM
                DW_Staging.orion.nc_client INNER JOIN DW_Staging.orion.crm_party
                ON nc_client.seq_party_id = crm_party.seq_party_id
@@ -183,8 +173,6 @@ BEGIN
                ON _ombudsmanComplaints.ClientId = crm_party.party_code
                                           LEFT OUTER JOIN joinDate AS _joinDate
                ON _joinDate.seq_party_id = nc_client.seq_party_id
-								    LEFT OUTER JOIN lookup.Gender AS _Gender
-			 ON _Gender.FirstName = LTRIM(RTRIM(crm_party.first_name))
           WHERE crm_element_hierarchy.seq_element_type_id = '9'
             AND (crm_party.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
               OR nc_client.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
@@ -200,6 +188,5 @@ BEGIN
            0 AS ErrorRowCount;
 
 END;
-
 
 GO

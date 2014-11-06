@@ -5,7 +5,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-
 CREATE  VIEW [Views].[vAccount]
 AS
 WITH   factContract
@@ -145,7 +144,6 @@ SELECT -- DimAccount
        END AS ActiveTenureInDays,
 	  ISNULL(NULLIF(DimAccount.ACN, '') , '{Unknown}') AS ACN,
 	  ISNULL(NULLIF(DimAccount.ABN, '') , '{Unknown}') AS ABN,
-	  ISNULL(NULLIF(DimAccount.AccountType, '') , '{Unknown}') AS AccountType,
        -- DimCustomer
        DimCustomer.CustomerCode,
        ISNULL(NULLIF(DimCustomer.Title, '') , '{U}') AS Title,
@@ -225,6 +223,5 @@ WHERE  DimAccount.Meta_IsCurrent = 1
 AND    DimCustomer.Meta_IsCurrent = 1
 AND DimAccount.AccountId > 0
 AND DimCustomer.CustomerId >0;
-
 
 GO

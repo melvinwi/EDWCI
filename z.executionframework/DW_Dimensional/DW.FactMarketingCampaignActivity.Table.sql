@@ -10,8 +10,6 @@ CREATE TABLE [DW].[FactMarketingCampaignActivity](
 	[MarketingCampaignActivityKey] [nvarchar](255) NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
 	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NULL
-) ON [index]
+) ON [data]
 
-GO
-CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactMarketingCampaignActivity] ON [DW].[FactMarketingCampaignActivity] WITH (DROP_EXISTING = OFF) ON [index]
 GO

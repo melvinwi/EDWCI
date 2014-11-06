@@ -4,7 +4,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE PROCEDURE [transform].[DimCustomer_Business]
 @TaskExecutionInstanceID int
 ,
@@ -108,14 +107,13 @@ BEGIN
         DimCustomer.OmbudsmanComplaints,
         DimCustomer.CreationDate,
         DimCustomer.JoinDate,
-        DimCustomer.PrivacyPreferredStatus,
-	   DimCustomer.InferredGender) 
+        DimCustomer.PrivacyPreferredStatus) 
         SELECT
         CAST ( nc_client.seq_party_id AS int) ,
         CASE
         WHEN ISNUMERIC (crm_party.party_code) = 1 THEN CAST ( crm_party.party_code AS int) 
         END,
-        CAST ( _contacts.title AS nchar (4)) ,
+        CAST ( _contacts.title AS nchar (3)) ,
         CAST ( _contacts.first_name AS nvarchar (100)) ,
         CAST ( _contacts.initials AS nchar (10)) ,
         CAST ( _contacts.last_name AS nvarchar (100)) ,
@@ -179,15 +177,7 @@ BEGIN
         WHEN 'Y' THEN 'Preferred contact by mail'
         WHEN 'N' THEN 'Privacy: Do Not Contact'
             ELSE NULL
-        END,
-	   CASE _contacts.title
-		  WHEN 'Mr'   THEN 'Male'
-		  WHEN 'Mrs'  THEN 'Female'
-		  WHEN 'Ms'   THEN 'Female'
-		  WHEN 'Miss' THEN 'Female'
-		  WHEN 'Mss'  THEN 'Female'
-		  ELSE _Gender.Gender
-	   END
+        END
           FROM
                [DW_Staging].[orion].nc_client INNER JOIN [DW_Staging].[orion].crm_party
                ON nc_client.seq_party_id = crm_party.seq_party_id
@@ -201,8 +191,6 @@ BEGIN
                ON _ombudsmanComplaints.ClientId = crm_party.party_code
                               LEFT OUTER JOIN joinDate AS _joinDate
                ON _joinDate.seq_party_id = nc_client.seq_party_id
-					   LEFT OUTER JOIN lookup.Gender AS _Gender
-			 ON _Gender.FirstName = LTRIM(RTRIM(_contacts.first_name))
           WHERE crm_element_hierarchy.seq_element_type_id = '8'
             AND _contacts.RC = '1'
             AND (crm_party.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
@@ -219,6 +207,5 @@ BEGIN
            0 AS ErrorRowCount;
 
 END;
-
 
 GO

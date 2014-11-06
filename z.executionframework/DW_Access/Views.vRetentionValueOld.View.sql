@@ -7,6 +7,13 @@ GO
 
 
 
+
+
+
+
+
+
+
 CREATE VIEW [Views].[vRetentionValueOld]
 AS WITH factContract
        AS (SELECT DimAccount.AccountKey,
@@ -108,13 +115,37 @@ accountContract
                    DW_Dimensional.DW.DimAccount INNER JOIN DW_Dimensional.DW.FactContract
                    ON FactContract.AccountId = DimAccount.AccountId
        ),
+tenureStart
+       AS ( SELECT candidate.AccountKey,
+                   MAX (candidate.PossibleTenureStartDate) AS TenureStartDate
+              FROM
+                   accountContract AS candidate LEFT JOIN accountContract AS allContract
+                   ON allContract.AccountKey = candidate.AccountKey
+                  AND candidate.PossibleTenureStartDate >= allContract.ContractStartDate
+                  AND candidate.PossibleTenureStartDate <= allContract.ContractTerminatedDate
+              WHERE  allContract.AccountKey IS NULL
+              GROUP  BY candidate.AccountKey
+       ),
+tenureEnd
+       AS ( SELECT accountContract.AccountKey,
+                   MAX (accountContract.ContractTerminatedDate) AS TenureEndDate
+              FROM accountContract
+              GROUP  BY accountContract.AccountKey
+       ),
 tenure
        AS (SELECT DimAccount.AccountKey,
-                  DATEDIFF(DAY, DimAccount.AccountCreationDate, ISNULL(DimAccount.AccountClosedDate, GETDATE())) AS AccountTenureInDays
+                  CASE
+                  WHEN COALESCE (tenureEnd.TenureEndDate, '9999-12-31') > GETDATE () THEN DATEDIFF (DAY, COALESCE (tenureStart.TenureStartDate, GETDATE ()) , GETDATE ()) 
+                      ELSE 0
+                  END AS ActiveTenureInDays
              FROM
-                  DW_Dimensional.DW.DimAccount
-		WHERE
-		DimAccount.Meta_IsCurrent = 1) ,
+                  DW_Dimensional.DW.DimAccount LEFT OUTER JOIN tenureStart
+                  ON tenureStart.AccountKey = DimAccount.AccountKey
+                                               LEFT OUTER JOIN tenureEnd
+                  ON tenureEnd.AccountKey = DimAccount.AccountKey
+             GROUP BY DimAccount.AccountKey,
+                      tenureEnd.TenureEndDate,
+                      tenureStart.TenureStartDate) ,
 activities
      AS (SELECT DimCustomer.CustomerKey,
 	SUM (CASE FactActivity.ActivityCategory
@@ -133,10 +164,10 @@ activities
 theRating
        AS (SELECT DimCustomer.CustomerCode,
                   CASE
-                  WHEN tenure.AccountTenureInDays > 1460 THEN 4.0
-                  WHEN tenure.AccountTenureInDays > 1095 THEN  3.0
-                  WHEN tenure.AccountTenureInDays > 730 THEN  2.0
-			   WHEN tenure.AccountTenureInDays > 365 THEN  1.0
+                  WHEN tenure.ActiveTenureInDays > 1460 THEN 4.0
+                  WHEN tenure.ActiveTenureInDays > 1095 THEN  3.0
+                  WHEN tenure.ActiveTenureInDays > 730 THEN  2.0
+			   WHEN tenure.ActiveTenureInDays > 365 THEN  1.0
                       ELSE                                   0.0
                   END AS Tenure,
 
@@ -306,8 +337,6 @@ theRating
               DW_Dimensional.DW.DimCustomer INNER JOIN theRating
               ON theRating.CustomerCode = DimCustomer.CustomerCode
          WHERE DimCustomer.Meta_IsCurrent = 1;
-
-
 
 
 

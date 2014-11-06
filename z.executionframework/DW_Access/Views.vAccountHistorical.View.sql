@@ -4,7 +4,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE VIEW [Views].[vAccountHistorical]
 AS
 WITH   factContract
@@ -142,9 +141,6 @@ SELECT -- DimAccount
          WHEN openContract.AccountKey IS NULL THEN 0
          ELSE DATEDIFF(DAY, tenureStart.TenureStartDate, GETDATE())
        END AS ActiveTenureInDays,
-	  ISNULL(NULLIF(DimAccount.ACN, '') , '{Unknown}') AS ACN,
-	  ISNULL(NULLIF(DimAccount.ABN, '') , '{Unknown}') AS ABN,
-	  ISNULL(NULLIF(DimAccount.AccountType, '') , '{Unknown}') AS AccountType,
        -- DimCustomer
        DimCustomer.CustomerCode,
        ISNULL(NULLIF(DimCustomer.Title, '') , '{U}') AS Title,
@@ -227,5 +223,4 @@ LEFT   JOIN gasUsage ON gasUsage.AccountKey = DimAccount.AccountKey
 LEFT   JOIN elecUsage ON elecUsage.AccountKey = DimAccount.AccountKey
 LEFT   JOIN tenureStart ON tenureStart.AccountKey = DimAccount.AccountKey
 LEFT   JOIN openContract ON openContract.AccountKey = DimAccount.AccountKey;
-
 GO
