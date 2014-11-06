@@ -1,0 +1,4 @@
+USE [DW_Work]
+GO
+CREATE SCHEMA [lookup]
+GO
