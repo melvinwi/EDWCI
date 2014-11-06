@@ -17,8 +17,6 @@ DESCRIPTION: Activity fact table
 	|
 |ActivityTime	|Activity Time	|time	|2	|	|TRUE	|	|FALSE
 	|
-|ActivityCategory	|Activity Category	|nvarchar	|20	|	|FALSE	|	|FALSE
-	|
 |ActivityCommunicationMethod	|Activity Communication Method	|nvarchar	|25	|	|FALSE	|	|FALSE
 	|
 |ActivityNotes	|Activity Notes	|nvarchar	|max	|	|TRUE	|	|FALSE
