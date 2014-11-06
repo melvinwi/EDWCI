@@ -1,4 +1,0 @@
-USE [DW_Dimensional]
-GO
-CREATE SCHEMA [DW]
-GO
