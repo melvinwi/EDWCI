@@ -1,0 +1,4 @@
+USE [DW_Access]
+GO
+CREATE SCHEMA [Views]
+GO
