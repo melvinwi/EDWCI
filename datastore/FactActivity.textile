@@ -19,7 +19,7 @@ DESCRIPTION: Activity fact table
 	|
 |ActivityCommunicationMethod	|Activity Communication Method	|nvarchar	|25	|	|FALSE	|	|FALSE
 	|
-|ActivityNotes	|Activity Notes	|nvarchar	|max	|	|TRUE	|	|FALSE
+|ActivityNotes	|Activity Notes	|nvarchar	|4000	|	|TRUE	|	|FALSE
 	|
 |ActivityKey	|Activity Key	|int	|	|-1	|TRUE	|	|FALSE|
 
