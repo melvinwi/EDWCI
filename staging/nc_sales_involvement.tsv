@@ -1,0 +1,23 @@
+# design artefact							
+# ARTEFACT: nc_sales_involvement							
+# DESCRIPTION: nc_sales_involvement table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+seq_party_id	seq_party_id	numeric	"18,0"		TRUE	TRUE	FALSE
+seq_involve_type_id	seq_involve_type_id	numeric	"18,0"		TRUE	TRUE	FALSE
+seq_product_id	seq_product_id	numeric	"18,0"		TRUE	TRUE	FALSE
+active	active	char	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+seq_product_item_id	seq_product_item_id	numeric	"18,0"		TRUE	TRUE	FALSE
+voice_ver_date	voice_ver_date	datetime			FALSE	FALSE	FALSE
+voice_ver_extn	voice_ver_extn	varchar	50		FALSE	FALSE	FALSE
+sales_complete	sales_complete	datetime			TRUE	TRUE	FALSE
+sales_team_leader_id	sales_team_leader_id	numeric	"18,0"		FALSE	FALSE	FALSE
+contract_signature	contract_signature	char	1		FALSE	FALSE	FALSE
+pr_campaign_id	pr_campaign_id	numeric	"18,0"		FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
