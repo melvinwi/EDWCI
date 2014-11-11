@@ -6,16 +6,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-
-
-
-
-
-
-
-
-
-
 CREATE VIEW [Views].[vRetentionValue]
 AS WITH factContract
        AS (SELECT DimAccount.AccountKey,
@@ -126,17 +116,19 @@ tenure
 		DimAccount.Meta_IsCurrent = 1) ,
 activities
      AS (SELECT DimCustomer.CustomerKey,
-	SUM (CASE FactActivity.ActivityCategory
+	SUM (CASE DimActivityType.ActivityCategory
                        WHEN 'Complaint' THEN 1
                            ELSE 0
                        END) AS Complaints12Months,
-    SUM (CASE FactActivity.ActivityCategory
+    SUM (CASE DimActivityType.ActivityCategory
                        WHEN 'Enquiry' THEN 1
                            ELSE 0
                        END) AS Enquiries12Months
 	FROM DW_Dimensional.DW.FactActivity
 	INNER JOIN DW_Dimensional.DW.DimCustomer
 	ON DimCustomer.CustomerId = FactActivity.CustomerId
+        INNER JOIN DW_Dimensional.DW.DimActivityType
+        ON DimActivityType.ActivityTypeId = FactActivity.ActivityTypeId
 	WHERE DATEDIFF(DAY,CONVERT (date, CAST (FactActivity.ActivityDateId AS nchar (8)) , 112),GETDATE()) BETWEEN 0 AND 365
 	GROUP BY DimCustomer.CustomerKey),
 theRating
@@ -311,9 +303,5 @@ theRating
               DW_Dimensional.DW.DimCustomer INNER JOIN theRating
               ON theRating.CustomerCode = DimCustomer.CustomerCode
          WHERE DimCustomer.Meta_IsCurrent = 1;
-
-
-
-
 
 GO
