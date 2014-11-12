@@ -27,5 +27,5 @@ DESCRIPTION: Service dimension table
 	|
 |FRMPDate	|FRMP Date	|date	|	|	|FALSE	|FALSE	|FALSE
 	|
-|ServiceClass	|Service Class	|nvarchar	|40	|	|FALSE	|FALSE	|FALSE|
+|Threshold	|Threshold	|nvarchar	|40	|	|FALSE	|FALSE	|FALSE|
 

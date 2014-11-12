@@ -13,4 +13,4 @@ ResidentialPostcode	Residential Postcode	nchar	4		FALSE	FALSE	FALSE
 ResidentialState	Residential State	nchar	3		FALSE	FALSE	FALSE
 NextScheduledReadDate	NextScheduledReadDate	date			FALSE	FALSE	FALSE
 FRMPDate	FRMP Date	date			FALSE	FALSE	FALSE
-ServiceClass	Service Class	nvarchar	40		FALSE	FALSE	FALSE
+Threshold	Threshold	nvarchar	40		FALSE	FALSE	FALSE
