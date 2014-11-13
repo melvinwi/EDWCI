@@ -29,6 +29,7 @@ SELECT -- DimAccount
        DimServiceCurrent.ResidentialState,
        DimServiceCurrent.NextScheduledReadDate,
        DimServiceCurrent.FRMPDate,
+       DimServiceCurrent.Threshold,
        -- DimProduct
        DimProductCurrent.ProductName,
        DimProductCurrent.ProductDesc,
