@@ -39,7 +39,7 @@ END
 		CAST( utl_site.addr_city AS nchar(3)),
 		CASE utl_site.seq_product_type_id WHEN '2' THEN _meterHeaderNextScheduledReadDate.NextScheduledReadDate WHEN '3' THEN _meterDailyConsumptionAndReadDate.NextScheduledReadDate ELSE NULL END,
 		_siteFRMPDate.FRMPDate,
-		utl_site_class.site_class_desc
+		CAST( utl_site_class.site_class_desc AS nvarchar(40))
 	  FROM lumo.utl_site LEFT JOIN lumo.utl_distrib_loss_factor_sched ON utl_distrib_loss_factor_sched.dlf_id = utl_site.dlf_id LEFT JOIN meterDailyConsumptionAndReadDate AS _meterDailyConsumptionAndReadDate ON _meterDailyConsumptionAndReadDate.site_id = utl_site.site_id LEFT JOIN meterHeaderNextScheduledReadDate AS _meterHeaderNextScheduledReadDate ON _meterHeaderNextScheduledReadDate.site_id = utl_site.site_id LEFT JOIN siteFRMPDate AS _siteFRMPDate ON _siteFRMPDate.site_id = utl_site.site_id LEFT JOIN lumo.utl_site_class ON utl_site_class.site_class_id = utl_site.site_class_id WHERE ISNULL (utl_distrib_loss_factor_sched.start_date, '1900-01-01') < GETDATE () AND ISNULL (utl_distrib_loss_factor_sched.end_date, '9999-12-31') > GETDATE () AND (utl_site.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR utl_distrib_loss_factor_sched.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _meterDailyConsumptionAndReadDate.Meta_HasChanged > 0 OR _meterHeaderNextScheduledReadDate.Meta_HasChanged > 0 OR _siteFRMPDate.Meta_HasChanged > 0 OR utl_site_class.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID);
 
 SELECT 0 AS ExtractRowCount,
