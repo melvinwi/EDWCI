@@ -31,7 +31,8 @@ END
 		DimAccount.PaymentMethod,
 		DimAccount.MyAccountStatus,
 		DimAccount.ACN,
-		DimAccount.ABN)
+		DimAccount.ABN,
+		DimAccount.AccountType)
 	  SELECT
 		CAST( nc_client.seq_party_id AS int),
 		CASE WHEN ISNUMERIC (crm_party.party_code) = 1 THEN CAST( crm_party.party_code AS int) END,
@@ -48,9 +49,10 @@ END
 		CAST( nc_inv_deliver_mode.inv_del_mode_desc AS nvarchar(50)),
 		CAST (CASE nc_client.seq_pay_method_id WHEN 14 THEN 'Cheque' WHEN 17 THEN 'Direct Credit' WHEN 18 THEN 'Direct Debit' WHEN 22 THEN 'Credit Card' ELSE NULL END AS NVARCHAR(20)),
 		CAST(CASE nc_client.cz_registered WHEN 'Y' THEN 'Registered' ELSE 'Not Registered' END AS nvarchar(14)),
-		CAST(NULLIF( nc_client.user_defined_1 ,'') AS nvarchar(100)),
-		CAST(NULLIF( nc_client.user_defined_2 ,'') AS nvarchar(100))
-	  FROM lumo.nc_client INNER JOIN lumo.crm_party ON nc_client.seq_party_id = crm_party.seq_party_id INNER JOIN accountStatus AS _accountStatus ON _accountStatus.seq_party_id = nc_client.seq_party_id LEFT JOIN lumo.nc_credit_control_status ON nc_credit_control_status.seq_credit_status_id = nc_client.seq_credit_status_id LEFT JOIN lumo.CreditControlCategory AS _CreditControlCategory ON _CreditControlCategory.seq_credit_status_id = nc_client.seq_credit_status_id  LEFT JOIN lumo.nc_inv_deliver_mode ON nc_inv_deliver_mode.seq_inv_del_mode_id = nc_client.seq_inv_del_mode_id WHERE (crm_party.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nc_client.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _accountStatus.Meta_HasChanged = 1);
+		CASE WHEN crm_element_hierarchy.seq_element_type_id = '8' THEN CAST (NULLIF ( nc_client.user_defined_1 , '') AS nvarchar (100)) ELSE NULL END,
+		CASE WHEN crm_element_hierarchy.seq_element_type_id = '8' THEN CAST (NULLIF ( nc_client.user_defined_2 , '') AS nvarchar (100)) ELSE NULL END,
+		CAST (CASE crm_element_hierarchy.seq_element_type_id WHEN '9' THEN 'Residential' WHEN '8' THEN 'Business' ELSE NULL END AS nchar (11))
+	  FROM lumo.nc_client INNER JOIN lumo.crm_party ON nc_client.seq_party_id = crm_party.seq_party_id INNER JOIN lumo.crm_element_hierarchy ON crm_element_hierarchy.element_id = nc_client.seq_party_id AND crm_element_hierarchy.seq_element_type_id IN (8,9) INNER JOIN accountStatus AS _accountStatus ON _accountStatus.seq_party_id = nc_client.seq_party_id LEFT JOIN lumo.nc_credit_control_status ON nc_credit_control_status.seq_credit_status_id = nc_client.seq_credit_status_id LEFT JOIN lumo.CreditControlCategory AS _CreditControlCategory ON _CreditControlCategory.seq_credit_status_id = nc_client.seq_credit_status_id  LEFT JOIN lumo.nc_inv_deliver_mode ON nc_inv_deliver_mode.seq_inv_del_mode_id = nc_client.seq_inv_del_mode_id WHERE (crm_party.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nc_client.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _accountStatus.Meta_HasChanged = 1);
 
 SELECT 0 AS ExtractRowCount,
 @@ROWCOUNT AS InsertRowCount,

@@ -20,5 +20,6 @@ DESCRIPTION: Account dimension table
 |PaymentMethod	|The way of customer paying an invoice	|nvarchar	|20	|	|FALSE	|	|FALSE	|
 |MyAccountStatus	|My Account Status	|nvarchar	|14	|	|FALSE	|	|FALSE	|
 |ACN	|ACN	|nvarchar	|100	|	|FALSE	|	|FALSE	|
-|ABN	|ABN	|nvarchar	|100	|	|FALSE	|	|FALSE|
+|ABN	|ABN	|nvarchar	|100	|	|FALSE	|	|FALSE	|
+|AccountType	|Account Type	|nchar	|11	|	|FALSE	|	|FALSE|
 
