@@ -17,6 +17,7 @@ SELECT -- DimAccount
        DimAccountCurrent.MyAccountStatus,
        DimAccountCurrent.ACN,
        DimAccountCurrent.ABN,
+       DimAccountCurrent.AccountType,
        -- DimService
        DimServiceCurrent.MarketIdentifier,
        DimServiceCurrent.ServiceType,
@@ -39,6 +40,8 @@ SELECT -- DimAccount
        DimPricePlanCurrent.PricePlanDiscountPercentage,
        DimPricePlanCurrent.PricePlanValueRatio,
        -- FactContract
+       CONVERT(DATE, CAST(FactContract.ContractConnectedDateId AS NCHAR(8)), 112) AS ContractConnectedDate,
+       CONVERT(DATE, CAST(FactContract.ContractFRMPDateId AS NCHAR(8)), 112) AS ContractFRMPDate,
        CONVERT(DATE, CAST(FactContract.ContractStartDateId AS NCHAR(8)), 112) AS ContractStartDate,
        CONVERT(DATE, CAST(FactContract.ContractEndDateId AS NCHAR(8)), 112) AS ContractEndDate,
        CONVERT(DATE, CAST(FactContract.ContractTerminatedDateId AS NCHAR(8)), 112) AS ContractTerminatedDate,
