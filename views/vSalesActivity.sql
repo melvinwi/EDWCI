@@ -49,7 +49,7 @@ SELECT -- DimAccount
        DimOrganisationCurrent.Level4Name,
        -- FactSalesActivity
        FactSalesActivity.SalesActivityType,
-       CONVERT(DATETIME2, CAST(FactSalesActivity.SalesActivityDateId AS NCHAR(8)) + ' ' + CAST(FactSalesActivity.SalesActivityTime AS NCHAR(16))) AS ActivityDate
+       CONVERT(DATETIME2, CAST(FactSalesActivity.SalesActivityDateId AS NCHAR(8)) + ' ' + CAST(FactSalesActivity.SalesActivityTime AS NCHAR(16))) AS SalesActivityDate
 FROM   DW_Dimensional.DW.FactSalesActivity
 LEFT   JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactSalesActivity.AccountId
 LEFT   JOIN DW_Dimensional.DW.DimAccount AS DimAccountCurrent ON DimAccountCurrent.AccountKey = DimAccount.AccountKey AND DimAccountCurrent.Meta_IsCurrent = 1
