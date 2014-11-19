@@ -1,0 +1,25 @@
+
+h2. ARTEFACT: utl_meter_type
+
+DESCRIPTION: Meter Type reference table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|meter_type_id	|meter_type_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|meter_class_id	|meter_class_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|meter_type_code	|meter_type_code	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|meter_type_desc	|meter_type_desc	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|active	|active	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime	|insert_datetime	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user	|insert_user	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process	|insert_process	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime	|update_datetime	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user	|update_user	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process	|update_process	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|default_option	|default_option	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|off_peak	|off_peak	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|price_class_id	|price_class_id	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|cost_price_class_id	|cost_price_class_id	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|public_holidays	|public_holidays	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE|
+

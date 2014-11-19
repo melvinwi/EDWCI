@@ -1,0 +1,23 @@
+
+h2. ARTEFACT: utl_virtual_meter_type
+
+DESCRIPTION: Virtual meter reference table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|Meta_ChangeFlag	|Meta: Row Change flag	|bit	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|virtual_meter_type_id 	|virtual_meter_type_id 	|numeric	|"18, 0"	|	|FALSE	|TRUE	|FALSE	|
+|virtual_meter_type_code 	|virtual_meter_type_code 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|virtual_meter_type_desc 	|virtual_meter_type_desc 	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|gen_req_cons 	|gen_req_cons 	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|active 	|active 	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime 	|insert_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user 	|insert_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process 	|insert_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime 	|update_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user 	|update_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process 	|update_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|sched_type_code 	|sched_type_code 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|autogen_vmr 	|autogen_vmr 	|varchar	|20	|	|FALSE	|FALSE	|FALSE|
+

@@ -1,0 +1,5 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_DimMeterRegister
+# CREATED DATE: 2014-11-19T162558
+
+2014-11-19 16:26:00	2	PASSED	source.length.should.equal(destination.length)	{"obj":190,"params":{"operator":"to be","expected":190,"showDiff":true},"negate":false}

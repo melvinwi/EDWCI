@@ -1,0 +1,6 @@
+Meta_ChangeFlag	Meta_Insert_TaskExecutionInstanceId	Meta_LatestUpdate_TaskExecutionInstanceId	virtual_meter_type_id	virtual_meter_type_code	virtual_meter_type_desc	gen_req_cons	active	insert_datetime	insert_user	insert_process	update_datetime	update_user	update_process	sched_type_code	autogen_vmr
+1	-1	-1	1	RETAIL	Retail	Y	Y	2004-01-01 00:00:00.000	UMBRIA	DATALOAD	NULL	NULL	NULL	USAGE	Y
+1	-1	-1	2	NETWORK	Network	Y	Y	2004-01-01 00:00:00.000	UMBRIA	DATALOAD	NULL	NULL	NULL	NETCOST	N
+1	-1	-1	3	WHOLESALE	Wholesale	Y	Y	2004-01-01 00:00:00.000	UMBRIA	DATALOAD	NULL	NULL	NULL	WSALECOST	N
+1	-1	-1	4	DEMAND	Demand	Y	Y	2004-01-01 00:00:00.000	UMBRIA	DATALOAD	2004-01-01 00:00:00.000	UMBRIA	DEMAND	DEMAND	N
+1	-1	-1	5	UNUSED	Unused	N	Y	2004-01-01 00:00:00.000	PTM-DB10	JTS860 - 20120909	NULL	NULL	NULL	NULL	N

@@ -1,0 +1,6 @@
+# design test artefact			
+# ARTEFACT: TRANSFORM_DimMeterRegister_tests			
+# DESCRIPTION: Test each transformation rule			
+SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
+REUSE_SQL	FROM [schema].utl_meter LEFT JOIN [schema].utl_meter_header ON utl_meter_header.meter_header_id = utl_meter.meter_header_id INNER JOIN [schema].utl_meter_type ON utl_meter_type.meter_type_id = utl_meter.meter_type_id INNER JOIN [schema].utl_meter_class ON utl_meter_class.meter_class_id = utl_meter_type.meter_class_id LEFT JOIN [schema].utl_virtual_meter_type ON utl_virtual_meter_type.virtual_meter_type_id = utl_meter.virtual_meter_type_id  WHERE (utl_meter.Meta_LatestUpdate_TaskExecutionInstanceId > -2 OR utl_meter_header.Meta_LatestUpdate_TaskExecutionInstanceId > -2 OR utl_meter_type.Meta_LatestUpdate_TaskExecutionInstanceId > -2 OR utl_meter_type.Meta_LatestUpdate_TaskExecutionInstanceId > -2 OR utl_virtual_meter_type.Meta_LatestUpdate_TaskExecutionInstanceId > -2)		
+[REUSE_SQL]		source.length.should.equal(destination.length)	row counts should match
