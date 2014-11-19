@@ -1,0 +1,7 @@
+# design artefact							
+# ARTEFACT: FactServiceMeterRegister							
+# DESCRIPTION: Service to Meter Register factless fact table							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+ServiceId	Foreign key to DimService	int			TRUE		FALSE
+MeterRegisterId	Foreign key to DimMeterRegister	int			TRUE		FALSE
+RegisterRelationshipCounter	Counter (=1)	tinyint		1	TRUE		FALSE

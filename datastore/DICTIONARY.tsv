@@ -171,3 +171,5 @@ RegisterStatus		any	BillingType		NA
 RegisterStatusDate		any	BillingType		NA
 RegisterVirtualStartDate		any	BillingType		NA
 RegisterVirtualType		any	BillingType		NA
+MeterRegisterId		any	BillingType		NA
+RegisterRelationshipCounter		any	BillingType		NA
