@@ -1,0 +1,25 @@
+
+h2. ARTEFACT: DimMeterRegister
+
+DESCRIPTION: Meter Register dimension table
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|MeterRegisterKey	|Meter ID used in the transaction system	|int	|	|	|TRUE	|	|FALSE	|
+|MeterMarketSerialNumber	|Meter Market Serial Number	|nvarchar	|50	|	|FALSE	|	|FALSE	|
+|MeterSystemSerialNumber	|Meter Orion Code	|nvarchar	|50	|	|FALSE	|	|FALSE	|
+|MeterServiceType	|Meter Service Type	|nvarchar	|11	|	|FALSE	|	|FALSE	|
+|RegisterBillingType	|Register Billing Type	|nvarchar	|100	|	|FALSE	|	|FALSE	|
+|RegisterBillingTypeCode	|Register Billing Type Code	|nchar	|10	|	|FALSE	|	|FALSE	|
+|RegisterClass	|Register Class	|nvarchar	|40	|	|FALSE	|	|FALSE	|
+|RegisterCreationDate	|Register Creation Date in Orion	|date	|	|	|FALSE	|	|FALSE	|
+|RegisterEstimatedDailyConsumption	|Register Estimated Daily Consumption	|decimal	|"18,6"	|	|FALSE	|	|FALSE	|
+|RegisterMarketIdentifier	|Register Market Identifier	|nchar	|10	|	|FALSE	|	|FALSE	|
+|RegisterSystemIdentifer	|Register Orion Identifier	|nchar	|10	|	|FALSE	|	|FALSE	|
+|RegisterMultiplier	|Register Multiplier	|decimal	|"18,6"	|	|FALSE	|	|FALSE	|
+|RegisterNetworkTariffCode	|Register Network Tariff Code	|nvarchar	|20	|	|FALSE	|	|FALSE	|
+|RegisterReadDirection	|Register Read Direction	|nchar	|6	|	|FALSE	|	|FALSE	|
+|RegisterStatus	|Register Status	|nchar	|8	|	|FALSE	|	|FALSE	|
+|RegisterStatusDate	|Register Status Date	|date	|	|	|FALSE	|	|FALSE	|
+|RegisterVirtualStartDate	|Register Virtual Start Date	|date	|	|	|FALSE	|	|FALSE	|
+|RegisterVirtualType	|Register Virtual Type	|nvarchar	|20	|	|FALSE	|	|FALSE|
+
