@@ -1,0 +1,11 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_DimTransmissionNode
+# CREATED DATE: 2014-11-20T171327
+
+2014-11-20 17:13:28	2	PASSED	source.length.should.equal(destination.length)	{"obj":459,"params":{"operator":"to be","expected":459,"showDiff":true},"negate":false}
+2014-11-20 17:13:29	3	PASSED	source[0].network_node_id.should.equal(destination[0].TransmissionNodeKey)	{"obj":427,"params":{"operator":"to be","expected":427,"showDiff":true},"negate":false}
+2014-11-20 17:13:29	4	PASSED	source[0].network_node_code.should.equal(destination[0].TransmissionNodeIdentity)	{"obj":"QBNN","params":{"operator":"to be","expected":"QBNN","showDiff":true},"negate":false}
+2014-11-20 17:13:30	5	PASSED	source[0].network_node_desc.should.equal(destination[0].TransmissionNodeName)	{"obj":"Bowen North","params":{"operator":"to be","expected":"Bowen North","showDiff":true},"negate":false}
+2014-11-20 17:13:31	6	PASSED	source[0].region_code.should.equal(destination[0].TransmissionNodeState.trim())	{"obj":"QLD","params":{"operator":"to be","expected":"QLD","showDiff":true},"negate":false}
+2014-11-20 17:13:31	7	PASSED	source[0].network_desc.should.equal(destination[0].TransmissionNodeNetwork)	{"obj":"Energex","params":{"operator":"to be","expected":"Energex","showDiff":true},"negate":false}
+2014-11-20 17:13:32	8	PASSED	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].TransmissionNodeServiceType)	{"obj":"Electricity","params":{"operator":"to be","expected":"Electricity","showDiff":true},"negate":false}

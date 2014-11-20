@@ -1,0 +1,23 @@
+# design artefact							
+# ARTEFACT: utl_network_node							
+# DESCRIPTION: Network Node reference table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+network_node_id	network_node_id	numeric	"18, 0"		FALSE	TRUE	FALSE
+network_id	network_id	numeric	"18, 0"		FALSE	FALSE	FALSE
+network_node_code	network_node_code	varchar	20		FALSE	FALSE	FALSE
+network_node_desc	network_node_desc	varchar	100		FALSE	FALSE	FALSE
+active	active	char	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+loss_factor	loss_factor	numeric	"18, 4"		FALSE	FALSE	FALSE
+temperature	temperature	money			FALSE	FALSE	FALSE
+gas_calorific_value	gas_calorific_value	money			FALSE	FALSE	FALSE
+region_id	region_id	numeric	"18, 0"		FALSE	FALSE	FALSE
+incumbent_id	incumbent_id	numeric	"18, 0"		FALSE	FALSE	FALSE
+network_section_id	network_section_id	numeric	"18, 0"		FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE

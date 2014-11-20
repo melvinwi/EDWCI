@@ -1,0 +1,20 @@
+
+h2. ARTEFACT: utl_network_region
+
+DESCRIPTION: Network Region reference table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|region_id	|region_id	|numeric	|"18, 0"	|	|FALSE	|TRUE	|FALSE	|
+|factor_measurement_id	|factor_measurement_id	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|region_code	|region_code	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|region_desc	|region_desc	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|active	|active	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime	|insert_datetime	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user	|insert_user	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process	|insert_process	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime	|update_datetime	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user	|update_user	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process	|update_process	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE|
+

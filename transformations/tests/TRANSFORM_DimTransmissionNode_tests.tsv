@@ -1,0 +1,12 @@
+# design test artefact			
+# ARTEFACT: TRANSFORM_DimTransmissionNode_tests			
+# DESCRIPTION: Test each transformation rule			
+SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
+REUSE_SQL	FROM [schema].utl_network_node INNER JOIN [schema].utl_network ON utl_network.network_id = utl_network_node.network_id LEFT JOIN [schema].utl_network_region ON utl_network_node.region_id = utl_network_region.region_id WHERE (utl_network_node.Meta_LatestUpdate_TaskExecutionInstanceId  > -2 OR utl_network.Meta_LatestUpdate_TaskExecutionInstanceId  > -2 OR utl_network_region.Meta_LatestUpdate_TaskExecutionInstanceId  > -2)		
+[REUSE_SQL]		source.length.should.equal(destination.length)	row counts should match
+[REUSE_SQL] AND utl_network_node.network_node_id = '427'	WHERE TransmissionNodeKey = '427'	source[0].network_node_id.should.equal(destination[0].TransmissionNodeKey)	1:1 map rule plus int cast
+[REUSE_SQL] AND utl_network_node.network_node_id = '427'	WHERE TransmissionNodeKey = '427'	source[0].network_node_code.should.equal(destination[0].TransmissionNodeIdentity)	1:1 map rule plus int cast
+[REUSE_SQL] AND utl_network_node.network_node_id = '427'	WHERE TransmissionNodeKey = '427'	source[0].network_node_desc.should.equal(destination[0].TransmissionNodeName)	1:1 map rule plus int cast
+[REUSE_SQL] AND utl_network_node.network_node_id = '427'	WHERE TransmissionNodeKey = '427'	source[0].region_code.should.equal(destination[0].TransmissionNodeState.trim())	1:1 map rule plus int cast
+[REUSE_SQL] AND utl_network_node.network_node_id = '427'	WHERE TransmissionNodeKey = '427'	source[0].network_desc.should.equal(destination[0].TransmissionNodeNetwork)	1:1 map rule plus int cast
+[REUSE_SQL] AND utl_network_node.network_node_id = '427'	WHERE TransmissionNodeKey = '427'	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].TransmissionNodeServiceType)	1:1 map rule plus int cast

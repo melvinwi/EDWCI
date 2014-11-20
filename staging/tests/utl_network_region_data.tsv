@@ -1,0 +1,9 @@
+region_id	factor_measurement_id	region_code	region_desc	active	insert_datetime	insert_user	insert_process	update_datetime	update_user	update_process	Meta_Insert_TaskExecutionInstanceId	Meta_LatestUpdate_TaskExecutionInstanceId
+1	NULL	VIC	Victoria Region	Y	2004-01-01	INS_GAS	INS_GAS	NULL	NULL	NULL	-1	-1
+2	NULL	SA	South Australia	Y	2004-01-01	GRAHAMA	UTLNETREG	NULL	NULL	NULL	-1	-1
+3	NULL	QLD	Queensland	Y	2004-01-01	LEEW	UTLNETREG	NULL	NULL	NULL	-1	-1
+4	NULL	NT	Northern Territory	Y	2004-01-01	LEEW	UTLNETREG	NULL	NULL	NULL	-1	-1
+5	NULL	NSW	New South Wales	Y	2004-01-01	LEEW	UTLNETREG	NULL	NULL	NULL	-1	-1
+6	NULL	WA	Western Australia	Y	2004-01-01	LEEW	UTLNETREG	NULL	NULL	NULL	-1	-1
+7	NULL	ACT	ACT	Y	2004-01-01	LEEW	UTLNETREG	NULL	NULL	NULL	-1	-1
+8	NULL	TAS	Tasmania	Y	2004-01-01	LEEW	UTLNETREG	NULL	NULL	NULL	-1	-1
