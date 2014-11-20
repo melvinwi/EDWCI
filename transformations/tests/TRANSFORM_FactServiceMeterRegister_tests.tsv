@@ -1,0 +1,6 @@
+# test artefact			
+# ARTEFACT: TRANSFORM_FactServiceMeterRegister_tests			
+# DESCRIPTION: Test each transformation rule			
+SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
+REUSE_SQL	FROM /* Staging */ [schema].utl_meter INNER JOIN /* Dimensional */ [schema].DimService AS _DimService ON _DimService.ServiceKey = CAST(utl_meter.site_id AS int) AND _DimService.Meta_IsCurrent = 1 INNER JOIN /* Dimensional */ [schema].DimMeterRegister AS _DimMeterRegister ON _DimMeterRegister.MeterRegisterKey = CAST(utl_meter.meter_id AS int) AND _DimMeterRegister.Meta_IsCurrent = 1 WHERE (utl_meter.Meta_LatestUpdate_TaskExecutionInstanceId > -2 OR _DimService.Meta_LatestUpdate_TaskExecutionInstanceId > -2 OR _DimMeterRegister.Meta_LatestUpdate_TaskExecutionInstanceId > -2)		
+[REUSE_SQL]		source.length.should.equal(destination.length)	row counts should match

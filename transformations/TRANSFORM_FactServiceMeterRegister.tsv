@@ -1,0 +1,8 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_FactServiceMeterRegister				
+# DESCRIPTION: Promote sales activities from Orion tables to DataStore 				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+	_DimService.ServiceId		FactServiceMeterRegister.ServiceId	One to one mapping
+	_DimMeterRegister.MeterRegisterId		FactServiceMeterRegister.MeterRegisterId	One to one mapping
+/*	utl_meter.meter_id	*/ 1	FactServiceMeterRegister.RegisterRelationshipCounter	Hardcoded
+SELECTION_CRITERIA	FROM /* Staging */ [schema].utl_meter INNER JOIN /* Dimensional */ [schema].DimService AS _DimService ON _DimService.ServiceKey = CAST(utl_meter.site_id AS int) AND _DimService.Meta_IsCurrent = 1 INNER JOIN /* Dimensional */ [schema].DimMeterRegister AS _DimMeterRegister ON _DimMeterRegister.MeterRegisterKey = CAST(utl_meter.meter_id AS int) AND _DimMeterRegister.Meta_IsCurrent = 1 WHERE (utl_meter.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _DimService.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _DimMeterRegister.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID)			
