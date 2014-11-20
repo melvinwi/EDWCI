@@ -9,11 +9,14 @@ Code	suffix	Identifier	NA
 Account	prefix	Reserved for DimAccount	NA
 Connected	Any	Connected	NA
 FRMP	prefix	FRMP	NA
+TransmissionNode	prefix	FRMP	NA
 Customer	prefix	Reserved for DimCustomer 	NA
 Service	prefix	Reserved for DimService	NA
 Contract	prefix	Reserved for FactContract	NA
 Product	prefix	Reserved for DimProduct	NA
 Counter	suffix	Counter	NA
+Identity	suffix	Counter	NA
+Network	suffix	Counter	NA
 InferredGender	any	Inferred Gender	NA
 Postal	prefix	Mailing Address prefix	NA
 ChangeReason	prefix	Reserved for DimChangeReason	NA
@@ -22,6 +25,7 @@ LoyaltyPoints	prefix	Loyalty Points prefix	NA
 AddressLine1	suffix	Address Line 1	NA
 Suburb	suffix	Address Suburb	NA
 Postcode	suffix	Address Postcode	NA
+ServiceType	suffix	Address Postcode	NA
 State	suffix	Address State	NA
 StateAsProvided	suffix	Address State	NA
 Status	suffix	Status flag or value	NA
