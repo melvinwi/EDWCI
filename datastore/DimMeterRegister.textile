@@ -19,7 +19,6 @@ DESCRIPTION: Meter Register dimension table
 |RegisterNetworkTariffCode	|Register Network Tariff Code	|nvarchar	|20	|	|FALSE	|	|FALSE	|
 |RegisterReadDirection	|Register Read Direction	|nchar	|6	|	|FALSE	|	|FALSE	|
 |RegisterStatus	|Register Status	|nchar	|8	|	|FALSE	|	|FALSE	|
-|RegisterStatusDate	|Register Status Date	|date	|	|	|FALSE	|	|FALSE	|
 |RegisterVirtualStartDate	|Register Virtual Start Date	|date	|	|	|FALSE	|	|FALSE	|
 |RegisterVirtualType	|Register Virtual Type	|nvarchar	|20	|	|FALSE	|	|FALSE|
 

@@ -1,5 +1,20 @@
 # transformation test result artefact
 # ARTEFACT: TRANSFORM_DimMeterRegister
-# CREATED DATE: 2014-11-19T162558
+# CREATED DATE: 2014-11-20T152157
 
-2014-11-19 16:26:00	2	PASSED	source.length.should.equal(destination.length)	{"obj":190,"params":{"operator":"to be","expected":190,"showDiff":true},"negate":false}
+2014-11-20 15:21:58	2	PASSED	source.length.should.equal(destination.length)	{"obj":190,"params":{"operator":"to be","expected":190,"showDiff":true},"negate":false}
+2014-11-20 15:21:59	3	PASSED	source[0].meter_id.should.equal(destination[0].MeterRegisterKey)	{"obj":83671,"params":{"operator":"to be","expected":83671,"showDiff":true},"negate":false}
+2014-11-20 15:22:00	4	PASSED	source[0].meter_serial.should.equal(destination[0].MeterMarketSerialNumber)	{"obj":"7353033","params":{"operator":"to be","expected":"7353033","showDiff":true},"negate":false}
+2014-11-20 15:22:00	5	PASSED	source[0].meter_code.should.equal(destination[0].MeterSystemSerialNumber)	{"obj":"7353033","params":{"operator":"to be","expected":"7353033","showDiff":true},"negate":false}
+2014-11-20 15:22:01	6	PASSED	((source[0].seq_product_type_id == '1') ? 'Internet' : (source[0].seq_product_type_id == '2') ? 'Electricity' : (source[0].seq_product_type_id == '3') ? 'Gas' : (source[0].seq_product_type_id == '7') ? 'Telco' : '{Unknown}').should.equal(destination[0].MeterServiceType)	{"obj":"Electricity","params":{"operator":"to be","expected":"Electricity","showDiff":true},"negate":false}
+2014-11-20 15:22:02	7	PASSED	source[0].meter_type_desc.should.equal(destination[0].RegisterBillingType)	{"obj":"6 hour H/W between 2300-0700 Monday-Sunday plus afternoon boost 1300-1600 Dedicated Circuit","params":{"operator":"to be","expected":"6 hour H/W between 2300-0700 Monday-Sunday plus afternoon boost 1300-1600 Dedicated Circuit","showDiff":true},"negate":false}
+2014-11-20 15:22:02	8	PASSED	source[0].meter_type_code.should.equal(destination[0].RegisterBillingTypeCode.trim())	{"obj":"OP5","params":{"operator":"to be","expected":"OP5","showDiff":true},"negate":false}
+2014-11-20 15:22:03	9	PASSED	source[0].meter_class_desc.should.equal(destination[0].RegisterClass)	{"obj":"Usage Based (POWER)","params":{"operator":"to be","expected":"Usage Based (POWER)","showDiff":true},"negate":false}
+2014-11-20 15:22:04	10	PASSED	source[0].est_daily_consumption.should.equal(destination[0].RegisterEstimatedDailyConsumption)	{"obj":7.641284,"params":{"operator":"to be","expected":7.641284,"showDiff":true},"negate":false}
+2014-11-20 15:22:04	11	PASSED	source[0].meter_register.should.equal(destination[0].RegisterMarketIdentifier.trim())	{"obj":"1","params":{"operator":"to be","expected":"1","showDiff":true},"negate":false}
+2014-11-20 15:22:05	12	PASSED	source[0].meter_register.should.equal(destination[0].RegisterSystemIdentifer.trim())	{"obj":"1","params":{"operator":"to be","expected":"1","showDiff":true},"negate":false}
+2014-11-20 15:22:06	13	PASSED	source[0].multiplier.should.equal(destination[0].RegisterMultiplier)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2014-11-20 15:22:06	14	PASSED	source[0].network_tariff_code.should.equal(destination[0].RegisterNetworkTariffCode)	{"obj":"A210","params":{"operator":"to be","expected":"A210","showDiff":true},"negate":false}
+2014-11-20 15:22:07	15	PASSED	((source[0].direction_ind == 'E') ? 'Export' : (source[0].direction_ind == 'I') ? 'Import' : '{Unknown}').should.equal(destination[0].RegisterReadDirection)	{"obj":"Export","params":{"operator":"to be","expected":"Export","showDiff":true},"negate":false}
+2014-11-20 15:22:08	16	PASSED	((source[0].meter_status_id == '1') ? 'Active' : (source[0].meter_status_id == '2') ? 'Inactive' : '{Unknown}').should.equal(destination[0].RegisterStatus.trim())	{"obj":"Active","params":{"operator":"to be","expected":"Active","showDiff":true},"negate":false}
+2014-11-20 15:22:08	17	PASSED	'Physical'.should.equal(destination[0].RegisterVirtualType)	{"obj":"Physical","params":{"operator":"to be","expected":"Physical","showDiff":true},"negate":false}
