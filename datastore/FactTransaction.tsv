@@ -16,3 +16,4 @@ Tax	Tax	money			TRUE		FALSE
 TransactionType	Transaction Description	nvarchar	100		TRUE		FALSE
 TransactionDesc	Transaction Description	nvarchar	100		TRUE		FALSE
 TransactionKey	Transaction Key	nvarchar	20		TRUE		FALSE
+MeterRegisterId	Foreign key to DimMeterRegister	int		-1	TRUE		FALSE

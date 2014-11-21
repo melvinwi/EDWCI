@@ -15,11 +15,11 @@ SELECT -- DimAccount
        DimAccountCurrent.InvoiceDeliveryMethod,
        DimAccountCurrent.PaymentMethod,
        DimAccountCurrent.CreditControlCategory,
-       DimAccountCurrent.ACN,
+       DimAccountCurrent.ACN, 
        DimAccountCurrent.ABN,
        DimAccountCurrent.AccountType,
-	  -- DimService
-	  DimServiceCurrent.MarketIdentifier,
+         -- DimService
+         DimServiceCurrent.MarketIdentifier,
        DimServiceCurrent.ServiceType,
        DimServiceCurrent.LossFactor,
        DimServiceCurrent.EstimatedDailyConsumption,
@@ -29,29 +29,46 @@ SELECT -- DimAccount
        DimServiceCurrent.ResidentialState,
        DimServiceCurrent.NextScheduledReadDate,
        DimServiceCurrent.FRMPDate,
-	  -- DimProduct
-	  DimProductCurrent.ProductName,
+         -- DimProduct
+         DimProductCurrent.ProductName,
        DimProductCurrent.ProductDesc,
        DimProductCurrent.ProductType,
-	  -- DimFinancialAccount
-	  DimFinancialAccountCurrent.FinancialAccountName,
+         -- DimFinancialAccount
+         DimFinancialAccountCurrent.FinancialAccountName,
        DimFinancialAccountCurrent.FinancialAccountType,
        DimFinancialAccountCurrent.Level1Name,
        DimFinancialAccountCurrent.Level2Name,
        DimFinancialAccountCurrent.Level3Name,
-	  -- DimVersion
-	  DimVersionCurrent.VersionName,
-	  -- DimUnitType
-	  DimUnitTypeCurrent.UnitTypeName,
+         -- DimVersion
+         DimVersionCurrent.VersionName,
+         -- DimUnitType
+         DimUnitTypeCurrent.UnitTypeName,
        DimUnitTypeCurrent.MultiplicationFactorToBase,
-	  --FactTransaction
-	  CONVERT(DATE, CAST(FactTransaction.TransactionDateId AS NCHAR(8)), 112) AS TransactionDate,
-	  FactTransaction.Units,
+         -- DimMeterRegister
+       DimMeterRegisterCurrent.MeterMarketSerialNumber,
+       DimMeterRegisterCurrent.MeterSystemSerialNumber,
+       DimMeterRegisterCurrent.MeterServiceType,
+       DimMeterRegisterCurrent.RegisterBillingType,
+       DimMeterRegisterCurrent.RegisterBillingTypeCode,
+       DimMeterRegisterCurrent.RegisterClass,
+       DimMeterRegisterCurrent.RegisterCreationDate,
+       DimMeterRegisterCurrent.RegisterEstimatedDailyConsumption,
+       DimMeterRegisterCurrent.RegisterMarketIdentifier,
+       DimMeterRegisterCurrent.RegisterSystemIdentifer,
+       DimMeterRegisterCurrent.RegisterMultiplier,
+       DimMeterRegisterCurrent.RegisterNetworkTariffCode,
+       DimMeterRegisterCurrent.RegisterReadDirection,
+       DimMeterRegisterCurrent.RegisterStatus,
+       DimMeterRegisterCurrent.RegisterVirtualStartDate,
+       DimMeterRegisterCurrent.RegisterVirtualType,
+         --FactTransaction
+         CONVERT(DATE, CAST(FactTransaction.TransactionDateId AS NCHAR(8)), 112) AS TransactionDate,
+         FactTransaction.Units,
        FactTransaction.Value,
        FactTransaction.Currency,
        FactTransaction.Tax,
        FactTransaction.TransactionType,
-	  FactTransaction.TransactionDesc	  
+         FactTransaction.TransactionDesc    
 FROM   DW_Dimensional.DW.FactTransaction
 LEFT   JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactTransaction.AccountId
 LEFT   JOIN DW_Dimensional.DW.DimAccount AS DimAccountCurrent ON DimAccountCurrent.AccountKey = DimAccount.AccountKey AND DimAccountCurrent.Meta_IsCurrent = 1
@@ -63,4 +80,6 @@ LEFT   JOIN DW_Dimensional.DW.DimFinancialAccount ON DimFinancialAccount.Financi
 LEFT   JOIN DW_Dimensional.DW.DimFinancialAccount AS DimFinancialAccountCurrent ON DimFinancialAccountCurrent.FinancialAccountKey = DimFinancialAccount.FinancialAccountKey AND DimFinancialAccountCurrent.Meta_IsCurrent = 1
 LEFT   JOIN DW_Dimensional.DW.DimVersion AS DimVersionCurrent ON DimVersionCurrent.VersionId = FactTransaction.VersionId
 LEFT   JOIN DW_Dimensional.DW.DimUnitType ON DimUnitType.UnitTypeId = FactTransaction.UnitTypeId
-LEFT   JOIN DW_Dimensional.DW.DimUnitType AS DimUnitTypeCurrent ON DimUnitTypeCurrent.UnitTypeKey = DimUnitType.UnitTypeKey AND DimUnitTypeCurrent.Meta_IsCurrent = 1;
+LEFT   JOIN DW_Dimensional.DW.DimUnitType AS DimUnitTypeCurrent ON DimUnitTypeCurrent.UnitTypeKey = DimUnitType.UnitTypeKey AND DimUnitTypeCurrent.Meta_IsCurrent = 1
+LEFT   JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactTransaction.MeterRegisterId
+LEFT   JOIN DW_Dimensional.DW.DimMeterRegister AS DimMeterRegisterCurrent ON DimMeterRegisterCurrent.MeterRegisterKey = DimMeterRegister.MeterRegisterKey AND DimMeterRegisterCurrent.Meta_IsCurrent = 1;

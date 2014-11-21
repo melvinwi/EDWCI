@@ -28,7 +28,8 @@ END
 		FactTransaction.Tax,
 		FactTransaction.TransactionType,
 		FactTransaction.TransactionDesc,
-		FactTransaction.TransactionKey)
+		FactTransaction.TransactionKey,
+		FactTransaction.MeterRegisterId)
 	  SELECT
 		_DimAccount.AccountId,
 		/* ar_adjust.seq_ar_adjust_id */ -1,
@@ -43,7 +44,8 @@ END
 		ar_adjust_reason.cust_tran_multiplier * CASE WHEN COALESCE(ar_adjust_reason.gst_inclusive, 'N') = 'Y' THEN ar_adjust.adj_amount * COALESCE(_taxRate.tax_rate, 0) / (1 + COALESCE(_taxRate.tax_rate, 0)) ELSE 0 END,
 		/* ar_adjust.seq_ar_adjust_id */ 'Adjustments',
 		ar_adjust_reason.adj_statement_desc,
-		/* ar_adjust.seq_ar_adjust_id */ 'ADJ' + CAST(ar_adjust.seq_ar_adjust_id AS NVARCHAR(11))
+		/* ar_adjust.seq_ar_adjust_id */ 'ADJ' + CAST(ar_adjust.seq_ar_adjust_id AS NVARCHAR(11)),
+		/* ar_adjust.seq_ar_adjust_id */ -1
 	  FROM /* Staging */ lumo.ar_adjust INNER JOIN /* Staging */ lumo.ar_adjust_reason ON ar_adjust_reason.seq_adj_reason_id = ar_adjust.seq_adj_reason_id INNER JOIN /* Staging */ lumo.nc_client ON nc_client.seq_party_id = ar_adjust.seq_party_id INNER JOIN /* Staging */ lumo.crm_element_hierarchy ON crm_element_hierarchy.element_id = nc_client.seq_party_id AND crm_element_hierarchy.element_struct_code = 'CLIENT' INNER JOIN /* Staging */ lumo.crm_party_type ON crm_party_type.seq_party_type_id = crm_element_hierarchy.seq_element_type_id AND crm_party_type.party_type <> 'SUBCLIENT' LEFT JOIN taxRate AS _taxRate ON _taxRate.seq_ar_adjust_id = ar_adjust.seq_ar_adjust_id INNER JOIN /* Dimensional */ lumo.DimAccount AS _DimAccount ON _DimAccount.AccountKey = nc_client.seq_party_id AND _DimAccount.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimFinancialAccount AS _DimFinancialAccount ON _DimFinancialAccount.FinancialAccountKey = ar_adjust_reason.seq_account_id AND _DimFinancialAccount.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimVersion AS _DimVersion ON _DimVersion.VersionKey = 'Actual' WHERE ar_adjust.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR ar_adjust_reason.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _taxRate.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID;
 
 SELECT 0 AS ExtractRowCount,
