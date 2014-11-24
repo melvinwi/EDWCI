@@ -6,6 +6,7 @@ AccountId	Foreign key to DimAccount	int		-1	TRUE		FALSE
 ServiceId	Foreign key to DimService	int		-1	TRUE		FALSE
 ChangeReasonId	Foreign key to DimChangeReason	int		-1	TRUE		FALSE
 TransactionDateId	Transaction Date	int		99991231	TRUE		FALSE
+TransactionTime	Transaction Time	time			TRUE		FALSE
 TransactionType	Transaction Type	nvarchar	100		TRUE		FALSE
 TransactionStatus	Transaction Status	nvarchar	100		TRUE		FALSE
 TransactionKey	Transaction ID from the source system	int		-1	TRUE		FALSE

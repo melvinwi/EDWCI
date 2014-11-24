@@ -6,6 +6,7 @@ ISNULL(	_DimAccount.AccountId	",-1)"	FactMarketTransaction.AccountId	One to one 
 ISNULL(	_DimService.ServiceId	",-1)"	FactMarketTransaction.ServiceId	One to one mapping
 ISNULL(	_DimChangeReason.ChangeReasonId	",-1)"	FactMarketTransaction.ChangeReasonId	One to one mapping with ISNULL
 "CONVERT(NCHAR(8), ISNULL("	nem_transaction.trans_date	", '9999-12-31'), 112)"	FactMarketTransaction.TransactionDateId	One to one mapping with int cast
+"CAST(ISNULL("	nem_transaction.trans_date	", '9999-12-31') AS TIME)"	FactMarketTransaction.TransactionTime	One to one mapping with int cast
 	nem_transaction_type.trans_type_desc		FactMarketTransaction.TransactionType	One to one mapping with int cast
 	nem_trans_status.trans_status_desc		FactMarketTransaction.TransactionStatus	One to one mapping with int cast
 	nem_transaction.trans_id		FactMarketTransaction.TransactionKey	Decode account status into readable values
