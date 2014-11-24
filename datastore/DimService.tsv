@@ -14,3 +14,5 @@ ResidentialState	Residential State	nchar	3		FALSE	FALSE	FALSE
 NextScheduledReadDate	NextScheduledReadDate	date			FALSE	FALSE	FALSE
 FRMPDate	FRMP Date	date			FALSE	FALSE	FALSE
 Threshold	Threshold	nvarchar	40		FALSE	FALSE	FALSE
+TransmissionNodeId	TransmissionNodeId	int			FALSE	FALSE	FALSE
+FirstImportRegisterDate	First Import Register Date	date			FALSE	FALSE	FALSE
