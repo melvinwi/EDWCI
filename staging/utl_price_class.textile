@@ -1,0 +1,22 @@
+
+h2. ARTEFACT: utl_price_class
+
+DESCRIPTION: Price Class reference table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|price_class_id 	|price_class_id 	|numeric	|"18, 0"	|	|TRUE	|TRUE	|FALSE	|
+|price_class_code 	|price_class_code 	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|price_class_desc 	|price_class_desc 	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|active 	|active 	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime 	|insert_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user 	|insert_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process 	|insert_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime 	|update_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user 	|update_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process 	|update_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|gst_inclusive 	|gst_inclusive 	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|import 	|import 	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|off_peak 	|off_peak 	|varchar	|1	|	|FALSE	|FALSE	|FALSE|
+
