@@ -79,11 +79,12 @@ WITH   notifications
            FROM   DW_Dimensional.DW.FactAgedTrialBalance),
        dimService
        AS (SELECT DimAccount.AccountKey,
-                  MIN(NextScheduledReadDate) AS NextScheduledReadDate
+                  MIN(DimService.NextScheduledReadDate) AS NextScheduledReadDate
            FROM   DW_Dimensional.DW.DimAccount
            INNER  JOIN DW_Dimensional.DW.FactContract ON FactContract.AccountId = DimAccount.AccountId
            INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactContract.ServiceId
-           WHERE  NextScheduledReadDate IS NOT NULL
+           WHERE  DimService.Meta_IsCurrent = 1
+           AND    NextScheduledReadDate IS NOT NULL
            GROUP  BY DimAccount.AccountKey),
        salesActivities
        AS (SELECT DimAccount.AccountKey,
@@ -221,7 +222,7 @@ SELECT [Name],
        [TITLE],
        [PARTYCODE],
        [DOB],
-       (SELECT COUNT(*) - 1 FROM CallList AS CL2 WHERE CL2.PartyCode = CallList.PartyCode) AS [ACCTSEXCL],
+       (SELECT CASE WHEN COUNT(*) > 0 THEN COUNT(*) - 1 ELSE 0 END FROM CallList AS CL2 WHERE CL2.PartyCode = CallList.PartyCode) AS [ACCTSEXCL],
        [RETAINEDON],
        [Mobile],
        [CONTACTS 10],
