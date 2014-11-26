@@ -114,24 +114,24 @@ WITH   notifications
                     WHEN phoneNumbers.HomePhone1 IS NOT NULL THEN phoneNumbers.HomePhone1
                     WHEN phoneNumbers.HomePhone2 IS NOT NULL THEN phoneNumbers.HomePhone2
                     ELSE ''
-                  END AS [Ph Home 01],
+                  END AS [Ph_Home_01],
                   CASE
                     WHEN phoneNumbers.HomePhone2 IS NOT NULL AND phoneNumbers.HomePhone1 IS NOT NULL THEN phoneNumbers.HomePhone2
                     ELSE ''
-                  END AS [Ph Home 02],
+                  END AS [Ph_Home_02],
                   CASE
                     WHEN phoneNumbers.MobilePhone1 IS NOT NULL THEN phoneNumbers.MobilePhone1
                     WHEN phoneNumbers.MobilePhone2 IS NOT NULL THEN phoneNumbers.MobilePhone2
                     ELSE ''
-                  END AS [Ph Mobile 01],
+                  END AS [Ph_Mobile_01],
                   CASE
                     WHEN phoneNumbers.MobilePhone2 IS NOT NULL AND phoneNumbers.MobilePhone1 IS NOT NULL THEN phoneNumbers.MobilePhone2
                     ELSE ''
-                  END AS [Ph Mobile 02],
-                  '' AS [Ph Work 01],
-                  '' AS [Ph Work 02],
-                  '' AS [Ph Other 01],
-                  '' AS [Ph Other 02],
+                  END AS [Ph_Mobile_02],
+                  '' AS [Ph_Work_01],
+                  '' AS [Ph_Work_02],
+                  '' AS [Ph_Other_01],
+                  '' AS [Ph_Other_02],
                   ISNULL(DimCustomer.Title, '') AS [TITLE],
                   ISNULL(DimCustomer.CustomerCode, '') AS [PARTYCODE],
                   CONVERT(VARCHAR, DimCustomer.DateOfBirth, 101) AS [DOB],
@@ -143,11 +143,11 @@ WITH   notifications
                   COALESCE((SELECT COUNT(*)
                             FROM   contactActivities
                             WHERE  contactActivities.CustomerKey = DimCustomer.CustomerKey
-                            AND    DATEDIFF(DAY, CONVERT(NCHAR(8), contactActivities.ActivityDateId, 112), GETDATE()) <= 10), 0) AS [CONTACTS 10], -- Count of dispositions in last 10 days specific to retention
+                            AND    DATEDIFF(DAY, CONVERT(NCHAR(8), contactActivities.ActivityDateId, 112), GETDATE()) <= 10), 0) AS [CONTACTS_10], -- Count of dispositions in last 10 days specific to retention
                   COALESCE((SELECT COUNT(*)
                             FROM   contactActivities
                             WHERE  contactActivities.CustomerKey = DimCustomer.CustomerKey
-                            AND    contactActivities.ActivityDateId >= notifications.TransactionDateId), 0) AS [CONTACTS CR], -- Count of dispositions since CR date
+                            AND    contactActivities.ActivityDateId >= notifications.TransactionDateId), 0) AS [CONTACTS_CR], -- Count of dispositions since CR date
                   DATEDIFF(DAY, CONVERT(DATE, CAST(notifications.TransactionDateId AS NCHAR(8)), 112), GETDATE()) AS [CRRAISED], -- Number of days since CR raised
                   COALESCE(CONVERT(NCHAR(10), DATEDIFF(DAY, GETDATE(), NextScheduledReadDate)), '') AS [CRLOST], -- Number of days before CR is due to be completed (next scheduled read date)
                   CASE salesActivities.SalesActivityType
@@ -166,20 +166,21 @@ WITH   notifications
                   END AS [PROPENSITYSCORE],
                   CASE
                     WHEN DimChangeReason.ChangeReasonCode IN (N'1000', N'1010') THEN DimChangeReason.ChangeReasonCode ELSE ''
-                  END AS [User Field1],
-                  CASE WHEN DimChangeReason.ChangeReasonCode IN (N'0001', N'0003') THEN DimChangeReason.ChangeReasonCode ELSE '' END AS [User Field2],
-                  CONVERT(VARCHAR, GETDATE(), 101) AS [Import Date],
-                  '' AS [Remarks], ISNULL(DimCustomer.Email, '') AS [User Field3],
+                  END AS [UserField1],
+                  CASE WHEN DimChangeReason.ChangeReasonCode IN (N'0001', N'0003') THEN DimChangeReason.ChangeReasonCode ELSE '' END AS [UserField2],
+                  CONVERT(VARCHAR, GETDATE(), 101) AS [ImportDate],
+                  '' AS [Remarks],
+                  ISNULL(DimCustomer.Email, '') AS [UserField3],
                   '' AS [LASTDISPOSITION],
                   '' AS [LASTDISPDATE],
                   '' AS [LASTDISPTIME],
-                  '' AS [5THCNCTDISP],
-                  '' AS [5THCNCTDISPDATE],
-                  '' AS [5THCNCTDISPTIME],
-                  '' AS [4THCNCTDISP],
-                  '' AS [3RDCNCTDISP],
-                  '' AS [2NDCNCTDISP],
-                  '' AS [1STCNCTDISP],
+                  '' AS [ID5THCNCTDISP],
+                  '' AS [ID5THCNCTDISPDATE],
+                  '' AS [ID5THCNCTDISPTIME],
+                  '' AS [ID4THCNCTDISP],
+                  '' AS [ID3RDCNCTDISP],
+                  '' AS [ID2NDCNCTDISP],
+                  '' AS [ID1STCNCTDISP],
                   '' AS [PREVIEW],
                   '' AS [PREVIOUSCONTACT],
                   '' AS [JOB],
@@ -211,43 +212,43 @@ SELECT [Name],
        [SUBURB],
        [POSTCODE],
        [ZONE],
-       [Ph Home 01],
-       [Ph Home 02],
-       [Ph Mobile 01],
-       [Ph Mobile 02],
-       [Ph Work 01],
-       [Ph Work 02],
-       [Ph Other 01],
-       [Ph Other 02],
+       [Ph_Home_01],
+       [Ph_Home_02],
+       [Ph_Mobile_01],
+       [Ph_Mobile_02],
+       [Ph_Work_01],
+       [Ph_Work_02],
+       [Ph_Other_01],
+       [Ph_Other_02],
        [TITLE],
        [PARTYCODE],
        [DOB],
        (SELECT CASE WHEN COUNT(*) > 0 THEN COUNT(*) - 1 ELSE 0 END FROM CallList AS CL2 WHERE CL2.PartyCode = CallList.PartyCode) AS [ACCTSEXCL],
        [RETAINEDON],
        [Mobile],
-       [CONTACTS 10],
-       [CONTACTS CR],
+       [CONTACTS_10],
+       [CONTACTS_CR],
        [CRRAISED],
        [CRLOST],
        [CRRETAIN],
        [COMPETITOR],
        [SKILLNAME],
        [PROPENSITYSCORE],
-       [User Field1],
-       [User Field2],
-       [User Field3],
-       [Import Date],
+       [UserField1],
+       [UserField2],
+       [ImportDate],
        [Remarks],
+       [UserField3],
        [LASTDISPOSITION],
        [LASTDISPDATE],
        [LASTDISPTIME],
-       [5THCNCTDISP],
-       [5THCNCTDISPDATE],
-       [5THCNCTDISPTIME],
-       [4THCNCTDISP],
-       [3RDCNCTDISP],
-       [2NDCNCTDISP],
-       [1STCNCTDISP],
+       [ID5THCNCTDISP],
+       [ID5THCNCTDISPDATE],
+       [ID5THCNCTDISPTIME],
+       [ID4THCNCTDISP],
+       [ID3RDCNCTDISP],
+       [ID2NDCNCTDISP],
+       [ID1STCNCTDISP],
        [PREVIEW],
        [PREVIOUSCONTACT],
        [JOB],
