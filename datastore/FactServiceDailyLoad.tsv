@@ -3,6 +3,7 @@
 # DESCRIPTION: Service Daily Load fact table							
 COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
 ServiceId	Foreign key to DimService	int		-1	TRUE		FALSE
+TransmissionNodeId	Foreign key to DimTransmissionNode	int		-1	TRUE		FALSE
 TransmissionNodeIdentity	TNI	nvarchar	20		TRUE		FALSE
 MarketIdentifier	NMI	nvarchar	30		TRUE		FALSE
 SettlementDateId	Settlement Date	int		99991231	TRUE		FALSE
