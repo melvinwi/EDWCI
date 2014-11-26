@@ -108,14 +108,14 @@ tenure
 		DimAccount.Meta_IsCurrent = 1) ,
 activities
      AS (SELECT DimCustomer.CustomerKey,
-	SUM (CASE DimActivityType.ActivityCategory
-                       WHEN 'Complaint' THEN 1
-                           ELSE 0
-                       END) AS Complaints12Months,
-    SUM (CASE DimActivityType.ActivityCategory
-                       WHEN 'Enquiry' THEN 1
-                           ELSE 0
-                       END) AS Enquiries12Months
+    SUM (CASE
+           WHEN DimActivityType.ActivityCategory IN ('Complaint', 'Compliance Call Note') THEN 1
+           ELSE 0
+         END) AS Complaints12Months,
+    SUM (CASE
+           WHEN FactActivity.ActivityCommunicationMethod IN ('Email In', 'Fax In', 'Letter In', 'Phone In', 'Live Chat') THEN 1
+           ELSE 0
+         END) AS Enquiries12Months
 	FROM DW_Dimensional.DW.FactActivity
 	INNER JOIN DW_Dimensional.DW.DimCustomer
 	ON DimCustomer.CustomerId = FactActivity.CustomerId
