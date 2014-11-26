@@ -1,0 +1,10 @@
+
+h2. ARTEFACT: FactFRMP
+
+DESCRIPTION: FRMP Date factless fact table
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|ServiceId	|Foreign key to DimService	|int	|	|-1	|TRUE	|	|FALSE	|
+|FRMPStartDateId	|FRMP Start Date	|int	|	|99991231	|TRUE	|	|FALSE	|
+|FRMPEndDateId	|FRMP End Date	|int	|	|99991231	|TRUE	|	|FALSE|
+
