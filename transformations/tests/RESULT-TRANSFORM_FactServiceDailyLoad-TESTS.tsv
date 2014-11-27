@@ -1,0 +1,5 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_FactServiceDailyLoad
+# CREATED DATE: 2014-11-27T145507
+
+2014-11-27 14:55:09	2	PASSED	source.length.should.equal(destination.length)	{"obj":674,"params":{"operator":"to be","expected":674,"showDiff":true},"negate":false}

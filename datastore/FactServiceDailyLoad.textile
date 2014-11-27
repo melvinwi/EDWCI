@@ -1,0 +1,17 @@
+
+h2. ARTEFACT: FactServiceDailyLoad
+
+DESCRIPTION: Service Daily Load fact table
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|ServiceId	|Foreign key to DimService	|int	|	|-1	|TRUE	|	|FALSE	|
+|TransmissionNodeId	|Foreign key to DimTransmissionNode	|int	|	|-1	|TRUE	|	|FALSE	|
+|TransmissionNodeIdentity	|TNI	|nvarchar	|20	|	|TRUE	|	|FALSE	|
+|MarketIdentifier	|NMI	|nvarchar	|30	|	|TRUE	|	|FALSE	|
+|SettlementDateId	|Settlement Date	|int	|	|99991231	|TRUE	|	|FALSE	|
+|SettlementCase	|Settlement Case	|int	|	|	|TRUE	|	|FALSE	|
+|DatastreamType	|Datastream Type	|nvarchar	|13	|	|TRUE	|	|FALSE	|
+|ReadType	|Read Type	|nchar	|8	|	|TRUE	|	|FALSE	|
+|TotalEnergy	|Total Energy	|decimal	|"10,3"	|	|TRUE	|	|FALSE	|
+|ServiceDailyLoadKey	|Service Daily Load Key	|nvarchar	|100	|	|TRUE	|	|FALSE|
+

@@ -1,0 +1,19 @@
+
+h2. ARTEFACT: TRANSFORM_FactServiceDailyLoad
+
+DESCRIPTION: Promote level 2 load data from AEMO to DataStore
+
+|*SOURCE_FUNCTION_PREFIX*	|*SOURCE*	|*SOURCE_FUNCTION_SUFFIX*	|*DESTINATION*	|*DESCRIPTION*	|
+|WITH_STATEMENTS	|"WITH dimService AS (SELECT DimService.ServiceId, DimService.MarketIdentifier, ROW_NUMBER() OVER (PARTITION BY DimService.MarketIdentifier ORDER BY DimService.Meta_EffectiveStartDate DESC) AS recency FROM /* Dimensional */ [schema].DimService), dimTransmissionNode AS (SELECT DimTransmissionNode.TransmissionNodeId, DimTransmissionNode.TransmissionNodeIdentity, ROW_NUMBER() OVER (PARTITION BY DimTransmissionNode.TransmissionNodeIdentity ORDER BY DimTransmissionNode.TransmissionNodeKey DESC) AS recency FROM /* Dimensional */ [schema].DimTransmissionNode)"	|	|	|Latest views of DimService and DimTransmissionNode	|
+|COALESCE(	|_dimService.ServiceId	|", -1)"	|"FactServiceDailyLoad":../datastore/FactServiceDailyLoad.textile .ServiceId	|One to one mapping	|
+|COALESCE(	|_dimTransmissionNode.TransmissionNodeId	|", -1)"	|"FactServiceDailyLoad":../datastore/FactServiceDailyLoad.textile .TransmissionNodeId	|One to one mapping	|
+|	|"Level2_CSVData":../staging/Level2_CSVData.textile .TNI	|	|"FactServiceDailyLoad":../datastore/FactServiceDailyLoad.textile .TransmissionNodeIdentity	|One to one mapping	|
+|	|"Level2_CSVData":../staging/Level2_CSVData.textile .NMI	|	|"FactServiceDailyLoad":../datastore/FactServiceDailyLoad.textile .MarketIdentifier	|One to one mapping	|
+|"CONVERT(NCHAR(8), ISNULL("	|"Level2_CSVData":../staging/Level2_CSVData.textile .SettlementDate	|", '9999-12-31'), 112)"	|"FactServiceDailyLoad":../datastore/FactServiceDailyLoad.textile .SettlementDateId	|One to one mapping	|
+|	|"Level2_Transaction":../staging/Level2_Transaction.textile .SettlementCase	|	|"FactServiceDailyLoad":../datastore/FactServiceDailyLoad.textile .SettlementCase	|One to one mapping	|
+|CASE	|"Level2_CSVData":../staging/Level2_CSVData.textile .DataType	|WHEN 'C' THEN 'Consumption' WHEN 'I' THEN 'Interval' END	|"FactServiceDailyLoad":../datastore/FactServiceDailyLoad.textile .DatastreamType	|One to one mapping with substitution	|
+|CASE	|"Level2_CSVData":../staging/Level2_CSVData.textile .MSATS_Est	|WHEN 'Y' THEN 'Estimate' ELSE 'Actual' END	|"FactServiceDailyLoad":../datastore/FactServiceDailyLoad.textile .ReadType	|One to one mapping with substitution	|
+|	|"Level2_CSVData":../staging/Level2_CSVData.textile .Total_Energy	|	|"FactServiceDailyLoad":../datastore/FactServiceDailyLoad.textile .TotalEnergy	|One to one mapping	|
+|	|"Level2_CSVData":../staging/Level2_CSVData.textile .MessageID	|+ '.' + "Level2_CSVData":../staging/Level2_CSVData.textile .transactionID + '.' + CAST("Level2_CSVData":../staging/Level2_CSVData.textile .SeqNo AS VARCHAR(10))	|"FactServiceDailyLoad":../datastore/FactServiceDailyLoad.textile .ServiceDailyLoadKey	|Concatenate the natural key columns	|
+|SELECTION_CRITERIA	|"FROM /* Staging */ [schema]."Level2_CSVData":../staging/Level2_CSVData.textile  INNER JOIN /* Staging */ [schema]."Level2_Transaction":../staging/Level2_Transaction.textile  ON "Level2_Transaction":../staging/Level2_Transaction.textile .transactionID = "Level2_CSVData":../staging/Level2_CSVData.textile .transactionID LEFT JOIN dimService AS _dimService ON _dimService.MarketIdentifier = "Level2_CSVData":../staging/Level2_CSVData.textile .NMI AND _dimService.recency = 1 LEFT JOIN dimTransmissionNode AS _dimTransmissionNode ON _dimTransmissionNode.TransmissionNodeIdentity = "Level2_CSVData":../staging/Level2_CSVData.textile .TNI AND _dimTransmissionNode.recency = 1 WHERE "Level2_CSVData":../staging/Level2_CSVData.textile .Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID"|
+
