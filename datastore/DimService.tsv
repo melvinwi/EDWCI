@@ -16,3 +16,5 @@ FRMPDate	FRMP Date	date			FALSE	FALSE	FALSE
 Threshold	Threshold	nvarchar	40		FALSE	FALSE	FALSE
 TransmissionNodeId	TransmissionNodeId	int			FALSE	FALSE	FALSE
 FirstImportRegisterDate	First Import Register Date	date			FALSE	FALSE	FALSE
+SiteStatus	Site Status	nvarchar	30		FALSE	FALSE	FALSE
+SiteStatusType	Site Status Type	nvarchar	20		FALSE	FALSE	FALSE

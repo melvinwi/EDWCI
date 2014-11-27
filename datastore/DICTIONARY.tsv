@@ -4,6 +4,8 @@
 NAME	PREFIX_OR_SUFFIX_OR_ANY	DESCRIPTION	EXAMPLE_VALUES	
 Key	suffix	Identifier	NA
 AccountBillStartDate	any	Identifier	NA
+SiteStatus	any	Identifier	NA
+SiteStatusType	any	Identifier	NA
 Id	suffix	Identifier	NA
 Code	suffix	Identifier	NA
 Account	prefix	Reserved for DimAccount	NA

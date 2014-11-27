@@ -28,7 +28,9 @@ END
 		DimService.FRMPDate,
 		DimService.Threshold,
 		DimService.TransmissionNodeId,
-		DimService.FirstImportRegisterDate)
+		DimService.FirstImportRegisterDate,
+		DimService.SiteStatus,
+		DimService.SiteStatusType)
 	  SELECT
 		CAST( utl_site.site_id AS int),
 		CAST( utl_site.site_identifier AS nvarchar(30)),
@@ -43,8 +45,10 @@ END
 		_siteFRMPDate.FRMPDate,
 		CAST( utl_site_class.site_class_desc AS nvarchar(40)),
 		COALESCE ( _DimTransmissionNode.TransmissionNodeId , -1),
-		_firstImportRegisterDate.FirstImportRegisterDate
-	  FROM /* Staging */ lumo.utl_site LEFT JOIN /* Staging */ lumo.utl_distrib_loss_factor_sched ON utl_distrib_loss_factor_sched.dlf_id = utl_site.dlf_id LEFT JOIN meterDailyConsumptionAndReadDate AS _meterDailyConsumptionAndReadDate ON _meterDailyConsumptionAndReadDate.site_id = utl_site.site_id LEFT JOIN meterHeaderNextScheduledReadDate AS _meterHeaderNextScheduledReadDate ON _meterHeaderNextScheduledReadDate.site_id = utl_site.site_id LEFT JOIN siteFRMPDate AS _siteFRMPDate ON _siteFRMPDate.site_id = utl_site.site_id LEFT JOIN /* Staging */ lumo.utl_site_class ON utl_site_class.site_class_id = utl_site.site_class_id LEFT JOIN /* Dimensional */ lumo.DimTransmissionNode AS _DimTransmissionNode ON _DimTransmissionNode.TransmissionNodeKey = utl_site.network_node_id LEFT JOIN firstImportRegisterDate AS _firstImportRegisterDate ON _firstImportRegisterDate.site_id = utl_site.site_id WHERE ISNULL (utl_distrib_loss_factor_sched.start_date, '1900-01-01') < GETDATE () AND ISNULL (utl_distrib_loss_factor_sched.end_date, '9999-12-31') > GETDATE () AND (utl_site.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR utl_distrib_loss_factor_sched.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _meterDailyConsumptionAndReadDate.Meta_HasChanged = 1 OR _meterHeaderNextScheduledReadDate.Meta_HasChanged = 1 OR _siteFRMPDate.Meta_HasChanged = 1 OR utl_site_class.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _firstImportRegisterDate.Meta_HasChanged = 1);
+		_firstImportRegisterDate.FirstImportRegisterDate,
+		CAST( utl_site_status.site_status_desc AS nvarchar(30)),
+		CAST( utl_site_status_class.site_status_class_desc AS nvarchar(20))
+	  FROM /* Staging */ lumo.utl_site LEFT JOIN /* Staging */ lumo.utl_distrib_loss_factor_sched ON utl_distrib_loss_factor_sched.dlf_id = utl_site.dlf_id LEFT JOIN meterDailyConsumptionAndReadDate AS _meterDailyConsumptionAndReadDate ON _meterDailyConsumptionAndReadDate.site_id = utl_site.site_id LEFT JOIN meterHeaderNextScheduledReadDate AS _meterHeaderNextScheduledReadDate ON _meterHeaderNextScheduledReadDate.site_id = utl_site.site_id LEFT JOIN siteFRMPDate AS _siteFRMPDate ON _siteFRMPDate.site_id = utl_site.site_id LEFT JOIN /* Staging */ lumo.utl_site_class ON utl_site_class.site_class_id = utl_site.site_class_id LEFT JOIN /* Staging */ lumo.utl_site_status ON utl_site_status.site_status_id = utl_site.site_status_id LEFT JOIN /* Staging */ lumo.utl_site_status_class ON utl_site_status_class.site_status_class_id = utl_site_status.site_status_class_id LEFT JOIN /* Dimensional */ lumo.DimTransmissionNode AS _DimTransmissionNode ON _DimTransmissionNode.TransmissionNodeKey = utl_site.network_node_id LEFT JOIN firstImportRegisterDate AS _firstImportRegisterDate ON _firstImportRegisterDate.site_id = utl_site.site_id WHERE ISNULL (utl_distrib_loss_factor_sched.start_date, '1900-01-01') < GETDATE () AND ISNULL (utl_distrib_loss_factor_sched.end_date, '9999-12-31') > GETDATE () AND (utl_site.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR utl_distrib_loss_factor_sched.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _meterDailyConsumptionAndReadDate.Meta_HasChanged = 1 OR _meterHeaderNextScheduledReadDate.Meta_HasChanged = 1 OR _siteFRMPDate.Meta_HasChanged = 1 OR utl_site_class.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _firstImportRegisterDate.Meta_HasChanged = 1);
 
 SELECT 0 AS ExtractRowCount,
 @@ROWCOUNT AS InsertRowCount,

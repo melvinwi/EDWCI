@@ -1,0 +1,3 @@
+site_status_class_id	site_status_class_code	site_status_class_desc	active	insert_datetime	insert_user	insert_process	update_datetime	update_user	update_process	Meta_Insert_TaskExecutionInstanceId	Meta_LatestUpdate_TaskExecutionInstanceId
+1	EN	Energised Site	Y	2004-01-01	PTM-DB10	DATALOAD	NULL	NULL	NULL	1	1
+2	DN	De-Energised Site	Y	2004-01-01	PTM-DB10	DATALOAD	NULL	NULL	NULL	1	1
