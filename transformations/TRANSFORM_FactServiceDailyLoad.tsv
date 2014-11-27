@@ -9,7 +9,7 @@ COALESCE(	_dimTransmissionNode.TransmissionNodeId	", -1)"	FactServiceDailyLoad.T
 	Level2_CSVData.NMI		FactServiceDailyLoad.MarketIdentifier	One to one mapping
 "CONVERT(NCHAR(8), ISNULL("	Level2_CSVData.SettlementDate	", '9999-12-31'), 112)"	FactServiceDailyLoad.SettlementDateId	One to one mapping
 	Level2_Transaction.SettlementCase		FactServiceDailyLoad.SettlementCase	One to one mapping
-CASE	Level2_CSVData.DataType	WHEN 'C' THEN 'Consumption' WHEN 'I' THEN 'Interval' END	FactServiceDailyLoad.DatastreamType	One to one mapping with substitution
+CASE	Level2_CSVData.DataType	WHEN 'I' THEN 'Interval' WHEN 'C' THEN 'Basic' WHEN 'P' THEN 'Profile Data' WHEN '1' THEN 'Non-Market Active Import' WHEN '2' THEN 'Non-Market Active' WHEN '3' THEN 'Non-Market Reactive Import' WHEN '4' THEN 'Non-Market Reactive' END	FactServiceDailyLoad.DatastreamType	One to one mapping with substitution
 CASE	Level2_CSVData.MSATS_Est	WHEN 'Y' THEN 'Estimate' ELSE 'Actual' END	FactServiceDailyLoad.ReadType	One to one mapping with substitution
 	Level2_CSVData.Total_Energy		FactServiceDailyLoad.TotalEnergy	One to one mapping
 	Level2_CSVData.MessageID	+ '.' + Level2_CSVData.transactionID + '.' + CAST(Level2_CSVData.SeqNo AS VARCHAR(10))	FactServiceDailyLoad.ServiceDailyLoadKey	Concatenate the natural key columns

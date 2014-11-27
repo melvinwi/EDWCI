@@ -32,7 +32,7 @@ END
 		Level2_CSVData.NMI,
 		CONVERT(NCHAR(8), ISNULL( Level2_CSVData.SettlementDate , '9999-12-31'), 112),
 		Level2_Transaction.SettlementCase,
-		CASE Level2_CSVData.DataType WHEN 'C' THEN 'Consumption' WHEN 'I' THEN 'Interval' END,
+		CASE Level2_CSVData.DataType WHEN 'I' THEN 'Interval' WHEN 'C' THEN 'Basic' WHEN 'P' THEN 'Profile Data' WHEN '1' THEN 'Non-Market Active Import' WHEN '2' THEN 'Non-Market Active' WHEN '3' THEN 'Non-Market Reactive Import' WHEN '4' THEN 'Non-Market Reactive' END,
 		CASE Level2_CSVData.MSATS_Est WHEN 'Y' THEN 'Estimate' ELSE 'Actual' END,
 		Level2_CSVData.Total_Energy,
 		Level2_CSVData.MessageID + '.' + Level2_CSVData.transactionID + '.' + CAST(Level2_CSVData.SeqNo AS VARCHAR(10))
