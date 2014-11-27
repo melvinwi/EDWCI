@@ -1,0 +1,20 @@
+
+h2. ARTEFACT: Level2_Transaction
+
+DESCRIPTION: Level 2 Transaction data from AEMO
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|transactionID	|transactionID	|varchar	|36	|	|TRUE	|TRUE	|FALSE	|
+|transactionDate	|transactionDate	|datetime2	|0	|	|FALSE	|FALSE	|FALSE	|
+|initiatingTransactionID	|initiatingTransactionID	|varchar	|36	|	|FALSE	|FALSE	|FALSE	|
+|ReportName	|ReportName	|varchar	|50	|	|FALSE	|FALSE	|FALSE	|
+|SettlementCase	|SettlementCase	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|FromDate	|FromDate	|date	|	|	|FALSE	|FALSE	|FALSE	|
+|ToDate	|ToDate	|date	|	|	|FALSE	|FALSE	|FALSE	|
+|LastSequenceNumber	|LastSequenceNumber	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|TransmissionNodeIdentifier	|TransmissionNodeIdentifier	|varchar	|4	|	|FALSE	|FALSE	|FALSE	|
+|LR	|LR	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|MDP	|MDP	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE|
+

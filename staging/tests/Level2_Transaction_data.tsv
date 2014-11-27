@@ -1,0 +1,3 @@
+transactionID	transactionDate	initiatingTransactionID	ReportName	SettlementCase	FromDate	ToDate	LastSequenceNumber	TransmissionNodeIdentifier	LR	MDP	Meta_Insert_TaskExecutionInstanceId	Meta_LatestUpdate_TaskExecutionInstanceId
+MDMT-513946514	2014-04-03 08:55:17	NEMMCO-14894905-1	Level2SettlementReconciliation	4044	2014-03-23	2014-03-29	0	ALL	NULL	ALL	-1	-1
+MDMT-520504241	2014-06-02 11:48:36	NEMMCO-15324337-1	Level2SettlementReconciliation	4135	2014-01-12	2014-01-18	0	ALL	NULL	ALL	-1	-1

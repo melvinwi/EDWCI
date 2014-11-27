@@ -1,0 +1,14 @@
+# design artefact							
+# ARTEFACT: Level2_Header							
+# DESCRIPTION: Level 2 Header data from AEMO							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+MessageID	MessageID	varchar	36		TRUE	TRUE	FALSE
+From	From	varchar	10		FALSE	FALSE	FALSE
+To	To	varchar	10		FALSE	FALSE	FALSE
+MessageDate	MessageDate	datetime2			FALSE	FALSE	FALSE
+TransactionGroup	TransactionGroup	varchar	10		FALSE	FALSE	FALSE
+Priority	Priority	varchar	10		FALSE	FALSE	FALSE
+SecurityContext	SecurityContext	varchar	15		FALSE	FALSE	FALSE
+Market	Market	varchar	10		FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE

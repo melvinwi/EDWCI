@@ -1,0 +1,6 @@
+# design test artefact			
+# ARTEFACT: TRANSFORM_DimService_tests			
+# DESCRIPTION: Test each transformation rule			
+SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
+REUSE_SQL	"FROM /* Staging */ [schema].Level2_CSVData INNER JOIN /* Staging */ [schema].Level2_Transaction ON Level2_Transaction.transactionID = Level2_CSVData.transactionID"		
+[REUSE_SQL]		source.length.should.equal(destination.length)	row counts should match

@@ -187,3 +187,4 @@ MSATSEstimate	any	MSATSEstimate	NA
 TotalEnergy	any	TotalEnergy	NA
 ServiceDailyLoadKey	any	ServiceDailyLoadKey	NA
 ResearchProjectName		any	ResearchProjectName		NA
+ReadType		any	ReadType		NA
