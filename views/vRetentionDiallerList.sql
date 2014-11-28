@@ -35,7 +35,7 @@ WITH   notifications
                   notifications.ParticipantCode,
                   notifications.RC
            FROM   notifications
-           LEFT   JOIN requestNotifications ON requestNotifications.AccountKey = notifications.AccountKey AND requestNotifications.ServiceKey = requestNotifications.ServiceKey
+           LEFT   JOIN requestNotifications ON requestNotifications.AccountKey = notifications.AccountKey AND requestNotifications.ServiceKey = notifications.ServiceKey
            LEFT   JOIN notifications AS _previousNotification ON _previousNotification.AccountKey = notifications.AccountKey AND _previousNotification.ServiceKey = notifications.ServiceKey AND _previousNotification.RC = requestNotifications.RC
            WHERE  notifications.RC = 1
            AND    notifications.TransactionStatus IN (N'Requested', N'Pending')),
