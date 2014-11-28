@@ -2,7 +2,9 @@ CREATE VIEW [Views].[vRetentionDiallerList]
 AS
 WITH   notifications
        AS (SELECT FactMarketTransaction.AccountId,
+                  DimAccount.AccountKey,
                   FactMarketTransaction.ServiceId,
+                  DimService.ServiceKey,
                   FactMarketTransaction.ChangeReasonId,
                   FactMarketTransaction.TransactionDateId,
                   FactMarketTransaction.TransactionTime,
@@ -14,6 +16,29 @@ WITH   notifications
            INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactMarketTransaction.ServiceId
            WHERE  FactMarketTransaction.TransactionType = N'NOTIFICATION'
            AND    CONVERT(DATETIME, CAST(FactMarketTransaction.TransactionDateId AS NCHAR(8)), 112) BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE()),
+       requestNotifications
+       AS (SELECT notifications.AccountKey,
+                  notifications.ServiceKey,
+                  MIN(RC) AS RC
+           FROM   notifications
+           WHERE  notifications.TransactionStatus = N'Requested'
+           GROUP  BY notifications.AccountKey,
+                     notifications.ServiceKey),
+       latestNotification
+       AS (SELECT notifications.AccountId,
+                  notifications.ServiceId,
+                  notifications.ChangeReasonId,
+                  notifications.TransactionDateId,
+                  _previousNotification.TransactionDateId AS RequestDateId,
+                  notifications.TransactionTime,
+                  notifications.TransactionStatus,
+                  notifications.ParticipantCode,
+                  notifications.RC
+           FROM   notifications
+           LEFT   JOIN requestNotifications ON requestNotifications.AccountKey = notifications.AccountKey AND requestNotifications.ServiceKey = requestNotifications.ServiceKey
+           LEFT   JOIN notifications AS _previousNotification ON _previousNotification.AccountKey = notifications.AccountKey AND _previousNotification.ServiceKey = notifications.ServiceKey AND _previousNotification.RC = requestNotifications.RC
+           WHERE  notifications.RC = 1
+           AND    notifications.TransactionStatus IN (N'Requested', N'Pending')),
        phoneNumbers
        AS (SELECT CustomerKey,
                   CASE
@@ -76,7 +101,8 @@ WITH   notifications
                   Days61To90,
                   Days90Plus,
                   ROW_NUMBER() OVER (PARTITION BY FactAgedTrialBalance.AccountId ORDER BY FactAgedTrialBalance.ATBDateId DESC) AS RC
-           FROM   DW_Dimensional.DW.FactAgedTrialBalance),
+           FROM   DW_Dimensional.DW.FactAgedTrialBalance
+           WHERE  DATEDIFF(DAY, CONVERT(NCHAR(8), FactAgedTrialBalance.ATBDateId, 112), GETDATE()) <= 7),
        dimService
        AS (SELECT DimAccount.AccountKey,
                   MIN(DimService.NextScheduledReadDate) AS NextScheduledReadDate
@@ -147,8 +173,8 @@ WITH   notifications
                   COALESCE((SELECT COUNT(*)
                             FROM   contactActivities
                             WHERE  contactActivities.CustomerKey = DimCustomer.CustomerKey
-                            AND    contactActivities.ActivityDateId >= notifications.TransactionDateId), 0) AS [CONTACTS_CR], -- Count of dispositions since CR date
-                  DATEDIFF(DAY, CONVERT(DATE, CAST(notifications.TransactionDateId AS NCHAR(8)), 112), GETDATE()) AS [CRRAISED], -- Number of days since CR raised
+                            AND    contactActivities.ActivityDateId >= latestNotification.RequestDateId), 0) AS [CONTACTS_CR], -- Count of dispositions since CR date
+                  DATEDIFF(DAY, CONVERT(DATE, CAST(latestNotification.RequestDateId AS NCHAR(8)), 112), GETDATE()) AS [CRRAISED], -- Number of days since CR raised
                   COALESCE(CONVERT(NCHAR(10), DATEDIFF(DAY, GETDATE(), NextScheduledReadDate)), '') AS [CRLOST], -- Number of days before CR is due to be completed (next scheduled read date)
                   CASE salesActivities.SalesActivityType
                     WHEN N'Retained' THEN 6
@@ -156,7 +182,7 @@ WITH   notifications
                     WHEN N'CR Retain' THEN 23
                     ELSE ''
                   END AS [CRRETAIN], -- Last sales involvement code if it was a retain (optional)
-                  ISNULL(notifications.ParticipantCode, '') AS [COMPETITOR],
+                  ISNULL(latestNotification.ParticipantCode, '') AS [COMPETITOR],
                   '' AS [SKILLNAME],
                   CASE customerValue.ValueRating
                     WHEN N'Silver' THEN 2
@@ -185,10 +211,10 @@ WITH   notifications
                   '' AS [PREVIOUSCONTACT],
                   '' AS [JOB],
                   ISNULL(DimCustomer.PrivacyPreferredStatus, '') AS [Privacy],
-                  ROW_NUMBER() OVER (PARTITION BY DimCustomer.CustomerCode ORDER BY notifications.TransactionDateId DESC, notifications.TransactionTime DESC) AS RC
-       FROM   notifications
-       INNER  JOIN DW_Dimensional.DW.DimChangeReason ON DimChangeReason.ChangeReasonId = notifications.ChangeReasonId AND DimChangeReason.Meta_IsCurrent = 1
-       INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = notifications.AccountId AND DimAccount.Meta_IsCurrent = 1
+                  ROW_NUMBER() OVER (PARTITION BY DimCustomer.CustomerCode ORDER BY latestNotification.TransactionDateId DESC, latestNotification.TransactionTime DESC) AS RC
+       FROM   latestNotification
+       INNER  JOIN DW_Dimensional.DW.DimChangeReason ON DimChangeReason.ChangeReasonId = latestNotification.ChangeReasonId AND DimChangeReason.Meta_IsCurrent = 1
+       INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = latestNotification.AccountId AND DimAccount.Meta_IsCurrent = 1
        INNER  JOIN DW_Dimensional.DW.FactCustomerAccount ON FactCustomerAccount.AccountId = DimAccount.AccountId
        INNER  JOIN DW_Dimensional.DW.DimCustomer ON DimCustomer.CustomerId = FactCustomerAccount.CustomerId AND DimCustomer.Meta_IsCurrent = 1
        INNER  JOIN phoneNumbers ON phoneNumbers.CustomerKey = DimCustomer.CustomerKey
@@ -196,12 +222,10 @@ WITH   notifications
        LEFT   JOIN retentionActivities ON retentionActivities.CustomerKey = DimCustomer.CustomerKey
        LEFT   JOIN agedTrialBalance ON agedTrialBalance.AccountId = DimAccount.AccountId AND agedTrialBalance.RC = 1
        LEFT   JOIN dimService ON dimService.AccountKey = DimAccount.AccountKey
-       LEFT   JOIN salesActivities ON salesActivities.AccountKey = DimAccount.AccountCode AND salesActivities.RC = 1
-       WHERE  notifications.RC = 1
-       AND    DimChangeReason.ChangeReasonCode IN (N'1000', N'1010', N'0001', N'0003')
-       AND    notifications.TransactionStatus IN (N'Requested', N'Pending')
+       LEFT   JOIN salesActivities ON salesActivities.AccountKey = DimAccount.AccountKey AND salesActivities.RC = 1
+       WHERE  DimChangeReason.ChangeReasonCode IN (N'1000', N'1010', N'0001', N'0003')
        AND    DimCustomer.CustomerType = N'Residential'
-       AND    NOT ISNULL(notifications.ParticipantCode, N'VENCORP') IN (N'VEPL', N'VEGAS', N'SAEPL', N'QEPL', N'NSWEPL', N'LUMOUSR')
+       AND    NOT ISNULL(latestNotification.ParticipantCode, N'VENCORP') IN (N'VEPL', N'VEGAS', N'SAEPL', N'QEPL', N'NSWEPL', N'LUMOUSR')
        AND    DimAccount.AccountStatus = N'Open'
        AND    (DimAccount.CreditControlStatus LIKE N'Standard%' OR DimAccount.CreditControlStatus LIKE N'Payplan%')
        AND    retentionActivities.CustomerKey IS NULL
