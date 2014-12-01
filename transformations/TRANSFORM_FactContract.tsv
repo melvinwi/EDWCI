@@ -8,9 +8,10 @@ WITH_STATEMENTS	"WITH pricePlan AS (SELECT utl_account_price_plan.seq_product_it
 	_DimProduct.ProductId		FactContract.ProductId	One to one mapping
 ISNULL(	_DimPricePlan.PricePlanId	",-1)"	FactContract.PricePlanId	One to one mapping with ISNULL
 "CONVERT(NCHAR(8), COALESCE("	nc_product_item.date_connected	", nc_product_item.contract_start_date, '9999-12-31'), 112)"	FactContract.ContractConnectedDateId	One to one mapping with int cast
+"CONVERT (nchar (8) , COALESCE ( "	nc_product_item.frmp_date	", '9999-12-31') , 112) "	FactContract.ContractFRMPDateId	One to one mapping with int cast
 "CONVERT(NCHAR(8), ISNULL("	nc_product_item.contract_start_date	", '9999-12-31'), 112)"	FactContract.ContractStartDateId	One to one mapping with int cast
 "CONVERT(NCHAR(8), ISNULL("	nc_product_item.contract_end_date	", '9999-12-31'), 112)"	FactContract.ContractEndDateId	One to one mapping with int cast
-"CASE WHEN utl_account_status.accnt_status_class_id = 1 THEN CONVERT(NCHAR(8), COALESCE("	nc_product_item.date_terminated	", nc_product_item.accnt_status_date, '9999-12-31'), 112) ELSE CONVERT (nchar (8), COALESCE (nc_product_item.date_terminated, '9999-12-31'), 112) END"	FactContract.ContractTerminatedDateId	One to one mapping with int cast
+"CASE WHEN utl_account_status.accnt_status_class_id = 1 THEN CONVERT(NCHAR(8), COALESCE("	nc_product_item.date_terminated	", nc_product_item.accnt_status_date, '9999-12-31') , 112) WHEN  utl_account_status.accnt_status_class_id = 2 THEN 99991231 ELSE CONVERT (nchar (8) , COALESCE ( nc_product_item.date_terminated , '9999-12-31') , 112) END"	FactContract.ContractTerminatedDateId	One to one mapping with int cast
 CAST(CASE	utl_account_status.accnt_status_class_id	WHEN 2 THEN 'Open' WHEN 3 THEN 'Pending' WHEN 4 THEN 'Error' ELSE 'Closed' END AS nchar(10))	FactContract.ContractStatus	Decode account status into readable values
 CAST(	nc_product_item.seq_product_item_id	AS int)	FactContract.ContractKey	One to one mapping with int cast
 /*	nc_product_item.seq_product_item_id	*/ 1	FactContract.ContractCounter	Default with int cast
