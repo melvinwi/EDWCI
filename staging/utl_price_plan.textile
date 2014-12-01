@@ -1,0 +1,41 @@
+
+h2. ARTEFACT: utl_price_plan
+
+DESCRIPTION: Price Plan reference table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|price_plan_id	|price_plan_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_product_type_id	|seq_product_type_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|price_plan_code	|price_plan_code	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|price_plan_desc	|price_plan_desc	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|discount_pct	|discount_pct	|numeric	|"19,4"	|	|FALSE	|FALSE	|FALSE	|
+|active	|active	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime	|insert_datetime	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user	|insert_user	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process	|insert_process	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime	|update_datetime	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user	|update_user	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process	|update_process	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|default_option	|default_option	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|network_id	|network_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|seq_bus_unit_id	|seq_bus_unit_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|rebate_percentage	|rebate_percentage	|numeric	|"12,4"	|	|FALSE	|FALSE	|FALSE	|
+|off_peak_rebate_percentage	|off_peak_rebate_percentage	|numeric	|"12,4"	|	|FALSE	|FALSE	|FALSE	|
+|rebate_limit	|rebate_limit	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|invoice_message	|invoice_message	|varchar	|max	|	|FALSE	|FALSE	|FALSE	|
+|inv_msg_start_date	|inv_msg_start_date	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|inv_msg_end_date	|inv_msg_end_date	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|price_category_id	|price_category_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|product_sub_type	|product_sub_type	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|site_id	|site_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|tel_pp_id	|tel_pp_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|product_addon_type	|product_addon_type	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|external_reference	|external_reference	|varchar	|50	|	|FALSE	|FALSE	|FALSE	|
+|green_percent	|green_percent	|numeric	|"19,4"	|	|FALSE	|FALSE	|FALSE	|
+|bundled_flag	|bundled_flag	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|cpi_pass_flag	|cpi_pass_flag	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|network_cost_flag	|network_cost_flag	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|upgrade_price_plan_id	|upgrade_price_plan_id	|numeric	|"18,0"	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE|
+

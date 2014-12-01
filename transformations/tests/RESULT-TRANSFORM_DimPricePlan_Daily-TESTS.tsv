@@ -1,0 +1,5 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_DimPricePlan_Daily
+# CREATED DATE: 2014-12-01T155605
+
+2014-12-01 15:56:06	2	PASSED	source.length.should.equal(destination.length)	{"obj":44,"params":{"operator":"to be","expected":44,"showDiff":true},"negate":false}
