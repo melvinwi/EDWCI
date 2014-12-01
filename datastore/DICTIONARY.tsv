@@ -10,6 +10,7 @@ PricePlanType	any	Identifier	NA
 Bundled	any	Identifier	NA
 ContractFRMPDateId	any	Identifier	NA
 DailyPricePlan	prefix	Identifier	NA
+UsagePricePlan	prefix	Identifier	NA
 Bundled	any	Identifier	NA
 Id	suffix	Identifier	NA
 Code	suffix	Identifier	NA
