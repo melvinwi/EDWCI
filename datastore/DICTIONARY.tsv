@@ -6,6 +6,11 @@ Key	suffix	Identifier	NA
 AccountBillStartDate	any	Identifier	NA
 SiteStatus	any	Identifier	NA
 SiteStatusType	any	Identifier	NA
+PricePlanType	any	Identifier	NA
+Bundled	any	Identifier	NA
+ContractFRMPDateId	any	Identifier	NA
+DailyPricePlan	prefix	Identifier	NA
+Bundled	any	Identifier	NA
 Id	suffix	Identifier	NA
 Code	suffix	Identifier	NA
 Account	prefix	Reserved for DimAccount	NA

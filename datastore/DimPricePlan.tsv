@@ -2,8 +2,10 @@
 # ARTEFACT: DimPricePlan							
 # DESCRIPTION: Price Plan dimension table							
 COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
-PricePlanKey	Price Plan Key	int			TRUE	FALSE	FALSE
+PricePlanKey	Price Plan Key	nvarchar	30		TRUE	FALSE	FALSE
 PricePlanCode	Price Plan Code	nvarchar	20		FALSE	FALSE	FALSE
 PricePlanName	Price Plan Name	nvarchar	100		FALSE	FALSE	FALSE
 PricePlanDiscountPercentage	Price Plan Discount Percentage	decimal	"5,4"		FALSE	FALSE	FALSE
 PricePlanValueRatio	Price Plan Value Ratio	decimal	"3,2"		FALSE	FALSE	FALSE
+PricePlanType	Price Plan Type (Daily or Usage)	nchar	5		FALSE	FALSE	FALSE
+Bundled	Bundled	nvarchar	11		FALSE	FALSE	FALSE
