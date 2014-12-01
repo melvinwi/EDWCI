@@ -47,7 +47,7 @@ END
 		CAST( utl_meter.network_tariff_code AS nvarchar(20)),
 		CAST (CASE WHEN LEFT( utl_meter.market_meter_register ,1) = 'B' THEN 'Import'WHEN LEFT(utl_meter.market_meter_register,1) = 'K' THEN 'Import' WHEN utl_price_class.import = 'Y' THEN 'Import' ELSE 'Export' END AS nchar (6)),
 		CAST(CASE utl_meter.meter_status_id WHEN 1 THEN 'Active' WHEN 2 THEN 'Inactive' ELSE NULL END AS nchar(8)),
-		utl_meter.vm_start_date,
+		CASE WHEN utl_virtual_meter_type.virtual_meter_type_desc IS NOT NULL THEN utl_meter.vm_start_date END,
 		CAST(CASE WHEN utl_virtual_meter_type.virtual_meter_type_desc IS NULL THEN 'Physical' ELSE CONCAT('Virtual - ', utl_virtual_meter_type.virtual_meter_type_desc) END AS nvarchar(20))
 	  FROM lumo.utl_meter LEFT JOIN lumo.utl_meter_header ON utl_meter_header.meter_header_id = utl_meter.meter_header_id INNER JOIN lumo.utl_meter_type ON utl_meter_type.meter_type_id = utl_meter.meter_type_id INNER JOIN lumo.utl_price_class ON utl_price_class.price_class_id = utl_meter_type.price_class_id INNER JOIN lumo.utl_meter_class ON utl_meter_class.meter_class_id = utl_meter_type.meter_class_id LEFT JOIN lumo.utl_virtual_meter_type ON utl_virtual_meter_type.virtual_meter_type_id = utl_meter.virtual_meter_type_id  WHERE (utl_meter.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR utl_meter_header.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR utl_meter_type.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR utl_meter_type.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR utl_virtual_meter_type.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID);
 
