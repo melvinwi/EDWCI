@@ -4,15 +4,16 @@ h2. ARTEFACT: FactContract
 DESCRIPTION: Contract factless fact table
 
 |*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
-|AccountId	|Foreign key to DimAccount	|int	|	|-1	|TRUE	|	|FALSE	|
-|ServiceId	|Foreign key to DimService	|int	|	|-1	|TRUE	|	|FALSE	|
-|ProductId	|Foreign key to DimProduct	|int	|	|-1	|TRUE	|	|FALSE	|
-|PricePlanId	|Foreign key to DimPricePlan	|int	|	|-1	|TRUE	|	|FALSE	|
-|ContractConnectedDateId	|Contract Connected Date	|int	|	|99991231	|TRUE	|	|FALSE	|
-|ContractStartDateId	|Contract Start Date	|int	|	|99991231	|TRUE	|	|FALSE	|
-|ContractEndDateId	|Contract End Date	|int	|	|99991231	|TRUE	|	|FALSE	|
-|ContractTerminatedDateId	|Contract Terminated Date	|int	|	|99991231	|TRUE	|	|FALSE	|
-|ContractStatus	|Contract Status	|nchar	|10	|	|TRUE	|	|FALSE	|
-|ContractKey	|Contract ID from the source system	|int	|	|-1	|TRUE	|	|FALSE	|
-|ContractCounter	|Counter (=1)	|tinyint	|	|1	|TRUE	|	|FALSE|
+|AccountId	|Foreign key to DimAccount	|int	|	|-1	|TRUE	|FALSE	|FALSE	|
+|ServiceId	|Foreign key to DimService	|int	|	|-1	|TRUE	|FALSE	|FALSE	|
+|ProductId	|Foreign key to DimProduct	|int	|	|-1	|TRUE	|FALSE	|FALSE	|
+|PricePlanId	|Foreign key to DimPricePlan	|int	|	|-1	|TRUE	|FALSE	|FALSE	|
+|ContractConnectedDateId	|Contract Connected Date	|int	|	|99991231	|TRUE	|FALSE	|FALSE	|
+|ContractFRMPDateId	|Contract FRMP Date	|int	|	|99991231	|TRUE	|FALSE	|FALSE	|
+|ContractStartDateId	|Contract Start Date	|int	|	|99991231	|TRUE	|FALSE	|FALSE	|
+|ContractEndDateId	|Contract End Date	|int	|	|99991231	|TRUE	|FALSE	|FALSE	|
+|ContractTerminatedDateId	|Contract Terminated Date	|int	|	|99991231	|TRUE	|FALSE	|FALSE	|
+|ContractStatus	|Contract Status	|nchar	|10	|	|TRUE	|FALSE	|FALSE	|
+|ContractKey	|Contract ID from the source system	|int	|	|-1	|TRUE	|FALSE	|FALSE	|
+|ContractCounter	|Counter (=1)	|tinyint	|	|1	|TRUE	|FALSE	|FALSE|
 
