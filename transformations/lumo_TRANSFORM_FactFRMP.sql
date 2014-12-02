@@ -133,9 +133,6 @@ BEGIN
 		WHERE #FRMPHistory.site_id IS NULL;
 
 
-    -- Truncate destination temporary table
-    TRUNCATE TABLE temp.FactFRMP;
-
     -- Join & insert
     INSERT INTO temp.FactFRMP (
     FactFRMP.ServiceId,
