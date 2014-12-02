@@ -10,5 +10,6 @@ DESCRIPTION: Price Plan dimension table
 |PricePlanDiscountPercentage	|Price Plan Discount Percentage	|decimal	|"5,4"	|	|FALSE	|FALSE	|FALSE	|
 |PricePlanValueRatio	|Price Plan Value Ratio	|decimal	|"3,2"	|	|FALSE	|FALSE	|FALSE	|
 |PricePlanType	|Price Plan Type (Daily or Usage)	|nchar	|5	|	|FALSE	|FALSE	|FALSE	|
-|Bundled	|Bundled	|nvarchar	|11	|	|FALSE	|FALSE	|FALSE|
+|Bundled	|Bundled	|nvarchar	|11	|	|FALSE	|FALSE	|FALSE	|
+|ParentPricePlanCode	|Parent Price Plan Code	|nvarchar	|20	|	|FALSE	|FALSE	|FALSE|
 
