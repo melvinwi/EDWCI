@@ -10,4 +10,5 @@ N'DAILY.' + CAST(	utl_price_plan.price_plan_id	 AS nvarchar(20))	DimPricePlan.Pr
 	_value_code.variation_from_market		DimPricePlan.PricePlanValueRatio	One to one mapping
 /*	utl_price_plan.price_plan_id	*/ N'Daily'	DimPricePlan.PricePlanType	Hardcoded
 CASE 	utl_price_plan.bundled_flag	WHEN 'Y' THEN N'Bundled' ELSE N'Not Bundled' END	DimPricePlan.Bundled	Derive
+	utl_price_plan.price_plan_code		DimPricePlan.ParentPricePlanCode	One to one mapping
 SELECTION_CRITERIA	FROM /* Staging */ [schema].utl_price_plan LEFT JOIN value_code AS _value_code ON _value_code.price_plan_code = utl_price_plan.price_plan_code AND _value_code.recency = 1 WHERE utl_price_plan.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _value_code.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID			

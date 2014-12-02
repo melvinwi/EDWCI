@@ -12,5 +12,6 @@ DESCRIPTION: Construct Daily Price Plans from Orion tables to DataStore
 |	|_value_code.variation_from_market	|	|"DimPricePlan":../datastore/DimPricePlan.textile .PricePlanValueRatio	|One to one mapping	|
 |/*	|"utl_price_plan":../staging/utl_price_plan.textile .price_plan_id	|*/ N'Daily'	|"DimPricePlan":../datastore/DimPricePlan.textile .PricePlanType	|Hardcoded	|
 |CASE 	|"utl_price_plan":../staging/utl_price_plan.textile .bundled_flag	|WHEN 'Y' THEN N'Bundled' ELSE N'Not Bundled' END	|"DimPricePlan":../datastore/DimPricePlan.textile .Bundled	|Derive	|
+|	|"utl_price_plan":../staging/utl_price_plan.textile .price_plan_code	|	|"DimPricePlan":../datastore/DimPricePlan.textile .ParentPricePlanCode	|One to one mapping	|
 |SELECTION_CRITERIA	|FROM /* Staging */ [schema]."utl_price_plan":../staging/utl_price_plan.textile  LEFT JOIN value_code AS _value_code ON _value_code.price_plan_code = "utl_price_plan":../staging/utl_price_plan.textile .price_plan_code AND _value_code.recency = 1 WHERE "utl_price_plan":../staging/utl_price_plan.textile .Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _value_code.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID|
 

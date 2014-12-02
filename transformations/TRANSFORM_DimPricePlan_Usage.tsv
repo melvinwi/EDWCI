@@ -1,0 +1,14 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_DimPricePlan_Usage				
+# DESCRIPTION: Construct Usage Price Plans from Orion tables to DataStore 				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+WITH_STATEMENTS	"WITH ppRelationship AS (SELECT utl_pp_relationship.price_plan_id, utl_pp_relationship.pp_simple_sched_id, utl_pp_relationship.Meta_LatestUpdate_TaskExecutionInstanceId FROM /* Staging */ [schema].utl_pp_relationship WHERE utl_pp_relationship.pp_simple_sched_id IN (SELECT utl_pp_relationship.pp_simple_sched_id FROM /* Staging */ [schema].utl_pp_relationship GROUP BY utl_pp_relationship.pp_simple_sched_id HAVING COUNT (*) = 1)) , value_code AS (SELECT value_code.price_plan_code, value_code.variation_from_market, value_code.Meta_LatestUpdate_TaskExecutionInstanceId, ROW_NUMBER () OVER (PARTITION BY value_code.price_plan_code ORDER BY value_code.Meta_LatestUpdate_TaskExecutionInstanceId DESC) AS recency FROM /* Staging */ [schema].value_code)"			Deduplicate value_code selecting the latest information
+N'USAGE.' + CAST(	utl_pp_simple_schedule.pp_simple_sched_id	 AS nvarchar(20))	DimPricePlan.PricePlanKey	One to one mapping
+	utl_pp_simple_schedule.pp_simple_sched_code		DimPricePlan.PricePlanCode	One to one mapping
+	utl_pp_simple_schedule.pp_simple_sched_desc		DimPricePlan.PricePlanName	One to one mapping
+	utl_price_plan.discount_pct		DimPricePlan.PricePlanDiscountPercentage	One to one mapping
+	_value_code.variation_from_market		DimPricePlan.PricePlanValueRatio	One to one mapping
+/*	utl_pp_simple_schedule.pp_simple_sched_id	*/ N'Usage'	DimPricePlan.PricePlanType	Hardcoded
+CASE 	utl_price_plan.bundled_flag	WHEN 'Y' THEN N'Bundled' WHEN 'N' THEN N'Not Bundled' END	DimPricePlan.Bundled	Derive
+	utl_price_plan.price_plan_code		DimPricePlan.ParentPricePlanCode	One to one mapping
+SELECTION_CRITERIA	FROM /* Staging */ [schema].utl_pp_simple_schedule LEFT JOIN ppRelationship AS _ppRelationship ON _ppRelationship.pp_simple_sched_id = utl_pp_simple_schedule.pp_simple_sched_id LEFT JOIN /* Staging */ [schema].utl_price_plan ON utl_price_plan.price_plan_id = _ppRelationship.price_plan_id LEFT JOIN value_code AS _value_code ON _value_code.price_plan_code = utl_price_plan.price_plan_code AND _value_code.recency = 1 WHERE utl_pp_simple_schedule.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR utl_price_plan.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _value_code.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _ppRelationship.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID			
