@@ -10,7 +10,7 @@ DESCRIPTION: Service Daily Load fact table
 |MarketIdentifier	|NMI	|nvarchar	|30	|	|TRUE	|	|FALSE	|
 |SettlementDateId	|Settlement Date	|int	|	|99991231	|TRUE	|	|FALSE	|
 |SettlementCase	|Settlement Case	|int	|	|	|TRUE	|	|FALSE	|
-|DatastreamType	|Datastream Type	|nvarchar	|13	|	|TRUE	|	|FALSE	|
+|DatastreamType	|Datastream Type	|nvarchar	|30	|	|TRUE	|	|FALSE	|
 |ReadType	|Read Type	|nchar	|8	|	|TRUE	|	|FALSE	|
 |TotalEnergy	|Total Energy	|decimal	|"10,3"	|	|TRUE	|	|FALSE	|
 |ServiceDailyLoadKey	|Service Daily Load Key	|nvarchar	|100	|	|TRUE	|	|FALSE|

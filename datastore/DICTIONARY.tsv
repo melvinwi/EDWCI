@@ -2,197 +2,161 @@
 # ARTEFACT: DICTIONARY				
 # DESCRIPTION: a valid list of valid business names, descriptions and sample values				
 NAME	PREFIX_OR_SUFFIX_OR_ANY	DESCRIPTION	EXAMPLE_VALUES	
-Key	suffix	Identifier	NA
-AccountBillStartDate	any	Identifier	NA
-SiteStatus	any	Identifier	NA
-SiteStatusType	any	Identifier	NA
-PricePlanType	any	Identifier	NA
-Bundled	any	Identifier	NA
-ContractFRMPDateId	any	Identifier	NA
-DailyPricePlan	prefix	Identifier	NA
-UsagePricePlan	prefix	Identifier	NA
-ParentPricePlan	prefix	Identifier	NA
-Bundled	any	Identifier	NA
-Id	suffix	Identifier	NA
-Code	suffix	Identifier	NA
 Account	prefix	Reserved for DimAccount	NA
-Connected	Any	Connected	NA
-FRMP	prefix	FRMP	NA
-TransmissionNode	prefix	FRMP	NA
-LossFactor	suffix	Identifier	NA
-Customer	prefix	Reserved for DimCustomer 	NA
-Service	prefix	Reserved for DimService	NA
-Contract	prefix	Reserved for FactContract	NA
-Product	prefix	Reserved for DimProduct	NA
-Counter	suffix	Counter	NA
-Identity	suffix	Counter	NA
-Network	suffix	Counter	NA
-InferredGender	any	Inferred Gender	NA
-Postal	prefix	Mailing Address prefix	NA
-ChangeReason	prefix	Reserved for DimChangeReason	NA
-Residential	prefix	Site Address prefix	NA
-LoyaltyPoints	prefix	Loyalty Points prefix	NA
-AddressLine1	suffix	Address Line 1	NA
-Suburb	suffix	Address Suburb	NA
-Postcode	suffix	Address Postcode	NA
-ServiceType	suffix	Address Postcode	NA
-State	suffix	Address State	NA
-StateAsProvided	suffix	Address State	NA
-Status	suffix	Status flag or value	NA
-MyAccount	prefix	My Account Service prefix	NA
-NextScheduledRead	prefix	Next Scheduled Read prefix	NA
-FirstImportRegister	prefix	First Import Register prefix	NA
-Date	suffix	Date suffix	NA
-DateId	suffix	Date identifier used on facts suffix	99991231
-Time	suffix	Time data types may use this suffix	00:00:00
-Creation	prefix	Date prefix	NA
-Closed	any	Closed	NA
-BillStart	any	Bill Start	NA
-CreditControl	prefix	Credit Control	NA
-InvoiceDelivery	prefix	Credit Control	NA
-Payment	prefix	Credit Control	NA
-Method	suffix	Method	NA
-ActivityNotes	any	Activity Notes	NA
-Title	prefix	Title	NA
-First	prefix	First	NA
-Last	prefix	Last	NA
-Party	prefix	Party	NA
-Points	prefix	Points	NA
-Program	prefix	Program	NA
+Activity	prefix	describes activity attributes in the context of the table it resides	NA
+ActivityType	prefix	Reserved for DimActivityType	NA
 AwardedDate	prefix	Awarded	NA
-MemberNumber	any	MemberNumber	NA
-Name	suffix	Name	NA
-Amount	suffix	Amount	NA
-MiddleInitial	suffix	MiddleInitial	NA
-Primary	prefix	Primary	NA
-Secondary	prefix	Secondary	NA
-Mobile	prefix	Mobile	NA
-Phone	any	Phone	NA
-Type	suffix	Type	NA
-Email	any	Email	NA
-DateOfBirth	any	Date of Birth	NA
-OmbudsmanComplaints	any	Ombudsman Complaints	NA
-MarketIdentifier	any	Market Identifier	NA
-StartDate	any	Start Date	NA
-EndDate	any	End Date	NA
-Join	prefix	Join	NA
-Relationship	any	Relationship	NA
-EffectiveStartDate	any	Start Date	NA
-EffectiveEndDate	any	End Date	NA
-TerminatedDate	any	Terminated	NA
-ShortDesc	suffix	short description that may be used in drop down boxes	NA
-Desc	suffix	Description	NA
-PrivacyPreferred	prefix	Privacy Preferred	NA
-Creation	any	Creation	NA
-Category	suffix	Category	NA
+ChangeReason	prefix	Reserved for DimChangeReason	NA
+Contact	prefix	to contact a customer	NA
+Contract	prefix	Reserved for FactContract	NA
+Creation	prefix	Date prefix	NA
+CreditControl	prefix	Credit Control	NA
+Customer	prefix	Reserved for DimCustomer 	NA
+DailyPricePlan	prefix	Daily Price Plan	NA
 FinancialAccount	prefix	Reserved for DimFinancialAccount	NA
-Level1Name		any	Level 1 Name	NA
-Level2Name		any	Level 2 Name	NA
-Level3Name		any	Level 3 Name	NA
-Level4Name		any	Level 4 Name	NA
-Level5Name		any	Level 5 Name	NA
-Level1Code		any	Level 1 Code	NA
-Level2Code		any	Level 2 Code	NA
-Level3Code		any	Level 3 Code	NA
-Level4Code		any	Level 4 Code	NA
-Level5Code		any	Level 5 Code	NA
-Level1StructureName		any	Level 1 Structure Name	NA
-Level2StructureName		any	Level 2 Structure Name	NA
-Level3StructureName		any	Level 3 Structure Name	NA
-Level4StructureName		any	Level 4 Structure Name	NA
-Level5StructureName		any	Level 5 Structure Name	NA
-OrganisationId		any	Organisation Id	NA
-OrganisationKey		any	Organisation Key	NA
-OrganisationCode		any	Organisation Code	NA
-OrganisationName		any	Organisation Name	NA
-UnitType	prefix	Reserved for DimUnitType	NA
-MultiplicationFactorToBase	any	Multiplication Factor To Base	NA
-IssueDate	any	Issue Date	NA
-DueDate	any	Due Date	NA
-Header	any	Header	NA
-PaidOnTime	any	Paid On Time	NA
-Version	any	Version	NA
-Units	any	Units	NA
-TransactionKey	any	Transaction Key	NA
-Value	any	Value	NA
-Currency	any	Currency	NA
-Tax	any	Tax	NA
-VersionKey	any	Version Key	NA
-VersionName	any	Version Name	NA
-Transaction	prefix	Transaction	NA
-TransactionDateId	any	Transaction Date ID	NA
+First	prefix	First	NA
+FirstImportRegister	prefix	First Import Register	NA
+FRMP	prefix	FRMP	NA
+InvoiceDelivery	prefix	Invoice Delivery	NA
+Join	prefix	Join	NA
+Last	prefix	Last	NA
+Level1	prefix	Reserved for DimFinancialAccount	NA
+Level2	prefix	Reserved for DimFinancialAccount	NA
+Level3	prefix	Reserved for DimFinancialAccount	NA
+Level4	prefix	Reserved for DimFinancialAccount	NA
+Level5	prefix	Reserved for DimFinancialAccount	NA
+LoyaltyPoints	prefix	Reserved for FactLoyaltyPoints	NA
 MarketingCampaign	prefix	describes marketing campaign attributes	NA
 MarketingOffer	prefix	describes marketing campaign attributes	NA
-Contact	prefix	to contact a customer	NA
+Meter	prefix	Reserved for DimMeterRegister	NA
+MeterRegister	prefix	Reserved for DimMeterRegister	NA
+Mobile	prefix	Mobile	NA
+MyAccount	prefix	My Account	NA
+NextScheduledRead	prefix	Next Scheduled Read	NA
+Organisation	prefix	Reserved for DimOrganisation	NA
+ParentPricePlan	prefix	Parent Price Plan	NA
+Party	prefix	Party	NA
+Payment	prefix	Payment	NA
+Points	prefix	Points	NA
+Postal	prefix	Mailing Address prefix	NA
+PricePlan	prefix	Reserved for DimPricePlan	NA
+Primary	prefix	Primary	NA
 PrivacyAssessment	prefix	identifies privacy officer related attributes	NA
-Activity	prefix	describes activity attributes in the context of the table it resides	NA
-MarketingCompaignActivityKey	any	specific column used in defining marketing campaign activities	NA
-RepresentativeId		any	RepresentativeId	NA
-RepresentativeKey		any	RepresentativeKey	NA
-RepresentativeCode		any	RepresentativeCode	NA
-RepresentativeFirstName		any	RepresentativeFirstName	NA
-RepresentativeMiddleInitial		any	RepresentativeMiddleInitial	NA
-RepresentativeLastName		any	RepresentativeLastName	NA
-RepresentativePartyName		any	RepresentativePartyName	NA
-ActivityTypeId		any	ActivityTypeId	NA
-ATBDateId		any	ATBDateId	NA
-CurrentPeriod		any	CurrentPeriod	NA
-Days1To30		any	Days1To30	NA
-Days31To60		suffix	Days31To60	NA
-Days61To90		suffix	Days61To90	NA
-Days90Plus		suffix	Days90Plus	NA
-LossFactor		any	LossFactor	NA
-ParticipantCode		any	Participant	NA
-EstimatedDailyConsumption		any	Estimated Daily Consumption	NA
-MeteringType		any	Metering Type	NA
-PricePlanKey		prefix	PricePlanKey	NA
-PricePlanCode		prefix	PricePlanCode	NA
-PricePlanValueRatio		prefix	PricePlanValueRatio	NA
-PricePlanName		prefix	PricePlanName	NA
-PricePlanDiscountPercentage		prefix	PricePlanDiscountPercentage	NA
-PricePlanId		prefix	PricePlanId	NA
-ActivityTypeKey		any	ActivityTypeKey		NA
-ActivityTypeCode	any	ActivityTypeCode	NA 
-ActivityTypeDesc	any	ActivityTypeDesc	NA
+PrivacyPreferred	prefix	Privacy Preferred	NA
+Product	prefix	Reserved for DimProduct	NA
+Program	prefix	Program	NA
+Register	prefix	Reserved for DimMeterRegister	NA
+RegisterSystemIdentifer	prefix	Reserved for DimMeterRegister	NA
+Representative	prefix	Reserved for DimRepresentative	NA
+Residential	prefix	Site Address prefix	NA
+Secondary	prefix	Secondary	NA
+Service	prefix	Reserved for DimService	NA
+ServiceDailyLoad	prefix	Reserved for FactServiceDailyLoad	NA
+Title	prefix	Title	NA
+Transaction	prefix	Reserved for DimTransaction	NA
+TransmissionNode	prefix	Reserved for DimTransmissionNode	NA
+UnitType	prefix	Reserved for DimUnitType	NA
+UsagePricePlan	prefix	Usage Price Plan	NA
+ABN	any	ABN		NA
+AccountBillStartDate	any	Identifier	NA
+ACN	any	ACN		NA
 ActivityCommunicationMethod	any	ActivityCommunicationMethod	NA
-NEMInitialTransactionKey	any	NEMInitialTransactionKey	NA
-ACN	any	ActivityTypeKey		NA
-ABN	any	ActivityTypeKey		NA
-Question	any	Question		NA
-ResponseDateId		any	ResponseDateId		NA
-Response	any	Response		NA
-RespondentKey		any	RespondentKey		NA
-ResponseKey		any	ResponseKey		NA
-Threshold		any	Threshold		NA
-Meter		prefix	Meter		NA
-Register		any	Register		NA
-Market		any	Threshold		NA
-System		any	Threshold		NA
-MeterMarketSerialNumber		any	MeterMarketSerialNumber		NA
-RegisterBillingType		any	BillingType		NA
-MeterRegisterKey		any	BillingType		NA
-MeterSystemSerialNumber		any	BillingType		NA
-MeterServiceType		any	BillingType		NA
-RegisterBillingTypeCode		any	BillingType		NA
-RegisterClass		any	BillingType		NA
-RegisterCreationDate		any	BillingType		NA
-RegisterEstimatedDailyConsumption		any	BillingType		NA
-RegisterMarketIdentifier		any	BillingType		NA
-RegisterSystemIdentifer		any	BillingType		NA
-RegisterMultiplier		any	BillingType		NA
-RegisterNetworkTariffCode		any	BillingType		NA
-RegisterReadDirection		any	BillingType		NA
-RegisterStatus		any	BillingType		NA
-RegisterStatusDate		any	BillingType		NA
-RegisterVirtualStartDate		any	BillingType		NA
-RegisterVirtualType		any	BillingType		NA
-MeterRegisterId		any	BillingType		NA
-RegisterRelationshipCounter		any	BillingType		NA
-SettlementDateId	any	SettlementDateId	NA
-SettlementCase	any	SettlementCase	NA
+ActivityNotes	any	Activity Notes	NA
+ATBDateId	any	ATBDateId	NA
+BillingType	any	BillingType		NA
+BillStart	any	Bill Start	NA
+Bundled	any	Identifier	NA
+Closed	any	Closed	NA
+Connected	Any	Connected	NA
+ContractFRMPDateId	any	Contract FRMP Date	NA
+Creation	any	Creation	NA
+Currency	any	Currency	NA
+CurrentPeriod	any	CurrentPeriod	NA
 DatastreamType	any	DatastreamType	NA
+DateOfBirth	any	Date of Birth	NA
+DueDate	any	Due Date	NA
+EffectiveEndDate	any	End Date	NA
+EffectiveStartDate	any	Start Date	NA
+Email	any	Email	NA
+EndDate	any	End Date	NA
+EstimatedDailyConsumption	any	Estimated Daily Consumption	NA
+Header	any	Header	NA
+InferredGender	any	Inferred Gender	NA
+IssueDate	any	Issue Date	NA
+LossFactor	any	LossFactor	NA
+Market	any	Market	NA
+MarketIdentifier	any	Market Identifier	NA
+MemberNumber	any	MemberNumber	NA
+MeteringType	any	Metering Type	NA
 MSATSEstimate	any	MSATSEstimate	NA
+MultiplicationFactorToBase	any	Multiplication Factor To Base	NA
+NEMInitial	any	NEM Initial	NA
+OmbudsmanComplaints	any	Ombudsman Complaints	NA
+PaidOnTime	any	Paid On Time	NA
+ParticipantCode	any	Participant	NA
+Phone	any	Phone	NA
+PricePlanType	any	Price Plan Type	NA
+Question	any	Question		NA
+ReadType	any	ReadType	NA
+ResearchProjectName	any	ResearchProjectName		NA
+ResponseDateId	any	ResponseDateId		NA
+RespondentKey	any	RespondentKey		NA
+Response	any	Response		NA
+ResponseKey	any	ResponseKey		NA
+SettlementCase	any	SettlementCase	NA
+SettlementDateId	any	SettlementDateId	NA
+SiteStatus	any	Site Status	NA
+SiteStatusType	any	Site Status Type	NA
+StartDate	any	Start Date	NA
+Status	any	Status		NA
+System	any	System	NA
+Tax	any	Tax	NA
+TerminatedDate	any	Terminated	NA
+Threshold	any	Threshold		NA
 TotalEnergy	any	TotalEnergy	NA
-ServiceDailyLoadKey	any	ServiceDailyLoadKey	NA
-ResearchProjectName		any	ResearchProjectName		NA
-ReadType		any	ReadType		NA
+TransactionKey	any	Transaction Key	NA
+Units	any	Units	NA
+Value	any	Value	NA
+Version	any	Version	NA
+AddressLine1	suffix	Address Line 1	NA
+Amount	suffix	Amount	NA
+Category	suffix	Category	NA
+Class	suffix	Class		NA
+Code	suffix	Identifier	NA
+Counter	suffix	Counter	NA
+CreationDate	suffix	Creation Date		NA
+Date	suffix	Date suffix	NA
+DateId	suffix	Date identifier used on facts suffix	99991231
+Days1To30	suffix	Days1To30	NA
+Days31To60	suffix	Days31To60	NA
+Days61To90	suffix	Days61To90	NA
+Days90Plus	suffix	Days90Plus	NA
+Desc	suffix	Description	NA
+DiscountPercentage	suffix	Discount Percentage	NA
+EstimatedDailyConsumption	suffix	Estimated Daily Consumption		NA
+FirstName	suffix	First Name	NA
+Id	suffix	Identifier	NA
+Identity	suffix	Identity	NA
+Key	suffix	Identifier	NA
+LastName	suffix	Last Name	NA
+LossFactor	suffix	Loss Factor	NA
+SerialNumber	suffix	Serial Number	NA
+Method	suffix	Method	NA
+MiddleInitial	suffix	MiddleInitial	NA
+Multiplier	suffix	Multiplier		NA
+Name	suffix	Name	NA
+Network	suffix	Network	NA
+NetworkTariffCode	suffix	Network Tariff Code		NA
+PartyName	suffix	Party Name	NA
+Postcode	suffix	Address Postcode	NA
+ReadDirection	suffix	Read Direction		NA
+Relationship	any	Relationship	NA
+ServiceType	suffix	Service Type	NA
+State	suffix	Address State	NA
+StateAsProvided	suffix	Address State	NA
+Suburb	suffix	Address Suburb	NA
+Time	suffix	Time data types may use this suffix	00:00:00
+Type	suffix	Type	NA
+ValueRatio	suffix	Value Ratio	NA
+VirtualStartDate	suffix	Virtual Status Date		NA
+VirtualType	suffix	Virtual Type		NA

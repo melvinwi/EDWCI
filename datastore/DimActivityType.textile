@@ -3,12 +3,9 @@ h2. ARTEFACT: DimActivityType
 
 DESCRIPTION: Activity Type dimension table
 
-|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT
-*	|
-|ActivityTypeKey	|Activity key used in the source	|int	|	|	|FALSE	|FALSE	|FALSE
-	|
-|ActivityTypeCode	|Activity code used in the source	|nvarchar	|20	|	|FALSE	|FALSE	|FALSE
-	|
-|ActivityTypeDesc	|Activity description	|nvarchar	|100	|	|FALSE	|FALSE	|FALSE
-	|
-|ActivityCategory	|Activity Category	|nvarchar	|100	|	|FALSE	|	|FALSE|
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|ActivityTypeKey	|Activity key used in the source	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|ActivityTypeCode	|Activity code used in the source	|nvarchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|ActivityTypeDesc	|Activity description	|nvarchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|ActivityCategory	|Activity description	|nvarchar	|100	|	|FALSE	|FALSE	|FALSE|
+
