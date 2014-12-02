@@ -18,6 +18,7 @@ Account	prefix	Reserved for DimAccount	NA
 Connected	Any	Connected	NA
 FRMP	prefix	FRMP	NA
 TransmissionNode	prefix	FRMP	NA
+LossFactor	suffix	Identifier	NA
 Customer	prefix	Reserved for DimCustomer 	NA
 Service	prefix	Reserved for DimService	NA
 Contract	prefix	Reserved for FactContract	NA

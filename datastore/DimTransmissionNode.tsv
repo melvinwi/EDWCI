@@ -8,3 +8,4 @@ TransmissionNodeName	TNI Name	nvarchar	100		FALSE		FALSE
 TransmissionNodeState	TNI State	nchar	3		FALSE		FALSE
 TransmissionNodeNetwork	TNI Network	nvarchar	100		FALSE		FALSE
 TransmissionNodeServiceType	TNI Service Type	nvarchar	11		FALSE		FALSE
+TransmissionNodeLossFactor	TNI DLF	decimal	"6,4"		FALSE		FALSE
