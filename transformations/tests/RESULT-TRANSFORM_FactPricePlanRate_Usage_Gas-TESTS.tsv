@@ -1,0 +1,5 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_FactPricePlanRate_Usage_Gas
+# CREATED DATE: 2014-12-03T161216
+
+2014-12-03 16:12:17	2	PASSED	source.length.should.equal(destination.length)	{"obj":0,"params":{"operator":"to be","expected":0,"showDiff":true},"negate":false}

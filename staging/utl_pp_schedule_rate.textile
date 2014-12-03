@@ -1,0 +1,30 @@
+
+h2. ARTEFACT: utl_pp_schedule_rate
+
+DESCRIPTION: Price Plan Rates table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|sched_rate_id 	|sched_rate_id 	|numeric	|"18, 0"	|	|TRUE	|TRUE	|FALSE	|
+|sched_id 	|sched_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|start_date 	|start_date 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|end_date 	|end_date 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|band_det_id 	|band_det_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|minimum_charge 	|minimum_charge 	|money	|	|	|FALSE	|FALSE	|FALSE	|
+|unit_rate 	|unit_rate 	|numeric	|"18, 7"	|	|FALSE	|FALSE	|FALSE	|
+|active 	|active 	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime 	|insert_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user 	|insert_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process 	|insert_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime 	|update_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user 	|update_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process 	|update_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|band_start 	|band_start 	|numeric	|"18, 4"	|	|FALSE	|FALSE	|FALSE	|
+|band_end 	|band_end 	|numeric	|"18, 4"	|	|FALSE	|FALSE	|FALSE	|
+|invoice_desc 	|invoice_desc 	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|rate_card_id 	|rate_card_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|price_charge_id 	|price_charge_id 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|price_custom 	|price_custom 	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|price_value 	|price_value 	|numeric	|"18, 4"	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE|
+
