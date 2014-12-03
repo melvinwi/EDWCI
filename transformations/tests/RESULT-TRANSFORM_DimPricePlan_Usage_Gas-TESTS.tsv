@@ -1,0 +1,5 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_DimPricePlan_Usage_Gas
+# CREATED DATE: 2014-12-03T152159
+
+2014-12-03 15:22:00	2	PASSED	source.length.should.equal(destination.length)	{"obj":10,"params":{"operator":"to be","expected":10,"showDiff":true},"negate":false}

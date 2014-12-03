@@ -1,0 +1,14 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_DimPricePlan_Usage_Gas				
+# DESCRIPTION: Construct Gas Usage Price Plans from Orion tables to DataStore 				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+WITH_STATEMENTS	"WITH value_code AS (SELECT value_code.price_plan_code, value_code.variation_from_market, value_code.Meta_LatestUpdate_TaskExecutionInstanceId, row_number() OVER (PARTITION BY value_code.price_plan_code ORDER BY value_code.Meta_LatestUpdate_TaskExecutionInstanceId DESC) AS recency FROM /* Staging */ [schema].value_code)"			Deduplicate value_code selecting the latest information
+N'USAGE.' + CAST(	utl_price_plan.price_plan_id	 AS nvarchar(10)) + N'.G'	DimPricePlan.PricePlanKey	One to one mapping
+	utl_price_plan.price_plan_code	+ N'.G'	DimPricePlan.PricePlanCode	One to one mapping
+	utl_price_plan.price_plan_desc		DimPricePlan.PricePlanName	One to one mapping
+	utl_price_plan.discount_pct		DimPricePlan.PricePlanDiscountPercentage	One to one mapping
+	_value_code.variation_from_market		DimPricePlan.PricePlanValueRatio	One to one mapping
+/*	utl_price_plan.price_plan_id	*/ N'Usage'	DimPricePlan.PricePlanType	Hardcoded
+CASE 	utl_price_plan.bundled_flag	WHEN 'Y' THEN N'Bundled' ELSE N'Not Bundled' END	DimPricePlan.Bundled	Derive
+	utl_price_plan.price_plan_code		DimPricePlan.ParentPricePlanCode	One to one mapping
+SELECTION_CRITERIA	FROM /* Staging */ [schema].utl_price_plan LEFT JOIN value_code AS _value_code ON _value_code.price_plan_code = utl_price_plan.price_plan_code AND _value_code.recency = 1 WHERE utl_price_plan.seq_product_type_id = 3 AND (utl_price_plan.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _value_code.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID)			
