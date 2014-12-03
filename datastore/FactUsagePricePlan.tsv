@@ -12,4 +12,4 @@ ContractTerminatedDateId	Contract Terminated Date	int		99991231	TRUE		FALSE
 ContractStatus	Contract Status	nchar	10		TRUE		FALSE
 UsagePricePlanStartDateId	Usage Price Plan Start Date	int		99991231	TRUE		FALSE
 UsagePricePlanEndDateId	Usage Price Plan End Date	int		99991231	TRUE		FALSE
-UsagePricePlanKey	Usage Price Plan relationship ID from the source system	int		-1	TRUE		FALSE
+UsagePricePlanKey	Usage Price Plan relationship ID from the source system	nvarchar	20		TRUE		FALSE
