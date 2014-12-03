@@ -1,0 +1,15 @@
+# design artefact							
+# ARTEFACT: FactPricePlanRate							
+# DESCRIPTION: Price Plan Rates fact table							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+PricePlanId	Foreign key to DimPricePlan	int		-1	TRUE		FALSE
+UnitTypeId	Foreign key to DimUnitType	int		-1	TRUE		FALSE
+PricePlanRateKey	PricePlanRateKey	nvarchar	30		TRUE		FALSE
+RateStartDateId	RateStartDateId	int		99991231	TRUE		FALSE
+RateEndDateId	RateEndDateId	int		-1	TRUE		FALSE
+StepStart	StepStart	decimal	"18,7"		TRUE		FALSE
+StepEnd	StepEnd	decimal	"18,7"		TRUE		FALSE
+Rate	Rate	money			TRUE		FALSE
+MinimumCharge	MinimumCharge	money		0	TRUE		FALSE
+RateType	RateType	nvarchar	100		TRUE		FALSE
+InvoiceDescription	InvoiceDescription	nvarchar	100		FALSE		FALSE

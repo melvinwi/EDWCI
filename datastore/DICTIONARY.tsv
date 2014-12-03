@@ -82,12 +82,14 @@ EndDate	any	End Date	NA
 EstimatedDailyConsumption	any	Estimated Daily Consumption	NA
 Header	any	Header	NA
 InferredGender	any	Inferred Gender	NA
+InvoiceDescription	any	Invoice Description	NA
 IssueDate	any	Issue Date	NA
 LossFactor	any	LossFactor	NA
 Market	any	Market	NA
 MarketIdentifier	any	Market Identifier	NA
 MemberNumber	any	MemberNumber	NA
 MeteringType	any	Metering Type	NA
+MinimumCharge	any	Minimum Charge	NA
 MSATSEstimate	any	MSATSEstimate	NA
 MultiplicationFactorToBase	any	Multiplication Factor To Base	NA
 NEMInitial	any	NEM Initial	NA
@@ -97,6 +99,7 @@ ParticipantCode	any	Participant	NA
 Phone	any	Phone	NA
 PricePlanType	any	Price Plan Type	NA
 Question	any	Question		NA
+Rate	any	Rate	NA
 ReadType	any	ReadType	NA
 ResearchProjectName	any	ResearchProjectName		NA
 ResponseDateId	any	ResponseDateId		NA
@@ -108,6 +111,7 @@ SettlementDateId	any	SettlementDateId	NA
 SiteStatus	any	Site Status	NA
 SiteStatusType	any	Site Status Type	NA
 StartDate	any	Start Date	NA
+Step	any	Step	NA
 Status	any	Status		NA
 System	any	System	NA
 Tax	any	Tax	NA
@@ -133,6 +137,7 @@ Days61To90	suffix	Days61To90	NA
 Days90Plus	suffix	Days90Plus	NA
 Desc	suffix	Description	NA
 DiscountPercentage	suffix	Discount Percentage	NA
+End	suffix	End		NA
 EstimatedDailyConsumption	suffix	Estimated Daily Consumption		NA
 FirstName	suffix	First Name	NA
 Id	suffix	Identifier	NA
@@ -152,6 +157,7 @@ Postcode	suffix	Address Postcode	NA
 ReadDirection	suffix	Read Direction		NA
 Relationship	any	Relationship	NA
 ServiceType	suffix	Service Type	NA
+Start	suffix	Start	NA
 State	suffix	Address State	NA
 StateAsProvided	suffix	Address State	NA
 Suburb	suffix	Address Suburb	NA
