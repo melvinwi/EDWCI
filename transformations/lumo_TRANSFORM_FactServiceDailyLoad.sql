@@ -35,7 +35,7 @@ END
 		CASE Level2_CSVData.DataType WHEN 'I' THEN 'Interval' WHEN 'C' THEN 'Basic' WHEN 'P' THEN 'Profile Data' WHEN '1' THEN 'Non-Market Active Import' WHEN '2' THEN 'Non-Market Active' WHEN '3' THEN 'Non-Market Reactive Import' WHEN '4' THEN 'Non-Market Reactive' END,
 		CASE Level2_CSVData.MSATS_Est WHEN 'Y' THEN 'Estimate' ELSE 'Actual' END,
 		Level2_CSVData.Total_Energy,
-		Level2_CSVData.MessageID + '.' + Level2_CSVData.transactionID + '.' + CAST(Level2_CSVData.SeqNo AS VARCHAR(10))
+		CAST( Level2_Transaction.SettlementCase AS VARCHAR(10)) + '.' + Level2_CSVData.NMI + '.' + CAST(Level2_CSVData.SeqNo AS VARCHAR(10))
 	  FROM /* Staging */ lumo.Level2_CSVData INNER JOIN /* Staging */ lumo.Level2_Transaction ON Level2_Transaction.transactionID = Level2_CSVData.transactionID LEFT JOIN dimService AS _dimService ON _dimService.MarketIdentifier = Level2_CSVData.NMI AND _dimService.recency = 1 LEFT JOIN dimTransmissionNode AS _dimTransmissionNode ON _dimTransmissionNode.TransmissionNodeIdentity = Level2_CSVData.TNI AND _dimTransmissionNode.recency = 1 WHERE Level2_CSVData.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID;
 
 SELECT 0 AS ExtractRowCount,
