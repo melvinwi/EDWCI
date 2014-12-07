@@ -132,9 +132,9 @@ Characteristics:
 
 Tables contain the following metadata columns to support auditing:
 􏰀
-	* Meta_Insert_TaskExecutionInstanceId
+* Meta_Insert_TaskExecutionInstanceId
 􏰀
- 	* Meta_LatestUpdate_TaskExecutionInstanceId
+* Meta_LatestUpdate_TaskExecutionInstanceId
 
 
 **COMPONENT: Dimension Tables**
@@ -151,15 +151,15 @@ Characteristics:
 
 Tables contain the following metadata columns to support the requirements of Access Views, audit and a future Archiving component:
 
-􏰀	* Meta_IsCurrent
+􏰀* Meta_IsCurrent
 􏰀
-	* Meta_EffectiveStartDate
+* Meta_EffectiveStartDate
 􏰀
-	* Meta_EffectiveEndDate
+* Meta_EffectiveEndDate
 􏰀
-	* Meta_Insert_TaskExecutionInstanceId
+* Meta_Insert_TaskExecutionInstanceId
 􏰀
-	* Meta_LatestUpdate_TaskExecutionInstanceId
+* Meta_LatestUpdate_TaskExecutionInstanceId
 
 
 ### LAYER: Access
@@ -181,12 +181,35 @@ Characteristics:
 
 **COMPONENT: Web APIs**
 
+Web APIs provides a RESTful interface to the data warehouse views.  The API returns JSON objects that can be readily parsed and visualised by web applications (html+javascript).
+
+Characteristics:
+
+* username / password required to generate a token
+
+* token expiration set to 1 hour
+
+* extrenal configuration file for specifying rest endpoints (lib/apis.json)
+	- name of rest URI e.g. "CustomerName"
+	- SQL to executed e.g. "select name from customer where customerId = CUST_ID"
+	- parameters accepted that will be used to update the SQL e.g. "CUST_ID" 
+
+* extrenal configuration file for DB authentication (lib/db_config.json)
+	- default Domain name
+	- server IP, port number
+
+
 
 ### LAYER: Consumption
 
 **COMPONENT: Client-side BI Tools**
 
+A wide variety of BI tools may be used to visualise the data in the warehouse. - Tool selection is underway.
+
+
 **COMPONENT: Web Browser**
+
+The RESTful interface provides an access point for web browsers (and other tools that can consume JSON objects from URIs - e.g. R).
 
 
 ### LAYER: Data Warehouse Execution Framework
@@ -200,6 +223,7 @@ Characteristics:
 * Takes the form of one SSIS package per source object.
 􏰀
 * The Incremental Refresh relies on Change Data Capture in the source system, and makes use of the Temp Staging Table.
+
 
 **COMPONENT: Execute Transform Common Package**
 
