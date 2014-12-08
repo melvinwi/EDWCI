@@ -1,5 +1,5 @@
 
-h2. ARTEFACT: TRANSFORM_DimProduct
+h2. ARTEFACT: TRANSFORM_DimProduct_Legacy
 
 DESCRIPTION: Promote products from static load view to DataStore
 
@@ -8,5 +8,7 @@ DESCRIPTION: Promote products from static load view to DataStore
 |	|_Product.ProductName	|	|"DimProduct":../datastore/DimProduct.textile .ProductName	|One to one mapping	|
 |	|_Product.ProductDesc	|	|"DimProduct":../datastore/DimProduct.textile .ProductDesc	|One to one mapping	|
 |	|_Product.ProductType	|	|"DimProduct":../datastore/DimProduct.textile .ProductType	|One to one mapping	|
+|/*	|_Product.ProductKey	|*/ 1.00	|"DimProduct":../datastore/DimProduct.textile .FixedTariffAdjustPercentage	|Hardcoded	|
+|/*	|_Product.ProductKey	|*/ 1.00	|"DimProduct":../datastore/DimProduct.textile .VariableTariffAdjustPercentage	|Hardcoded	|
 |SELECTION_CRITERIA	|FROM [schema].Product AS _Product|
 
