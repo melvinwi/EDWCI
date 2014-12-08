@@ -16,6 +16,7 @@ DailyPricePlan	prefix	Daily Price Plan	NA
 FinancialAccount	prefix	Reserved for DimFinancialAccount	NA
 First	prefix	First	NA
 FirstImportRegister	prefix	First Import Register	NA
+Fixed	prefix	Fixed	NA
 FRMP	prefix	FRMP	NA
 InvoiceDelivery	prefix	Invoice Delivery	NA
 Join	prefix	Join	NA
@@ -57,6 +58,7 @@ Transaction	prefix	Reserved for DimTransaction	NA
 TransmissionNode	prefix	Reserved for DimTransmissionNode	NA
 UnitType	prefix	Reserved for DimUnitType	NA
 UsagePricePlan	prefix	Usage Price Plan	NA
+Variable	prefix	Variable	NA
 ABN	any	ABN		NA
 AccountBillStartDate	any	Identifier	NA
 ACN	any	ACN		NA
@@ -114,6 +116,7 @@ StartDate	any	Start Date	NA
 Step	any	Step	NA
 Status	any	Status		NA
 System	any	System	NA
+TariffAdjust	any	Tariff Adjust	NA
 Tax	any	Tax	NA
 TerminatedDate	any	Terminated	NA
 Threshold	any	Threshold		NA
@@ -153,6 +156,7 @@ Name	suffix	Name	NA
 Network	suffix	Network	NA
 NetworkTariffCode	suffix	Network Tariff Code		NA
 PartyName	suffix	Party Name	NA
+Percentage	suffix	Percentage	NA
 Postcode	suffix	Address Postcode	NA
 ReadDirection	suffix	Read Direction		NA
 Relationship	any	Relationship	NA

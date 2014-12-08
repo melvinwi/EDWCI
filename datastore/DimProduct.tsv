@@ -6,3 +6,5 @@ ProductKey	Product Key	nvarchar	30		TRUE		FALSE
 ProductName	Product Name	nvarchar	100		FALSE		FALSE
 ProductDesc	Product Description	nvarchar	100		FALSE		FALSE
 ProductType	Product Type	nchar	6		FALSE		FALSE
+FixedTariffAdjustPercentage	Fixed Tariff Adjustment Percentage	decimal	"5,4"		FALSE		FALSE
+VariableTariffAdjustPercentage	Variable Tariff Adjustment Percentage	decimal	"5,4"		FALSE		FALSE
