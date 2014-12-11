@@ -1,0 +1,23 @@
+
+h2. ARTEFACT: FactTransmissionNodeDailyLoad
+
+DESCRIPTION: Transmission Node Daily Load fact table
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|TransmissionNodeId	|Foreign key to DimTransmissionNode	|int	|	|-1	|TRUE	|	|FALSE	|
+|SettlementDateId	|Calendar settlement date	|int	|	|99991231	|TRUE	|	|FALSE	|
+|SettlementRun	|Settlement run number	|int	|	|-1	|TRUE	|	|FALSE	|
+|Region	|Region identifier	|nvarchar	|10	|	|TRUE	|	|FALSE	|
+|ImportGrossEnergy	|Import gross energy into the pool (MWh)	|decimal	|"25,15"	|	|TRUE	|	|FALSE	|
+|ExportGrossEnergy	|Export gross energy from the pool (MWh)	|decimal	|"25,15"	|	|TRUE	|	|FALSE	|
+|ImportNetEnergy	|Import net energy into the pool (MWh)	|decimal	|"25,15"	|	|TRUE	|	|FALSE	|
+|ExportNetEnergy	|Export net energy from the pool (MWh)	|decimal	|"25,15"	|	|TRUE	|	|FALSE	|
+|ImportReactivePower	|Import reactive power	|decimal	|"25,15"	|	|TRUE	|	|FALSE	|
+|ExportReactivePower	|Export reactive power	|decimal	|"25,15"	|	|TRUE	|	|FALSE	|
+|RegionalReferencePrice	|Regional reference price	|decimal	|"25,15"	|	|TRUE	|	|FALSE	|
+|ExcessEnergyPrice	|Excess energy price	|decimal	|"25,15"	|	|TRUE	|	|FALSE	|
+|SettlementAmount	|Settlement amount in $ for trading period	|decimal	|"25,15"	|	|TRUE	|	|FALSE	|
+|MeterRun	|Meter run number (version number of the meter file)	|int	|	|-1	|TRUE	|	|FALSE	|
+|MeteringDataAgent	|Metering data agent	|nvarchar	|10	|	|TRUE	|	|FALSE	|
+|TransmissionNodeDailyLoadKey	|Transmission Node Daily Load Key	|nvarchar	|30	|	|TRUE	|	|FALSE|
+
