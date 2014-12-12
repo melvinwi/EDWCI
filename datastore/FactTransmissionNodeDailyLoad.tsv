@@ -12,9 +12,7 @@ ImportNetEnergy	Import net energy into the pool (MWh)	decimal	"25,15"		TRUE		FAL
 ExportNetEnergy	Export net energy from the pool (MWh)	decimal	"25,15"		TRUE		FALSE
 ImportReactivePower	Import reactive power	decimal	"25,15"		TRUE		FALSE
 ExportReactivePower	Export reactive power	decimal	"25,15"		TRUE		FALSE
-RegionalReferencePrice	Regional reference price	decimal	"25,15"		TRUE		FALSE
-ExcessEnergyPrice	Excess energy price	decimal	"25,15"		TRUE		FALSE
 SettlementAmount	Settlement amount in $ for trading period	decimal	"25,15"		TRUE		FALSE
 MeterRun	Meter run number (version number of the meter file)	int		-1	TRUE		FALSE
 MeteringDataAgent	Metering data agent	nvarchar	10		TRUE		FALSE
-TransmissionNodeDailyLoadKey	Transmission Node Daily Load Key	nvarchar	30		TRUE		FALSE
+TransmissionNodeDailyLoadKey	Transmission Node Daily Load Key	nvarchar	50		TRUE		FALSE

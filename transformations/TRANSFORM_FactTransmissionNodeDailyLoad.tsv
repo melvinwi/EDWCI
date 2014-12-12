@@ -1,0 +1,20 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_FactTransmissionNodeDailyLoad				
+# DESCRIPTION: Promote CPDATA from AEMO to DataStore 				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+WITH_STATEMENTS	"WITH dimTransmissionNode AS (SELECT DimTransmissionNode.TransmissionNodeId, DimTransmissionNode.TransmissionNodeIdentity, ROW_NUMBER() OVER (PARTITION BY DimTransmissionNode.TransmissionNodeIdentity ORDER BY DimTransmissionNode.TransmissionNodeKey DESC) AS recency FROM /* Dimensional */ [schema].DimTransmissionNode)"			Latest view of DimTransmissionNode
+COALESCE(	_dimTransmissionNode.TransmissionNodeId	", 1)"	FactTransmissionNodeDailyLoad.TransmissionNodeId	One to one mapping
+"CONVERT(NCHAR(8),"	Settlement_CPDATA.SettlementDate	", 112)"	FactTransmissionNodeDailyLoad.SettlementDateId	One to one mapping
+	Settlement_CPDATA.VersionNo		FactTransmissionNodeDailyLoad.SettlementRun	One to one mapping
+MAX(ISNULL(	Settlement_CPDATA.RegionId	", ''))"	FactTransmissionNodeDailyLoad.Region	One to one mapping
+SUM(ISNULL(	Settlement_CPDATA.IgEnergy	", 0.0))"	FactTransmissionNodeDailyLoad.ImportGrossEnergy	Aggregated to daily level
+SUM(ISNULL(	Settlement_CPDATA.XgEnergy	", 0.0))"	FactTransmissionNodeDailyLoad.ExportGrossEnergy	Aggregated to daily level
+SUM(ISNULL(	Settlement_CPDATA.InEnergy	", 0.0))"	FactTransmissionNodeDailyLoad.ImportNetEnergy	Aggregated to daily level
+SUM(ISNULL(	Settlement_CPDATA.XnEnergy	", 0.0))"	FactTransmissionNodeDailyLoad.ExportNetEnergy	Aggregated to daily level
+SUM(ISNULL(	Settlement_CPDATA.Ipower	", 0.0))"	FactTransmissionNodeDailyLoad.ImportReactivePower	Aggregated to daily level
+SUM(ISNULL(	Settlement_CPDATA.Xpower	", 0.0))"	FactTransmissionNodeDailyLoad.ExportReactivePower	Aggregated to daily level
+SUM(ISNULL(	Settlement_CPDATA.EP	", 0.0))"	FactTransmissionNodeDailyLoad.SettlementAmount	Aggregated to daily level
+MAX(ISNULL(	Settlement_CPDATA.MeterRunNo	", 0))"	FactTransmissionNodeDailyLoad.MeterRun	Aggregated to daily level
+MAX(ISNULL(	Settlement_CPDATA.MDA	", ''))"	FactTransmissionNodeDailyLoad.MeteringDataAgent	Aggregated to daily level
+"CONVERT(NCHAR(8),"	Settlement_CPDATA.SettlementDate	", 112) + '.' + CAST(Settlement_CPDATA.VersionNo AS NVARCHAR(10)) + '.' + Settlement_CPDATA.ParticipantId + '.' + Settlement_CPDATA.TcpId + '.' + Settlement_CPDATA.MDA"	FactTransmissionNodeDailyLoad.TransmissionNodeDailyLoadKey	Concatenate the natural key columns
+SELECTION_CRITERIA	"FROM /* Staging */ [schema].Settlement_CPDATA LEFT JOIN dimTransmissionNode AS _dimTransmissionNode ON _dimTransmissionNode.TransmissionNodeIdentity = Settlement_CPDATA.TcpId AND _dimTransmissionNode.recency = 1 WHERE Settlement_CPDATA.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID GROUP BY Settlement_CPDATA.SettlementDate, Settlement_CPDATA.VersionNo, Settlement_CPDATA.ParticipantId, Settlement_CPDATA.TcpId, Settlement_CPDATA.MDA, _dimTransmissionNode.TransmissionNodeId"			
