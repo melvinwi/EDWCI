@@ -6,6 +6,7 @@ Account	prefix	Reserved for DimAccount	NA
 Activity	prefix	describes activity attributes in the context of the table it resides	NA
 ActivityType	prefix	Reserved for DimActivityType	NA
 AwardedDate	prefix	Awarded	NA
+BillCycle	prefix	Bill Cycle	NA
 ChangeReason	prefix	Reserved for DimChangeReason	NA
 Contact	prefix	to contact a customer	NA
 Contract	prefix	Reserved for FactContract	NA
