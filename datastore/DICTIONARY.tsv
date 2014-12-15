@@ -105,6 +105,7 @@ ResearchProjectName	any	ResearchProjectName		NA
 ResponseDateId	any	ResponseDateId		NA
 RespondentKey	any	RespondentKey		NA
 Response	any	Response		NA
+Segment	any	Segment		NA
 ResponseKey	any	ResponseKey		NA
 SettlementCase	any	SettlementCase	NA
 SettlementDateId	any	SettlementDateId	NA
