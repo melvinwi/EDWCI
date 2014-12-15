@@ -18,6 +18,7 @@ SELECT -- DimAccount
        DimAccountCurrent.ACN,
        DimAccountCurrent.ABN,
        DimAccountCurrent.AccountType,
+       DimAccountCurrent.BillCycleCode,
        -- DimService
        DimServiceCurrent.MarketIdentifier,
        DimServiceCurrent.ServiceType,
@@ -30,15 +31,23 @@ SELECT -- DimAccount
        DimServiceCurrent.NextScheduledReadDate,
        DimServiceCurrent.FRMPDate,
        DimServiceCurrent.Threshold,
+       DimServiceCurrent.FirstImportRegisterDate,
+       DimServiceCurrent.SiteStatus,
+       DimServiceCurrent.SiteStatusType,
        -- DimProduct
        DimProductCurrent.ProductName,
        DimProductCurrent.ProductDesc,
        DimProductCurrent.ProductType,
+       DimProductCurrent.FixedTariffAdjustPercentage,
+       DimProductCurrent.VariableTariffAdjustPercentage,
        -- DimPricePlan
        DimPricePlanCurrent.PricePlanCode,
        DimPricePlanCurrent.PricePlanName,
        DimPricePlanCurrent.PricePlanDiscountPercentage,
        DimPricePlanCurrent.PricePlanValueRatio,
+       DimPricePlanCurrent.PricePlanType,
+       DimPricePlanCurrent.Bundled,
+       DimPricePlanCurrent.ParentPricePlanCode,
        -- DimRepresentative
        DimRepresentativeCurrent.RepresentativePartyName,
        -- DimOrganisation
@@ -49,7 +58,7 @@ SELECT -- DimAccount
        DimOrganisationCurrent.Level4Name,
        -- FactSalesActivity
        FactSalesActivity.SalesActivityType,
-       CONVERT(DATETIME2, CAST(FactSalesActivity.SalesActivityDateId AS NCHAR(8)) + ' ' + CAST(FactSalesActivity.SalesActivityTime AS NCHAR(16))) AS SalesActivityDate
+       CONVERT(DATETIME2, CAST(FactSalesActivity.SalesActivityDateId AS NCHAR(8)) + N' ' + CAST(FactSalesActivity.SalesActivityTime AS NCHAR(16))) AS SalesActivityDate
 FROM   DW_Dimensional.DW.FactSalesActivity
 LEFT   JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactSalesActivity.AccountId
 LEFT   JOIN DW_Dimensional.DW.DimAccount AS DimAccountCurrent ON DimAccountCurrent.AccountKey = DimAccount.AccountKey AND DimAccountCurrent.Meta_IsCurrent = 1

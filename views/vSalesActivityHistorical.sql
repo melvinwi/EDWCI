@@ -18,6 +18,7 @@ SELECT -- DimAccount
        DimAccount.ACN,
        DimAccount.ABN,
        DimAccount.AccountType,
+       DimAccount.BillCycleCode,
        -- DimService
        DimService.MarketIdentifier,
        DimService.ServiceType,
@@ -30,15 +31,23 @@ SELECT -- DimAccount
        DimService.NextScheduledReadDate,
        DimService.FRMPDate,
        DimService.Threshold,
+       DimService.FirstImportRegisterDate,
+       DimService.SiteStatus,
+       DimService.SiteStatusType,
        -- DimProduct
        DimProduct.ProductName,
        DimProduct.ProductDesc,
        DimProduct.ProductType,
+       DimProduct.FixedTariffAdjustPercentage,
+       DimProduct.VariableTariffAdjustPercentage,
        -- DimPricePlan
        DimPricePlan.PricePlanCode,
        DimPricePlan.PricePlanName,
        DimPricePlan.PricePlanDiscountPercentage,
        DimPricePlan.PricePlanValueRatio,
+       DimPricePlan.PricePlanType,
+       DimPricePlan.Bundled,
+       DimPricePlan.ParentPricePlanCode,
        -- DimRepresentative
        DimRepresentative.RepresentativePartyName,
        -- DimOrganisation

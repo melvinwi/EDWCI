@@ -1,4 +1,4 @@
-CREATE VIEW [Views].[vCustomerAccount]
+CREATE VIEW Views.vCustomerAccount
 AS
 WITH   factSalesActivity
        AS (SELECT DimAccount.AccountKey,
@@ -25,6 +25,7 @@ SELECT -- DimAccount
        DimAccountCurrent.ACN,
        DimAccountCurrent.ABN,
        DimAccountCurrent.AccountType,
+       DimAccountCurrent.BillCycleCode,
        -- DimCustomer
        DimCustomerCurrent.CustomerCode,
        DimCustomerCurrent.Title,

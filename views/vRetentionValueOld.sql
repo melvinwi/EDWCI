@@ -1,4 +1,4 @@
-CREATE VIEW [Views].[vRetentionValueOld]
+CREATE VIEW Views.vRetentionValueOld
 AS WITH factContract
        AS (SELECT DimAccount.AccountKey,
                   SUM (CASE
@@ -30,7 +30,7 @@ gasUsage
                                                  INNER JOIN DW_Dimensional.DW.DimService
                   ON DimService.ServiceId = FactContract.ServiceId
              WHERE DimService.ServiceType = 'Gas'
-		   AND  FactContract.ContractStatus = 'Open'
+       AND  FactContract.ContractStatus = 'Open'
              GROUP BY DimAccount.AccountKey) ,
 elecUsage
        AS (SELECT DimAccount.AccountKey,
@@ -41,7 +41,7 @@ elecUsage
                                                  INNER JOIN DW_Dimensional.DW.DimService
                   ON DimService.ServiceId = FactContract.ServiceId
              WHERE DimService.ServiceType = 'Electricity'
-		   AND  FactContract.ContractStatus = 'Open'
+       AND  FactContract.ContractStatus = 'Open'
              GROUP BY DimAccount.AccountKey) ,
 lossFactor
        AS (SELECT DimAccount.AccountKey,
@@ -52,7 +52,7 @@ lossFactor
                                                  INNER JOIN DW_Dimensional.DW.DimService
                   ON DimService.ServiceId = FactContract.ServiceId
              WHERE DimService.ServiceType = 'Electricity'
-		   AND  FactContract.ContractStatus = 'Open'
+       AND  FactContract.ContractStatus = 'Open'
              GROUP BY DimAccount.AccountKey) ,
 paymentMethod
        AS (SELECT DimAccount.AccountKey,
@@ -77,7 +77,7 @@ pricePlanProfitability
                   ON DimService.ServiceId = FactContract.ServiceId
                                                  INNER JOIN DW_Dimensional.DW.DimPricePlan
                   ON DimPricePlan.PricePlanId = FactContract.PricePlanId
-			   WHERE  FactContract.ContractStatus = 'Open'
+         WHERE  FactContract.ContractStatus = 'Open'
              GROUP BY DimAccount.AccountKey) ,
 paidOnTime
        AS (SELECT DimAccount.AccountKey,
@@ -104,8 +104,8 @@ tenure
                   DATEDIFF(DAY, DimAccount.AccountCreationDate, ISNULL(DimAccount.AccountClosedDate, GETDATE())) AS AccountTenureInDays
              FROM
                   DW_Dimensional.DW.DimAccount
-		WHERE
-		DimAccount.Meta_IsCurrent = 1) ,
+    WHERE
+    DimAccount.Meta_IsCurrent = 1) ,
 activities
      AS (SELECT DimCustomer.CustomerKey,
     SUM (CASE
@@ -116,20 +116,20 @@ activities
            WHEN FactActivity.ActivityCommunicationMethod IN ('Email In', 'Fax In', 'Letter In', 'Phone In', 'Live Chat') THEN 1
            ELSE 0
          END) AS Enquiries12Months
-	FROM DW_Dimensional.DW.FactActivity
-	INNER JOIN DW_Dimensional.DW.DimCustomer
-	ON DimCustomer.CustomerId = FactActivity.CustomerId
-	INNER JOIN DW_Dimensional.DW.DimActivityType
+  FROM DW_Dimensional.DW.FactActivity
+  INNER JOIN DW_Dimensional.DW.DimCustomer
+  ON DimCustomer.CustomerId = FactActivity.CustomerId
+  INNER JOIN DW_Dimensional.DW.DimActivityType
         ON DimActivityType.ActivityTypeId = FactActivity.ActivityTypeId
-	WHERE DATEDIFF(DAY,CONVERT (date, CAST (FactActivity.ActivityDateId AS nchar (8)) , 112),GETDATE()) BETWEEN 0 AND 365
-	GROUP BY DimCustomer.CustomerKey),
+  WHERE DATEDIFF(DAY,CONVERT (date, CAST (FactActivity.ActivityDateId AS nchar (8)) , 112),GETDATE()) BETWEEN 0 AND 365
+  GROUP BY DimCustomer.CustomerKey),
 theRating
        AS (SELECT DimCustomer.CustomerCode,
                   CASE
                   WHEN tenure.AccountTenureInDays > 1460 THEN 4.0
                   WHEN tenure.AccountTenureInDays > 1095 THEN  3.0
                   WHEN tenure.AccountTenureInDays > 730 THEN  2.0
-			   WHEN tenure.AccountTenureInDays > 365 THEN  1.0
+         WHEN tenure.AccountTenureInDays > 365 THEN  1.0
                       ELSE                                   0.0
                   END AS Tenure,
 
@@ -138,11 +138,11 @@ theRating
                   WHEN elecUsage.YearlyElecUsageKWH > 6500 THEN  3.0
                   WHEN elecUsage.YearlyElecUsageKWH > 5500 THEN  2.0
                   WHEN elecUsage.YearlyElecUsageKWH > 4000 THEN  1.0
-			   WHEN elecUsage.YearlyElecUsageKWH > 0001 THEN  0.0
+         WHEN elecUsage.YearlyElecUsageKWH > 0001 THEN  0.0
                   WHEN gasUsage.YearlyGasUsageMJ > 90000 THEN    4.0
                   WHEN gasUsage.YearlyGasUsageMJ > 75000 THEN    3.0
                   WHEN gasUsage.YearlyGasUsageMJ > 55000 THEN    2.0
-			   WHEN gasUsage.YearlyGasUsageMJ > 35000 THEN    1.0
+         WHEN gasUsage.YearlyGasUsageMJ > 35000 THEN    1.0
                       ELSE                                       0.0
                   END AS Usage,
 
@@ -184,11 +184,11 @@ theRating
                   END AS PricePlanProfitability,
 
                   CASE
-			   WHEN ISNULL(activities.Complaints12Months,0) < 1 AND ISNULL(activities.Enquiries12Months,0) < 2 THEN 4.0
-			   WHEN ISNULL(activities.Complaints12Months,0) < 1 AND ISNULL(activities.Enquiries12Months,0) < 5 THEN 3.0
-			   WHEN ISNULL(activities.Complaints12Months,0) < 1 AND ISNULL(activities.Enquiries12Months,0) < 7 THEN 2.0
-			       ELSE																		    1.0
-			   END AS Activities,
+         WHEN ISNULL(activities.Complaints12Months,0) < 1 AND ISNULL(activities.Enquiries12Months,0) < 2 THEN 4.0
+         WHEN ISNULL(activities.Complaints12Months,0) < 1 AND ISNULL(activities.Enquiries12Months,0) < 5 THEN 3.0
+         WHEN ISNULL(activities.Complaints12Months,0) < 1 AND ISNULL(activities.Enquiries12Months,0) < 7 THEN 2.0
+             ELSE                                       1.0
+         END AS Activities,
 
                   CASE
                   WHEN paidOnTime.PaidOnTime12Months >= 0.75 THEN 4.0
@@ -229,7 +229,7 @@ theRating
        SELECT
        DimCustomer.CustomerCode,
        CASE
-	  WHEN DimCustomer.OmbudsmanComplaints = 'Yes' THEN 'Bronze'
+    WHEN DimCustomer.OmbudsmanComplaints = 'Yes' THEN 'Bronze'
        WHEN ((theRating.Tenure * 0.10) + (theRating.Usage * 0.20) + (theRating.Debt * 0.20) + (theRating.PaymentMethod * 0.05) + (theRating.ActiveProducts * 0.05) + (theRating.LossFactor * 0.05) + (theRating.PricePlanProfitability * 0.25) + (theRating.Activities * 0.05) + (theRating.PaidOnTime * 0.05)) >= 3.01 THEN 'Platinum'
        WHEN ((theRating.Tenure * 0.10) + (theRating.Usage * 0.20) + (theRating.Debt * 0.20) + (theRating.PaymentMethod * 0.05) + (theRating.ActiveProducts * 0.05) + (theRating.LossFactor * 0.05) + (theRating.PricePlanProfitability * 0.25) + (theRating.Activities * 0.05) + (theRating.PaidOnTime * 0.05)) >= 2.01 THEN 'Gold'
        WHEN ((theRating.Tenure * 0.10) + (theRating.Usage * 0.20) + (theRating.Debt * 0.20) + (theRating.PaymentMethod * 0.05) + (theRating.ActiveProducts * 0.05) + (theRating.LossFactor * 0.05) + (theRating.PricePlanProfitability * 0.25) + (theRating.Activities * 0.05) + (theRating.PaidOnTime * 0.05)) >= 1.01 THEN 'Silver'
@@ -241,14 +241,14 @@ theRating
        WHEN theRating.Tenure = 4.0 THEN 'Platinum'
        WHEN theRating.Tenure = 3.0  THEN 'Gold'
        WHEN theRating.Tenure = 2.0 THEN 'Silver'
-	  WHEN theRating.Tenure = 1.0 THEN 'Bronze'
+    WHEN theRating.Tenure = 1.0 THEN 'Bronze'
            ELSE 'None'
        END AS Tenure,
        CASE
        WHEN theRating.Usage = 4.0 THEN 'Platinum'
        WHEN theRating.Usage = 3.0 THEN 'Gold'
        WHEN theRating.Usage = 2.0 THEN 'Silver'
-	  WHEN theRating.Usage = 1.0 THEN 'Bronze'
+    WHEN theRating.Usage = 1.0 THEN 'Bronze'
            ELSE 'None'
        END AS Usage,
        CASE

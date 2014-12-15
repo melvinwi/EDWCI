@@ -1,4 +1,4 @@
-CREATE VIEW [Views].[vCustomerAccountHistorical]
+CREATE VIEW Views.vCustomerAccountHistorical
 AS
 WITH   factSalesActivity
        AS (SELECT DimAccount.AccountKey,
@@ -25,6 +25,7 @@ SELECT -- DimAccount
        DimAccountCurrent.ACN,
        DimAccountCurrent.ABN,
        DimAccountCurrent.AccountType,
+       DimAccountCurrent.BillCycleCode,
        DimAccountCurrent.Meta_IsCurrent AS Account_Meta_IsCurrent,
        DimAccountCurrent.Meta_EffectiveStartDate AS Account_Meta_EffectiveStartDate,
        DimAccountCurrent.Meta_EffectiveEndDate AS Account_Meta_EffectiveEndDate,
