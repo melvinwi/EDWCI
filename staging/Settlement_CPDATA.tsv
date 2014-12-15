@@ -1,0 +1,33 @@
+# design artefact							
+# ARTEFACT: Settlement_CPDATA							
+# DESCRIPTION: Settlement CPDATA staging table							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+SettlementDate	SettlementDate	date			TRUE	TRUE	FALSE
+VersionNo	VersionNo	int			TRUE	TRUE	FALSE
+PeriodId	PeriodId	int			TRUE	TRUE	FALSE
+ParticipantId	ParticipantId	varchar	10		TRUE	TRUE	FALSE
+TcpId	TcpId	varchar	10		TRUE	TRUE	FALSE
+RegionId	RegionId	varchar	10		FALSE	FALSE	FALSE
+IgEnergy	IgEnergy	decimal	"25,15"		FALSE	FALSE	FALSE
+XgEnergy	XgEnergy	decimal	"25,15"		FALSE	FALSE	FALSE
+InEnergy	InEnergy	decimal	"25,15"		FALSE	FALSE	FALSE
+XnEnergy	XnEnergy	decimal	"25,15"		FALSE	FALSE	FALSE
+Ipower	Ipower	decimal	"25,15"		FALSE	FALSE	FALSE
+Xpower	Xpower	decimal	"25,15"		FALSE	FALSE	FALSE
+RRP	RRP	decimal	"25,15"		FALSE	FALSE	FALSE
+EEP	EEP	decimal	"25,15"		FALSE	FALSE	FALSE
+TLF	TLF	decimal	"25,15"		FALSE	FALSE	FALSE
+CPRRP	CPRRP	decimal	"25,15"		FALSE	FALSE	FALSE
+CPEEP	CPEEP	decimal	"25,15"		FALSE	FALSE	FALSE
+TA	TA	decimal	"25,15"		FALSE	FALSE	FALSE
+EP	EP	decimal	"25,15"		FALSE	FALSE	FALSE
+APC	APC	decimal	"25,15"		FALSE	FALSE	FALSE
+ResC	ResC	decimal	"25,15"		FALSE	FALSE	FALSE
+ResP	ResP	decimal	"25,15"		FALSE	FALSE	FALSE
+MeterRunNo	MeterRunNo	int			FALSE	FALSE	FALSE
+HostDistributor	HostDistributor	varchar	10		FALSE	FALSE	FALSE
+MDA	MDA	varchar	10		TRUE	FALSE	FALSE
+LastChanged	LastChanged	datetime2	0		FALSE	FALSE	FALSE
+MeterData_Source	MeterData_Source	date			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta_Insert_TaskExecutionInstanceId	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta_LatestUpdate_TaskExecutionInstanceId	int			FALSE	FALSE	FALSE

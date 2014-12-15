@@ -1,0 +1,30 @@
+
+h2. ARTEFACT: nc_billing_cycle
+
+DESCRIPTION: Billing Cycle reference table from Orion
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|seq_bill_cycle_id 	|seq_bill_cycle_id 	|numeric	|"18, 0"	|	|TRUE	|TRUE	|FALSE	|
+|bill_cycle_code 	|bill_cycle_code 	|varchar	|10	|	|FALSE	|FALSE	|FALSE	|
+|bill_cycle_desc 	|bill_cycle_desc 	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|active 	|active 	|char	|1	|	|FALSE	|FALSE	|FALSE	|
+|insert_datetime 	|insert_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|insert_user 	|insert_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|insert_process 	|insert_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_datetime 	|update_datetime 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|update_user 	|update_user 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|update_process 	|update_process 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|atb_base_date 	|atb_base_date 	|datetime	|	|	|FALSE	|FALSE	|FALSE	|
+|actual_reads_only 	|actual_reads_only 	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|day_of_month 	|day_of_month 	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|over_estimation_percent 	|over_estimation_percent 	|numeric	|"6, 3"	|	|FALSE	|FALSE	|FALSE	|
+|min_usage_days 	|min_usage_days 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|def_inv_due_bus_days 	|def_inv_due_bus_days 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|district_code 	|district_code 	|varchar	|20	|	|FALSE	|FALSE	|FALSE	|
+|invoice_adj_only 	|invoice_adj_only 	|varchar	|1	|	|FALSE	|FALSE	|FALSE	|
+|init_min_usage_days 	|init_min_usage_days 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|inv_smoothing_min_usage_days 	|inv_smoothing_min_usage_days 	|numeric	|"18, 0"	|	|FALSE	|FALSE	|FALSE	|
+|oss_description 	|oss_description 	|varchar	|100	|	|FALSE	|FALSE	|FALSE	|
+|Meta_Insert_TaskExecutionInstanceId	|Meta: Insert Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE	|
+|Meta_LatestUpdate_TaskExecutionInstanceId	|Meta: Update Audit ID	|int	|	|	|FALSE	|FALSE	|FALSE|
+

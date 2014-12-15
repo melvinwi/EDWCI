@@ -17,12 +17,16 @@ END
 		DimProduct.ProductKey,
 		DimProduct.ProductName,
 		DimProduct.ProductDesc,
-		DimProduct.ProductType)
+		DimProduct.ProductType,
+		DimProduct.FixedTariffAdjustPercentage,
+		DimProduct.VariableTariffAdjustPercentage)
 	  SELECT
 		_Product.ProductKey,
 		_Product.ProductName,
 		_Product.ProductDesc,
-		_Product.ProductType
+		_Product.ProductType,
+		/* _Product.ProductKey */ 1.00,
+		/* _Product.ProductKey */ 1.00
 	  FROM lumo.Product AS _Product;
 
 SELECT 0 AS ExtractRowCount,

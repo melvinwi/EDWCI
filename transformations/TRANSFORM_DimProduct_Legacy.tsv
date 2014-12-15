@@ -1,9 +1,11 @@
 # design artefact				
-# ARTEFACT: TRANSFORM_DimProduct				
+# ARTEFACT: TRANSFORM_DimProduct_Legacy				
 # DESCRIPTION: Promote products from static load view to DataStore 				
 SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
 	_Product.ProductKey		DimProduct.ProductKey	One to one mapping
 	_Product.ProductName		DimProduct.ProductName	One to one mapping
 	_Product.ProductDesc		DimProduct.ProductDesc	One to one mapping
 	_Product.ProductType		DimProduct.ProductType	One to one mapping
+/*	_Product.ProductKey	*/ 1.00	DimProduct.FixedTariffAdjustPercentage	Hardcoded
+/*	_Product.ProductKey	*/ 1.00	DimProduct.VariableTariffAdjustPercentage	Hardcoded
 SELECTION_CRITERIA	FROM [schema].Product AS _Product			

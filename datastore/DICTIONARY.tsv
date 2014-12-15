@@ -6,6 +6,7 @@ Account	prefix	Reserved for DimAccount	NA
 Activity	prefix	describes activity attributes in the context of the table it resides	NA
 ActivityType	prefix	Reserved for DimActivityType	NA
 AwardedDate	prefix	Awarded	NA
+BillCycle	prefix	Bill Cycle	NA
 ChangeReason	prefix	Reserved for DimChangeReason	NA
 Contact	prefix	to contact a customer	NA
 Contract	prefix	Reserved for FactContract	NA
@@ -13,11 +14,15 @@ Creation	prefix	Date prefix	NA
 CreditControl	prefix	Credit Control	NA
 Customer	prefix	Reserved for DimCustomer 	NA
 DailyPricePlan	prefix	Daily Price Plan	NA
+Excess	prefix	Excess	NA
+Export	prefix	Export	NA
 FinancialAccount	prefix	Reserved for DimFinancialAccount	NA
 First	prefix	First	NA
 FirstImportRegister	prefix	First Import Register	NA
+Fixed	prefix	Fixed	NA
 FRMP	prefix	FRMP	NA
 InvoiceDelivery	prefix	Invoice Delivery	NA
+Import	prefix	Import	NA
 Join	prefix	Join	NA
 Last	prefix	Last	NA
 Level1	prefix	Reserved for DimFinancialAccount	NA
@@ -29,6 +34,7 @@ LoyaltyPoints	prefix	Reserved for FactLoyaltyPoints	NA
 MarketingCampaign	prefix	describes marketing campaign attributes	NA
 MarketingOffer	prefix	describes marketing campaign attributes	NA
 Meter	prefix	Reserved for DimMeterRegister	NA
+Metering	prefix	Metering	NA
 MeterRegister	prefix	Reserved for DimMeterRegister	NA
 Mobile	prefix	Mobile	NA
 MyAccount	prefix	My Account	NA
@@ -45,18 +51,22 @@ PrivacyAssessment	prefix	identifies privacy officer related attributes	NA
 PrivacyPreferred	prefix	Privacy Preferred	NA
 Product	prefix	Reserved for DimProduct	NA
 Program	prefix	Program	NA
+Regional	prefix	Regional	NA
 Register	prefix	Reserved for DimMeterRegister	NA
 RegisterSystemIdentifer	prefix	Reserved for DimMeterRegister	NA
 Representative	prefix	Reserved for DimRepresentative	NA
 Residential	prefix	Site Address prefix	NA
+Run	prefix	Run	NA
 Secondary	prefix	Secondary	NA
 Service	prefix	Reserved for DimService	NA
 ServiceDailyLoad	prefix	Reserved for FactServiceDailyLoad	NA
+Settlement	prefix	Settlement	NA
 Title	prefix	Title	NA
 Transaction	prefix	Reserved for DimTransaction	NA
 TransmissionNode	prefix	Reserved for DimTransmissionNode	NA
 UnitType	prefix	Reserved for DimUnitType	NA
 UsagePricePlan	prefix	Usage Price Plan	NA
+Variable	prefix	Variable	NA
 ABN	any	ABN		NA
 AccountBillStartDate	any	Identifier	NA
 ACN	any	ACN		NA
@@ -72,6 +82,7 @@ ContractFRMPDateId	any	Contract FRMP Date	NA
 Creation	any	Creation	NA
 Currency	any	Currency	NA
 CurrentPeriod	any	CurrentPeriod	NA
+Daily	any	Daily	NA
 DatastreamType	any	DatastreamType	NA
 DateOfBirth	any	Date of Birth	NA
 DueDate	any	Due Date	NA
@@ -79,11 +90,15 @@ EffectiveEndDate	any	End Date	NA
 EffectiveStartDate	any	Start Date	NA
 Email	any	Email	NA
 EndDate	any	End Date	NA
+EndRead	any	End Read	NA
+Energy	any	Energy	NA
 EstimatedDailyConsumption	any	Estimated Daily Consumption	NA
+Gross	any	Gross	NA
 Header	any	Header	NA
 InferredGender	any	Inferred Gender	NA
 InvoiceDescription	any	Invoice Description	NA
 IssueDate	any	Issue Date	NA
+Load	any	Load	NA
 LossFactor	any	LossFactor	NA
 Market	any	Market	NA
 MarketIdentifier	any	Market Identifier	NA
@@ -93,6 +108,7 @@ MinimumCharge	any	Minimum Charge	NA
 MSATSEstimate	any	MSATSEstimate	NA
 MultiplicationFactorToBase	any	Multiplication Factor To Base	NA
 NEMInitial	any	NEM Initial	NA
+Net	any	Net	NA
 OmbudsmanComplaints	any	Ombudsman Complaints	NA
 PaidOnTime	any	Paid On Time	NA
 ParticipantCode	any	Participant	NA
@@ -100,21 +116,28 @@ Phone	any	Phone	NA
 PricePlanType	any	Price Plan Type	NA
 Question	any	Question		NA
 Rate	any	Rate	NA
+Reactive	any	Reactive	NA
 ReadType	any	ReadType	NA
+Reference	any	Reference	NA
+Relationship	any	Relationship	NA
 ResearchProjectName	any	ResearchProjectName		NA
 ResponseDateId	any	ResponseDateId		NA
 RespondentKey	any	RespondentKey		NA
 Response	any	Response		NA
 Segment	any	Segment		NA
 ResponseKey	any	ResponseKey		NA
+Reversal	any	Reversal		NA
+Reversed	any	Reversed		NA
 SettlementCase	any	SettlementCase	NA
 SettlementDateId	any	SettlementDateId	NA
 SiteStatus	any	Site Status	NA
 SiteStatusType	any	Site Status Type	NA
 StartDate	any	Start Date	NA
+StartRead	any	Start Read	NA
 Step	any	Step	NA
 Status	any	Status		NA
 System	any	System	NA
+TariffAdjust	any	Tariff Adjust	NA
 Tax	any	Tax	NA
 TerminatedDate	any	Terminated	NA
 Threshold	any	Threshold		NA
@@ -124,6 +147,7 @@ Units	any	Units	NA
 Value	any	Value	NA
 Version	any	Version	NA
 AddressLine1	suffix	Address Line 1	NA
+Agent	suffix	Agent	NA
 Amount	suffix	Amount	NA
 Category	suffix	Category	NA
 Class	suffix	Class		NA
@@ -139,6 +163,7 @@ Days90Plus	suffix	Days90Plus	NA
 Desc	suffix	Description	NA
 DiscountPercentage	suffix	Discount Percentage	NA
 End	suffix	End		NA
+Energy	suffix	Energy	NA
 EstimatedDailyConsumption	suffix	Estimated Daily Consumption		NA
 FirstName	suffix	First Name	NA
 Id	suffix	Identifier	NA
@@ -154,13 +179,18 @@ Name	suffix	Name	NA
 Network	suffix	Network	NA
 NetworkTariffCode	suffix	Network Tariff Code		NA
 PartyName	suffix	Party Name	NA
+Percentage	suffix	Percentage	NA
 Postcode	suffix	Address Postcode	NA
+Power	suffix	Power	NA
+Price	suffix	Price	NA
 ReadDirection	suffix	Read Direction		NA
-Relationship	any	Relationship	NA
+Region	suffix	Region	NA
+Run	suffix	Run	NA
 ServiceType	suffix	Service Type	NA
 Start	suffix	Start	NA
 State	suffix	Address State	NA
 StateAsProvided	suffix	Address State	NA
+Subtype	suffix	Subtype	NA
 Suburb	suffix	Address Suburb	NA
 Time	suffix	Time data types may use this suffix	00:00:00
 Type	suffix	Type	NA
