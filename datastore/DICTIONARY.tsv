@@ -90,6 +90,7 @@ EffectiveEndDate	any	End Date	NA
 EffectiveStartDate	any	Start Date	NA
 Email	any	Email	NA
 EndDate	any	End Date	NA
+EndRead	any	End Read	NA
 Energy	any	Energy	NA
 EstimatedDailyConsumption	any	Estimated Daily Consumption	NA
 Gross	any	Gross	NA
@@ -124,11 +125,14 @@ ResponseDateId	any	ResponseDateId		NA
 RespondentKey	any	RespondentKey		NA
 Response	any	Response		NA
 ResponseKey	any	ResponseKey		NA
+Reversal	any	Reversal		NA
+Reversed	any	Reversed		NA
 SettlementCase	any	SettlementCase	NA
 SettlementDateId	any	SettlementDateId	NA
 SiteStatus	any	Site Status	NA
 SiteStatusType	any	Site Status Type	NA
 StartDate	any	Start Date	NA
+StartRead	any	Start Read	NA
 Step	any	Step	NA
 Status	any	Status		NA
 System	any	System	NA
@@ -185,6 +189,7 @@ ServiceType	suffix	Service Type	NA
 Start	suffix	Start	NA
 State	suffix	Address State	NA
 StateAsProvided	suffix	Address State	NA
+Subtype	suffix	Subtype	NA
 Suburb	suffix	Address Suburb	NA
 Time	suffix	Time data types may use this suffix	00:00:00
 Type	suffix	Type	NA

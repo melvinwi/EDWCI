@@ -2,18 +2,25 @@
 # ARTEFACT: FactTransaction							
 # DESCRIPTION: Transaction fact table							
 COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
-AccountId	Foreign key to DimAccount	int		-1	TRUE		FALSE
-ServiceId	Foreign key to DimService	int		-1	TRUE		FALSE
-ProductId	Foreign key to DimProduct	int		-1	TRUE		FALSE
-FinancialAccountId	Foreign key to DimFinancialAccount	int		-1	TRUE		FALSE
-TransactionDateId	Transaction Date	int		99991231	TRUE		FALSE
-VersionId	Foreign key to DimVersion	int		-1	TRUE		FALSE
-UnitTypeId	Foreign key to DimUnitType	int		-1	TRUE		FALSE
-Units	Units	decimal	"18,4"		TRUE		FALSE
-Value	Value	money			TRUE		FALSE
-Currency	Currency	nchar	3		TRUE		FALSE
-Tax	Tax	money			TRUE		FALSE
-TransactionType	Transaction Description	nvarchar	100		TRUE		FALSE
-TransactionDesc	Transaction Description	nvarchar	100		TRUE		FALSE
-TransactionKey	Transaction Key	nvarchar	20		TRUE		FALSE
-MeterRegisterId	Foreign key to DimMeterRegister	int		-1	TRUE		FALSE
+AccountId	Foreign key to DimAccount	int		-1	TRUE	FALSE	FALSE
+ServiceId	Foreign key to DimService	int		-1	TRUE	FALSE	FALSE
+ProductId	Foreign key to DimProduct	int		-1	TRUE	FALSE	FALSE
+FinancialAccountId	Foreign key to DimFinancialAccount	int		-1	TRUE	FALSE	FALSE
+TransactionDateId	Transaction Date	int		99991231	TRUE	FALSE	FALSE
+VersionId	Foreign key to DimVersion	int		-1	TRUE	FALSE	FALSE
+UnitTypeId	Foreign key to DimUnitType	int		-1	TRUE	FALSE	FALSE
+Units	Units	decimal	"18,4"		TRUE	FALSE	FALSE
+Value	Value	money			TRUE	FALSE	FALSE
+Currency	Currency	nchar	3		TRUE	FALSE	FALSE
+Tax	Tax	money			TRUE	FALSE	FALSE
+TransactionType	Transaction Description	nvarchar	100		TRUE	FALSE	FALSE
+TransactionDesc	Transaction Description	nvarchar	100		TRUE	FALSE	FALSE
+TransactionKey	Transaction Key	nvarchar	20		TRUE	FALSE	FALSE
+MeterRegisterId	Foreign key to DimMeterRegister	int		-1	TRUE	FALSE	FALSE
+TransactionSubtype	Transaction Subtype	nvarchar	30		FALSE	FALSE	FALSE
+Reversal	Reversal	nchar	3		FALSE	FALSE	FALSE
+Reversed	Reversed	nchar	3		FALSE	FALSE	FALSE
+StartRead	Start Read	decimal	"18,4"	0	FALSE	FALSE	FALSE
+EndRead	End Read	decimal	"18,4"	0	FALSE	FALSE	FALSE
+StartDateId	Start Date	int		99991231	FALSE	FALSE	FALSE
+EndDateId	End Date	int		99991231	FALSE	FALSE	FALSE
