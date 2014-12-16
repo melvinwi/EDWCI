@@ -15,6 +15,8 @@ CREATE TABLE [DW].[DimProduct](
 	[Meta_EffectiveEndDate] [datetime2](0) NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
 	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NULL,
+	[FixedTariffAdjustPercentage] [decimal](5, 4) NULL,
+	[VariableTariffAdjustPercentage] [decimal](5, 4) NULL,
  CONSTRAINT [PK_DW.DimProduct] PRIMARY KEY CLUSTERED 
 (
 	[ProductId] ASC

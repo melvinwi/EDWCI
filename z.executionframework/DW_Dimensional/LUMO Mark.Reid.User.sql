@@ -1,0 +1,4 @@
+USE [DW_Dimensional]
+GO
+CREATE USER [LUMO\Mark.Reid] FOR LOGIN [LUMO\Mark.Reid] WITH DEFAULT_SCHEMA=[dbo]
+GO

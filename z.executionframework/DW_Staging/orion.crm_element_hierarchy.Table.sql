@@ -37,3 +37,22 @@ CREATE TABLE [orion].[crm_element_hierarchy](
 GO
 SET ANSI_PADDING OFF
 GO
+SET ANSI_PADDING ON
+
+GO
+CREATE NONCLUSTERED INDEX [IX_orion_crm_element_hierarchy_active_element_struct_code] ON [orion].[crm_element_hierarchy]
+(
+	[active] ASC,
+	[element_struct_code] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
+GO
+CREATE NONCLUSTERED INDEX [IX_orion_crm_element_hierarchy_Meta_LatestUpdateId] ON [orion].[crm_element_hierarchy]
+(
+	[Meta_LatestUpdate_TaskExecutionInstanceId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
+GO
+CREATE NONCLUSTERED INDEX [IX_orion_crm_element_hierarchy_seq_element_type_id] ON [orion].[crm_element_hierarchy]
+(
+	[seq_element_type_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
+GO

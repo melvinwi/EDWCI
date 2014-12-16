@@ -18,7 +18,15 @@ CREATE TABLE [temp].[FactTransaction](
 	[Tax] [money] NULL,
 	[TransactionType] [nvarchar](100) NULL,
 	[TransactionDesc] [nvarchar](100) NULL,
-	[TransactionKey] [nvarchar](20) NULL
-) ON [PRIMARY]
+	[TransactionKey] [nvarchar](20) NULL,
+	[MeterRegisterId] [int] NULL,
+	[TransactionSubtype] [nvarchar](30) NULL,
+	[Reversal] [nchar](3) NULL,
+	[Reversed] [nchar](3) NULL,
+	[StartRead] [decimal](18, 4) NULL,
+	[EndRead] [decimal](18, 4) NULL,
+	[StartDateId] [int] NULL,
+	[EndDateId] [int] NULL
+) ON [data]
 
 GO

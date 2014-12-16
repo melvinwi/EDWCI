@@ -11,6 +11,7 @@ CREATE TABLE [csv].[CX_Monitor](
 	[QuestionKey] [varchar](512) NOT NULL,
 	[RespondentId] [int] NOT NULL,
 	[Data] [varchar](max) NULL,
+	[ResearchProjectName] [varchar](512) NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NULL,
 	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NULL,
  CONSTRAINT [PK_CX_Monitor] PRIMARY KEY CLUSTERED 

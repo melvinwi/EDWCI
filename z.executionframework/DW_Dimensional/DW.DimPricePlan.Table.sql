@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [DW].[DimPricePlan](
 	[PricePlanId] [int] IDENTITY(1,1) NOT NULL,
-	[PricePlanKey] [int] NULL DEFAULT (NULL),
+	[PricePlanKey] [nvarchar](30) NULL,
 	[PricePlanCode] [nvarchar](20) NULL DEFAULT (NULL),
 	[PricePlanName] [nvarchar](100) NULL,
 	[PricePlanDiscountPercentage] [decimal](5, 4) NULL,
@@ -16,6 +16,9 @@ CREATE TABLE [DW].[DimPricePlan](
 	[Meta_EffectiveEndDate] [datetime2](0) NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
 	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NULL,
+	[PricePlanType] [nchar](5) NULL,
+	[Bundled] [nvarchar](11) NULL,
+	[ParentPricePlanCode] [nvarchar](20) NULL,
  CONSTRAINT [PK_DW.DimPricePlan] PRIMARY KEY CLUSTERED 
 (
 	[PricePlanId] ASC
@@ -23,9 +26,13 @@ CREATE TABLE [DW].[DimPricePlan](
 ) ON [data]
 
 GO
-CREATE NONCLUSTERED INDEX [_dta_index_DimPricePlan_9_644913369__K1_6] ON [DW].[DimPricePlan]
+SET ANSI_PADDING ON
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [NonClusteredIndex-20141201-141615] ON [DW].[DimPricePlan]
 (
-	[PricePlanId] ASC
-)
-INCLUDE ( 	[PricePlanValueRatio]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
+	[PricePlanId] ASC,
+	[PricePlanKey] ASC,
+	[Meta_IsCurrent] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
 GO

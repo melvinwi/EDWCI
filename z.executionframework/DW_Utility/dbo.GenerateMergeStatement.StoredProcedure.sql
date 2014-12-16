@@ -39,6 +39,7 @@ AS
   JG      08.09.2014    Removed SET ANSI_NULLS OFF; and SET ANSI_NULLS ON;  --(the ANSI_NULLS setting only applies to literal and variable values, not columnar)
                         Changed Equivalence section to produce "NOT (a = a AND b = b)" instead of "(a <> a OR b <> b)"
   JG      07.10.2014    Changed Equivalence section to use WHERE EXISTS ( SELECT TARGET... EXCEPT SELECT SOURCE... ), to ensure NULLs are evaluated and propogated.
+  JG      13.11.2014    Multiple whitespace removals (to reduce overall merge statement string length).
   <YOUR ROW HERE>     
   
 
@@ -264,7 +265,7 @@ DECLARE @TaskExecutionInstanceId_NVARCHAR NVARCHAR(10) = CAST(@TaskExecutionInst
 SET @InsertChanged =  CAST( ( SELECT  ','
                                     + CASE WHEN @ApplyNullDefaults = 1 AND NullDefaultString IS NOT NULL THEN 'ISNULL(' ELSE '' END 
                                     + CASE WHEN src_column_path IS NOT NULL THEN 'MergeOutput.' + '[' + column_name + ']' ELSE MetaDefault_InsertValue END
-                                    + CASE WHEN @ApplyNullDefaults = 1 AND NullDefaultString IS NOT NULL THEN ', ' + NullDefaultString + ') ' ELSE ' ' END
+                                    + CASE WHEN @ApplyNullDefaults = 1 AND NullDefaultString IS NOT NULL THEN ',' + NullDefaultString + ')' ELSE '' END
                               FROM  @COLUMNS
                               WHERE src_column_path         IS NOT NULL
                                 OR  MetaDefault_InsertValue IS NOT NULL
@@ -321,10 +322,10 @@ SET @Equi = N'NOT(' + SUBSTRING(@Equi, 5, LEN(@Equi)) + N')'
 --2) List of columns used for Update Statement
 --Populate @Update with the list of columns that will be used to construct the Update Statment portion of the Merge
 
-SET @Update = CAST( ( SELECT  ', TARGET.[' + column_name + '] = '
+SET @Update = CAST( ( SELECT  ',TARGET.[' + column_name + ']='
                           + CASE WHEN @ApplyNullDefaults = 1 AND NullDefaultString IS NOT NULL THEN 'ISNULL(' ELSE '' END 
                           + CASE WHEN src_column_path IS NOT NULL THEN 'SOURCE.' + '[' + column_name + ']' ELSE MetaDefault_UpdateValue END
-                          + CASE WHEN @ApplyNullDefaults = 1 AND NullDefaultString IS NOT NULL THEN ', ' + NullDefaultString + ') ' ELSE ' ' END 
+                          + CASE WHEN @ApplyNullDefaults = 1 AND NullDefaultString IS NOT NULL THEN ',' + NullDefaultString + ')' ELSE '' END 
                       FROM @COLUMNS c
                       WHERE NOT EXISTS (SELECT 'x' FROM @pk p WHERE p.column_name = c.column_name)  --we do not want the primary key columns updated (for performance)
                         AND (
@@ -362,7 +363,7 @@ SET @InsertFields = SUBSTRING(@InsertFields, 2, LEN(@InsertFields))
 SET @InsertValues = CAST( ( SELECT  ','
                                   + CASE WHEN @ApplyNullDefaults = 1 AND NullDefaultString IS NOT NULL THEN 'ISNULL(' ELSE '' END 
                                   + CASE WHEN src_column_path IS NOT NULL THEN 'SOURCE.' + '[' + column_name + ']' ELSE MetaDefault_InsertValue END
-                                  + CASE WHEN @ApplyNullDefaults = 1 AND NullDefaultString IS NOT NULL THEN ', ' + NullDefaultString + ') ' ELSE ' ' END
+                                  + CASE WHEN @ApplyNullDefaults = 1 AND NullDefaultString IS NOT NULL THEN ',' + NullDefaultString + ')' ELSE '' END
                             FROM @COLUMNS
                             WHERE ISNULL(src_column_path, MetaDefault_InsertValue) IS NOT NULL
                             FOR XML PATH('')
@@ -382,12 +383,12 @@ SET @InsertValues = SUBSTRING(@InsertValues, 2, LEN(@InsertValues))
 *     turns the update into an insert and you lose all efficiency benefits)         *
 *************************************************************************************/
 
-SET @merge_sql =  ( 'DECLARE @EffectiveStartDate DATETIME2(0) = ''' + CAST(@AsAtDate as NVARCHAR(20)) + '''; '
-                  + 'DECLARE @EffectiveEndDate DATETIME2(0) = ''' + CAST(DATEADD(ss, -1, @AsAtDate) as NVARCHAR(20)) + '''; '
-                  + 'DECLARE @TaskExecutionInstanceId INT = ' + CAST(@TaskExecutionInstanceId as NVARCHAR(10)) + '; '
+SET @merge_sql =  ( 'DECLARE @EffectiveStartDate DATETIME2(0)=''' + CAST(@AsAtDate as NVARCHAR(20)) + ''';'
+                  + 'DECLARE @EffectiveEndDate DATETIME2(0)=''' + CAST(DATEADD(ss, -1, @AsAtDate) as NVARCHAR(20)) + ''';'
+                  + 'DECLARE @TaskExecutionInstanceId INT=' + CAST(@TaskExecutionInstanceId as NVARCHAR(10)) + ';'
                   + CASE WHEN @SCDType = 2 
                       THEN  'INSERT INTO ' + @TgtDB + '.' + @TgtSchema + '.' + @TgtTable + '(' + @InsertFields + ') '
-                          + 'SELECT ' + @InsertChanged + ' FROM ( '
+                          + 'SELECT ' + @InsertChanged + ' FROM ('
                       ELSE '' END
                   + 'MERGE INTO ' + @TgtDB + '.' + @TgtSchema + '.' + @TgtTable + ' AS TARGET '
                   + 'USING ' + @SrcDB + '.' + @SrcSchema + '.' + @SrcTable + ' AS SOURCE '
@@ -398,23 +399,23 @@ SET @merge_sql =  ( 'DECLARE @EffectiveStartDate DATETIME2(0) = ''' + CAST(@AsAt
                   + 'WHEN NOT MATCHED BY TARGET THEN INSERT (' + @InsertFields + ') '
                   + 'VALUES ( ' + @InsertValues + ')'
                   + CASE WHEN @SCDType = 2 
-                      THEN 'OUTPUT $action AS Action,SOURCE.*) AS MergeOutput WHERE MergeOutput.Action = ''UPDATE''; '
+                      THEN 'OUTPUT $action AS Action,SOURCE.*) AS MergeOutput WHERE MergeOutput.Action=''UPDATE'';'
                       ELSE ';' END
                   + 'SELECT -1 AS InsertRowCount'
-                  + ', @@ROWCOUNT AS UpdateRowCount'
+                  + ',ISNULL(@@ROWCOUNT, -1) AS UpdateRowCount'
                   );
  
 --Either execute the final Merge statement to merge the staging table into production
---Or kick out the actual merge statement text if debug is turned on (@debug=1)
+--Or select the merge statement text if debug is turned on (@debug=1)
 IF @debug = 1
   BEGIN
-    -- If debug is turned on simply select the text of merge statement and return that
+    -- If debug is true, select the text of merge statement and the column metadata
     SELECT @merge_sql AS merge_sql
     SELECT * FROM @COLUMNS;
   END
 ELSE
   BEGIN
-    -- If debug is not turned on then execute the merge statement
+    -- If debug is not true, execute the merge statement
     EXEC sp_executesql @merge_sql;
   END
 END

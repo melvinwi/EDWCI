@@ -20,7 +20,15 @@ CREATE TABLE [DW].[FactTransaction](
 	[TransactionDesc] [nvarchar](100) NULL,
 	[TransactionKey] [nvarchar](20) NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
-	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NULL
+	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NULL,
+	[MeterRegisterId] [int] NULL,
+	[TransactionSubtype] [nvarchar](30) NULL,
+	[Reversal] [nchar](3) NULL,
+	[Reversed] [nchar](3) NULL,
+	[StartRead] [decimal](18, 4) NULL,
+	[EndRead] [decimal](18, 4) NULL,
+	[StartDateId] [int] NULL,
+	[EndDateId] [int] NULL
 ) ON [data]
 
 GO

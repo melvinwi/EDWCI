@@ -68,7 +68,8 @@ BEGIN
         DimAccount.MyAccountStatus,
         DimAccount.ACN,
         DimAccount.ABN,
-	   DimAccount.AccountType) 
+	   DimAccount.AccountType,
+	   DimAccount.BillCycleCode) 
         SELECT
         CAST ( nc_client.seq_party_id AS int) ,
         CASE
@@ -119,7 +120,8 @@ BEGIN
               WHEN '9' THEN 'Residential'
               WHEN '8' THEN 'Business'
                   ELSE NULL
-              END AS nchar (11)) 
+              END AS nchar (11)),
+	   CAST( UPPER( nc_billing_cycle.bill_cycle_code) AS nchar(10))
           FROM
                DW_Staging.orion.nc_client INNER JOIN DW_Staging.orion.crm_party
                ON nc_client.seq_party_id = crm_party.seq_party_id
@@ -134,6 +136,8 @@ BEGIN
                ON _CreditControlCategory.seq_credit_status_id = nc_client.seq_credit_status_id
                               LEFT JOIN DW_Staging.orion.nc_inv_deliver_mode
                ON nc_inv_deliver_mode.seq_inv_del_mode_id = nc_client.seq_inv_del_mode_id
+						 LEFT JOIN DW_Staging.orion.nc_billing_cycle
+			 ON nc_billing_cycle.seq_bill_cycle_id = nc_client.seq_bill_cycle_id
           WHERE crm_party.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
             OR nc_client.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
             OR _accountStatus.Meta_HasChanged = 1;

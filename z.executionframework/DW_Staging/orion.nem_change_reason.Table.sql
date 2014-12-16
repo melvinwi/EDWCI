@@ -36,3 +36,8 @@ CREATE TABLE [orion].[nem_change_reason](
 GO
 SET ANSI_PADDING OFF
 GO
+CREATE NONCLUSTERED INDEX [IX_orion_nem_change_reason_Meta_LatestUpdateId] ON [orion].[nem_change_reason]
+(
+	[Meta_LatestUpdate_TaskExecutionInstanceId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
+GO

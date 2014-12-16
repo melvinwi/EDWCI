@@ -7,7 +7,8 @@ GO
 CREATE TABLE [temp].[DimActivityType](
 	[ActivityTypeKey] [int] NULL,
 	[ActivityTypeCode] [nvarchar](20) NULL,
-	[ActivityTypeDesc] [nvarchar](100) NULL
+	[ActivityTypeDesc] [nvarchar](100) NULL,
+	[ActivityCategory] [nvarchar](100) NULL
 ) ON [PRIMARY]
 
 GO

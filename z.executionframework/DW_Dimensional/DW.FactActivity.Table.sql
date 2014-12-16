@@ -12,7 +12,6 @@ CREATE TABLE [DW].[FactActivity](
 	[ActivityDateId] [int] NULL,
 	[ActivityTime] [time](7) NULL,
 	[ActivityCommunicationMethod] [nvarchar](30) NULL,
-	[ActivityCategory] [nvarchar](20) NULL,
 	[ActivityNotes] [nvarchar](4000) NULL,
 	[ActivityKey] [int] NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,

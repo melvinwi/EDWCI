@@ -195,7 +195,9 @@ BEGIN
                ON crm_element_hierarchy.element_id = crm_party.seq_party_id
                               INNER JOIN contacts AS _contacts
                ON _contacts.parent_id = nc_client.seq_party_id
-                              INNER JOIN customerStatus AS _customerStatus
+					   -- Fix made on 2014-11-12; query stopped executing. Root cause unknown.
+                            -- INNER JOIN customerStatus AS _customerStatus
+						LEFT OUTER JOIN customerStatus AS _customerStatus
                ON _customerStatus.seq_party_id = nc_client.seq_party_id
                               LEFT OUTER JOIN ombudsmanComplaints AS _ombudsmanComplaints
                ON _ombudsmanComplaints.ClientId = crm_party.party_code

@@ -22,6 +22,11 @@ CREATE TABLE [DW].[DimService](
 	[ResidentialState] [nchar](3) NULL,
 	[NextScheduledReadDate] [date] NULL,
 	[FRMPDate] [date] NULL,
+	[Threshold] [nvarchar](40) NULL,
+	[TransmissionNodeId] [int] NULL,
+	[FirstImportRegisterDate] [date] NULL,
+	[SiteStatus] [nvarchar](30) NULL,
+	[SiteStatusType] [nvarchar](20) NULL,
  CONSTRAINT [PK_DW.DimService] PRIMARY KEY CLUSTERED 
 (
 	[ServiceId] ASC
@@ -29,9 +34,10 @@ CREATE TABLE [DW].[DimService](
 ) ON [data]
 
 GO
-CREATE NONCLUSTERED INDEX [_dta_index_DimService_9_1945773989__K1] ON [DW].[DimService]
+CREATE NONCLUSTERED INDEX [_dta_index_DimService_9_1945773989__K1_K2] ON [DW].[DimService]
 (
-	[ServiceId] ASC
+	[ServiceId] ASC,
+	[ServiceKey] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
 GO
 SET ANSI_PADDING ON
@@ -77,6 +83,13 @@ CREATE NONCLUSTERED INDEX [_dta_index_DimService_9_1945773989__K5_1_3_4] ON [DW]
 INCLUDE ( 	[ServiceId],
 	[MarketIdentifier],
 	[ServiceType]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
+GO
+CREATE NONCLUSTERED INDEX [_dta_index_DimService_9_1945773989__K5_K2_K1] ON [DW].[DimService]
+(
+	[Meta_IsCurrent] ASC,
+	[ServiceKey] ASC,
+	[ServiceId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
 GO
 SET ANSI_PADDING ON
 

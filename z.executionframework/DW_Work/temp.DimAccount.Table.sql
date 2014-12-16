@@ -22,7 +22,8 @@ CREATE TABLE [temp].[DimAccount](
 	[MyAccountStatus] [nvarchar](14) NULL,
 	[ACN] [nvarchar](100) NULL,
 	[ABN] [nvarchar](100) NULL,
-	[AccountType] [nchar](11) NULL
+	[AccountType] [nchar](11) NULL,
+	[BillCycleCode] [nchar](10) NULL
 ) ON [data]
 
 GO

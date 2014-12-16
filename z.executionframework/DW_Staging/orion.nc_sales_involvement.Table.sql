@@ -39,3 +39,8 @@ CREATE TABLE [orion].[nc_sales_involvement](
 GO
 SET ANSI_PADDING OFF
 GO
+CREATE NONCLUSTERED INDEX [IX_orion_nc_sales_involvement_Meta_LatestUpdateId] ON [orion].[nc_sales_involvement]
+(
+	[Meta_LatestUpdate_TaskExecutionInstanceId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
+GO

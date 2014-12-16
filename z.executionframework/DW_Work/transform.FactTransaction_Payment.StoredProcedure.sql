@@ -28,7 +28,7 @@ BEGIN
 		END
 		
     CREATE TABLE #FactTransaction
-        ( AccountId           INT             NULL
+        (    AccountId           INT             NULL
 	      , ServiceId           INT             NULL
 	      , ProductId           INT             NULL
 	      , FinancialAccountId  INT             NULL
@@ -42,6 +42,14 @@ BEGIN
 	      , TransactionType     NVARCHAR(100)   NULL
 	      , TransactionDesc     NVARCHAR(100)   NULL
 	      , TransactionKey      NVARCHAR(20)    NULL
+		 , MeterRegisterId     INT             NULL
+		 , TransactionSubtype  NVARCHAR(30)    NULL
+		 , Reversal		   NCHAR(3)	    NULL
+		 , Reversed		   NCHAR(3)	    NULL
+		 , StartRead		   DECIMAL(18,4)   NULL
+		 , EndRead		   DECIMAL(18,4)   NULL
+		 , StartDateId		   INT		    NULL
+		 , EndDateId		   INT		    NULL
 	      ) ;
     --/
 
@@ -58,9 +66,17 @@ BEGIN
 		              , Value
 		              , Currency
 		              , Tax
-				          , TransactionType
+				    , TransactionType
 		              , TransactionDesc
 		              , TransactionKey
+				    , MeterRegisterId
+				    , TransactionSubtype
+				    , Reversal		 
+				    , Reversed		 
+				    , StartRead		 
+				    , EndRead		 
+				    , StartDateId		 
+				    , EndDateId		 
                   )
     SELECT
     _DimAccount.AccountId,
@@ -72,11 +88,19 @@ BEGIN
     -1,
     0,
     -1 * ar_receipt.rcpt_amount,
-    'AUD',
+    N'AUD',
     0,
-    'Payments',
-    'Payment - ' + ar_receipt_batch_type.rcpt_batch_type_desc,
-    'PAY' + CAST (ar_receipt.seq_rcpt_id AS nvarchar (11)) 
+    N'Payments',
+    N'Payment - ' + ar_receipt_batch_type.rcpt_batch_type_desc,
+    N'PAY' + CAST (ar_receipt.seq_rcpt_id AS nvarchar (11)),
+    -1,
+    CAST (ar_receipt_batch_type.rcpt_batch_type_desc AS nvarchar(30)),
+    N'No ',
+	N'No ',
+		0,
+		0,
+		99991231,
+		99991231 
       FROM
            DW_Staging.orion.ar_receipt INNER JOIN DW_Staging.orion.ar_receipt_batch
            ON ar_receipt_batch.seq_rcpt_batch_id = ar_receipt.seq_rcpt_batch_id
@@ -97,14 +121,14 @@ BEGIN
            ON _DimFinancialAccount.FinancialAccountKey = 10
           AND _DimFinancialAccount.Meta_IsCurrent = 1
                                        LEFT JOIN DW_Dimensional.DW.DimVersion AS _DimVersion
-           ON _DimVersion.VersionKey = 'Actual'
+           ON _DimVersion.VersionKey = N'Actual'
     WHERE ar_receipt.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
     AND ar_receipt.seq_accounting_period_id IS NOT NULL;
     --/
 	
 	  --Insert into main table
 	  INSERT INTO temp.FactTransaction 
-                      ( AccountId
+                      (			 AccountId
 				              , ServiceId
 				              , ProductId
 				              , FinancialAccountId
@@ -115,9 +139,17 @@ BEGIN
 				              , Value
 				              , Currency
 				              , Tax
-						          , TransactionType
+						    , TransactionType
 				              , TransactionDesc
 				              , TransactionKey
+						    , MeterRegisterId
+						    , TransactionSubtype
+						    , Reversal		 
+						    , Reversed		 
+						    , StartRead		 
+						    , EndRead		 
+						    , StartDateId		 
+						    , EndDateId		 
                       )
 	  SELECT  AccountId
 			    , ServiceId
@@ -133,6 +165,14 @@ BEGIN
 			    , TransactionType
 			    , TransactionDesc
 			    , TransactionKey
+			    , MeterRegisterId
+			    , TransactionSubtype
+			    , Reversal		 
+			    , Reversed		 
+			    , StartRead		 
+			    , EndRead		 
+			    , StartDateId		 
+			    , EndDateId		 
 	  FROM    #FactTransaction;
 	  --/
     

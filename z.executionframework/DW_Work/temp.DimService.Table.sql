@@ -15,7 +15,12 @@ CREATE TABLE [temp].[DimService](
 	[ResidentialPostcode] [nchar](4) NULL,
 	[ResidentialState] [nchar](3) NULL,
 	[NextScheduledReadDate] [date] NULL,
-	[FRMPDate] [date] NULL
+	[FRMPDate] [date] NULL,
+	[Threshold] [nvarchar](40) NULL,
+	[TransmissionNodeId] [int] NULL,
+	[FirstImportRegisterDate] [date] NULL,
+	[SiteStatus] [nvarchar](30) NULL,
+	[SiteStatusType] [nvarchar](20) NULL
 ) ON [data]
 
 GO

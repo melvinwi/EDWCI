@@ -5,6 +5,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+
 CREATE VIEW [config].[vPackageParametersInSSISDB] AS 
 --
 SELECT      fo.name           COLLATE Latin1_General_CI_AS  AS FolderName 
@@ -22,6 +23,8 @@ INNER JOIN  [SSISDB].[catalog].[folders]                    AS fo
             ON  fo.folder_id = pr.folder_id
 
 WHERE       op.object_type = 30
+        AND op.parameter_name COLLATE Latin1_General_CI_AS NOT LIKE 'CM.%'
 --/
+
 
 GO

@@ -31,3 +31,8 @@ CREATE TABLE [orion].[utl_price_class](
 GO
 SET ANSI_PADDING OFF
 GO
+CREATE NONCLUSTERED INDEX [IX_orion_utl_price_class_Meta_LatestUpdateId] ON [orion].[utl_price_class]
+(
+	[Meta_LatestUpdate_TaskExecutionInstanceId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
+GO

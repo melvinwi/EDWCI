@@ -9,6 +9,8 @@ CREATE TABLE [temp].[FactContract](
 	[ServiceId] [int] NOT NULL,
 	[ProductId] [int] NOT NULL,
 	[PricePlanId] [int] NOT NULL,
+	[ContractConnectedDateId] [int] NOT NULL,
+	[ContractFRMPDateId] [int] NOT NULL,
 	[ContractStartDateId] [int] NOT NULL,
 	[ContractEndDateId] [int] NOT NULL,
 	[ContractTerminatedDateId] [int] NOT NULL,

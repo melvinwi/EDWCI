@@ -5,6 +5,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+
 CREATE PROCEDURE [transform].[FactContract]
 @TaskExecutionInstanceID int
 ,
@@ -71,6 +72,8 @@ BEGIN
         FactContract.ServiceId,
         FactContract.ProductId,
         FactContract.PricePlanId,
+	   FactContract.ContractConnectedDateId,
+	   FactContract.ContractFRMPDateId,
         FactContract.ContractStartDateId,
         FactContract.ContractEndDateId,
         FactContract.ContractTerminatedDateId,
@@ -82,14 +85,19 @@ BEGIN
         _DimService.ServiceId,
         _DimProduct.ProductId,
         ISNULL(_DimPricePlan.PricePlanId,-1),
-        CONVERT (nchar (8) , ISNULL ( nc_product_item.contract_start_date , '9999-12-31') , 112) ,
+	   CONVERT (nchar (8) , COALESCE ( nc_product_item.date_connected, nc_product_item.contract_start_date , '9999-12-31') , 112) ,
+        CONVERT (nchar (8) , COALESCE ( nc_product_item.frmp_date , '9999-12-31') , 112) ,
+	   CONVERT (nchar (8) , ISNULL ( nc_product_item.contract_start_date , '9999-12-31') , 112) ,
         CONVERT (nchar (8) , ISNULL ( nc_product_item.contract_end_date , '9999-12-31') , 112) ,
-        CONVERT (nchar (8) , ISNULL ( nc_product_item.date_terminated , '9999-12-31') , 112) ,
+        CASE WHEN utl_account_status.accnt_status_class_id = 1 THEN 
+	   CONVERT (nchar (8) , COALESCE ( nc_product_item.date_terminated , nc_product_item.accnt_status_date, '9999-12-31') , 112)
+	   WHEN  utl_account_status.accnt_status_class_id = 2 THEN 99991231
+	   ELSE CONVERT (nchar (8) , COALESCE ( nc_product_item.date_terminated , '9999-12-31') , 112) END,
         CAST (CASE utl_account_status.accnt_status_class_id
-              WHEN 2 THEN 'Open'
-              WHEN 3 THEN 'Pending'
-              WHEN 4 THEN 'Error'
-                  ELSE 'Closed'
+              WHEN 2 THEN N'Open'
+              WHEN 3 THEN N'Pending'
+              WHEN 4 THEN N'Error'
+                  ELSE N'Closed'
               END AS nchar (10)) ,
         CAST ( nc_product_item.seq_product_item_id AS int) ,
 
@@ -118,7 +126,7 @@ BEGIN
                ON _DimProduct.ProductKey = _productKey.ProductKey
               AND _DimProduct.Meta_IsCurrent = 1
                                           LEFT JOIN DW_Dimensional.DW.DimPricePlan AS _DimPricePlan
-               ON _DimPricePlan.PricePlanKey = _pricePlan.price_plan_id
+               ON _DimPricePlan.PricePlanKey = N'DAILY.' + CAST(_pricePlan.price_plan_id AS nvarchar(20))
               AND _DimPricePlan.Meta_IsCurrent = 1
           WHERE nc_client.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
              OR nc_product.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
@@ -138,5 +146,6 @@ BEGIN
            0 AS ErrorRowCount;
 
 END;
+
 
 GO

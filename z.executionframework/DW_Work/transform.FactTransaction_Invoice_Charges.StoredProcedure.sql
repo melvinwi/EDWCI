@@ -28,7 +28,7 @@ BEGIN
 		END
 		
     CREATE TABLE #FactTransaction
-        ( AccountId           INT             NULL
+        (    AccountId           INT             NULL
 	      , ServiceId           INT             NULL
 	      , ProductId           INT             NULL
 	      , FinancialAccountId  INT             NULL
@@ -42,6 +42,14 @@ BEGIN
 	      , TransactionType     NVARCHAR(100)   NULL
 	      , TransactionDesc     NVARCHAR(100)   NULL
 	      , TransactionKey      NVARCHAR(20)    NULL
+		 , MeterRegisterId     INT             NULL
+		 , TransactionSubtype  NVARCHAR(30)    NULL
+		 , Reversal		   NCHAR(3)	    NULL
+		 , Reversed		   NCHAR(3)	    NULL
+		 , StartRead		   DECIMAL(18,4)   NULL
+		 , EndRead		   DECIMAL(18,4)   NULL
+		 , StartDateId		   INT		    NULL
+		 , EndDateId		   INT		    NULL
 	      ) ;
     --/
 
@@ -83,15 +91,15 @@ BEGIN
                    CASE
                    WHEN nc_product_item.tco_id <> 1 THEN CAST (nc_product_item.tco_id AS nvarchar (100)) 
                    WHEN utl_contract_term.contract_term_desc = 'Lumo Express'
-                     OR utl_contract_term.contract_term_desc = 'Lumo Express 2012' THEN 'Lumo Express'
-                   WHEN utl_contract_term.contract_term_desc = 'Lumo Velocity' THEN 'Lumo Velocity'
-                   WHEN utl_contract_term.contract_term_desc = 'Lumo Virgin Staff' THEN 'Lumo Virgin Staff'
-                   WHEN utl_contract_term.contract_term_desc = 'Lumo Movers' THEN 'Lumo Movers'
-                   WHEN utl_contract_term.contract_term_desc = 'Lumo Basic' THEN 'Lumo Basic'
-                   WHEN _pricePlan.green_percent = '0.1' THEN 'Lumo Life 10'
-                   WHEN _pricePlan.green_percent = '1' THEN 'Lumo Life 100'
-                   WHEN LEFT (_pricePlan.price_plan_code, 3) IN ('OCC', 'STD') THEN 'Lumo Options'
-                       ELSE 'Lumo Advantage'
+                     OR utl_contract_term.contract_term_desc = 'Lumo Express 2012' THEN N'Lumo Express'
+                   WHEN utl_contract_term.contract_term_desc = 'Lumo Velocity' THEN N'Lumo Velocity'
+                   WHEN utl_contract_term.contract_term_desc = 'Lumo Virgin Staff' THEN N'Lumo Virgin Staff'
+                   WHEN utl_contract_term.contract_term_desc = 'Lumo Movers' THEN N'Lumo Movers'
+                   WHEN utl_contract_term.contract_term_desc = 'Lumo Basic' THEN N'Lumo Basic'
+                   WHEN _pricePlan.green_percent = '0.1' THEN N'Lumo Life 10'
+                   WHEN _pricePlan.green_percent = '1' THEN N'Lumo Life 100'
+                   WHEN LEFT (_pricePlan.price_plan_code, 3) IN ('OCC', 'STD') THEN N'Lumo Options'
+                       ELSE N'Lumo Advantage'
                    END AS ProductKey,
                    CASE
                    WHEN nc_product_item.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
@@ -119,6 +127,14 @@ BEGIN
 				    , TransactionType
 		              , TransactionDesc
 		              , TransactionKey
+				    , MeterRegisterId
+				    , TransactionSubtype
+				    , Reversal		 
+				    , Reversed		 
+				    , StartRead		 
+				    , EndRead		 
+				    , StartDateId		 
+				    , EndDateId		 
                   )
         SELECT
         _DimAccount.AccountId,
@@ -139,19 +155,36 @@ BEGIN
 
         /* utl_charge_transaction.charge_trans_id */
 
-        'AUD',
+        N'AUD',
 
         (inv_client_charges.charge_amount * COALESCE (_taxRate.tax_rate, 0)),
 
 	 -- (inv_client_charges.charge_amount * COALESCE (_taxRate.tax_rate, 0.10)),
 
-	   'Client Charges',
+	   N'Client Charges',
 
         CAST (inv_client_charges.invoice_description AS nvarchar (100)) ,
 
         /* utl_charge_transaction.charge_trans_id */
 
-        'CHG' + CAST (inv_client_charges.seq_client_charge_id AS nvarchar (11)) 
+        N'CHG' + CAST (inv_client_charges.seq_client_charge_id AS nvarchar (11)) ,
+	   
+	   -1,
+
+	   N'Client Charges',
+
+	   CASE WHEN inv_invoice_header.reversal = 'Y' THEN N'Yes' 
+	   WHEN inv_client_charges.invoice_description LIKE '%REVERSAL%' THEN N'Yes'
+	   ELSE N'No ' END,		 
+		
+	   CASE WHEN inv_invoice_header.reversal = 'Y' THEN N'No ' 
+	   WHEN inv_client_charges.invoice_description LIKE '%REVERSAL%' THEN N'No '
+	   WHEN inv_invoice_header.reversal_seq_invoice_header_id IS NOT NULL THEN N'Yes'
+														  ELSE N'No ' END,	 
+	   0,
+	   0,
+	   99991231,
+	   99991231	 
           FROM
                DW_Staging.orion.inv_client_charges INNER JOIN DW_Staging.orion.inv_charge_item
                ON inv_charge_item.seq_charge_item_id = inv_client_charges.seq_charge_item_id
@@ -159,6 +192,8 @@ BEGIN
                ON nc_product_item.seq_product_item_id = inv_client_charges.seq_product_item_id
                                                    LEFT JOIN productKey AS _productKey
                ON _productKey.seq_product_item_id = inv_client_charges.seq_product_item_id
+										 LEFT JOIN DW_Staging.orion.inv_invoice_header
+			 ON inv_invoice_header.seq_invoice_header_id = inv_client_charges.seq_invoice_header_id
                                                    INNER JOIN DW_Dimensional.DW.DimAccount AS _DimAccount
                ON _DimAccount.AccountKey = inv_client_charges.seq_party_id
               AND _DimAccount.Meta_IsCurrent = 1
@@ -172,20 +207,21 @@ BEGIN
                ON _DimFinancialAccount.FinancialAccountKey = inv_charge_item.seq_account_id
               AND _DimFinancialAccount.Meta_IsCurrent = 1
                                                    LEFT JOIN DW_Dimensional.DW.DimVersion AS _DimVersion
-               ON _DimVersion.VersionKey = 'Actual'
+               ON _DimVersion.VersionKey = N'Actual'
                                                    LEFT JOIN taxRate AS _taxRate
                ON _taxRate.seq_client_charge_id = inv_client_charges.seq_client_charge_id
           WHERE inv_client_charges.approved = 'Y'
             AND (inv_charge_item.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
               OR inv_client_charges.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
               OR nc_product_item.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
+		    OR inv_invoice_header.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID
               OR _productKey.Meta_HasChanged = 1
               OR _taxRate.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID);
     --/
 	
 	  --Insert into main table
 	  INSERT INTO temp.FactTransaction 
-                      ( AccountId
+                      (			 AccountId
 				              , ServiceId
 				              , ProductId
 				              , FinancialAccountId
@@ -199,6 +235,14 @@ BEGIN
 						    , TransactionType
 				              , TransactionDesc
 				              , TransactionKey
+						    , MeterRegisterId
+						    , TransactionSubtype
+						    , Reversal		 
+						    , Reversed		 
+						    , StartRead		 
+						    , EndRead		 
+						    , StartDateId		 
+						    , EndDateId		 
                       )
 	  SELECT  AccountId
 			    , ServiceId
@@ -214,6 +258,14 @@ BEGIN
 			    , TransactionType
 			    , TransactionDesc
 			    , TransactionKey
+			    , MeterRegisterId
+			    , TransactionSubtype
+			    , Reversal		 
+			    , Reversed		 
+			    , StartRead		 
+			    , EndRead		 
+			    , StartDateId		 
+			    , EndDateId		 
 	  FROM    #FactTransaction;
 	  --/
     

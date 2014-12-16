@@ -17,7 +17,8 @@ CREATE TABLE [DW].[FactMarketTransaction](
 	[NEMInitialTransactionKey] [nvarchar](100) NULL,
 	[TransactionCounter] [tinyint] NULL DEFAULT (NULL),
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
-	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NOT NULL
+	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NOT NULL,
+	[TransactionTime] [time](7) NULL
 ) ON [data]
 
 GO

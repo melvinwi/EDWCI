@@ -18,16 +18,16 @@ AS
   Change  History   : 
   Author  Date          Description of Change
   JG      31.10.2014    Added section: If any tasks failed set the status to 'Failed'
+  JG      14.11.2014    Changed section: If any tasks failed set the status to 'Failed' to: If any tasks not successful, set the status to 'Failed' 
   <YOUR ROW HERE>     
    */
 
-  DECLARE @Status NCHAR(1)
   
   --Default to 'Successful' ExecutionInstance
-  SET @Status = 'S'
+  DECLARE @Status NCHAR(1) = 'S'
   --/
 
-  --Any task that were initialized but not attempted set them to unattempted
+  --If any tasks that were initialized but not attempted, set them to unattempted
   UPDATE dbo.TaskExecutionInstance
   SET StatusCode = 'U'
     , StatusUpdateDateTime = GETDATE()
@@ -40,15 +40,12 @@ AS
         FROM dbo.ApplicationExecutionInstance
         WHERE ApplicationExecutionInstanceID = @ApplicationExecutionInstanceID
       ) = '1'
-  BEGIN
-    SET @Status = 'F' 
-  END
-  
-  --If any tasks failed set the status to 'Failed' 
-  IF EXISTS ( SELECT 1
+
+  OR  --If any tasks not successful, set the status to 'Failed' 
+    EXISTS ( SELECT 1
               FROM dbo.TaskExecutionInstance
               WHERE ApplicationExecutionInstanceID = @ApplicationExecutionInstanceID
-                AND StatusCode = 'F'
+                AND StatusCode <> 'S' --IN ('E', 'F', 'U', 'P')
             )
   BEGIN
     SET @Status = 'F' 

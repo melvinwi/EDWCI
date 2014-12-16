@@ -1,13 +1,9 @@
 USE [DW_Access]
 GO
-
-/****** Object:  StoredProcedure [transform].[RetentionDiallerList]    Script Date: 9/12/2014 10:59:08 AM ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
-
 
 CREATE proc [transform].[RetentionDiallerList]
     @TaskExecutionInstanceID INT
@@ -391,5 +387,3 @@ END;
 
 
 GO
-
-

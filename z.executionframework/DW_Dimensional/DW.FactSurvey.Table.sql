@@ -11,6 +11,7 @@ CREATE TABLE [DW].[FactSurvey](
 	[Response] [nvarchar](255) NULL,
 	[RespondentKey] [int] NULL,
 	[ResponseKey] [nvarchar](255) NULL,
+	[ResearchProjectName] [nvarchar](255) NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
 	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NULL
 ) ON [data]

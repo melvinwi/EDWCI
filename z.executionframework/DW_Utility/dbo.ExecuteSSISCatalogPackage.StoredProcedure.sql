@@ -27,6 +27,8 @@ AS
                       Raised error severity from 10 to 16 (to properly propagate the error).
   JG      20/10/2014  Redefined error logging to catch the most likely message, and added message_code NULL handling.
   JG      22/10/2014  Added section to derive @ReferenceId (to cause environment variables to be applied)
+  JG      14/11/2014  Added EXEC [log].[LogTaskParameterChange] to log TaskParameters
+  JG      08/12/2014  Removed NVARCHAR(128) casting on [ParameterValue]
   <YOUR ROW HERE>
   
   Usage:
@@ -104,8 +106,8 @@ BEGIN TRY
 
   SET @TaskParameter_Cursor = CURSOR FOR
       SELECT    [ParameterName]  
-              , CAST([ParameterValue] AS NVARCHAR(128)) AS [ParameterValue]
-              , [ObjectTypeId] 
+              , [ParameterValue]--CAST([ParameterValue] AS NVARCHAR(128)) AS [ParameterValue]
+              , [ObjectTypeId]
       FROM      [config].[TaskParameter] 
       WHERE     [TaskId]      =   @TaskId
         AND     [IsDisabled]  <>  1
@@ -123,6 +125,11 @@ BEGIN TRY
           , @Object_Type      = @ObjectTypeId
           , @Parameter_Name   = @ParameterName
           , @Parameter_Value  = @ParameterValue
+
+      EXEC  [log].[LogTaskParameterChange]
+            @TaskExecutionInstanceID  = @TaskExecutionInstanceID
+          ,	@ParameterName            = @ParameterName  
+          ,	@ParameterValue           = @ParameterValue 
 
       FETCH NEXT FROM @TaskParameter_Cursor INTO  @ParameterName  
                                                 , @ParameterValue 

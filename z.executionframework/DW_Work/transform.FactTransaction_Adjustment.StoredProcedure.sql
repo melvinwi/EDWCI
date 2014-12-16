@@ -27,7 +27,7 @@ BEGIN
 		END
 		
     CREATE TABLE #FactTransaction
-        ( AccountId           INT             NULL
+        (    AccountId           INT             NULL
 	      , ServiceId           INT             NULL
 	      , ProductId           INT             NULL
 	      , FinancialAccountId  INT             NULL
@@ -41,6 +41,14 @@ BEGIN
 	      , TransactionType     NVARCHAR(100)   NULL
 	      , TransactionDesc     NVARCHAR(100)   NULL
 	      , TransactionKey      NVARCHAR(20)    NULL
+		 , MeterRegisterId     INT             NULL
+		 , TransactionSubtype  NVARCHAR(30)    NULL
+		 , Reversal		   NCHAR(3)	    NULL
+		 , Reversed		   NCHAR(3)	    NULL
+		 , StartRead		   DECIMAL(18,4)   NULL
+		 , EndRead		   DECIMAL(18,4)   NULL
+		 , StartDateId		   INT		    NULL
+		 , EndDateId		   INT		    NULL
 	      ) ;
     --/
 
@@ -63,6 +71,14 @@ BEGIN
 				    , TransactionType
 		              , TransactionDesc
 		              , TransactionKey
+				    , MeterRegisterId
+				    , TransactionSubtype
+				    , Reversal		 
+				    , Reversed		 
+				    , StartRead		 
+				    , EndRead		 
+				    , StartDateId		 
+				    , EndDateId		 
                   )
 	  SELECT
 		_DimAccount.AccountId,
@@ -74,17 +90,33 @@ BEGIN
 		/* ar_adjust.seq_ar_adjust_id */ -1,
 		/* ar_adjust.seq_ar_adjust_id */ 0,
 		ar_adjust_reason.cust_tran_multiplier * CASE WHEN COALESCE(ar_adjust_reason.gst_inclusive, 'N') = 'Y' THEN ar_adjust.adj_amount / (1 + COALESCE(_taxRate.tax_rate, 0)) ELSE ar_adjust.adj_amount END,
-		/* ar_adjust.seq_ar_adjust_id */ 'AUD',
+		/* ar_adjust.seq_ar_adjust_id */ N'AUD',
 		ar_adjust_reason.cust_tran_multiplier * CASE WHEN COALESCE(ar_adjust_reason.gst_inclusive, 'N') = 'Y' THEN ar_adjust.adj_amount * COALESCE(_taxRate.tax_rate, 0) / (1 + COALESCE(_taxRate.tax_rate, 0)) ELSE 0 END,
-		'Adjustments',
+		N'Adjustments',
 		ar_adjust_reason.adj_statement_desc,
-		/* ar_adjust.seq_ar_adjust_id */ 'ADJ' + CAST(ar_adjust.seq_ar_adjust_id AS NVARCHAR(11))
-	  FROM DW_Staging.orion.ar_adjust INNER JOIN DW_Staging.orion.ar_adjust_reason ON ar_adjust_reason.seq_adj_reason_id = ar_adjust.seq_adj_reason_id INNER JOIN DW_Staging.orion.nc_client ON nc_client.seq_party_id = ar_adjust.seq_party_id INNER JOIN DW_Staging.orion.crm_element_hierarchy ON crm_element_hierarchy.element_id = nc_client.seq_party_id AND crm_element_hierarchy.element_struct_code = 'CLIENT' INNER JOIN DW_Staging.orion.crm_party_type ON crm_party_type.seq_party_type_id = crm_element_hierarchy.seq_element_type_id AND crm_party_type.party_type <> 'SUBCLIENT' LEFT JOIN taxRate AS _taxRate ON _taxRate.seq_ar_adjust_id = ar_adjust.seq_ar_adjust_id INNER JOIN DW_Dimensional.DW.DimAccount AS _DimAccount ON _DimAccount.AccountKey = nc_client.seq_party_id AND _DimAccount.Meta_IsCurrent = 1 LEFT JOIN DW_Dimensional.DW.DimFinancialAccount AS _DimFinancialAccount ON _DimFinancialAccount.FinancialAccountKey = ar_adjust_reason.seq_account_id AND _DimFinancialAccount.Meta_IsCurrent = 1 LEFT JOIN DW_Dimensional.DW.DimVersion AS _DimVersion ON _DimVersion.VersionKey = 'Actual' WHERE ar_adjust.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR ar_adjust_reason.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _taxRate.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID;
+		/* ar_adjust.seq_ar_adjust_id */ N'ADJ' + CAST(ar_adjust.seq_ar_adjust_id AS NVARCHAR(11)),
+		-1,
+		N'Adjustments',
+		CASE WHEN ar_adjust_reason.adj_desc LIKE '%REVERSAL%' THEN N'Yes' ELSE 'No ' END,
+		N'No ',
+		0,
+		0,
+		99991231,
+		99991231
+	  FROM DW_Staging.orion.ar_adjust 
+	  INNER JOIN DW_Staging.orion.ar_adjust_reason ON ar_adjust_reason.seq_adj_reason_id = ar_adjust.seq_adj_reason_id 
+	  INNER JOIN DW_Staging.orion.nc_client ON nc_client.seq_party_id = ar_adjust.seq_party_id 
+	  INNER JOIN DW_Staging.orion.crm_element_hierarchy ON crm_element_hierarchy.element_id = nc_client.seq_party_id AND crm_element_hierarchy.element_struct_code = 'CLIENT' 
+	  INNER JOIN DW_Staging.orion.crm_party_type ON crm_party_type.seq_party_type_id = crm_element_hierarchy.seq_element_type_id AND crm_party_type.party_type <> 'SUBCLIENT' 
+	  LEFT JOIN taxRate AS _taxRate ON _taxRate.seq_ar_adjust_id = ar_adjust.seq_ar_adjust_id 
+	  INNER JOIN DW_Dimensional.DW.DimAccount AS _DimAccount ON _DimAccount.AccountKey = nc_client.seq_party_id AND _DimAccount.Meta_IsCurrent = 1 
+	  LEFT JOIN DW_Dimensional.DW.DimFinancialAccount AS _DimFinancialAccount ON _DimFinancialAccount.FinancialAccountKey = ar_adjust_reason.seq_account_id AND _DimFinancialAccount.Meta_IsCurrent = 1 LEFT JOIN DW_Dimensional.DW.DimVersion AS _DimVersion ON _DimVersion.VersionKey = 'Actual' 
+	  WHERE ar_adjust.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR ar_adjust_reason.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _taxRate.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID;
     --/
 	
 	  --Insert into main table
 	  INSERT INTO temp.FactTransaction 
-                      ( AccountId
+                      (			 AccountId
 				              , ServiceId
 				              , ProductId
 				              , FinancialAccountId
@@ -98,6 +130,14 @@ BEGIN
 						    , TransactionType
 				              , TransactionDesc
 				              , TransactionKey
+						    , MeterRegisterId
+						    , TransactionSubtype
+						    , Reversal		 
+						    , Reversed		 
+						    , StartRead		 
+						    , EndRead		 
+						    , StartDateId		 
+						    , EndDateId		 
                       )
 	  SELECT  AccountId
 			    , ServiceId
@@ -113,6 +153,14 @@ BEGIN
 			    , TransactionType
 			    , TransactionDesc
 			    , TransactionKey
+			    , MeterRegisterId
+			    , TransactionSubtype
+			    , Reversal		 
+			    , Reversed		 
+			    , StartRead		 
+			    , EndRead		 
+			    , StartDateId		 
+			    , EndDateId		 
 	  FROM    #FactTransaction;
 	  --/
     

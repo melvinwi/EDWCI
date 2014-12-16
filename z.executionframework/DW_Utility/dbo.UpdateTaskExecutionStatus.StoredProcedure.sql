@@ -5,12 +5,14 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[UpdateTaskExecutionStatus]
-	@TaskExecutionID int,
-	@StatusCode nchar(1)
+	  @TaskExecutionID INT
+  ,	@StatusCode NCHAR(1)
 AS
+	DECLARE @LogDtTime DATETIME2(2) = GETDATE()
+
 	UPDATE dbo.TaskExecutionInstance
-	SET
-		StatusCode = @StatusCode,
-		StatusUpdateDateTime = getdate()
+	SET StatusCode            = @StatusCode
+    , StatusUpdateDateTime  = @LogDtTime
+		, EndDateTime           = @LogDtTime --20141114 - Added
 	WHERE TaskExecutionInstanceID = @TaskExecutionID
 GO

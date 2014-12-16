@@ -5,14 +5,15 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-
-
-
-
-
-
 CREATE VIEW [Views].[vCustomerAccountHistorical]
 AS
+WITH   factSalesActivity
+       AS (SELECT DimAccount.AccountKey,
+                  DimOrganisation.OrganisationName,
+                  ROW_NUMBER() OVER (PARTITION BY  DimAccount.AccountKey ORDER BY FactSalesActivity.SalesActivityDateId, FactSalesActivity.SalesActivityTime) AS Instance
+           FROM   DW_Dimensional.DW.FactSalesActivity
+           INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactSalesActivity.AccountId
+           INNER  JOIN DW_Dimensional.DW.DimOrganisation ON DimOrganisation.OrganisationId = FactSalesActivity.OrganisationId)
 SELECT -- DimAccount
        DimAccountCurrent.AccountCode,
        DimAccountCurrent.PostalAddressLine1,
@@ -31,11 +32,12 @@ SELECT -- DimAccount
        DimAccountCurrent.ACN,
        DimAccountCurrent.ABN,
        DimAccountCurrent.AccountType,
-	  DimAccountCurrent.Meta_IsCurrent AS Account_Meta_IsCurrent,
+	  DimAccountCurrent.BillCycleCode,
+       DimAccountCurrent.Meta_IsCurrent AS Account_Meta_IsCurrent,
        DimAccountCurrent.Meta_EffectiveStartDate AS Account_Meta_EffectiveStartDate,
        DimAccountCurrent.Meta_EffectiveEndDate AS Account_Meta_EffectiveEndDate,
-	  -- DimCustomer
-	  DimCustomerCurrent.CustomerCode,
+       -- DimCustomer
+       DimCustomerCurrent.CustomerCode,
        DimCustomerCurrent.Title,
        DimCustomerCurrent.FirstName,
        DimCustomerCurrent.MiddleInitial,
@@ -53,7 +55,7 @@ SELECT -- DimAccount
        DimCustomerCurrent.MobilePhone,
        DimCustomerCurrent.Email,
        DimCustomerCurrent.DateOfBirth,
-	  DATEDIFF(YEAR, DimCustomerCurrent.DateOfBirth, GETDATE())
+       DATEDIFF(YEAR, DimCustomerCurrent.DateOfBirth, GETDATE())
        - CASE
            WHEN DATEDIFF(DAY, GETDATE(), DATEADD(YEAR, DATEDIFF (YEAR, DimCustomerCurrent.DateOfBirth, GETDATE()), DimCustomerCurrent.DateOfBirth)) > 0
            THEN 1 ELSE 0 --this is to subtract birthdays that are yet to occur in the current year
@@ -65,16 +67,16 @@ SELECT -- DimAccount
        DimCustomerCurrent.JoinDate,
        DimCustomerCurrent.PrivacyPreferredStatus,
        DimCustomerCurrent.InferredGender,
-	  DimCustomerCurrent.Meta_IsCurrent AS Customer_Meta_IsCurrent,
+       DimCustomerCurrent.Meta_IsCurrent AS Customer_Meta_IsCurrent,
        DimCustomerCurrent.Meta_EffectiveStartDate AS Customer_Meta_EffectiveStartDate,
        DimCustomerCurrent.Meta_EffectiveEndDate AS Customer_Meta_EffectiveEndDate,
-	  -- FactCustomerAccount
-	  FactCustomerAccount.AccountRelationshipCounter
+       -- FactCustomerAccount
+       FactCustomerAccount.AccountRelationshipCounter,
+       -- FactSalesActivity
+       FactSalesActivity.OrganisationName AS AcquisitionOrganisationName
 FROM   DW_Dimensional.DW.FactCustomerAccount
 INNER  JOIN DW_Dimensional.DW.DimAccount AS DimAccountCurrent ON DimAccountCurrent.AccountId = FactCustomerAccount.AccountId
 INNER  JOIN DW_Dimensional.DW.DimCustomer AS DimCustomerCurrent ON DimCustomerCurrent.CustomerId = FactCustomerAccount.CustomerId
-
-
-
+LEFT   JOIN factSalesActivity ON factSalesActivity.AccountKey = DimAccountCurrent.AccountKey AND factSalesActivity.Instance = 1;
 
 GO

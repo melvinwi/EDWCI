@@ -49,7 +49,7 @@ BEGIN
 END
 
 ----- Return ID --------------------
-SELECT @ApplicationID
+SELECT @ApplicationID AS ApplicationID
 
 END
 

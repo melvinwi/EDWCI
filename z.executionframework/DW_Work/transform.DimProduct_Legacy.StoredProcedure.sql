@@ -24,12 +24,16 @@ BEGIN
     DimProduct.ProductKey,
     DimProduct.ProductName,
     DimProduct.ProductDesc,
-    DimProduct.ProductType) 
+    DimProduct.ProductType,
+    DimProduct.FixedTariffAdjustPercentage,
+    DimProduct.VariableTariffAdjustPercentage) 
     SELECT
     _Product.ProductKey,
     _Product.ProductName,
     _Product.ProductDesc,
-    _Product.ProductType
+    _Product.ProductType,
+    1.00,
+    1.00
       FROM lookup.Product AS _Product;
 
     SELECT 0 AS ExtractRowCount,

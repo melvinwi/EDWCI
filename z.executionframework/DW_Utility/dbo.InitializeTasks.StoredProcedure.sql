@@ -67,6 +67,7 @@ AS
 	WHERE t.ApplicationID   = @ApplicationID 
 	  AND t.IsActive        = '1'
 	  AND t.IsDisabled      = '0'
+    AND p.IsDisabled      = '0'
 	ORDER BY  t.ExecutionOrder ASC
           , t.TaskName ASC
 GO

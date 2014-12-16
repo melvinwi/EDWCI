@@ -9,6 +9,7 @@ CREATE TABLE [DW].[DimActivityType](
 	[ActivityTypeKey] [int] NULL,
 	[ActivityTypeCode] [nvarchar](20) NULL,
 	[ActivityTypeDesc] [nvarchar](100) NULL,
+	[ActivityCategory] [nvarchar](100) NULL,
 	[Meta_IsCurrent] [bit] NOT NULL,
 	[Meta_EffectiveStartDate] [datetime2](0) NOT NULL,
 	[Meta_EffectiveEndDate] [datetime2](0) NULL,

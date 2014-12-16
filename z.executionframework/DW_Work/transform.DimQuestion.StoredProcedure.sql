@@ -19,13 +19,13 @@ EXEC DW_Utility.config.GetLatestSuccessfulTaskExecutionInstanceID
 END
 --/
 
-	INSERT INTO temp.DimQuestion (
+	INSERT INTO DW_Work.temp.DimQuestion (
 		DimQuestion.QuestionKey,
 		DimQuestion.Question)
 	  SELECT
 		DISTINCT SUBSTRING( _CX_Monitor.QuestionDescription ,CHARINDEX(' ',_CX_Monitor.QuestionDescription)+1,LEN(_CX_Monitor.QuestionDescription)),
 		SUBSTRING( _CX_Monitor.QuestionDescription ,CHARINDEX(' ',_CX_Monitor.QuestionDescription)+1,LEN(_CX_Monitor.QuestionDescription))
-	  FROM DW_Staging.csv.CX_Monitor AS _CX_Monitor WHERE CHARINDEX('Q',_CX_Monitor.QuestionDescription) > 0 AND CHARINDEX('x.',_CX_Monitor.QuestionDescription) = 0 AND _CX_Monitor.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID;
+	  FROM DW_Staging.csv.CX_Monitor AS _CX_Monitor WHERE CHARINDEX('Q',_CX_Monitor.QuestionDescription) > 0 AND _CX_Monitor.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID;
 
 SELECT 0 AS ExtractRowCount,
 @@ROWCOUNT AS InsertRowCount,

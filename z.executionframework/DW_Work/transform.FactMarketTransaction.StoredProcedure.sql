@@ -32,6 +32,7 @@ BEGIN
 	[ServiceId] [int] NULL,
 	[ChangeReasonId] [int] NULL,
 	[TransactionDateId] [int] NULL,
+  [TransactionTime] [time] NULL,
 	[TransactionType] [nvarchar](100) NULL,
 	[TransactionStatus] [nvarchar](100) NULL,
 	[TransactionKey] [int] NULL,
@@ -50,6 +51,7 @@ BEGIN
     ServiceId,
     ChangeReasonId,
     TransactionDateId,
+    TransactionTime,
     TransactionType,
     TransactionStatus,
     TransactionKey,
@@ -62,6 +64,7 @@ BEGIN
     ISNULL ( _DimService.ServiceId , -1) ,
     ISNULL ( _DimChangeReason.ChangeReasonId , -1) ,
     CONVERT (nchar (8) , ISNULL ( nem_transaction.trans_date , '9999-12-31') , 112) ,
+    CAST(ISNULL( nem_transaction.trans_date , '9999-12-31') AS TIME),
     nem_transaction_type.trans_type_desc,
     nem_trans_status.trans_status_desc,
     nem_transaction.trans_id,
@@ -102,6 +105,7 @@ INSERT INTO temp.FactMarketTransaction (
     FactMarketTransaction.ServiceId,
     FactMarketTransaction.ChangeReasonId,
     FactMarketTransaction.TransactionDateId,
+    FactMarketTransaction.TransactionTime,
     FactMarketTransaction.TransactionType,
     FactMarketTransaction.TransactionStatus,
     FactMarketTransaction.TransactionKey,
@@ -114,6 +118,7 @@ INSERT INTO temp.FactMarketTransaction (
     ServiceId,
     ChangeReasonId,
     TransactionDateId,
+    TransactionTime,
     TransactionType,
     TransactionStatus,
     TransactionKey,
@@ -133,6 +138,5 @@ FROM    #FactMarketTransaction;
            0 AS ErrorRowCount;
 
 END;
-
 
 GO

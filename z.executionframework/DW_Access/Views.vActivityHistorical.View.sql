@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE VIEW [Views].[vActivityHistorical]
 AS
 WITH   dimMarketingCampaign
@@ -67,9 +68,9 @@ SELECT -- DimCustomer
        -- DimActivityType
        DimActivityType.ActivityTypeCode,
        DimActivityType.ActivityTypeDesc,
+       DimActivityType.ActivityCategory,
        -- FactActivity
        CONVERT(DATETIME2, CAST(FactActivity.ActivityDateId AS NCHAR(8)) + ' ' + CAST(FactActivity.ActivityTime AS NCHAR(16))) AS ActivityDate,
-       FactActivity.ActivityCategory,
        FactActivity.ActivityCommunicationMethod,
        FactActivity.ActivityNotes,
        -- DimCampaign
@@ -86,4 +87,5 @@ LEFT   JOIN DW_Dimensional.DW.DimActivityType ON DimActivityType.ActivityTypeId 
 LEFT   JOIN dimMarketingCampaign ON dimMarketingCampaign.ActivityTypeId = DimActivityType.ActivityTypeId AND dimMarketingCampaign.recency = 1
 LEFT   JOIN dimAccount ON dimAccount.CustomerId = FactActivity.CustomerId AND dimAccount.recency = 1
 LEFT   JOIN factContract ON factContract.AccountId = dimAccount.AccountId AND CONVERT(DATE, CAST(factContract.MaxContractStartDateId AS NCHAR(8)), 120) >= dimMarketingCampaign.MarketingCampaignStartDate;
+
 GO

@@ -16,7 +16,9 @@ CREATE TABLE [DW].[FactContract](
 	[ContractCounter] [tinyint] NOT NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
 	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NOT NULL,
-	[PricePlanId] [int] NULL
+	[PricePlanId] [int] NULL,
+	[ContractConnectedDateId] [int] NULL,
+	[ContractFRMPDateId] [int] NULL
 ) ON [data]
 
 GO

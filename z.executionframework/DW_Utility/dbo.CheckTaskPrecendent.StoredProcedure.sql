@@ -22,6 +22,9 @@ AS
                         Removed unneccessary parameters: @PrecendentTaskID and @PrecendentStatus.
   JG      30.09.2014    Removed @ApplicationExecutionID clauses, to enable inter-application dependencies.
                         Removed cursor; replaced with set-based logic.
+  JG      28.11.2014    Changed join from INNER to LEFT OUTER so as to catch task precedents that have not been initialised
+                        Also added clause to filter tasks with a greater TaskExecutionInstanceID, as these are now generated in the order in which they're expected to be run, and we don't want to check subsequently initialised tasks.
+  JG      04/12/2014    Added join to config.Task, to filter invalid taskIds.
   <YOUR ROW HERE>     
   
   Usage:
@@ -37,10 +40,12 @@ AS
 	DECLARE @PrecedentTaskIdsList   NVARCHAR(1000)
   DECLARE @PrecedentTaskIds       TABLE ( PrecendentTaskID  INT 
                                         )	
+  --DECLARE @ApplicationExecutionID INT
   --/
   
   --Populate parameters
 	SELECT    @PrecedentTaskIdsList   = PrecedentTaskIds
+          --, @ApplicationExecutionID = ApplicationExecutionInstanceID
 	FROM      dbo.TaskExecutionInstance
 	WHERE     TaskExecutionInstanceID = @TaskExecutionID
   
@@ -56,17 +61,21 @@ AS
 
   --check the most recent execution statuses for all precedents, and set @PrecendentComplete to the minimum derived success value
   ;WITH PrecedentsByPrecedence AS 
-    ( SELECT  TE.StatusCode
-            , ROW_NUMBER() OVER (PARTITION BY TE.TaskId ORDER BY TE.TaskExecutionInstanceID DESC) AS Precedence 
-      FROM        dbo.TaskExecutionInstance AS TE
-      INNER JOIN  @PrecedentTaskIds         AS PT
-              ON  PT.PrecendentTaskID = TE.TaskID
-      --WHERE       TE.StatusUpdateDateTime > DATEADD(MONTH, -1, GETDATE()) --If execution duration slows over time, consider uncommenting this.
+    ( SELECT  ISNULL(TE.StatusCode, 'U')                                                                                AS  StatusCode
+            , ROW_NUMBER() OVER (PARTITION BY PT.PrecendentTaskID ORDER BY ISNULL(TE.TaskExecutionInstanceID, 0) DESC)  AS  Precedence 
+      FROM            @PrecedentTaskIds         AS PT
+      INNER JOIN      config.Task               AS T
+                      ON  T.TaskID = PT.PrecendentTaskID
+      LEFT OUTER JOIN dbo.TaskExecutionInstance AS TE
+                      ON  TE.TaskID = PT.PrecendentTaskID
+      WHERE         TE.TaskExecutionInstanceID < @TaskExecutionID
+      --AND           TE.StatusUpdateDateTime > DATEADD(MONTH, -1, GETDATE()) --If execution duration slows over time, consider uncommenting this.
     )
-  SELECT @PrecendentComplete = MIN( CASE  WHEN  ISNULL(StatusCode, 'S') = 'S'       THEN  1   --Precendent succeeded
-                                          WHEN  StatusCode IN ('E', 'F', 'U', 'P')  THEN  -1  --Precendent failed     : the SSIS 'task' package won't attempt the task
-                                                                                    ELSE  0   --Precendent pending    : the SSIS 'task' package will sleep and check again later
-                                    END --If this statement returns 0 rows (e.g. if the precedent task was removed from the application), @PrecendentStatus will remain unchanged: no problem.
+  SELECT @PrecendentComplete = MIN( CASE  WHEN  ISNULL(StatusCode, 'S') = 'S'       THEN  1   --Precendent succeeded or none exists
+                                          WHEN  StatusCode IN ('E', 'F', 'U', 'P')  THEN  -1  --Precendent failed : the SSIS 'task' package won't attempt the task
+                                          WHEN  StatusCode = 'I'                    THEN  0   --Precendent initialised but pending : the SSIS 'task' package will sleep and check again later
+                                                                                    ELSE  0
+                                    END
                                   )
   FROM  PrecedentsByPrecedence
   WHERE Precedence = 1
