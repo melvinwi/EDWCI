@@ -163,6 +163,81 @@ N'USAGE.34684',
 '2014-08-23',
 N'Usage')
 
+-- Insert Daily rows
+INSERT INTO #UnbilledRevenue (
+  ReportDate,
+  ScheduleType,
+  ServiceKey,
+  PricePlanKey,
+  UnbilledFromDate,
+  UnbilledToDate,
+  RateStartDateId,
+  RateEndDateId
+)
+SELECT DISTINCT
+       @ReportDate,
+       N'Daily',
+       DailyPricePlans.ServiceKey,
+       DailyPricePlans.PricePlanKey,
+       CONVERT(DATE, CAST((SELECT MAX(UnbilledFromDate)
+                          FROM    (VALUES (Transactions.LastBilledReadDate),
+                                          (DailyPricePlans.DailyPricePlanStartDateId),
+                                          (DailyPricePlans.ContractFRMPDateId),
+                                          (DailyRates.RateStartDateId)) u(UnbilledFromDate)) AS NCHAR(8)), 112) AS UnbilledFromDate,
+       CONVERT(DATE, CAST((SELECT MIN(UnbilledToDate)
+                           FROM   (VALUES (CONVERT(NCHAR(8), @ReportDate, 112)),
+                                          (DailyPricePlans.DailyPricePlanEndDateId),
+                                          (DailyPricePlans.ContractTerminatedDateId),
+                                          (DailyRates.RateEndDateId)) t(UnbilledToDate)) AS NCHAR(8)), 112) AS UnbilledToDate,
+       DailyRates.RateStartDateId,
+       DailyRates.RateEndDateId
+FROM   (SELECT DimService.ServiceKey,
+               DimPricePlan.PricePlanKey,
+               FactDailyPricePlan.DailyPricePlanStartDateId,
+               FactDailyPricePlan.DailyPricePlanEndDateId,
+               FactDailyPricePlan.ContractFRMPDateId,
+               FactDailyPricePlan.ContractTerminatedDateId
+        FROM   DW_Dimensional.DW.FactDailyPricePlan
+        INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactDailyPricePlan.ServiceId
+        INNER  JOIN DW_Dimensional.DW.DimPricePlan ON DimPricePlan.PricePlanId = FactDailyPricePlan.PricePlanId
+        WHERE  FactDailyPricePlan.DailyPricePlanStartDateId <= FactDailyPricePlan.ContractTerminatedDateId
+        AND    FactDailyPricePlan.DailyPricePlanStartDateId < CONVERT(NCHAR(8), @ReportDate, 112)
+        AND    FactDailyPricePlan.DailyPricePlanEndDateId >= FactDailyPricePlan.ContractFRMPDateId
+        AND    FactDailyPricePlan.ContractFRMPDateId <= FactDailyPricePlan.ContractTerminatedDateId
+        AND    FactDailyPricePlan.ContractFRMPDateId < CONVERT(NCHAR(8), @ReportDate, 112)
+        AND    DimService.ServiceType = N'Electricity') DailyPricePlans
+INNER
+JOIN   (SELECT DimPricePlan.PricePlanKey,
+               FactPricePlanRate.RateStartDateId,
+               FactPricePlanRate.RateEndDateId
+        FROM   DW_Dimensional.DW.FactPricePlanRate
+        INNER  JOIN DW_Dimensional.DW.DimPricePlan ON DimPricePlan.PricePlanId = FactPricePlanRate.PricePlanId) DailyRates
+ON      DailyRates.PricePlanKey = DailyPricePlans.PricePlanKey
+AND     DailyRates.RateStartDateId <= DailyPricePlans.DailyPricePlanEndDateId
+AND     DailyRates.RateStartDateId <= DailyPricePlans.ContractTerminatedDateId
+AND     DailyRates.RateStartDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
+AND     DailyRates.RateEndDateId >= DailyPricePlans.DailyPricePlanStartDateId
+AND     DailyRates.RateEndDateId >= DailyPricePlans.ContractFRMPDateId
+LEFT
+JOIN   (SELECT DimService.ServiceKey,
+               MAX(FactTransaction.EndDateId) AS LastBilledReadDate
+        FROM   DW_Dimensional.DW.FactTransaction
+        INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactTransaction.ServiceId
+        WHERE  FactTransaction.TransactionSubtype = 'Daily charge'
+        AND    FactTransaction.Reversal <> 'Yes'
+        AND    FactTransaction.Reversed <> 'Yes'
+        AND    FactTransaction.EndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
+        AND    FactTransaction.EndDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
+        AND    FactTransaction.EndDateId <> 99991231
+        GROUP  BY DimService.ServiceKey) Transactions ON Transactions.ServiceKey = DailyPricePlans.ServiceKey
+WHERE  COALESCE(Transactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= DailyPricePlans.DailyPricePlanEndDateId
+AND    COALESCE(Transactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= DailyPricePlans.ContractTerminatedDateId
+AND    COALESCE(Transactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= DailyRates.RateEndDateId;
+
+-- Only report the last eight months of unbilled revenue
+UPDATE #UnbilledRevenue
+SET    UnbilledFromDate = @ReportStartDate
+WHERE  UnbilledFromDate < @ReportStartDate;
 
 -- Set Report Month from DimDate
 UPDATE #UnbilledRevenue
