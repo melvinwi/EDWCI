@@ -1,3 +1,32 @@
+DECLARE @InputDate date
+DECLARE @ReportDate date
+DECLARE @ReportStartDate date
+
+SET @InputDate = '2014-07-31';
+
+WITH t AS (SELECT FiscalMonthNumber, FiscalYear
+FROM DW_Dimensional.DW.DimDate
+WHERE [Date] = @InputDate)
+SELECT @ReportDate = MAX([Date]) FROM DW_Dimensional.DW.DimDate
+INNER JOIN t
+ON t.FiscalMonthNumber = DimDate.FiscalMonthNumber
+AND t.FiscalYear = DimDate.FiscalYear;
+
+
+WITH t AS (SELECT
+CASE WHEN (FiscalMonthNumber -8) < 1 THEN
+(FiscalMonthNumber + 4)
+ELSE (FiscalMonthNumber -8) END AS AdjustedFiscalMonth, 
+CASE WHEN (FiscalMonthNumber -8) < 1 THEN
+CAST(RIGHT(FiscalYear,4) AS int) - 1 ELSE 
+CAST(RIGHT(FiscalYear,4) AS int) END AS AdjustedFiscalYear
+FROM DW_Dimensional.DW.DimDate
+WHERE DATE = @InputDate)
+SELECT @ReportStartDate = MIN([Date]) FROM DW_Dimensional.DW.DimDate
+INNER JOIN t
+ON t.AdjustedFiscalMonth = DimDate.FiscalMonthNumber
+AND t.AdjustedFiscalYear = CAST(RIGHT(DimDate.FiscalYear,4) AS int);
+
 --Drop and create temporary table
 IF OBJECT_ID (N'tempdb..#UnbilledRevenue') IS NOT NULL
     BEGIN
@@ -6,7 +35,7 @@ IF OBJECT_ID (N'tempdb..#UnbilledRevenue') IS NOT NULL
 
 CREATE TABLE #UnbilledRevenue
 (
-ReportMonth				 tinyint		  NULL,
+FinancialMonth				 tinyint		  NULL,
 ReportDate				 date		  NULL,
 AccountingPeriod			 int			  NULL,
 AccountNumber				 int			  NULL,
@@ -84,7 +113,7 @@ UnbilledToDate,
 ScheduleType
 )
 VALUES (
-'2014-07-31',
+@ReportDate,
 1283940,
 NULL,
 N'DAILY.26116',
@@ -94,17 +123,17 @@ N'DAILY.26116',
 '2014-06-30',
 N'Daily'),
 (
-'2014-07-31',
+@ReportDate,
 1283940,
 NULL,
 N'DAILY.26116',
 20140701,
 99991231,
 '2014-07-01',
-'2014-07-31',
+'2014-08-23',
 N'Daily'), 
 (
-'2014-07-31',
+@ReportDate,
 21255,
 3269436,
 N'USAGE.33382',
@@ -114,33 +143,33 @@ N'USAGE.33382',
 '2014-06-30',
 N'Usage'),
 (
-'2014-07-31',
+@ReportDate,
 21255,
 3269436,
 N'USAGE.33382',
 20140701,
 99991231,
 '2014-07-01',
-'2014-07-31',
+'2014-08-23',
 N'Usage'),
 (
-'2014-07-31',
+@ReportDate,
 949521,
 3269190,
 N'USAGE.34684',
 20140701,
 99991231,
 '2014-07-01',
-'2014-07-31',
+'2014-08-23',
 N'Usage')
 
 
 -- Set Report Month from DimDate
 UPDATE #UnbilledRevenue
-SET	   ReportMonth = t.ReportMonth
-FROM	   (SELECT FiscalMonthNumber AS ReportMonth
+SET	   FinancialMonth = t.FinancialMonth
+FROM	   (SELECT FiscalMonthNumber AS FinancialMonth
 	   FROM DW_Dimensional.DW.DimDate
-	   WHERE [Date] = (SELECT TOP 1 ReportDate FROM #UnbilledRevenue)) AS t
+	   WHERE [Date] = @ReportDate) AS t
 
 
 -- Set columns from DimAccount, DimCustomer, DimPricePlan and DimProduct for Schedule Type Daily
