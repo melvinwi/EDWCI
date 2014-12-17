@@ -240,6 +240,11 @@ UPDATE #UnbilledRevenue
 SET    UnbilledFromDate = @ReportStartDate
 WHERE  UnbilledFromDate < @ReportStartDate;
 
+-- Remove single-day unbilled periods
+DELETE
+FROM   #UnbilledRevenue
+WHERE  DATEDIFF(DAY, UnbilledFromDate, UnbilledToDate) = 0;
+
 -- Set Report Month from DimDate
 UPDATE #UnbilledRevenue
 SET	   FinancialMonth = t.FinancialMonth
