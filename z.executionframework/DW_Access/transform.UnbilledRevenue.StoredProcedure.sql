@@ -100,49 +100,6 @@ RateEndDateId				 int			  NULL
 );
 --/
 
--- Insert testing records
-INSERT INTO #UnbilledRevenue (
-ReportDate,
-ServiceKey,
-MeterRegisterKey,
-PricePlanKey,
-RateStartDateId,
-RateEndDateId,
-UnbilledFromDate,
-UnbilledToDate,
-ScheduleType
-)
-VALUES (
-@ReportDate,
-21255,
-3269436,
-N'USAGE.33382',
-20140401,
-20140630,
-'2014-06-01',
-'2014-06-30',
-N'Usage'),
-(
-@ReportDate,
-21255,
-3269436,
-N'USAGE.33382',
-20140701,
-99991231,
-'2014-07-01',
-'2014-08-23',
-N'Usage'),
-(
-@ReportDate,
-949521,
-3269190,
-N'USAGE.34684',
-20140701,
-99991231,
-'2014-07-01',
-'2014-08-23',
-N'Usage')
-
 -- Insert Daily rows
 INSERT INTO #UnbilledRevenue (
   ReportDate,
@@ -174,7 +131,6 @@ SELECT @ReportDate,
        Rates.RateStartDateId,
        Rates.RateEndDateId,
        CONVERT(DATE, CAST(Transactions.LastBilledReadDate AS NCHAR(8)), 112)
-INTO #Dan
 FROM   (SELECT N'Daily' AS ScheduleType,
                DimService.ServiceKey,
                NULL AS MeterRegisterKey,
@@ -263,10 +219,9 @@ FROM	   (SELECT FiscalMonthNumber AS FinancialMonth
 	   WHERE [Date] = @ReportDate) AS t
 
 
-	   -- 1m56s 522,915 rows
-	    
-	    --===================================================================================================
-
+  -- 2m 1,569,902 rows
+   
+  --===================================================================================================
 
 --Drop and create temporary table
 IF OBJECT_ID (N'tempdb..#AccCustPPServiceDaily') IS NOT NULL
@@ -317,7 +272,7 @@ SELECT
 	   WHERE CONVERT(DATE, CAST(FactDailyPricePlan.DailyPricePlanEndDateId AS NCHAR(8)), 112) >= @ReportStartDate
 	   AND CONVERT(DATE, CAST(FactDailyPricePlan.ContractTerminatedDateId AS NCHAR(8)), 112) >= @ReportStartDate;
 
-	   -- 13s, 755,619 rows
+	   -- 15s, 755,619 rows
 
 	   --===========================================================================
 
@@ -362,7 +317,7 @@ AND	  #UnbilledRevenue.UnbilledFromDate >= t.FRMPStartDate
 AND	  #UnbilledRevenue.UnbilledToDate   <= t.DailyPricePlanEndDate
 AND	  #UnbilledRevenue.UnbilledToDate   <= t.ContractTerminatedDate;
 
--- 12s, 522,912 rows
+-- 13s, 458,952 rows
 
 --=============================================================================
 
@@ -462,9 +417,8 @@ AND	  #UnbilledRevenue.UnbilledFromDate >= t.FRMPStartDate
 AND	  #UnbilledRevenue.UnbilledToDate   <= t.UsagePricePlanEndDate
 AND	  #UnbilledRevenue.UnbilledToDate   <= t.ContractTerminatedDate;
 
--- 3s, 3 rows
+-- 41s, 1,110,947 rows
 --========================================
-
 
 --Drop and create temporary table
 IF OBJECT_ID (N'tempdb..#ServiceTNI') IS NOT NULL
@@ -487,10 +441,11 @@ SELECT
 	   DimService.Meta_EffectiveEndDate	
 	   INTO #ServiceTNI   
         FROM   DW_Dimensional.DW.DimService
-	   INNER JOIN DW_Dimensional.DW.DimTransmissionNode
-	   ON DimTransmissionNode.TransmissionNodeId = DimService.TransmissionNodeId;
+	   LEFT JOIN DW_Dimensional.DW.DimTransmissionNode
+	   ON DimTransmissionNode.TransmissionNodeId = DimService.TransmissionNodeId
+	   WHERE DimService.Meta_EffectiveEndDate > @ReportStartDate;
 
-	   --12s, 18,200,958
+	   --34s, 13,581,957 rows
 	   --=====================================================================
 
 
@@ -523,21 +478,50 @@ WHERE  #UnbilledRevenue.ServiceKey = t.ServiceKey
 AND	  #UnbilledRevenue.UnbilledToDate >= CAST(t.Meta_EffectiveStartDate AS date)
 AND    #UnbilledRevenue.UnbilledToDate <= CAST(t.Meta_EffectiveEndDate AS date);
 
--- 37s, 522,640 rows
+-- 1m28s, 1,569,641 rows
+--===============================================================
+
+
+
+-- Fix records with no current meta effective dates
+UPDATE #UnbilledRevenue
+SET    TNICode =		   t.TNICode,
+	  NetworkState  =	   t.NetworkState,
+	  MarketIdentifier  =  t.MarketIdentifier,
+	  ServiceStatus =	   t.ServiceStatus,
+	  FuelType =		   t.FuelType,
+	  SiteMeteringType =   t.SiteMeteringType,
+	  ServiceState =	   t.ServiceState,
+	  SiteEDC =		   t.SiteEDC,
+	  DLF =			   t.DLF
+FROM   (SELECT
+	   ServiceKey,
+	   TNICode,
+	   NetworkState,
+	   MarketIdentifier,
+	   ServiceStatus,
+	   FuelType,
+	   SiteMeteringType,
+	   ServiceState,
+	   SiteEDC,
+	   DLF,
+	   ROW_NUMBER () OVER (PARTITION BY ServiceKey ORDER BY Meta_EffectiveStartDate ASC) AS recency
+        FROM #ServiceTNI) t
+WHERE  #UnbilledRevenue.MarketIdentifier IS NULL
+AND	  #UnbilledRevenue.ServiceKey = t.ServiceKey
+AND	  t.recency = 1;
+
+
+-- 2m22s, 261 rows
 --==========================================================================================
 
+--Drop and create temporary table
+IF OBJECT_ID (N'tempdb..#MeterRegister') IS NOT NULL
+    BEGIN
+        DROP TABLE #MeterRegister;
+    END;
 
-/*
--- Set MeterRegisterEDC, MeterMarketSerialNumber, MeterSystemSerialNumber, RegisterMultiplier, MeterRegisterBillingType, MeterRegisterReadDirection and NetworkTariffCode from DimMeterRegister
-UPDATE #UnbilledRevenue
-SET	   MeterRegisterEDC =			t.MeterRegisterEDC,
-	   MeterMarketSerialNumber =		t.MeterMarketSerialNumber,
-	   MeterSystemSerialNumber =		t.MeterSystemSerialNumber,
-	   RegisterMultiplier =			t.RegisterMultiplier,
-	   MeterRegisterBillingType =		t.MeterRegisterBillingType,
-	   MeterRegisterReadDirection =	t.MeterRegisterReadDirection,
-	   NetworkTariffCode =			t.NetworkTariffCode
-FROM   (SELECT
+SELECT
 	   DimMeterRegister.MeterRegisterKey,
 	   DimMeterRegister.RegisterEstimatedDailyConsumption AS MeterRegisterEDC,
 	   DimMeterRegister.MeterMarketSerialNumber,
@@ -547,16 +531,74 @@ FROM   (SELECT
 	   DimMeterRegister.RegisterReadDirection AS MeterRegisterReadDirection,
 	   DimMeterRegister.RegisterNetworkTariffCode AS NetworkTariffCode,
 	   DimMeterRegister.Meta_EffectiveStartDate,
-	   DimMeterRegister.Meta_EffectiveEndDate	   
-        FROM   DW_Dimensional.DW.DimMeterRegister) t
+	   DimMeterRegister.Meta_EffectiveEndDate
+	   INTO #MeterRegister	   
+        FROM   DW_Dimensional.DW.DimMeterRegister
+	   WHERE DimMeterRegister.Meta_EffectiveEndDate > @ReportStartDate;
+
+
+ -- 2s, 3,884,480 rows
+ --==============================================
+ 
+
+
+ -- Set MeterRegisterEDC, MeterMarketSerialNumber, MeterSystemSerialNumber, RegisterMultiplier, MeterRegisterBillingType, MeterRegisterReadDirection and NetworkTariffCode from DimMeterRegister
+UPDATE #UnbilledRevenue
+SET	   MeterRegisterEDC =			t.MeterRegisterEDC,
+	   MeterMarketSerialNumber =		t.MeterMarketSerialNumber,
+	   MeterSystemSerialNumber =		t.MeterSystemSerialNumber,
+	   RegisterMultiplier =			t.RegisterMultiplier,
+	   MeterRegisterBillingType =		t.MeterRegisterBillingType,
+	   MeterRegisterReadDirection =	t.MeterRegisterReadDirection,
+	   NetworkTariffCode =			t.NetworkTariffCode
+FROM   (SELECT
+	   MeterRegisterKey,
+	   MeterRegisterEDC,
+	   MeterMarketSerialNumber,
+	   MeterSystemSerialNumber,
+	   RegisterMultiplier,
+	   MeterRegisterBillingType,
+	   MeterRegisterReadDirection,
+	   NetworkTariffCode,
+	   Meta_EffectiveStartDate,
+	   Meta_EffectiveEndDate	   
+        FROM  #MeterRegister) t
 WHERE  #UnbilledRevenue.MeterRegisterKey IS NOT NULL
 AND	  #UnbilledRevenue.MeterRegisterKey = t.MeterRegisterKey
 AND	  #UnbilledRevenue.UnbilledToDate >= CAST(t.Meta_EffectiveStartDate AS date)
 AND    #UnbilledRevenue.UnbilledToDate <= CAST(t.Meta_EffectiveEndDate AS date);
 
-*/
+
+-- 8s, 0 rows
+--=========================================================
+
+-- Fix missing columns
+UPDATE #UnbilledRevenue
+SET	   MeterRegisterEDC =			t.MeterRegisterEDC,
+	   MeterMarketSerialNumber =		t.MeterMarketSerialNumber,
+	   MeterSystemSerialNumber =		t.MeterSystemSerialNumber,
+	   RegisterMultiplier =			t.RegisterMultiplier,
+	   MeterRegisterBillingType =		t.MeterRegisterBillingType,
+	   MeterRegisterReadDirection =	t.MeterRegisterReadDirection,
+	   NetworkTariffCode =			t.NetworkTariffCode
+FROM   (SELECT
+	   MeterRegisterKey,
+	   MeterRegisterEDC,
+	   MeterMarketSerialNumber,
+	   MeterSystemSerialNumber,
+	   RegisterMultiplier,
+	   MeterRegisterBillingType,
+	   MeterRegisterReadDirection,
+	   NetworkTariffCode,
+	   ROW_NUMBER () OVER (PARTITION BY MeterRegisterKey ORDER BY Meta_EffectiveStartDate ASC) AS recency 
+        FROM  #MeterRegister) t
+WHERE  #UnbilledRevenue.MeterRegisterKey IS NOT NULL
+AND    #UnbilledRevenue.MeterRegisterReadDirection IS NULL
+AND	  #UnbilledRevenue.MeterRegisterKey = t.MeterRegisterKey
+AND	  t.recency = 1;
 
 
+-- 1m10s, 1,110,947 rows
 --=======================================================================
 -- Set Price for Schedule Type Daily
 UPDATE #UnbilledRevenue
@@ -576,7 +618,7 @@ AND    #UnbilledRevenue.PricePlanKey = t.PricePlanKey
 AND	  #UnbilledRevenue.RateStartDateId = t.RateStartDateId
 AND	  #UnbilledRevenue.RateEndDateId = t.RateEndDateId;
 
--- 5s, 522,912 rows
+-- 8s, 458,955 rows
 -- ============================================
 
 -- Usage Step 1
@@ -599,7 +641,7 @@ AND    #UnbilledRevenue.PricePlanKey = t.PricePlanKey
 AND	  #UnbilledRevenue.RateStartDateId = t.RateStartDateId
 AND	  #UnbilledRevenue.RateEndDateId = t.RateEndDateId;
 
--- 0s, 3 rows
+-- 19s, 1,110,947 rows
 -- ===================================================================
 
 -- Usage Step 2
@@ -621,7 +663,7 @@ AND    #UnbilledRevenue.PricePlanKey = t.PricePlanKey
 AND	  #UnbilledRevenue.RateStartDateId = t.RateStartDateId
 AND	  #UnbilledRevenue.RateEndDateId = t.RateEndDateId;
 
--- 0s, 1 row
+-- 9s, 505,266 row
 -- ===================================================================
 
 
@@ -644,7 +686,7 @@ AND    #UnbilledRevenue.PricePlanKey = t.PricePlanKey
 AND	  #UnbilledRevenue.RateStartDateId = t.RateStartDateId
 AND	  #UnbilledRevenue.RateEndDateId = t.RateEndDateId;
 
--- 0s, 0 rows
+-- 3s, 245,989 rows
 -- =====================================================
 
 -- Usage Step 4
@@ -667,7 +709,7 @@ AND	  #UnbilledRevenue.RateStartDateId = t.RateStartDateId
 AND	  #UnbilledRevenue.RateEndDateId = t.RateEndDateId;
 
 
--- 0s, 0 rows
+-- 7s, 220,705 rows
 -- =====================================================
 
 -- Usage Step 5
@@ -693,13 +735,21 @@ AND	  #UnbilledRevenue.RateEndDateId = t.RateEndDateId;
 
 -- Set Unbilled Days
 UPDATE #UnbilledRevenue
-SET    UnbilledDays = (DATEDIFF(day,UnbilledFromDate,UnbilledToDate) + 1)
+SET    UnbilledDays = (DATEDIFF(day,UnbilledFromDate,UnbilledToDate) + 1);
 
--- 3s, 522,915 rows
+-- 21s, 1,569,902 rows
 -- =========================================================
 
+UPDATE #UnbilledRevenue
+SET    TotalUnbilledRevenue = PriceStep1 * UnbilledDays * FixedTariffAdjustment
+WHERE  #UnbilledRevenue.ScheduleType = N'Daily';
 
-SELECT TOP 1000 * FROM #UnbilledRevenue
+-- 4s, 458,955 rows
+--==========================================================
 
--- SELECT * INTO DW_Work.temp.UnbilledRevenue20141217
--- FROM #UnbilledRevenue
+
+-- SELECT TOP 1000 * FROM #UnbilledRevenue WHERE SCHEDULETYPE = N'USAGE'
+
+-- DROP TABLE DW_Work.temp.UnbilledRevenue20141217 
+
+-- SELECT * INTO DW_Work.temp.UnbilledRevenue20141217 FROM #UnbilledRevenue
