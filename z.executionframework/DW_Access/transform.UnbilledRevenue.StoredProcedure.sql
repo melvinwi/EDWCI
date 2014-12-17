@@ -114,26 +114,6 @@ ScheduleType
 )
 VALUES (
 @ReportDate,
-1283940,
-NULL,
-N'DAILY.26116',
-20130701,
-20140630,
-'2014-06-01',
-'2014-06-30',
-N'Daily'),
-(
-@ReportDate,
-1283940,
-NULL,
-N'DAILY.26116',
-20140701,
-99991231,
-'2014-07-01',
-'2014-08-23',
-N'Daily'), 
-(
-@ReportDate,
 21255,
 3269436,
 N'USAGE.33382',
@@ -253,22 +233,20 @@ FROM	   (SELECT FiscalMonthNumber AS FinancialMonth
 	   WHERE [Date] = @ReportDate) AS t
 
 
--- Set columns from DimAccount, DimCustomer, DimPricePlan and DimProduct for Schedule Type Daily
-UPDATE #UnbilledRevenue
-SET    AccountNumber =			 t.AccountNumber,
-	  CustomerName  =			 t.CustomerName,
-	  CustomerType  =			 t.CustomerType,
-	  AccountStatus =			 t.AccountStatus,
-	  BillingCycle  =			 t.BillingCycle,
-	  FRMPStartDate =			 t.FRMPStartDate,
-	  ContractTerminatedDate =	 t.ContractTerminatedDate,
-	  FixedTariffAdjustment =	 t.FixedTariffAdjustment,
-	  VariableTariffAdjustment =	 t.VariableTariffAdjustment,
-	  PricePlanStartDate =		 t.DailyPricePlanStartDate,
-	  PricePlanEndDate =		 t.DailyPricePlanEndDate,
-	  PricePlanCode =			 t.PricePlanCode,
-	  BundledFlag =			 t.BundledFlag
-FROM   (SELECT
+	   -- 1m56s 522,915 rows
+	    
+	    --===================================================================================================
+
+
+--Drop and create temporary table
+IF OBJECT_ID (N'tempdb..#AccCustPPServiceDaily') IS NOT NULL
+    BEGIN
+        DROP TABLE #AccCustPPServiceDaily;
+    END;
+
+
+
+SELECT
 	   DimAccountCurrent.AccountCode AS AccountNumber,
 	   DimCustomer.PartyName AS CustomerName,
 	   DimCustomer.CustomerType,
@@ -283,7 +261,8 @@ FROM   (SELECT
 	   DimPricePlanCurrent.PricePlanCode,
 	   DimPricePlanCurrent.Bundled AS BundledFlag,
 	   DimService.ServiceKey,
-	   DimPricePlan.PricePlanKey  
+	   DimPricePlan.PricePlanKey 
+	   INTO #AccCustPPServiceDaily 
         FROM   DW_Dimensional.DW.FactDailyPricePlan
 	   INNER JOIN DW_Dimensional.DW.DimService
 	   ON DimService.ServiceId = FactDailyPricePlan.ServiceId
@@ -304,17 +283,16 @@ FROM   (SELECT
 	   AND DimProductCurrent.Meta_IsCurrent = 1
 	   INNER JOIN DW_Dimensional.DW.DimCustomer
 	   ON DimCustomer.CustomerCode = DimAccount.AccountCode
-	   AND DimCustomer.Meta_IsCurrent = 1) AS t
-WHERE  #UnbilledRevenue.ScheduleType = N'Daily'
-AND	  #UnbilledRevenue.ServiceKey = t.ServiceKey
-AND    #UnbilledRevenue.PricePlanKey = t.PricePlanKey
-AND	  #UnbilledRevenue.UnbilledFromDate >= t.DailyPricePlanStartDate
-AND	  #UnbilledRevenue.UnbilledFromDate >= t.FRMPStartDate
-AND	  #UnbilledRevenue.UnbilledToDate   <= t.DailyPricePlanEndDate
-AND	  #UnbilledRevenue.UnbilledToDate   <= t.ContractTerminatedDate;
+	   AND DimCustomer.Meta_IsCurrent = 1
+	   WHERE CONVERT(DATE, CAST(FactDailyPricePlan.DailyPricePlanEndDateId AS NCHAR(8)), 112) >= @ReportStartDate
+	   AND CONVERT(DATE, CAST(FactDailyPricePlan.ContractTerminatedDateId AS NCHAR(8)), 112) >= @ReportStartDate;
+
+	   -- 13s, 755,619 rows
+
+	   --===========================================================================
 
 
--- Set columns from DimAccount, DimCustomer, DimPricePlan and DimProduct for Schedule Type Usage
+-- Set columns from DimAccount, DimCustomer, DimPricePlan and DimProduct for Schedule Type Daily
 UPDATE #UnbilledRevenue
 SET    AccountNumber =			 t.AccountNumber,
 	  CustomerName  =			 t.CustomerName,
@@ -325,11 +303,47 @@ SET    AccountNumber =			 t.AccountNumber,
 	  ContractTerminatedDate =	 t.ContractTerminatedDate,
 	  FixedTariffAdjustment =	 t.FixedTariffAdjustment,
 	  VariableTariffAdjustment =	 t.VariableTariffAdjustment,
-	  PricePlanStartDate =		 t.UsagePricePlanStartDate,
-	  PricePlanEndDate =		 t.UsagePricePlanEndDate,
+	  PricePlanStartDate =		 t.DailyPricePlanStartDate,
+	  PricePlanEndDate =		 t.DailyPricePlanEndDate,
 	  PricePlanCode =			 t.PricePlanCode,
 	  BundledFlag =			 t.BundledFlag
 FROM   (SELECT
+	   AccountNumber,
+	   CustomerName,
+	   CustomerType,
+	   AccountStatus,
+	   BillingCycle,
+	   FRMPStartDate,
+	   ContractTerminatedDate,
+	   FixedTariffAdjustment,
+	   VariableTariffAdjustment,
+	   DailyPricePlanStartDate,
+	   DailyPricePlanEndDate,
+	   PricePlanCode,
+	   BundledFlag,
+	   ServiceKey,
+	   PricePlanKey  
+        FROM   #AccCustPPServiceDaily) AS t
+WHERE  #UnbilledRevenue.ScheduleType = N'Daily'
+AND	  #UnbilledRevenue.ServiceKey = t.ServiceKey
+AND    #UnbilledRevenue.PricePlanKey = t.PricePlanKey
+AND	  #UnbilledRevenue.UnbilledFromDate >= t.DailyPricePlanStartDate
+AND	  #UnbilledRevenue.UnbilledFromDate >= t.FRMPStartDate
+AND	  #UnbilledRevenue.UnbilledToDate   <= t.DailyPricePlanEndDate
+AND	  #UnbilledRevenue.UnbilledToDate   <= t.ContractTerminatedDate;
+
+-- 12s, 522,912 rows
+
+--=============================================================================
+
+--Drop and create temporary table
+IF OBJECT_ID (N'tempdb..#AccCustPPServiceUsage') IS NOT NULL
+    BEGIN
+        DROP TABLE #AccCustPPServiceUsage;
+    END;
+
+
+SELECT
 	   DimAccountCurrent.AccountCode AS AccountNumber,
 	   DimCustomer.PartyName AS CustomerName,
 	   DimCustomer.CustomerType  AS CustomerType,
@@ -346,6 +360,7 @@ FROM   (SELECT
 	   DimService.ServiceKey,
 	   DimMeterRegister.MeterRegisterKey,
 	   DimPricePlan.PricePlanKey
+	   INTO #AccCustPPServiceUsage
         FROM   DW_Dimensional.DW.FactUsagePricePlan
 	   INNER JOIN DW_Dimensional.DW.DimService
 	   ON DimService.ServiceId = FactUsagePricePlan.ServiceId
@@ -368,7 +383,46 @@ FROM   (SELECT
 	   AND DimProductCurrent.Meta_IsCurrent = 1
 	   INNER JOIN DW_Dimensional.DW.DimCustomer
 	   ON DimCustomer.CustomerCode = DimAccount.AccountCode
-	   AND DimCustomer.Meta_IsCurrent = 1) t
+	   AND DimCustomer.Meta_IsCurrent = 1
+	   WHERE CONVERT(DATE, CAST(FactUsagePricePlan.UsagePricePlanEndDateId AS NCHAR(8)), 112) >= @ReportStartDate
+	   AND CONVERT(DATE, CAST(FactUsagePricePlan.ContractTerminatedDateId AS NCHAR(8)), 112) >= @ReportStartDate;
+
+	   -- 31s, 1,846,039 rows
+	   --==========================================================================================================
+
+-- Set columns from DimAccount, DimCustomer, DimPricePlan and DimProduct for Schedule Type Usage
+UPDATE #UnbilledRevenue
+SET    AccountNumber =			 t.AccountNumber,
+	  CustomerName  =			 t.CustomerName,
+	  CustomerType  =			 t.CustomerType,
+	  AccountStatus =			 t.AccountStatus,
+	  BillingCycle  =			 t.BillingCycle,
+	  FRMPStartDate =			 t.FRMPStartDate,
+	  ContractTerminatedDate =	 t.ContractTerminatedDate,
+	  FixedTariffAdjustment =	 t.FixedTariffAdjustment,
+	  VariableTariffAdjustment =	 t.VariableTariffAdjustment,
+	  PricePlanStartDate =		 t.UsagePricePlanStartDate,
+	  PricePlanEndDate =		 t.UsagePricePlanEndDate,
+	  PricePlanCode =			 t.PricePlanCode,
+	  BundledFlag =			 t.BundledFlag
+FROM   (SELECT
+	   AccountNumber,
+	   CustomerName,
+	   CustomerType,
+	   AccountStatus,
+	   BillingCycle,
+	   FRMPStartDate,
+	   ContractTerminatedDate,
+	   FixedTariffAdjustment,
+	   VariableTariffAdjustment,
+	   UsagePricePlanStartDate,
+	   UsagePricePlanEndDate,
+	   PricePlanCode,
+	   BundledFlag,
+	   ServiceKey,
+	   MeterRegisterKey,
+	   PricePlanKey
+        FROM   #AccCustPPServiceUsage) t
 WHERE  #UnbilledRevenue.ScheduleType = N'Usage'
 AND	  #UnbilledRevenue.ServiceKey = t.ServiceKey
 AND	  #UnbilledRevenue.MeterRegisterKey = t.MeterRegisterKey
@@ -378,6 +432,36 @@ AND	  #UnbilledRevenue.UnbilledFromDate >= t.FRMPStartDate
 AND	  #UnbilledRevenue.UnbilledToDate   <= t.UsagePricePlanEndDate
 AND	  #UnbilledRevenue.UnbilledToDate   <= t.ContractTerminatedDate;
 
+-- 3s, 3 rows
+--========================================
+
+
+--Drop and create temporary table
+IF OBJECT_ID (N'tempdb..#ServiceTNI') IS NOT NULL
+    BEGIN
+        DROP TABLE #ServiceTNI;
+    END;
+
+SELECT
+	   DimService.ServiceKey,
+	   DimTransmissionNode.TransmissionNodeIdentity AS TNICode,
+	   DimTransmissionNode.TransmissionNodeState AS NetworkState,
+	   DimService.MarketIdentifier,
+	   DimService.SiteStatusType AS ServiceStatus,
+	   DimService.ServiceType AS FuelType,
+	   DimService.MeteringType AS SiteMeteringType,
+	   DimService.ResidentialState AS ServiceState,
+	   DimService.EstimatedDailyConsumption AS SiteEDC,
+	   DimService.LossFactor AS DLF,
+	   DimService.Meta_EffectiveStartDate,
+	   DimService.Meta_EffectiveEndDate	
+	   INTO #ServiceTNI   
+        FROM   DW_Dimensional.DW.DimService
+	   INNER JOIN DW_Dimensional.DW.DimTransmissionNode
+	   ON DimTransmissionNode.TransmissionNodeId = DimService.TransmissionNodeId;
+
+	   --12s, 18,200,958
+	   --=====================================================================
 
 
 -- Set TNICode, NetworkState, MarketIdentifier, FuelType, SiteMeteringType, SiteEDC and DLF from DimService and DimTransmissionNode
@@ -392,28 +476,28 @@ SET    TNICode =		   t.TNICode,
 	  SiteEDC =		   t.SiteEDC,
 	  DLF =			   t.DLF
 FROM   (SELECT
-	   DimService.ServiceKey,
-	   DimTransmissionNode.TransmissionNodeIdentity AS TNICode,
-	   DimTransmissionNode.TransmissionNodeState AS NetworkState,
-	   DimService.MarketIdentifier,
-	   DimService.SiteStatusType AS ServiceStatus,
-	   DimService.ServiceType AS FuelType,
-	   DimService.MeteringType AS SiteMeteringType,
-	   DimService.ResidentialState AS ServiceState,
-	   DimService.EstimatedDailyConsumption AS SiteEDC,
-	   DimService.LossFactor AS DLF,
-	   DimService.Meta_EffectiveStartDate,
-	   DimService.Meta_EffectiveEndDate	   
-        FROM   DW_Dimensional.DW.DimService
-	   INNER JOIN DW_Dimensional.DW.DimTransmissionNode
-	   ON DimTransmissionNode.TransmissionNodeId = DimService.TransmissionNodeId) t
+	   ServiceKey,
+	   TNICode,
+	   NetworkState,
+	   MarketIdentifier,
+	   ServiceStatus,
+	   FuelType,
+	   SiteMeteringType,
+	   ServiceState,
+	   SiteEDC,
+	   DLF,
+	   Meta_EffectiveStartDate,
+	   Meta_EffectiveEndDate	   
+        FROM #ServiceTNI) t
 WHERE  #UnbilledRevenue.ServiceKey = t.ServiceKey
 AND	  #UnbilledRevenue.UnbilledToDate >= CAST(t.Meta_EffectiveStartDate AS date)
 AND    #UnbilledRevenue.UnbilledToDate <= CAST(t.Meta_EffectiveEndDate AS date);
 
+-- 37s, 522,640 rows
+--==========================================================================================
 
 
-
+/*
 -- Set MeterRegisterEDC, MeterMarketSerialNumber, MeterSystemSerialNumber, RegisterMultiplier, MeterRegisterBillingType, MeterRegisterReadDirection and NetworkTariffCode from DimMeterRegister
 UPDATE #UnbilledRevenue
 SET	   MeterRegisterEDC =			t.MeterRegisterEDC,
@@ -440,9 +524,10 @@ AND	  #UnbilledRevenue.MeterRegisterKey = t.MeterRegisterKey
 AND	  #UnbilledRevenue.UnbilledToDate >= CAST(t.Meta_EffectiveStartDate AS date)
 AND    #UnbilledRevenue.UnbilledToDate <= CAST(t.Meta_EffectiveEndDate AS date);
 
+*/
 
 
-
+--=======================================================================
 -- Set Price for Schedule Type Daily
 UPDATE #UnbilledRevenue
 SET    PriceStep1 = t.PriceStep1,
@@ -461,6 +546,8 @@ AND    #UnbilledRevenue.PricePlanKey = t.PricePlanKey
 AND	  #UnbilledRevenue.RateStartDateId = t.RateStartDateId
 AND	  #UnbilledRevenue.RateEndDateId = t.RateEndDateId;
 
+-- 5s, 522,912 rows
+-- ============================================
 
 -- Usage Step 1
 UPDATE #UnbilledRevenue
@@ -482,6 +569,8 @@ AND    #UnbilledRevenue.PricePlanKey = t.PricePlanKey
 AND	  #UnbilledRevenue.RateStartDateId = t.RateStartDateId
 AND	  #UnbilledRevenue.RateEndDateId = t.RateEndDateId;
 
+-- 0s, 3 rows
+-- ===================================================================
 
 -- Usage Step 2
 UPDATE #UnbilledRevenue
@@ -501,6 +590,9 @@ WHERE  #UnbilledRevenue.ScheduleType = N'Usage'
 AND    #UnbilledRevenue.PricePlanKey = t.PricePlanKey
 AND	  #UnbilledRevenue.RateStartDateId = t.RateStartDateId
 AND	  #UnbilledRevenue.RateEndDateId = t.RateEndDateId;
+
+-- 0s, 1 row
+-- ===================================================================
 
 
 -- Usage Step 3
@@ -522,6 +614,9 @@ AND    #UnbilledRevenue.PricePlanKey = t.PricePlanKey
 AND	  #UnbilledRevenue.RateStartDateId = t.RateStartDateId
 AND	  #UnbilledRevenue.RateEndDateId = t.RateEndDateId;
 
+-- 0s, 0 rows
+-- =====================================================
+
 -- Usage Step 4
 UPDATE #UnbilledRevenue
 SET    PriceStep4 = t.PriceStep4,
@@ -541,6 +636,10 @@ AND    #UnbilledRevenue.PricePlanKey = t.PricePlanKey
 AND	  #UnbilledRevenue.RateStartDateId = t.RateStartDateId
 AND	  #UnbilledRevenue.RateEndDateId = t.RateEndDateId;
 
+
+-- 0s, 0 rows
+-- =====================================================
+
 -- Usage Step 5
 UPDATE #UnbilledRevenue
 SET    PriceStep5 = t.PriceStep5
@@ -559,11 +658,18 @@ AND	  #UnbilledRevenue.RateStartDateId = t.RateStartDateId
 AND	  #UnbilledRevenue.RateEndDateId = t.RateEndDateId;
 
 
+-- 0s, 0 rows
+-- =====================================================
+
 -- Set Unbilled Days
 UPDATE #UnbilledRevenue
 SET    UnbilledDays = (DATEDIFF(day,UnbilledFromDate,UnbilledToDate) + 1)
 
+-- 3s, 522,915 rows
+-- =========================================================
 
 
+SELECT TOP 1000 * FROM #UnbilledRevenue
 
-select * from #UnbilledRevenue
+-- SELECT * INTO DW_Work.temp.UnbilledRevenue20141217
+-- FROM #UnbilledRevenue
