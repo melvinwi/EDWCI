@@ -205,7 +205,8 @@ FROM   (SELECT DimService.ServiceKey,
         AND    FactDailyPricePlan.DailyPricePlanEndDateId >= FactDailyPricePlan.ContractFRMPDateId
         AND    FactDailyPricePlan.ContractFRMPDateId <= FactDailyPricePlan.ContractTerminatedDateId
         AND    FactDailyPricePlan.ContractFRMPDateId < CONVERT(NCHAR(8), @ReportDate, 112)
-        AND    DimService.ServiceType = N'Electricity') DailyPricePlans
+        AND    DimService.ServiceType = N'Electricity'
+        AND    DimService.SiteStatusType = 'Energised Site') DailyPricePlans
 INNER
 JOIN   (SELECT DimPricePlan.PricePlanKey,
                FactPricePlanRate.RateStartDateId,
