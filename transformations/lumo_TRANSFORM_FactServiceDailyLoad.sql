@@ -13,7 +13,7 @@ EXEC DW_Utility.config.GetLatestSuccessfulTaskExecutionInstanceID
 END
 --/
 
-	;WITH dimService AS (SELECT DimService.ServiceId, DimService.MarketIdentifier, ROW_NUMBER() OVER (PARTITION BY DimService.MarketIdentifier ORDER BY DimService.Meta_EffectiveStartDate DESC) AS recency FROM /* Dimensional */ lumo.DimService), dimTransmissionNode AS (SELECT DimTransmissionNode.TransmissionNodeId, DimTransmissionNode.TransmissionNodeIdentity, ROW_NUMBER() OVER (PARTITION BY DimTransmissionNode.TransmissionNodeIdentity ORDER BY DimTransmissionNode.TransmissionNodeKey DESC) AS recency FROM /* Dimensional */ lumo.DimTransmissionNode)
+	;WITH dimService AS (SELECT DimService.ServiceId, LEFT(DimService.MarketIdentifier, 10) AS MarketIdentifier, ROW_NUMBER() OVER (PARTITION BY LEFT(DimService.MarketIdentifier, 10) ORDER BY DimService.Meta_EffectiveStartDate DESC) AS recency FROM /* Dimensional */ [schema].DimService WHERE DimService.ServiceType = N'Electricity'), dimTransmissionNode AS (SELECT DimTransmissionNode.TransmissionNodeId, DimTransmissionNode.TransmissionNodeIdentity, ROW_NUMBER() OVER (PARTITION BY DimTransmissionNode.TransmissionNodeIdentity ORDER BY DimTransmissionNode.TransmissionNodeKey DESC) AS recency FROM /* Dimensional */ lumo.DimTransmissionNode)
 	INSERT INTO lumo.FactServiceDailyLoad (
 		FactServiceDailyLoad.ServiceId,
 		FactServiceDailyLoad.TransmissionNodeId,
