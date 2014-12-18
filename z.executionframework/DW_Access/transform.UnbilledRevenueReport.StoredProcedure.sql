@@ -767,6 +767,20 @@ WHERE  #UnbilledRevenue.ScheduleType = N'Daily';
 -- 4s, 458,955 rows
 --==========================================================
 
+-- Set SettlementUsageEndDate
+UPDATE UnbilledRevenue
+SET    SettlementUsageEndDate = t.SettlementUsageEndDate
+FROM   #UnbilledRevenue UnbilledRevenue
+INNER
+JOIN   (SELECT DimService.ServiceKey,
+               CONVERT(DATE, CAST(MAX(FactServiceDailyLoad.SettlementDateId) AS NCHAR(8)), 112) AS SettlementUsageEndDate
+        FROM   DW_Dimensional.DW.FactServiceDailyLoad
+        INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactServiceDailyLoad.ServiceId
+        WHERE  FactServiceDailyLoad.SettlementDateId <= @ReportDate
+        GROUP  BY DimService.ServiceKey) t ON t.ServiceKey = UnbilledRevenue.ServiceKey
+
+-- 9s, 1,568,879 rows
+-- =========================================================
 
 -- Remove historical records for this report date
 DELETE FROM Views.UnbilledRevenueReport
