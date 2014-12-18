@@ -1,10 +1,24 @@
-DECLARE @InputDate date
+CREATE proc [transform].[UnbilledRevenueReport]
+    @TaskExecutionInstanceID INT
+  , @LatestSuccessfulTaskExecutionInstanceID INT
+  , @InputDate date
+AS
+BEGIN
+
+    ----Get LatestSuccessfulTaskExecutionInstanceID
+    --IF  @LatestSuccessfulTaskExecutionInstanceID IS NULL
+    --  BEGIN
+    --    EXEC DW_Utility.config.GetLatestSuccessfulTaskExecutionInstanceID
+    --        @TaskExecutionInstanceID = @TaskExecutionInstanceID
+    --      , @LatestSuccessfulTaskExecutionInstanceID  = @LatestSuccessfulTaskExecutionInstanceID OUTPUT
+    --  END
+    ----/
+
+
 DECLARE @ReportDate date
 DECLARE @ReportStartDate date
 
-SET @InputDate = '2014-07-31';
-
-WITH t AS (SELECT FiscalMonthNumber, FiscalYear
+;WITH t AS (SELECT FiscalMonthNumber, FiscalYear
 FROM DW_Dimensional.DW.DimDate
 WHERE [Date] = @InputDate)
 SELECT @ReportDate = MAX([Date]) FROM DW_Dimensional.DW.DimDate
@@ -26,6 +40,10 @@ SELECT @ReportStartDate = MIN([Date]) FROM DW_Dimensional.DW.DimDate
 INNER JOIN t
 ON t.AdjustedFiscalMonth = DimDate.FiscalMonthNumber
 AND t.AdjustedFiscalYear = CAST(RIGHT(DimDate.FiscalYear,4) AS int);
+
+-- Remove historical records for this report date
+DELETE FROM Views.UnbilledRevenueReport
+    WHERE ReportDate = @ReportDate;
 
 --Drop and create temporary table
 IF OBJECT_ID (N'tempdb..#UnbilledRevenue') IS NOT NULL
@@ -530,6 +548,7 @@ SELECT
 	   DimMeterRegister.RegisterBillingType AS MeterRegisterBillingType,
 	   DimMeterRegister.RegisterReadDirection AS MeterRegisterReadDirection,
 	   DimMeterRegister.RegisterNetworkTariffCode AS NetworkTariffCode,
+	   DimMeterRegister.RegisterStatus AS MeterRegisterStatus,
 	   DimMeterRegister.Meta_EffectiveStartDate,
 	   DimMeterRegister.Meta_EffectiveEndDate
 	   INTO #MeterRegister	   
@@ -550,7 +569,8 @@ SET	   MeterRegisterEDC =			t.MeterRegisterEDC,
 	   RegisterMultiplier =			t.RegisterMultiplier,
 	   MeterRegisterBillingType =		t.MeterRegisterBillingType,
 	   MeterRegisterReadDirection =	t.MeterRegisterReadDirection,
-	   NetworkTariffCode =			t.NetworkTariffCode
+	   NetworkTariffCode =			t.NetworkTariffCode,
+	   MeterRegisterStatus =			t.MeterRegisterStatus
 FROM   (SELECT
 	   MeterRegisterKey,
 	   MeterRegisterEDC,
@@ -560,6 +580,7 @@ FROM   (SELECT
 	   MeterRegisterBillingType,
 	   MeterRegisterReadDirection,
 	   NetworkTariffCode,
+	   MeterRegisterStatus,
 	   Meta_EffectiveStartDate,
 	   Meta_EffectiveEndDate	   
         FROM  #MeterRegister) t
@@ -580,7 +601,8 @@ SET	   MeterRegisterEDC =			t.MeterRegisterEDC,
 	   RegisterMultiplier =			t.RegisterMultiplier,
 	   MeterRegisterBillingType =		t.MeterRegisterBillingType,
 	   MeterRegisterReadDirection =	t.MeterRegisterReadDirection,
-	   NetworkTariffCode =			t.NetworkTariffCode
+	   NetworkTariffCode =			t.NetworkTariffCode,
+	   MeterRegisterStatus =			t.MeterRegisterStatus
 FROM   (SELECT
 	   MeterRegisterKey,
 	   MeterRegisterEDC,
@@ -590,6 +612,7 @@ FROM   (SELECT
 	   MeterRegisterBillingType,
 	   MeterRegisterReadDirection,
 	   NetworkTariffCode,
+	   MeterRegisterStatus,
 	   ROW_NUMBER () OVER (PARTITION BY MeterRegisterKey ORDER BY Meta_EffectiveStartDate ASC) AS recency 
         FROM  #MeterRegister) t
 WHERE  #UnbilledRevenue.MeterRegisterKey IS NOT NULL
@@ -752,4 +775,144 @@ WHERE  #UnbilledRevenue.ScheduleType = N'Daily';
 
 -- DROP TABLE DW_Work.temp.UnbilledRevenue20141217 
 
--- SELECT * INTO DW_Work.temp.UnbilledRevenue20141217 FROM #UnbilledRevenue
+-- SELECT * INTO DW_Work.temp.UnbilledRevenue20141218 FROM #UnbilledRevenue
+
+
+INSERT INTO [Views].[UnbilledRevenueReport]
+           ([FinancialMonth]
+           ,[ReportDate]
+           ,[AccountingPeriod]
+           ,[AccountNumber]
+           ,[CustomerName]
+           ,[CustomerType]
+           ,[AccountStatus]
+           ,[BillingCycle]
+           ,[TNICode]
+           ,[NetworkState]
+           ,[MarketIdentifier]
+           ,[ServiceStatus]
+           ,[ServiceActiveStartDate]
+           ,[ServiceActiveEndDate]
+           ,[FRMPStartDate]
+           ,[ContractTerminatedDate]
+           ,[FuelType]
+           ,[SiteMeteringType]
+           ,[ServiceState]
+           ,[SiteEDC]
+           ,[DLF]
+           ,[MeterRegisterEDC]
+           ,[MeterMarketSerialNumber]
+           ,[MeterRegisterKey]
+           ,[MeterSystemSerialNumber]
+           ,[RegisterMultiplier]
+           ,[MeterRegisterBillingType]
+           ,[MeterRegisterReadDirection]
+           ,[MeterRegisterStatus]
+           ,[MeterRegisterActiveStartDate]
+           ,[MeterRegisterActiveEndDate]
+           ,[NetworkTariffCode]
+           ,[LastBilledRead]
+           ,[LastBilledReadDate]
+           ,[ScheduleType]
+           ,[FixedTariffAdjustment]
+           ,[VariableTariffAdjustment]
+           ,[PricePlanStartDate]
+           ,[PricePlanEndDate]
+           ,[PricePlanCode]
+           ,[BundledFlag]
+           ,[PriceStep1]
+           ,[PriceStep2]
+           ,[PriceStep3]
+           ,[PriceStep4]
+           ,[PriceStep5]
+           ,[UnitStep1]
+           ,[UnitStep2]
+           ,[UnitStep3]
+           ,[UnitStep4]
+           ,[UnbilledFromDate]
+           ,[UnbilledToDate]
+           ,[UnbilledDays]
+           ,[SettlementUsageEndDate]
+           ,[SettlementUsage]
+           ,[ForecastedUsage]
+           ,[TotalUnbilledUsage]
+           ,[TotalUnbilledRevenue])
+    SELECT [FinancialMonth]
+           ,[ReportDate]
+           ,[AccountingPeriod]
+           ,[AccountNumber]
+           ,[CustomerName]
+           ,[CustomerType]
+           ,[AccountStatus]
+           ,[BillingCycle]
+           ,[TNICode]
+           ,[NetworkState]
+           ,[MarketIdentifier]
+           ,[ServiceStatus]
+           ,[ServiceActiveStartDate]
+           ,[ServiceActiveEndDate]
+           ,[FRMPStartDate]
+           ,[ContractTerminatedDate]
+           ,[FuelType]
+           ,[SiteMeteringType]
+           ,[ServiceState]
+           ,[SiteEDC]
+           ,[DLF]
+           ,[MeterRegisterEDC]
+           ,[MeterMarketSerialNumber]
+           ,[MeterRegisterKey]
+           ,[MeterSystemSerialNumber]
+           ,[RegisterMultiplier]
+           ,[MeterRegisterBillingType]
+           ,[MeterRegisterReadDirection]
+           ,[MeterRegisterStatus]
+           ,[MeterRegisterActiveStartDate]
+           ,[MeterRegisterActiveEndDate]
+           ,[NetworkTariffCode]
+           ,[LastBilledRead]
+           ,[LastBilledReadDate]
+           ,[ScheduleType]
+           ,[FixedTariffAdjustment]
+           ,[VariableTariffAdjustment]
+           ,[PricePlanStartDate]
+           ,[PricePlanEndDate]
+           ,[PricePlanCode]
+           ,[BundledFlag]
+           ,[PriceStep1]
+           ,[PriceStep2]
+           ,[PriceStep3]
+           ,[PriceStep4]
+           ,[PriceStep5]
+           ,[UnitStep1]
+           ,[UnitStep2]
+           ,[UnitStep3]
+           ,[UnitStep4]
+           ,[UnbilledFromDate]
+           ,[UnbilledToDate]
+           ,[UnbilledDays]
+           ,[SettlementUsageEndDate]
+           ,[SettlementUsage]
+           ,[ForecastedUsage]
+           ,[TotalUnbilledUsage]
+           ,[TotalUnbilledRevenue]
+    FROM #UnbilledRevenue;
+  
+
+--Rebuild index
+ALTER INDEX [ClusteredColumnStoreIndex-UnbilledRevenueReport] ON [Views].[UnbilledRevenueReport] 
+    REBUILD PARTITION = ALL WITH (DATA_COMPRESSION = COLUMNSTORE);
+
+   
+    --Return row counts
+    SELECT  0 AS ExtractRowCount,
+            @@ROWCOUNT AS InsertRowCount,
+            0 AS UpdateRowCount,
+            0 AS DeleteRowCount,
+            0 AS ErrorRowCount;
+    --/
+
+
+
+END;
+
+GO
