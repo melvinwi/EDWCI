@@ -798,10 +798,75 @@ JOIN   (SELECT DimService.ServiceKey,
                CONVERT(DATE, CAST(MAX(FactServiceDailyLoad.SettlementDateId) AS NCHAR(8)), 112) AS SettlementUsageEndDate
         FROM   DW_Dimensional.DW.FactServiceDailyLoad
         INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactServiceDailyLoad.ServiceId
-        WHERE  FactServiceDailyLoad.SettlementDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
+        WHERE  FactServiceDailyLoad.SettlementDateId BETWEEN CONVERT(NCHAR(8), @ReportStartDate, 112) AND CONVERT(NCHAR(8), @ReportDate, 112)
         GROUP  BY DimService.ServiceKey) t ON t.ServiceKey = UnbilledRevenue.ServiceKey;
 
 -- 9s, 1,568,879 rows
+-- =========================================================
+
+--Drop and create temporary table
+IF OBJECT_ID (N'tempdb..#SettlementUsage') IS NOT NULL
+    BEGIN
+        DROP TABLE #SettlementUsage;
+    END;
+
+SELECT DailySettlementUsage.ServiceKey,
+       DailySettlementUsage.LossFactor,
+       DailySettlementUsage.SettlementDate,
+       DailySettlementUsage.TotalEnergy,
+       #UnbilledRevenue.MeterRegisterKey,
+       #UnbilledRevenue.UnbilledFromDate,
+       #UnbilledRevenue.UnbilledFromDate,
+       #UnbilledRevenue.MeterRegisterEDC
+INTO   #SettlementUsage
+FROM   (SELECT DimService.ServiceKey,
+               DimService.LossFactor,
+               CONVERT(DATE, CAST(FactServiceDailyLoad.SettlementDateId AS NCHAR(8)), 112) AS SettlementDate,
+               FactServiceDailyLoad.TotalEnergy,
+               ROW_NUMBER() OVER (PARTITION BY DimService.ServiceKey, FactServiceDailyLoad.SettlementDateId ORDER BY SettlementCase DESC) AS recency
+        FROM   DW_Dimensional.DW.FactServiceDailyLoad
+        INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactServiceDailyLoad.ServiceId
+        WHERE  FactServiceDailyLoad.SettlementDateId BETWEEN CONVERT(NCHAR(8), @ReportStartDate, 112) AND CONVERT(NCHAR(8), @ReportDate, 112)) DailySettlementUsage
+INNER
+JOIN   #UnbilledRevenue
+ON     #UnbilledRevenue.ServiceKey = DailySettlementUsage.ServiceKey
+AND    DailySettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
+AND    #UnbilledRevenue.ScheduleType = 'Usage'
+WHERE  DailySettlementUsage.recency = 1;
+
+-- 6m, 30,387,597 rows
+-- =========================================================
+
+-- Set SettlementUsage
+UPDATE UnbilledRevenue
+SET    SettlementUsage = t.SettlementUsage
+FROM   #UnbilledRevenue UnbilledRevenue
+INNER
+JOIN   (SELECT #SettlementUsage.ServiceKey,
+               #SettlementUsage.MeterRegisterKey,
+               #SettlementUsage.UnbilledFromDate,
+               SUM(CASE
+                     WHEN COALESCE(DailyMeterRegisters.SumMeterRegisterEDC, 0.0) = 0.0 THEN 0.0
+                     ELSE #SettlementUsage.TotalEnergy * COALESCE(#SettlementUsage.MeterRegisterEDC, 0.0) / DailyMeterRegisters.SumMeterRegisterEDC / COALESCE(#SettlementUsage.LossFactor, 1.0)
+                   END) AS SettlementUsage
+        FROM   #SettlementUsage
+        INNER
+        JOIN   (SELECT ServiceKey,
+                       SettlementDate,
+                       SUM(MeterRegisterEDC) AS SumMeterRegisterEDC
+                FROM   #SettlementUsage
+                GROUP  BY ServiceKey,
+                          SettlementDate) DailyMeterRegisters
+        ON     DailyMeterRegisters.ServiceKey = #SettlementUsage.ServiceKey
+        AND    DailyMeterRegisters.SettlementDate = #SettlementUsage.SettlementDate
+        GROUP  BY #SettlementUsage.ServiceKey,
+                  #SettlementUsage.MeterRegisterKey,
+                  #SettlementUsage.UnbilledFromDate) t
+ON     t.ServiceKey = UnbilledRevenue.ServiceKey
+AND    t.MeterRegisterKey = UnbilledRevenue.MeterRegisterKey
+AND    t.UnbilledFromDate = UnbilledRevenue.UnbilledFromDate;
+
+-- 1m, 1,100,456 rows
 -- =========================================================
 
 -- Remove historical records for this report date
