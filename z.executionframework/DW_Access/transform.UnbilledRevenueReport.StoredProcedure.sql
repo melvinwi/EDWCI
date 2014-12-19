@@ -798,8 +798,8 @@ JOIN   (SELECT DimService.ServiceKey,
                CONVERT(DATE, CAST(MAX(FactServiceDailyLoad.SettlementDateId) AS NCHAR(8)), 112) AS SettlementUsageEndDate
         FROM   DW_Dimensional.DW.FactServiceDailyLoad
         INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactServiceDailyLoad.ServiceId
-        WHERE  FactServiceDailyLoad.SettlementDateId <= @ReportDate
-        GROUP  BY DimService.ServiceKey) t ON t.ServiceKey = UnbilledRevenue.ServiceKey
+        WHERE  FactServiceDailyLoad.SettlementDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
+        GROUP  BY DimService.ServiceKey) t ON t.ServiceKey = UnbilledRevenue.ServiceKey;
 
 -- 9s, 1,568,879 rows
 -- =========================================================
