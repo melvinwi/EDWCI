@@ -226,8 +226,8 @@ JOIN  (SELECT DimService.ServiceKey,
         WHERE  FactTransaction.TransactionSubtype = N'Usage Revenue'
         AND    FactTransaction.Reversal = N'No '
         AND    FactTransaction.Reversed = N'No '
-        AND    FactTransaction.EndDateId >= CONVERT(NCHAR(8), 20140101, 112)
-        AND    FactTransaction.EndDateId <= CONVERT(NCHAR(8), 20140827, 112)
+        AND    FactTransaction.EndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
+        AND    FactTransaction.EndDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
         AND    FactTransaction.EndDateId <> 99991231
         GROUP  BY DimService.ServiceKey, DimMeterRegister.MeterRegisterKey, FactTransaction.EndDateId, FactTransaction.EndRead) UsageTransactions
      ON UsageTransactions.ServiceKey = PricePlans.ServiceKey AND UsageTransactions.MeterRegisterKey = PricePlans.MeterRegisterKey AND UsageTransactions.recency = 1
