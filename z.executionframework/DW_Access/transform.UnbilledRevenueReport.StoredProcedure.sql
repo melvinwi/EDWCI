@@ -115,7 +115,7 @@ RateEndDateId        int        NULL
 );
 --/
 
--- Insert Daily rows
+-- Insert Daily and Usage rows
 INSERT INTO #UnbilledRevenue (
   ReportDate,
   ScheduleType,
@@ -126,7 +126,8 @@ INSERT INTO #UnbilledRevenue (
   UnbilledToDate,
   RateStartDateId,
   RateEndDateId,
-  LastBilledReadDate
+  LastBilledReadDate,
+  LastBilledRead
 )
 SELECT @ReportDate,
        PricePlans.ScheduleType,
@@ -134,7 +135,7 @@ SELECT @ReportDate,
        PricePlans.MeterRegisterKey,
        PricePlans.PricePlanKey,
        CONVERT(DATE, CAST((SELECT MAX(UnbilledFromDate)
-                          FROM    (VALUES (Transactions.LastBilledReadDate),
+                          FROM    (VALUES (COALESCE(UsageTransactions.LastBilledReadDate, Transactions.LastBilledReadDate)),
                                           (PricePlans.DailyPricePlanStartDateId),
                                           (PricePlans.ContractFRMPDateId),
                                           (Rates.RateStartDateId)) u(UnbilledFromDate)) AS NCHAR(8)), 112) AS UnbilledFromDate,
@@ -145,7 +146,8 @@ SELECT @ReportDate,
                                           (Rates.RateEndDateId)) t(UnbilledToDate)) AS NCHAR(8)), 112) AS UnbilledToDate,
        Rates.RateStartDateId,
        Rates.RateEndDateId,
-       CONVERT(DATE, CAST(Transactions.LastBilledReadDate AS NCHAR(8)), 112)
+       CONVERT(DATE, CAST(COALESCE(UsageTransactions.LastBilledReadDate, Transactions.LastBilledReadDate) AS NCHAR(8)), 112),
+    UsageTransactions.LastBilledRead
 FROM   (SELECT N'Daily' AS ScheduleType,
                DimService.ServiceKey,
                NULL AS MeterRegisterKey,
@@ -163,7 +165,7 @@ FROM   (SELECT N'Daily' AS ScheduleType,
         AND    FactDailyPricePlan.ContractFRMPDateId <= FactDailyPricePlan.ContractTerminatedDateId
         AND    FactDailyPricePlan.ContractFRMPDateId < CONVERT(NCHAR(8), @ReportDate, 112)
         AND    DimService.ServiceType = N'Electricity'
-        AND    DimService.SiteStatusType = 'Energised Site'
+        AND    DimService.SiteStatusType = N'Energised Site'
 
         UNION
 
@@ -185,8 +187,8 @@ FROM   (SELECT N'Daily' AS ScheduleType,
         AND    FactUsagePricePlan.ContractFRMPDateId <= FactUsagePricePlan.ContractTerminatedDateId
         AND    FactUsagePricePlan.ContractFRMPDateId < CONVERT(NCHAR(8), @ReportDate, 112)
         AND    DimService.ServiceType = N'Electricity'
-        AND    DimService.SiteStatusType = 'Energised Site'
-        AND    DimMeterRegister.RegisterStatus = 'Active') PricePlans
+        AND    DimService.SiteStatusType = N'Energised Site'
+        AND    DimMeterRegister.RegisterStatus = N'Active') PricePlans
 INNER
 JOIN   (SELECT DISTINCT
                DimPricePlan.PricePlanKey,
@@ -205,26 +207,46 @@ JOIN   (SELECT DimService.ServiceKey,
                MAX(FactTransaction.EndDateId) AS LastBilledReadDate
         FROM   DW_Dimensional.DW.FactTransaction
         INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactTransaction.ServiceId
-        WHERE  FactTransaction.TransactionSubtype = 'Daily charge'
-        AND    FactTransaction.Reversal <> 'Yes'
-        AND    FactTransaction.Reversed <> 'Yes'
+        WHERE  FactTransaction.TransactionSubtype = N'Daily charge'
+        AND    FactTransaction.Reversal = N'No '
+        AND    FactTransaction.Reversed = N'No '
         AND    FactTransaction.EndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
         AND    FactTransaction.EndDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
         AND    FactTransaction.EndDateId <> 99991231
         GROUP  BY DimService.ServiceKey) Transactions ON Transactions.ServiceKey = PricePlans.ServiceKey
+LEFT
+JOIN  (SELECT DimService.ServiceKey,
+      DimMeterRegister.MeterRegisterKey,
+               FactTransaction.EndDateId AS LastBilledReadDate,
+      FactTransaction.EndRead AS LastBilledRead,
+      ROW_NUMBER () OVER (PARTITION BY DimService.ServiceKey, DimMeterRegister.MeterRegisterKey ORDER BY FactTransaction.EndDateId DESC) AS recency
+        FROM   DW_Dimensional.DW.FactTransaction
+        INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactTransaction.ServiceId
+     INNER  JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactTransaction.MeterRegisterId
+        WHERE  FactTransaction.TransactionSubtype = N'Usage Revenue'
+        AND    FactTransaction.Reversal = N'No '
+        AND    FactTransaction.Reversed = N'No '
+        AND    FactTransaction.EndDateId >= CONVERT(NCHAR(8), 20140101, 112)
+        AND    FactTransaction.EndDateId <= CONVERT(NCHAR(8), 20140827, 112)
+        AND    FactTransaction.EndDateId <> 99991231
+        GROUP  BY DimService.ServiceKey, DimMeterRegister.MeterRegisterKey, FactTransaction.EndDateId, FactTransaction.EndRead) UsageTransactions
+     ON UsageTransactions.ServiceKey = PricePlans.ServiceKey AND UsageTransactions.MeterRegisterKey = PricePlans.MeterRegisterKey AND UsageTransactions.recency = 1
 WHERE  COALESCE(Transactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= PricePlans.DailyPricePlanEndDateId
 AND    COALESCE(Transactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= PricePlans.ContractTerminatedDateId
-AND    COALESCE(Transactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= Rates.RateEndDateId;
+AND    COALESCE(Transactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= Rates.RateEndDateId
+AND    COALESCE(UsageTransactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= PricePlans.DailyPricePlanEndDateId
+AND    COALESCE(UsageTransactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= PricePlans.ContractTerminatedDateId
+AND    COALESCE(UsageTransactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= Rates.RateEndDateId;
 
 -- Only report the last eight months of unbilled revenue
 UPDATE #UnbilledRevenue
 SET    UnbilledFromDate = @ReportStartDate
 WHERE  UnbilledFromDate < @ReportStartDate;
 
--- Remove single-day unbilled periods
+-- Remove single-day and negative unbilled periods
 DELETE
 FROM   #UnbilledRevenue
-WHERE  DATEDIFF(DAY, UnbilledFromDate, UnbilledToDate) = 0;
+WHERE  DATEDIFF(DAY, UnbilledFromDate, UnbilledToDate) <= 0;
 
 -- Set Report Month from DimDate
 UPDATE #UnbilledRevenue
