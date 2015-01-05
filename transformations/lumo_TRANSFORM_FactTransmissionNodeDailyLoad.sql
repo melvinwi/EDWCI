@@ -30,7 +30,7 @@ END
 		FactTransmissionNodeDailyLoad.MeteringDataAgent,
 		FactTransmissionNodeDailyLoad.TransmissionNodeDailyLoadKey)
 	  SELECT
-		COALESCE( _dimTransmissionNode.TransmissionNodeId , 1),
+		COALESCE( _dimTransmissionNode.TransmissionNodeId , -1),
 		CONVERT(NCHAR(8), Settlement_CPDATA.SettlementDate , 112),
 		Settlement_CPDATA.VersionNo,
 		MAX(ISNULL( Settlement_CPDATA.RegionId , '')),

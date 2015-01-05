@@ -3,7 +3,7 @@
 # DESCRIPTION: Promote CPDATA from AEMO to DataStore 				
 SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
 WITH_STATEMENTS	"WITH dimTransmissionNode AS (SELECT DimTransmissionNode.TransmissionNodeId, DimTransmissionNode.TransmissionNodeIdentity, ROW_NUMBER() OVER (PARTITION BY DimTransmissionNode.TransmissionNodeIdentity ORDER BY DimTransmissionNode.TransmissionNodeKey DESC) AS recency FROM /* Dimensional */ [schema].DimTransmissionNode)"			Latest view of DimTransmissionNode
-COALESCE(	_dimTransmissionNode.TransmissionNodeId	", 1)"	FactTransmissionNodeDailyLoad.TransmissionNodeId	One to one mapping
+COALESCE(	_dimTransmissionNode.TransmissionNodeId	", -1)"	FactTransmissionNodeDailyLoad.TransmissionNodeId	One to one mapping
 "CONVERT(NCHAR(8),"	Settlement_CPDATA.SettlementDate	", 112)"	FactTransmissionNodeDailyLoad.SettlementDateId	One to one mapping
 	Settlement_CPDATA.VersionNo		FactTransmissionNodeDailyLoad.SettlementRun	One to one mapping
 MAX(ISNULL(	Settlement_CPDATA.RegionId	", ''))"	FactTransmissionNodeDailyLoad.Region	One to one mapping
