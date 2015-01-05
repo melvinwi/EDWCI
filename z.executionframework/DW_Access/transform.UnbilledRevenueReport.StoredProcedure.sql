@@ -782,13 +782,6 @@ SET    UnbilledDays = (DATEDIFF(day,UnbilledFromDate,UnbilledToDate) + 1);
 -- 21s, 1,569,902 rows
 -- =========================================================
 
-UPDATE #UnbilledRevenue
-SET    TotalUnbilledRevenue = PriceStep1 * UnbilledDays * FixedTariffAdjustment
-WHERE  #UnbilledRevenue.ScheduleType = N'Daily';
-
--- 4s, 458,955 rows
---==========================================================
-
 -- Set SettlementUsageEndDate
 UPDATE UnbilledRevenue
 SET    SettlementUsageEndDate = t.SettlementUsageEndDate
@@ -816,7 +809,7 @@ SELECT DailySettlementUsage.ServiceKey,
        DailySettlementUsage.TotalEnergy,
        #UnbilledRevenue.MeterRegisterKey,
        #UnbilledRevenue.UnbilledFromDate,
-       #UnbilledRevenue.UnbilledFromDate,
+       #UnbilledRevenue.UnbilledToDate,
        #UnbilledRevenue.MeterRegisterEDC
 INTO   #SettlementUsage
 FROM   (SELECT DimService.ServiceKey,
@@ -831,7 +824,7 @@ INNER
 JOIN   #UnbilledRevenue
 ON     #UnbilledRevenue.ServiceKey = DailySettlementUsage.ServiceKey
 AND    DailySettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
-AND    #UnbilledRevenue.ScheduleType = 'Usage'
+AND    #UnbilledRevenue.ScheduleType = N'Usage'
 WHERE  DailySettlementUsage.recency = 1;
 
 -- 6m, 30,387,597 rows
@@ -868,6 +861,73 @@ AND    t.UnbilledFromDate = UnbilledRevenue.UnbilledFromDate;
 
 -- 1m, 1,100,456 rows
 -- =========================================================
+
+-- Set Total Usage
+UPDATE #UnbilledRevenue
+SET    TotalUnbilledUsage = COALESCE ((SettlementUsage + ForecastedUsage),0.0)
+WHERE  #UnbilledRevenue.ScheduleType = N'Usage';
+
+-- 
+-- =========================================================
+
+-- Set TotalUnbilledRevenue for Daily
+UPDATE #UnbilledRevenue
+SET    TotalUnbilledRevenue = PriceStep1 * UnbilledDays * FixedTariffAdjustment
+WHERE  #UnbilledRevenue.ScheduleType = N'Daily';
+
+-- 4s, 458,955 rows
+--==========================================================
+
+-- Set TotalUnbilledRevenue for Usage
+UPDATE #UnbilledRevenue
+SET    TotalUnbilledRevenue = CASE WHEN TotalUnbilledUsage > 0 THEN
+CASE WHEN TotalUnbilledUsage > (UnitStep1 * UnbilledDays) THEN UnitStep1 * UnbilledDays * PriceStep1 * VariableTariffAdjustment
+WHEN TotalUnbilledUsage > 0 THEN TotalUnbilledUsage * PriceStep1 * VariableTariffAdjustment
+ELSE 0
+END
++
+CASE WHEN TotalUnbilledUsage > (UnitStep2 * UnbilledDays) THEN (UnitStep2 - UnitStep1) * UnbilledDays * PriceStep2 * VariableTariffAdjustment
+WHEN TotalUnbilledUsage > (UnitStep1 * UnbilledDays) THEN (TotalUnbilledUsage - (UnitStep1*UnbilledDays)) * PriceStep2  * VariableTariffAdjustment
+ELSE 0
+END
++
+CASE WHEN TotalUnbilledUsage > (UnitStep3 * UnbilledDays) THEN (UnitStep3 - UnitStep2) * UnbilledDays * PriceStep3  * VariableTariffAdjustment
+WHEN TotalUnbilledUsage > (UnitStep2 * UnbilledDays) THEN (TotalUnbilledUsage - (UnitStep2*UnbilledDays)) * PriceStep3  * VariableTariffAdjustment
+ELSE 0
+END
++
+CASE WHEN TotalUnbilledUsage > (UnitStep4 * UnbilledDays) THEN ((UnitStep4 - UnitStep3) * UnbilledDays * PriceStep4  * VariableTariffAdjustment) + ((TotalUnbilledUsage - (UnitStep4*UnbilledDays)) * PriceStep5  * VariableTariffAdjustment)
+WHEN TotalUnbilledUsage > (UnitStep3 * UnbilledDays) THEN (TotalUnbilledUsage - (UnitStep3*UnbilledDays)) * PriceStep4  * VariableTariffAdjustment
+ELSE 0
+END
+-- Negative consumption
+WHEN TotalUnbilledUsage < 0
+THEN
+CASE WHEN -TotalUnbilledUsage > (UnitStep1 * UnbilledDays) THEN -UnitStep1 * UnbilledDays * PriceStep1  * VariableTariffAdjustment
+WHEN -TotalUnbilledUsage > 0 THEN TotalUnbilledUsage * PriceStep1 * VariableTariffAdjustment
+ELSE 0
+END
++
+CASE WHEN -TotalUnbilledUsage > (UnitStep2 * UnbilledDays) THEN (UnitStep2 - UnitStep1) * UnbilledDays * -PriceStep2 * VariableTariffAdjustment
+WHEN -TotalUnbilledUsage > (UnitStep1 * UnbilledDays) THEN (TotalUnbilledUsage + (UnitStep1*UnbilledDays)) * PriceStep2 * VariableTariffAdjustment
+ELSE 0
+END
++
+CASE WHEN -TotalUnbilledUsage > (UnitStep3 * UnbilledDays) THEN -(UnitStep3 - UnitStep2) * UnbilledDays * PriceStep3 * VariableTariffAdjustment
+WHEN -TotalUnbilledUsage > (UnitStep2 * UnbilledDays) THEN (TotalUnbilledUsage + (UnitStep2*UnbilledDays)) * PriceStep3 * VariableTariffAdjustment
+ELSE 0
+END
++
+CASE WHEN -TotalUnbilledUsage > (UnitStep4 * UnbilledDays) THEN -((UnitStep4 - UnitStep3) * UnbilledDays * PriceStep4 * VariableTariffAdjustment) + ((TotalUnbilledUsage + (UnitStep4*UnbilledDays)) * PriceStep5 * VariableTariffAdjustment)
+WHEN -TotalUnbilledUsage > (UnitStep3 * UnbilledDays) THEN (TotalUnbilledUsage + (UnitStep3*UnbilledDays)) * PriceStep4 * VariableTariffAdjustment
+ELSE 0
+END
+ELSE 0
+END
+WHERE  #UnbilledRevenue.ScheduleType = N'Usage';
+
+-- 
+--==========================================================
 
 -- Remove historical records for this report date
 DELETE FROM Views.UnbilledRevenueReport
