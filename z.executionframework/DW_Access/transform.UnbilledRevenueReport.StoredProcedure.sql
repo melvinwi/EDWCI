@@ -880,50 +880,26 @@ WHERE  #UnbilledRevenue.ScheduleType = N'Daily';
 
 -- Set TotalUnbilledRevenue for Usage
 UPDATE #UnbilledRevenue
-SET    TotalUnbilledRevenue = CASE WHEN TotalUnbilledUsage > 0 THEN
-CASE WHEN TotalUnbilledUsage > (UnitStep1 * UnbilledDays) THEN UnitStep1 * UnbilledDays * PriceStep1 * VariableTariffAdjustment
-WHEN TotalUnbilledUsage > 0 THEN TotalUnbilledUsage * PriceStep1 * VariableTariffAdjustment
+SET    TotalUnbilledRevenue = SIGN(TotalUnbilledUsage) *
+(CASE WHEN ABS(TotalUnbilledUsage) > (UnitStep1 * UnbilledDays) THEN UnitStep1 * UnbilledDays * PriceStep1 
+WHEN ABS(TotalUnbilledUsage) > 0 THEN ABS(TotalUnbilledUsage) * PriceStep1
 ELSE 0
 END
 +
-CASE WHEN TotalUnbilledUsage > (UnitStep2 * UnbilledDays) THEN (UnitStep2 - UnitStep1) * UnbilledDays * PriceStep2 * VariableTariffAdjustment
-WHEN TotalUnbilledUsage > (UnitStep1 * UnbilledDays) THEN (TotalUnbilledUsage - (UnitStep1*UnbilledDays)) * PriceStep2  * VariableTariffAdjustment
+CASE WHEN ABS(TotalUnbilledUsage) > (UnitStep2 * UnbilledDays) THEN (UnitStep2 - UnitStep1) * UnbilledDays * PriceStep2 
+WHEN ABS(TotalUnbilledUsage) > (UnitStep1 * UnbilledDays) THEN (ABS(TotalUnbilledUsage) - (UnitStep1*UnbilledDays)) * PriceStep2
 ELSE 0
 END
 +
-CASE WHEN TotalUnbilledUsage > (UnitStep3 * UnbilledDays) THEN (UnitStep3 - UnitStep2) * UnbilledDays * PriceStep3  * VariableTariffAdjustment
-WHEN TotalUnbilledUsage > (UnitStep2 * UnbilledDays) THEN (TotalUnbilledUsage - (UnitStep2*UnbilledDays)) * PriceStep3  * VariableTariffAdjustment
+CASE WHEN ABS(TotalUnbilledUsage) > (UnitStep3 * UnbilledDays) THEN (UnitStep3 - UnitStep2) * UnbilledDays * PriceStep3
+WHEN ABS(TotalUnbilledUsage) > (UnitStep2 * UnbilledDays) THEN (ABS(TotalUnbilledUsage) - (UnitStep2*UnbilledDays)) * PriceStep3
 ELSE 0
 END
 +
-CASE WHEN TotalUnbilledUsage > (UnitStep4 * UnbilledDays) THEN ((UnitStep4 - UnitStep3) * UnbilledDays * PriceStep4  * VariableTariffAdjustment) + ((TotalUnbilledUsage - (UnitStep4*UnbilledDays)) * PriceStep5  * VariableTariffAdjustment)
-WHEN TotalUnbilledUsage > (UnitStep3 * UnbilledDays) THEN (TotalUnbilledUsage - (UnitStep3*UnbilledDays)) * PriceStep4  * VariableTariffAdjustment
+CASE WHEN ABS(TotalUnbilledUsage) > (UnitStep4 * UnbilledDays) THEN ((UnitStep4 - UnitStep3) * UnbilledDays * PriceStep4) + ((ABS(TotalUnbilledUsage) - (UnitStep4*UnbilledDays)) * PriceStep5)
+WHEN ABS(TotalUnbilledUsage) > (UnitStep3 * UnbilledDays) THEN (ABS(TotalUnbilledUsage) - (UnitStep3*UnbilledDays)) * PriceStep4
 ELSE 0
-END
--- Negative consumption
-WHEN TotalUnbilledUsage < 0
-THEN
-CASE WHEN -TotalUnbilledUsage > (UnitStep1 * UnbilledDays) THEN -UnitStep1 * UnbilledDays * PriceStep1  * VariableTariffAdjustment
-WHEN -TotalUnbilledUsage > 0 THEN TotalUnbilledUsage * PriceStep1 * VariableTariffAdjustment
-ELSE 0
-END
-+
-CASE WHEN -TotalUnbilledUsage > (UnitStep2 * UnbilledDays) THEN (UnitStep2 - UnitStep1) * UnbilledDays * -PriceStep2 * VariableTariffAdjustment
-WHEN -TotalUnbilledUsage > (UnitStep1 * UnbilledDays) THEN (TotalUnbilledUsage + (UnitStep1*UnbilledDays)) * PriceStep2 * VariableTariffAdjustment
-ELSE 0
-END
-+
-CASE WHEN -TotalUnbilledUsage > (UnitStep3 * UnbilledDays) THEN -(UnitStep3 - UnitStep2) * UnbilledDays * PriceStep3 * VariableTariffAdjustment
-WHEN -TotalUnbilledUsage > (UnitStep2 * UnbilledDays) THEN (TotalUnbilledUsage + (UnitStep2*UnbilledDays)) * PriceStep3 * VariableTariffAdjustment
-ELSE 0
-END
-+
-CASE WHEN -TotalUnbilledUsage > (UnitStep4 * UnbilledDays) THEN -((UnitStep4 - UnitStep3) * UnbilledDays * PriceStep4 * VariableTariffAdjustment) + ((TotalUnbilledUsage + (UnitStep4*UnbilledDays)) * PriceStep5 * VariableTariffAdjustment)
-WHEN -TotalUnbilledUsage > (UnitStep3 * UnbilledDays) THEN (TotalUnbilledUsage + (UnitStep3*UnbilledDays)) * PriceStep4 * VariableTariffAdjustment
-ELSE 0
-END
-ELSE 0
-END
+END) * VariableTariffAdjustment
 WHERE  #UnbilledRevenue.ScheduleType = N'Usage';
 
 -- 
