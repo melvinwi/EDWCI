@@ -18,11 +18,14 @@ BEGIN
 -- Establish reporting period from @InputDate
 DECLARE @ReportDate date
 DECLARE @ReportStartDate date
+DECLARE @AccountingPeriod int
 
-;WITH t AS (SELECT FiscalMonthNumber, FiscalYear
+;WITH t AS (SELECT FiscalMonthNumber, FiscalYear, AccountingPeriod
 FROM DW_Dimensional.DW.DimDate
 WHERE [Date] = @InputDate)
-SELECT @ReportDate = MAX([Date]) FROM DW_Dimensional.DW.DimDate
+SELECT @ReportDate = MAX(DimDate.[Date]), 
+@AccountingPeriod = MAX(DimDate.[AccountingPeriod]) 
+FROM DW_Dimensional.DW.DimDate
 INNER JOIN t
 ON t.FiscalMonthNumber = DimDate.FiscalMonthNumber
 AND t.FiscalYear = DimDate.FiscalYear;
@@ -119,6 +122,7 @@ RateEndDateId        int        NULL
 -- Insert initial Daily and Usage rows
 INSERT INTO #UnbilledRevenue (
   ReportDate,
+  AccountingPeriod,
   ScheduleType,
   ServiceKey,
   MeterRegisterKey,
@@ -131,6 +135,7 @@ INSERT INTO #UnbilledRevenue (
   LastBilledRead
 )
 SELECT @ReportDate,
+       @AccountingPeriod,
        PricePlans.ScheduleType,
        PricePlans.ServiceKey,
        PricePlans.MeterRegisterKey,
