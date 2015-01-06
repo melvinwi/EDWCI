@@ -782,6 +782,32 @@ SET    UnbilledDays = (DATEDIFF(day,UnbilledFromDate,UnbilledToDate) + 1);
 -- 21s, 1,569,902 rows
 -- =========================================================
 
+-- Set ServiceActiveStartDate and ServiceActiveEndDate
+UPDATE UnbilledRevenue
+SET    ServiceActiveStartDate = t.ServiceActiveStartDate,
+       ServiceActiveEndDate = t.ServiceActiveEndDate
+FROM   #UnbilledRevenue UnbilledRevenue
+INNER
+JOIN   (SELECT DimService.ServiceKey,
+               MIN(DimService.Meta_EffectiveStartDate) AS ServiceActiveStartDate,
+               MAX(DimService.Meta_EffectiveEndDate) AS ServiceActiveEndDate
+        FROM   DW_Dimensional.DW.DimService
+        WHERE  DimService.SiteStatusType = N'Energised Site'
+        GROUP  BY DimService.ServiceKey) t ON t.ServiceKey = UnbilledRevenue.ServiceKey;
+
+-- Set MeterRegisterActiveStartDate and MeterRegisterActiveEndDate
+UPDATE UnbilledRevenue
+SET    MeterRegisterActiveStartDate = t.MeterRegisterActiveStartDate,
+       MeterRegisterActiveEndDate = t.MeterRegisterActiveEndDate
+FROM   #UnbilledRevenue UnbilledRevenue
+INNER
+JOIN   (SELECT DimMeterRegister.MeterRegisterKey,
+               MIN(DimMeterRegister.Meta_EffectiveStartDate) AS MeterRegisterActiveStartDate,
+               MAX(DimMeterRegister.Meta_EffectiveEndDate) AS MeterRegisterActiveEndDate
+        FROM   DW_Dimensional.DW.DimMeterRegister
+        WHERE  DimMeterRegister.RegisterStatus = N'Active'
+        GROUP  BY DimMeterRegister.MeterRegisterKey) t ON t.MeterRegisterKey = UnbilledRevenue.MeterRegisterKey;
+
 -- Set SettlementUsageEndDate
 UPDATE UnbilledRevenue
 SET    SettlementUsageEndDate = t.SettlementUsageEndDate
@@ -824,6 +850,7 @@ INNER
 JOIN   #UnbilledRevenue
 ON     #UnbilledRevenue.ServiceKey = DailySettlementUsage.ServiceKey
 AND    DailySettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
+AND    DailySettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.ServiceActiveStartDate AND #UnbilledRevenue.ServiceActiveEndDate
 AND    #UnbilledRevenue.ScheduleType = N'Usage'
 WHERE  DailySettlementUsage.recency = 1;
 
