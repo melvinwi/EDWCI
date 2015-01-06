@@ -15,6 +15,7 @@ BEGIN
     ----/
 
 
+-- Establish reporting period from @InputDate
 DECLARE @ReportDate date
 DECLARE @ReportStartDate date
 
@@ -115,7 +116,7 @@ RateEndDateId        int        NULL
 );
 --/
 
--- Insert Daily and Usage rows
+-- Insert initial Daily and Usage rows
 INSERT INTO #UnbilledRevenue (
   ReportDate,
   ScheduleType,
@@ -161,8 +162,8 @@ FROM   (SELECT N'Daily' AS ScheduleType,
         INNER  JOIN DW_Dimensional.DW.DimPricePlan ON DimPricePlan.PricePlanId = FactDailyPricePlan.PricePlanId
         WHERE  FactDailyPricePlan.DailyPricePlanStartDateId <= FactDailyPricePlan.ContractTerminatedDateId
         AND    FactDailyPricePlan.DailyPricePlanStartDateId < CONVERT(NCHAR(8), @ReportDate, 112)
-        AND    FactDailyPricePlan.DailyPricePlanEndDateId >= FactDailyPricePlan.ContractFRMPDateId
-        AND    FactDailyPricePlan.ContractFRMPDateId <= FactDailyPricePlan.ContractTerminatedDateId
+        AND    FactDailyPricePlan.ContractFRMPDateId <= FactDailyPricePlan.DailyPricePlanEndDateId
+        AND    FactDailyPricePlan.ContractFRMPDateId < FactDailyPricePlan.ContractTerminatedDateId
         AND    FactDailyPricePlan.ContractFRMPDateId < CONVERT(NCHAR(8), @ReportDate, 112)
         AND    DimService.ServiceType = N'Electricity'
         AND    DimService.SiteStatusType = N'Energised Site'
@@ -183,8 +184,8 @@ FROM   (SELECT N'Daily' AS ScheduleType,
         INNER  JOIN DW_Dimensional.DW.DimPricePlan ON DimPricePlan.PricePlanId = FactUsagePricePlan.PricePlanId
         WHERE  FactUsagePricePlan.UsagePricePlanStartDateId <= FactUsagePricePlan.ContractTerminatedDateId
         AND    FactUsagePricePlan.UsagePricePlanStartDateId < CONVERT(NCHAR(8), @ReportDate, 112)
-        AND    FactUsagePricePlan.UsagePricePlanEndDateId >= FactUsagePricePlan.ContractFRMPDateId
-        AND    FactUsagePricePlan.ContractFRMPDateId <= FactUsagePricePlan.ContractTerminatedDateId
+        AND    FactUsagePricePlan.ContractFRMPDateId <= FactUsagePricePlan.UsagePricePlanEndDateId  
+        AND    FactUsagePricePlan.ContractFRMPDateId < FactUsagePricePlan.ContractTerminatedDateId
         AND    FactUsagePricePlan.ContractFRMPDateId < CONVERT(NCHAR(8), @ReportDate, 112)
         AND    DimService.ServiceType = N'Electricity'
         AND    DimService.SiteStatusType = N'Energised Site'
@@ -265,7 +266,6 @@ IF OBJECT_ID (N'tempdb..#AccCustPPServiceDaily') IS NOT NULL
     BEGIN
         DROP TABLE #AccCustPPServiceDaily;
     END;
-
 
 
 SELECT
@@ -486,7 +486,7 @@ SELECT
      --=====================================================================
 
 
--- Set TNICode, NetworkState, MarketIdentifier, FuelType, SiteMeteringType, SiteEDC and DLF from DimService and DimTransmissionNode
+-- Set columns from DimService and DimTransmissionNode
 UPDATE #UnbilledRevenue
 SET    TNICode =       t.TNICode,
     NetworkState  =    t.NetworkState,
@@ -520,7 +520,7 @@ AND    #UnbilledRevenue.UnbilledToDate <= CAST(t.Meta_EffectiveEndDate AS date);
 
 
 
--- Fix records with no current meta effective dates
+-- Fix missing DimService and DimTransmissionNode columns
 UPDATE #UnbilledRevenue
 SET    TNICode =       t.TNICode,
     NetworkState  =    t.NetworkState,
@@ -580,7 +580,7 @@ SELECT
  
 
 
- -- Set MeterRegisterEDC, MeterMarketSerialNumber, MeterSystemSerialNumber, RegisterMultiplier, MeterRegisterBillingType, MeterRegisterReadDirection and NetworkTariffCode from DimMeterRegister
+ -- Set columns from DimMeterRegister
 UPDATE #UnbilledRevenue
 SET    MeterRegisterEDC =     t.MeterRegisterEDC,
      MeterMarketSerialNumber =    t.MeterMarketSerialNumber,
@@ -612,7 +612,7 @@ AND    #UnbilledRevenue.UnbilledToDate <= CAST(t.Meta_EffectiveEndDate AS date);
 -- 8s, 0 rows
 --=========================================================
 
--- Fix missing columns
+-- Fix missing DimMeterRegister columns
 UPDATE #UnbilledRevenue
 SET    MeterRegisterEDC =     t.MeterRegisterEDC,
      MeterMarketSerialNumber =    t.MeterMarketSerialNumber,
