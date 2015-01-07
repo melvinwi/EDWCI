@@ -859,6 +859,7 @@ ON     #UnbilledRevenue.ServiceKey = DailySettlementUsage.ServiceKey
 AND    DailySettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
 AND    DailySettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.ServiceActiveStartDate AND #UnbilledRevenue.ServiceActiveEndDate
 AND    #UnbilledRevenue.ScheduleType = N'Usage'
+AND    #UnbilledRevenue.MeterRegisterReadDirection = N'Export'
 WHERE  DailySettlementUsage.recency = 1;
 
 -- 6m, 30,387,597 rows
