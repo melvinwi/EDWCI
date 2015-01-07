@@ -836,31 +836,31 @@ IF OBJECT_ID (N'tempdb..#SettlementUsage') IS NOT NULL
         DROP TABLE #SettlementUsage;
     END;
 
-SELECT DailySettlementUsage.ServiceKey,
-       DailySettlementUsage.LossFactor,
-       DailySettlementUsage.SettlementDate,
-       DailySettlementUsage.TotalEnergy,
+SELECT #UnbilledRevenue.ServiceKey,
        #UnbilledRevenue.MeterRegisterKey,
        #UnbilledRevenue.UnbilledFromDate,
        #UnbilledRevenue.UnbilledToDate,
-       #UnbilledRevenue.MeterRegisterEDC
+       #UnbilledRevenue.MeterRegisterEDC,
+       #UnbilledRevenue.DLF,
+       DailySettlementUsage.SettlementDate,
+       DailySettlementUsage.TotalEnergy
 INTO   #SettlementUsage
-FROM   (SELECT DimService.ServiceKey,
-               DimService.LossFactor,
+FROM   #UnbilledRevenue
+INNER
+JOIN   (SELECT DimService.ServiceKey,
                CONVERT(DATE, CAST(FactServiceDailyLoad.SettlementDateId AS NCHAR(8)), 112) AS SettlementDate,
                FactServiceDailyLoad.TotalEnergy,
-               ROW_NUMBER() OVER (PARTITION BY DimService.ServiceKey, FactServiceDailyLoad.SettlementDateId ORDER BY SettlementCase DESC) AS recency
+               ROW_NUMBER() OVER (PARTITION BY DimService.ServiceKey, FactServiceDailyLoad.SettlementDateId ORDER BY FactServiceDailyLoad.SettlementCase DESC) AS recency
         FROM   DW_Dimensional.DW.FactServiceDailyLoad
         INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactServiceDailyLoad.ServiceId
         WHERE  FactServiceDailyLoad.SettlementDateId BETWEEN CONVERT(NCHAR(8), @ReportStartDate, 112) AND CONVERT(NCHAR(8), @ReportDate, 112)) DailySettlementUsage
-INNER
-JOIN   #UnbilledRevenue
-ON     #UnbilledRevenue.ServiceKey = DailySettlementUsage.ServiceKey
+ON     DailySettlementUsage.ServiceKey = #UnbilledRevenue.ServiceKey
 AND    DailySettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
 AND    DailySettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.ServiceActiveStartDate AND #UnbilledRevenue.ServiceActiveEndDate
-AND    #UnbilledRevenue.ScheduleType = N'Usage'
+AND    DailySettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.MeterRegisterActiveStartDate AND #UnbilledRevenue.MeterRegisterActiveEndDate
+WHERE  #UnbilledRevenue.ScheduleType = N'Usage'
 AND    #UnbilledRevenue.MeterRegisterReadDirection = N'Export'
-WHERE  DailySettlementUsage.recency = 1;
+AND    DailySettlementUsage.recency = 1;
 
 -- 6m, 30,387,597 rows
 -- =========================================================
@@ -875,7 +875,7 @@ JOIN   (SELECT #SettlementUsage.ServiceKey,
                #SettlementUsage.UnbilledFromDate,
                SUM(CASE
                      WHEN COALESCE(DailyMeterRegisters.SumMeterRegisterEDC, 0.0) = 0.0 THEN 0.0
-                     ELSE #SettlementUsage.TotalEnergy * COALESCE(#SettlementUsage.MeterRegisterEDC, 0.0) / DailyMeterRegisters.SumMeterRegisterEDC / COALESCE(#SettlementUsage.LossFactor, 1.0)
+                     ELSE #SettlementUsage.TotalEnergy * COALESCE(#SettlementUsage.MeterRegisterEDC, 0.0) / DailyMeterRegisters.SumMeterRegisterEDC / COALESCE(#SettlementUsage.DLF, 1.0)
                    END) AS SettlementUsage
         FROM   #SettlementUsage
         INNER
@@ -895,6 +895,75 @@ AND    t.MeterRegisterKey = UnbilledRevenue.MeterRegisterKey
 AND    t.UnbilledFromDate = UnbilledRevenue.UnbilledFromDate;
 
 -- 1m, 1,100,456 rows
+-- =========================================================
+
+--Drop and create temporary table
+IF OBJECT_ID (N'tempdb..#ForecastedUsage') IS NOT NULL
+    BEGIN
+        DROP TABLE #ForecastedUsage;
+    END;
+
+SELECT #UnbilledRevenue.TNICode,
+       #UnbilledRevenue.ServiceKey,
+       #UnbilledRevenue.MeterRegisterKey,
+       #UnbilledRevenue.UnbilledFromDate,
+       #UnbilledRevenue.UnbilledToDate,
+       #UnbilledRevenue.MeterRegisterEDC,
+       #UnbilledRevenue.DLF,
+       DailyForecastedUsage.SettlementDate,
+       DailyForecastedUsage.ExportNetEnergy
+INTO   #ForecastedUsage
+FROM   #UnbilledRevenue
+INNER
+JOIN   (SELECT DimTransmissionNode.TransmissionNodeIdentity,
+               CONVERT(DATE, CAST(FactTransmissionNodeDailyLoad.SettlementDateId AS NCHAR(8)), 112) AS SettlementDate,
+               FactTransmissionNodeDailyLoad.ExportNetEnergy,
+               ROW_NUMBER() OVER (PARTITION BY DimTransmissionNode.TransmissionNodeIdentity, FactTransmissionNodeDailyLoad.SettlementDateId ORDER BY FactTransmissionNodeDailyLoad.SettlementRun DESC) AS recency
+        FROM   DW_Dimensional.DW.FactTransmissionNodeDailyLoad
+        INNER  JOIN DW_Dimensional.DW.DimTransmissionNode ON DimTransmissionNode.TransmissionNodeId = FactTransmissionNodeDailyLoad.TransmissionNodeId
+        WHERE  FactTransmissionNodeDailyLoad.SettlementDateId BETWEEN CONVERT(NCHAR(8), @ReportStartDate, 112) AND CONVERT(NCHAR(8), @ReportDate, 112)) DailyForecastedUsage
+ON     DailyForecastedUsage.TransmissionNodeIdentity = #UnbilledRevenue.TNICode
+AND    DailyForecastedUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
+AND    DailyForecastedUsage.SettlementDate BETWEEN #UnbilledRevenue.ServiceActiveStartDate AND #UnbilledRevenue.ServiceActiveEndDate
+AND    DailyForecastedUsage.SettlementDate BETWEEN #UnbilledRevenue.MeterRegisterActiveStartDate AND #UnbilledRevenue.MeterRegisterActiveEndDate
+AND    DailyForecastedUsage.SettlementDate > COALESCE(#UnbilledRevenue.SettlementUsageEndDate, '1900-01-01')
+WHERE  #UnbilledRevenue.ScheduleType = N'Usage'
+AND    #UnbilledRevenue.MeterRegisterReadDirection = N'Export'
+AND    DailyForecastedUsage.recency = 1;
+
+-- 
+-- =========================================================
+
+-- Set ForecastedUsage
+UPDATE UnbilledRevenue
+SET    ForecastedUsage = t.ForecastedUsage
+FROM   #UnbilledRevenue UnbilledRevenue
+INNER
+JOIN   (SELECT #ForecastedUsage.TNICode,
+               #ForecastedUsage.MeterRegisterKey,
+               #ForecastedUsage.UnbilledFromDate,
+               SUM(CASE
+                     WHEN COALESCE(DailyMeterRegisters.SumMeterRegisterEDC, 0.0) = 0.0 THEN 0.0
+                     ELSE #ForecastedUsage.ExportNetEnergy * COALESCE(#ForecastedUsage.MeterRegisterEDC, 0.0) / DailyMeterRegisters.SumMeterRegisterEDC / COALESCE(#ForecastedUsage.DLF, 1.0)
+                   END) AS ForecastedUsage
+        FROM   #ForecastedUsage
+        INNER
+        JOIN   (SELECT TNICode,
+                       SettlementDate,
+                       SUM(MeterRegisterEDC) AS SumMeterRegisterEDC
+                FROM   #ForecastedUsage
+                GROUP  BY TNICode,
+                          SettlementDate) DailyMeterRegisters
+        ON     DailyMeterRegisters.TNICode = #ForecastedUsage.TNICode
+        AND    DailyMeterRegisters.SettlementDate = #ForecastedUsage.SettlementDate
+        GROUP  BY #ForecastedUsage.TNICode,
+                  #ForecastedUsage.MeterRegisterKey,
+                  #ForecastedUsage.UnbilledFromDate) t
+ON     t.TNICode = UnbilledRevenue.TNICode
+AND    t.MeterRegisterKey = UnbilledRevenue.MeterRegisterKey
+AND    t.UnbilledFromDate = UnbilledRevenue.UnbilledFromDate;
+
+-- 
 -- =========================================================
 
 -- Set Total Usage
