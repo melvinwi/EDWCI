@@ -944,7 +944,7 @@ JOIN   (SELECT #ForecastedUsage.TNICode,
                #ForecastedUsage.UnbilledFromDate,
                SUM(CASE
                      WHEN COALESCE(DailyMeterRegisters.SumMeterRegisterEDC, 0.0) = 0.0 THEN 0.0
-                     ELSE #ForecastedUsage.ExportNetEnergy * COALESCE(#ForecastedUsage.MeterRegisterEDC, 0.0) / DailyMeterRegisters.SumMeterRegisterEDC / COALESCE(#ForecastedUsage.DLF, 1.0)
+                     ELSE #ForecastedUsage.ExportNetEnergy * 1000.0 * COALESCE(#ForecastedUsage.MeterRegisterEDC, 0.0) / DailyMeterRegisters.SumMeterRegisterEDC / COALESCE(#ForecastedUsage.DLF, 1.0)
                    END) AS ForecastedUsage
         FROM   #ForecastedUsage
         INNER
