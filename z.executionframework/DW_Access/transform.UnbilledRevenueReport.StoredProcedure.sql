@@ -135,7 +135,7 @@ INSERT INTO #UnbilledRevenue (
   LastBilledRead
 )
 SELECT @ReportDate,
-       @AccountingPeriod,
+     @AccountingPeriod,
        PricePlans.ScheduleType,
        PricePlans.ServiceKey,
        PricePlans.MeterRegisterKey,
@@ -219,6 +219,7 @@ JOIN   (SELECT DimService.ServiceKey,
         AND    FactTransaction.EndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
         AND    FactTransaction.EndDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
         AND    FactTransaction.EndDateId <> 99991231
+    AND    FactTransaction.AccountingPeriod <= @AccountingPeriod
         GROUP  BY DimService.ServiceKey) Transactions ON Transactions.ServiceKey = PricePlans.ServiceKey
 LEFT
 JOIN  (SELECT DimService.ServiceKey,
@@ -235,6 +236,7 @@ JOIN  (SELECT DimService.ServiceKey,
         AND    FactTransaction.EndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
         AND    FactTransaction.EndDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
         AND    FactTransaction.EndDateId <> 99991231
+    AND    FactTransaction.AccountingPeriod <= @AccountingPeriod
         GROUP  BY DimService.ServiceKey, DimMeterRegister.MeterRegisterKey, FactTransaction.EndDateId, FactTransaction.EndRead) UsageTransactions
      ON UsageTransactions.ServiceKey = PricePlans.ServiceKey AND UsageTransactions.MeterRegisterKey = PricePlans.MeterRegisterKey AND UsageTransactions.recency = 1
 WHERE  COALESCE(Transactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= PricePlans.DailyPricePlanEndDateId
