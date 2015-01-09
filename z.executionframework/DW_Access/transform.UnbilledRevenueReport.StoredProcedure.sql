@@ -970,7 +970,7 @@ AND    t.UnbilledFromDate = UnbilledRevenue.UnbilledFromDate;
 
 -- Set Total Usage
 UPDATE #UnbilledRevenue
-SET    TotalUnbilledUsage = COALESCE ((SettlementUsage + EstimatedUsage),0.0)
+SET    TotalUnbilledUsage = COALESCE(SettlementUsage,0.0) + COALESCE(EstimatedUsage,0.0)
 WHERE  #UnbilledRevenue.ScheduleType = N'Usage';
 
 -- 
