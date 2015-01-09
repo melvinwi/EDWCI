@@ -857,7 +857,6 @@ JOIN   (SELECT DimService.ServiceKey,
         INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactServiceDailyLoad.ServiceId
         WHERE  FactServiceDailyLoad.SettlementDateId BETWEEN CONVERT(NCHAR(8), @ReportStartDate, 112) AND CONVERT(NCHAR(8), @ReportDate, 112)) DailySettlementUsage
 ON     DailySettlementUsage.ServiceKey = #UnbilledRevenue.ServiceKey
-AND    DailySettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
 AND    DailySettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.ServiceActiveStartDate AND #UnbilledRevenue.ServiceActiveEndDate
 AND    DailySettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.MeterRegisterActiveStartDate AND #UnbilledRevenue.MeterRegisterActiveEndDate
 WHERE  #UnbilledRevenue.ScheduleType = N'Usage'
@@ -877,7 +876,8 @@ JOIN   (SELECT #SettlementUsage.ServiceKey,
                #SettlementUsage.UnbilledFromDate,
                SUM(CASE
                      WHEN COALESCE(DailyMeterRegisters.SumMeterRegisterEDC, 0.0) = 0.0 THEN 0.0
-                     ELSE #SettlementUsage.TotalEnergy * COALESCE(#SettlementUsage.MeterRegisterEDC, 0.0) / DailyMeterRegisters.SumMeterRegisterEDC / COALESCE(#SettlementUsage.DLF, 1.0)
+                     WHEN #SettlementUsage.SettlementDate BETWEEN #SettlementUsage.UnbilledFromDate AND #SettlementUsage.UnbilledToDate THEN #SettlementUsage.TotalEnergy * COALESCE(#SettlementUsage.MeterRegisterEDC, 0.0) / DailyMeterRegisters.SumMeterRegisterEDC / COALESCE(#SettlementUsage.DLF, 1.0)
+                     ELSE 0.0
                    END) AS SettlementUsage
         FROM   #SettlementUsage
         INNER
@@ -912,6 +912,7 @@ SELECT #UnbilledRevenue.TNICode,
        #UnbilledRevenue.UnbilledToDate,
        #UnbilledRevenue.MeterRegisterEDC,
        #UnbilledRevenue.DLF,
+       #UnbilledRevenue.SettlementUsageEndDate,
        DailyEstimatedUsage.SettlementDate,
        DailyEstimatedUsage.ExportNetEnergy
 INTO   #EstimatedUsage
@@ -925,10 +926,8 @@ JOIN   (SELECT DimTransmissionNode.TransmissionNodeIdentity,
         INNER  JOIN DW_Dimensional.DW.DimTransmissionNode ON DimTransmissionNode.TransmissionNodeId = FactTransmissionNodeDailyLoad.TransmissionNodeId
         WHERE  FactTransmissionNodeDailyLoad.SettlementDateId BETWEEN CONVERT(NCHAR(8), @ReportStartDate, 112) AND CONVERT(NCHAR(8), @ReportDate, 112)) DailyEstimatedUsage
 ON     DailyEstimatedUsage.TransmissionNodeIdentity = #UnbilledRevenue.TNICode
-AND    DailyEstimatedUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
 AND    DailyEstimatedUsage.SettlementDate BETWEEN #UnbilledRevenue.ServiceActiveStartDate AND #UnbilledRevenue.ServiceActiveEndDate
 AND    DailyEstimatedUsage.SettlementDate BETWEEN #UnbilledRevenue.MeterRegisterActiveStartDate AND #UnbilledRevenue.MeterRegisterActiveEndDate
-AND    DailyEstimatedUsage.SettlementDate > COALESCE(#UnbilledRevenue.SettlementUsageEndDate, '1900-01-01')
 WHERE  #UnbilledRevenue.ScheduleType = N'Usage'
 AND    #UnbilledRevenue.MeterRegisterReadDirection = N'Export'
 AND    DailyEstimatedUsage.recency = 1;
@@ -946,7 +945,8 @@ JOIN   (SELECT #EstimatedUsage.TNICode,
                #EstimatedUsage.UnbilledFromDate,
                SUM(CASE
                      WHEN COALESCE(DailyMeterRegisters.SumMeterRegisterEDC, 0.0) = 0.0 THEN 0.0
-                     ELSE #EstimatedUsage.ExportNetEnergy * 1000.0 * COALESCE(#EstimatedUsage.MeterRegisterEDC, 0.0) / DailyMeterRegisters.SumMeterRegisterEDC / COALESCE(#EstimatedUsage.DLF, 1.0)
+                     WHEN #EstimatedUsage.SettlementDate BETWEEN #EstimatedUsage.UnbilledFromDate AND #EstimatedUsage.UnbilledToDate AND #EstimatedUsage.SettlementDate > COALESCE(#EstimatedUsage.SettlementUsageEndDate, '1900-01-01') THEN #EstimatedUsage.ExportNetEnergy * 1000.0 * COALESCE(#EstimatedUsage.MeterRegisterEDC, 0.0) / DailyMeterRegisters.SumMeterRegisterEDC / COALESCE(#EstimatedUsage.DLF, 1.0)
+                     ELSE 0.0
                    END) AS EstimatedUsage
         FROM   #EstimatedUsage
         INNER
