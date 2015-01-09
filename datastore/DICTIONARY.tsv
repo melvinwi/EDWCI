@@ -69,6 +69,7 @@ UsagePricePlan	prefix	Usage Price Plan	NA
 Variable	prefix	Variable	NA
 ABN	any	ABN		NA
 AccountBillStartDate	any	Identifier	NA
+AccountingPeriod	any	Accounting Period	NA
 ACN	any	ACN		NA
 ActivityCommunicationMethod	any	ActivityCommunicationMethod	NA
 ActivityNotes	any	Activity Notes	NA

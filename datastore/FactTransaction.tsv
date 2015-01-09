@@ -24,3 +24,4 @@ StartRead	Start Read	decimal	"18,4"	0	FALSE	FALSE	FALSE
 EndRead	End Read	decimal	"18,4"	0	FALSE	FALSE	FALSE
 StartDateId	Start Date	int		99991231	FALSE	FALSE	FALSE
 EndDateId	End Date	int		99991231	FALSE	FALSE	FALSE
+AccountingPeriod	Accounting Period	int			FALSE	FALSE	FALSE

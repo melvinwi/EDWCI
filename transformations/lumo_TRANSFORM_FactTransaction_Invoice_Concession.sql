@@ -36,7 +36,8 @@ END
 		FactTransaction.StartRead,
 		FactTransaction.EndRead,
 		FactTransaction.StartDateId,
-		FactTransaction.EndDateId)
+		FactTransaction.EndDateId,
+		FactTransaction.AccountingPeriod)
 	  SELECT
 		_DimAccount.AccountId,
 		COALESCE( _DimService.ServiceId , -1),
@@ -59,7 +60,8 @@ END
 		utl_transaction.start_read,
 		utl_transaction.end_read,
 		CONVERT (nchar (8) , COALESCE ( utl_transaction.start_date  , '9999-12-31') , 112),
-		CONVERT (nchar (8) , COALESCE ( utl_transaction.end_date  , '9999-12-31') , 112)
+		CONVERT (nchar (8) , COALESCE ( utl_transaction.end_date  , '9999-12-31') , 112),
+		ar_invoice.seq_accounting_period_id
 	  FROM /* Staging */ lumo.utl_transaction INNER JOIN /* Staging */ lumo.utl_transaction_type ON utl_transaction_type.trans_type_id = utl_transaction.trans_type_id AND utl_transaction_type.trans_type_code = 'CONC' INNER JOIN /* Staging */ lumo.utl_conc_trans ON utl_conc_trans.trans_id = utl_transaction.meter_id INNER JOIN /* Staging */ lumo.inv_invoice_detail ON inv_invoice_detail.seq_invoice_detail_id = utl_transaction.seq_invoice_detail_id INNER JOIN /* Staging */ lumo.inv_invoice_header ON inv_invoice_header.seq_invoice_header_id = inv_invoice_detail.seq_invoice_header_id INNER JOIN /* Staging */ lumo.ar_invoice ON ar_invoice.seq_ar_invoice_id = inv_invoice_detail.seq_invoice_header_id INNER JOIN /* Staging */ lumo.nc_client ON nc_client.seq_party_id = ar_invoice.seq_party_id INNER JOIN /* Staging */ lumo.crm_element_hierarchy ON crm_element_hierarchy.element_id = nc_client.seq_party_id AND crm_element_hierarchy.element_struct_code = 'CLIENT'INNER JOIN /* Staging */ lumo.crm_party_type ON crm_party_type.seq_party_type_id = crm_element_hierarchy.seq_element_type_id AND ISNULL(crm_party_type.party_type, '') <> 'SUBCLIENT'LEFT JOIN productKey as _productKey ON _productKey.seq_product_item_id = utl_transaction.seq_product_item_id INNER JOIN /* Dimensional */ lumo.DimAccount AS _DimAccount ON _DimAccount.AccountKey = nc_client.seq_party_id AND _DimAccount.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimService AS _DimService ON _DimService.ServiceKey = utl_transaction.site_id AND _DimService.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimProduct AS _DimProduct ON _DimProduct.ProductKey = _productKey.ProductKey AND _DimProduct.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimFinancialAccount AS _DimFinancialAccount ON _DimFinancialAccount.FinancialAccountKey = 32 AND _DimFinancialAccount.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimVersion AS _DimVersion ON _DimVersion.VersionKey = 'Actual' LEFT JOIN /* Dimensional */ lumo.DimMeterRegister AS _DimMeterRegister ON _DimMeterRegister.MeterRegisterKey = utl_transaction.meter_id AND _DimMeterRegister.Meta_IsCurrent = 1 WHERE utl_transaction.invoiced = 'Y' AND (utl_transaction.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR utl_transaction_type.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR utl_conc_trans.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR inv_invoice_detail.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR inv_invoice_header.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR ar_invoice.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _productKey.Meta_HasChanged = 1);
 
 SELECT 0 AS ExtractRowCount,
