@@ -80,7 +80,7 @@ MeterMarketSerialNumber    nvarchar (50) NULL,
 MeterRegisterKey       int        NULL,
 MeterSystemSerialNumber    nvarchar (50) NULL,
 RegisterMultiplier       decimal (18, 6) NULL,
-MeterRegisterBillingType     nvarchar (100) NULL,
+MeterRegisterBillingTypeCode     nvarchar (100) NULL,
 MeterRegisterReadDirection   nchar (6) NULL,
 MeterRegisterStatus      nchar (8) NULL,
 MeterRegisterActiveStartDate   date     NULL,
@@ -109,7 +109,7 @@ UnbilledToDate         date     NULL,
 UnbilledDays         int        NULL,
 SettlementUsageEndDate     date     NULL,
 SettlementUsage      decimal (18, 7) NULL,
-ForecastedUsage      decimal (18, 7) NULL,
+EstimatedUsage      decimal (18, 7) NULL,
 TotalUnbilledUsage       decimal (18, 7) NULL,
 TotalUnbilledRevenue     money      NULL,
 ServiceKey         int        NULL,
@@ -152,8 +152,10 @@ SELECT @ReportDate,
                                           (Rates.RateEndDateId)) t(UnbilledToDate)) AS NCHAR(8)), 112) AS UnbilledToDate,
        Rates.RateStartDateId,
        Rates.RateEndDateId,
-       CONVERT(DATE, CAST(COALESCE(UsageTransactions.LastBilledReadDate, Transactions.LastBilledReadDate) AS NCHAR(8)), 112),
-    UsageTransactions.LastBilledRead
+     CASE PricePlans.ScheduleType WHEN N'Daily' THEN CONVERT(DATE, CAST(Transactions.LastBilledReadDate AS NCHAR(8)), 112)
+                  WHEN N'Usage' THEN CONVERT(DATE, CAST(UsageTransactions.LastBilledReadDate AS NCHAR(8)), 112)
+     END,
+       UsageTransactions.LastBilledRead
 FROM   (SELECT N'Daily' AS ScheduleType,
                DimService.ServiceKey,
                NULL AS MeterRegisterKey,
@@ -219,7 +221,7 @@ JOIN   (SELECT DimService.ServiceKey,
         AND    FactTransaction.EndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
         AND    FactTransaction.EndDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
         AND    FactTransaction.EndDateId <> 99991231
-    AND    FactTransaction.AccountingPeriod <= @AccountingPeriod
+      AND    FactTransaction.AccountingPeriod <= @AccountingPeriod
         GROUP  BY DimService.ServiceKey) Transactions ON Transactions.ServiceKey = PricePlans.ServiceKey
 LEFT
 JOIN  (SELECT DimService.ServiceKey,
@@ -236,7 +238,7 @@ JOIN  (SELECT DimService.ServiceKey,
         AND    FactTransaction.EndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
         AND    FactTransaction.EndDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
         AND    FactTransaction.EndDateId <> 99991231
-    AND    FactTransaction.AccountingPeriod <= @AccountingPeriod
+      AND    FactTransaction.AccountingPeriod <= @AccountingPeriod
         GROUP  BY DimService.ServiceKey, DimMeterRegister.MeterRegisterKey, FactTransaction.EndDateId, FactTransaction.EndRead) UsageTransactions
      ON UsageTransactions.ServiceKey = PricePlans.ServiceKey AND UsageTransactions.MeterRegisterKey = PricePlans.MeterRegisterKey AND UsageTransactions.recency = 1
 WHERE  COALESCE(Transactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= PricePlans.DailyPricePlanEndDateId
@@ -571,7 +573,7 @@ SELECT
      DimMeterRegister.MeterMarketSerialNumber,
      DimMeterRegister.MeterSystemSerialNumber,
      DimMeterRegister.RegisterMultiplier,
-     DimMeterRegister.RegisterBillingType AS MeterRegisterBillingType,
+     DimMeterRegister.RegisterBillingTypeCode AS MeterRegisterBillingTypeCode,
      DimMeterRegister.RegisterReadDirection AS MeterRegisterReadDirection,
      DimMeterRegister.RegisterNetworkTariffCode AS NetworkTariffCode,
      DimMeterRegister.RegisterStatus AS MeterRegisterStatus,
@@ -593,7 +595,7 @@ SET    MeterRegisterEDC =     t.MeterRegisterEDC,
      MeterMarketSerialNumber =    t.MeterMarketSerialNumber,
      MeterSystemSerialNumber =    t.MeterSystemSerialNumber,
      RegisterMultiplier =     t.RegisterMultiplier,
-     MeterRegisterBillingType =   t.MeterRegisterBillingType,
+     MeterRegisterBillingTypeCode =   t.MeterRegisterBillingTypeCode,
      MeterRegisterReadDirection = t.MeterRegisterReadDirection,
      NetworkTariffCode =      t.NetworkTariffCode,
      MeterRegisterStatus =      t.MeterRegisterStatus
@@ -603,7 +605,7 @@ FROM   (SELECT
      MeterMarketSerialNumber,
      MeterSystemSerialNumber,
      RegisterMultiplier,
-     MeterRegisterBillingType,
+     MeterRegisterBillingTypeCode,
      MeterRegisterReadDirection,
      NetworkTariffCode,
      MeterRegisterStatus,
@@ -625,7 +627,7 @@ SET    MeterRegisterEDC =     t.MeterRegisterEDC,
      MeterMarketSerialNumber =    t.MeterMarketSerialNumber,
      MeterSystemSerialNumber =    t.MeterSystemSerialNumber,
      RegisterMultiplier =     t.RegisterMultiplier,
-     MeterRegisterBillingType =   t.MeterRegisterBillingType,
+     MeterRegisterBillingTypeCode =   t.MeterRegisterBillingTypeCode,
      MeterRegisterReadDirection = t.MeterRegisterReadDirection,
      NetworkTariffCode =      t.NetworkTariffCode,
      MeterRegisterStatus =      t.MeterRegisterStatus
@@ -635,7 +637,7 @@ FROM   (SELECT
      MeterMarketSerialNumber,
      MeterSystemSerialNumber,
      RegisterMultiplier,
-     MeterRegisterBillingType,
+     MeterRegisterBillingTypeCode,
      MeterRegisterReadDirection,
      NetworkTariffCode,
      MeterRegisterStatus,
@@ -898,9 +900,9 @@ AND    t.UnbilledFromDate = UnbilledRevenue.UnbilledFromDate;
 -- =========================================================
 
 --Drop and create temporary table
-IF OBJECT_ID (N'tempdb..#ForecastedUsage') IS NOT NULL
+IF OBJECT_ID (N'tempdb..#EstimatedUsage') IS NOT NULL
     BEGIN
-        DROP TABLE #ForecastedUsage;
+        DROP TABLE #EstimatedUsage;
     END;
 
 SELECT #UnbilledRevenue.TNICode,
@@ -910,9 +912,9 @@ SELECT #UnbilledRevenue.TNICode,
        #UnbilledRevenue.UnbilledToDate,
        #UnbilledRevenue.MeterRegisterEDC,
        #UnbilledRevenue.DLF,
-       DailyForecastedUsage.SettlementDate,
-       DailyForecastedUsage.ExportNetEnergy
-INTO   #ForecastedUsage
+       DailyEstimatedUsage.SettlementDate,
+       DailyEstimatedUsage.ExportNetEnergy
+INTO   #EstimatedUsage
 FROM   #UnbilledRevenue
 INNER
 JOIN   (SELECT DimTransmissionNode.TransmissionNodeIdentity,
@@ -921,44 +923,44 @@ JOIN   (SELECT DimTransmissionNode.TransmissionNodeIdentity,
                ROW_NUMBER() OVER (PARTITION BY DimTransmissionNode.TransmissionNodeIdentity, FactTransmissionNodeDailyLoad.SettlementDateId ORDER BY FactTransmissionNodeDailyLoad.SettlementRun DESC) AS recency
         FROM   DW_Dimensional.DW.FactTransmissionNodeDailyLoad
         INNER  JOIN DW_Dimensional.DW.DimTransmissionNode ON DimTransmissionNode.TransmissionNodeId = FactTransmissionNodeDailyLoad.TransmissionNodeId
-        WHERE  FactTransmissionNodeDailyLoad.SettlementDateId BETWEEN CONVERT(NCHAR(8), @ReportStartDate, 112) AND CONVERT(NCHAR(8), @ReportDate, 112)) DailyForecastedUsage
-ON     DailyForecastedUsage.TransmissionNodeIdentity = #UnbilledRevenue.TNICode
-AND    DailyForecastedUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
-AND    DailyForecastedUsage.SettlementDate BETWEEN #UnbilledRevenue.ServiceActiveStartDate AND #UnbilledRevenue.ServiceActiveEndDate
-AND    DailyForecastedUsage.SettlementDate BETWEEN #UnbilledRevenue.MeterRegisterActiveStartDate AND #UnbilledRevenue.MeterRegisterActiveEndDate
-AND    DailyForecastedUsage.SettlementDate > COALESCE(#UnbilledRevenue.SettlementUsageEndDate, '1900-01-01')
+        WHERE  FactTransmissionNodeDailyLoad.SettlementDateId BETWEEN CONVERT(NCHAR(8), @ReportStartDate, 112) AND CONVERT(NCHAR(8), @ReportDate, 112)) DailyEstimatedUsage
+ON     DailyEstimatedUsage.TransmissionNodeIdentity = #UnbilledRevenue.TNICode
+AND    DailyEstimatedUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
+AND    DailyEstimatedUsage.SettlementDate BETWEEN #UnbilledRevenue.ServiceActiveStartDate AND #UnbilledRevenue.ServiceActiveEndDate
+AND    DailyEstimatedUsage.SettlementDate BETWEEN #UnbilledRevenue.MeterRegisterActiveStartDate AND #UnbilledRevenue.MeterRegisterActiveEndDate
+AND    DailyEstimatedUsage.SettlementDate > COALESCE(#UnbilledRevenue.SettlementUsageEndDate, '1900-01-01')
 WHERE  #UnbilledRevenue.ScheduleType = N'Usage'
 AND    #UnbilledRevenue.MeterRegisterReadDirection = N'Export'
-AND    DailyForecastedUsage.recency = 1;
+AND    DailyEstimatedUsage.recency = 1;
 
 -- 
 -- =========================================================
 
--- Set ForecastedUsage
+-- Set EstimatedUsage
 UPDATE UnbilledRevenue
-SET    ForecastedUsage = t.ForecastedUsage
+SET    EstimatedUsage = t.EstimatedUsage
 FROM   #UnbilledRevenue UnbilledRevenue
 INNER
-JOIN   (SELECT #ForecastedUsage.TNICode,
-               #ForecastedUsage.MeterRegisterKey,
-               #ForecastedUsage.UnbilledFromDate,
+JOIN   (SELECT #EstimatedUsage.TNICode,
+               #EstimatedUsage.MeterRegisterKey,
+               #EstimatedUsage.UnbilledFromDate,
                SUM(CASE
                      WHEN COALESCE(DailyMeterRegisters.SumMeterRegisterEDC, 0.0) = 0.0 THEN 0.0
-                     ELSE #ForecastedUsage.ExportNetEnergy * 1000.0 * COALESCE(#ForecastedUsage.MeterRegisterEDC, 0.0) / DailyMeterRegisters.SumMeterRegisterEDC / COALESCE(#ForecastedUsage.DLF, 1.0)
-                   END) AS ForecastedUsage
-        FROM   #ForecastedUsage
+                     ELSE #EstimatedUsage.ExportNetEnergy * 1000.0 * COALESCE(#EstimatedUsage.MeterRegisterEDC, 0.0) / DailyMeterRegisters.SumMeterRegisterEDC / COALESCE(#EstimatedUsage.DLF, 1.0)
+                   END) AS EstimatedUsage
+        FROM   #EstimatedUsage
         INNER
         JOIN   (SELECT TNICode,
                        SettlementDate,
                        SUM(MeterRegisterEDC) AS SumMeterRegisterEDC
-                FROM   #ForecastedUsage
+                FROM   #EstimatedUsage
                 GROUP  BY TNICode,
                           SettlementDate) DailyMeterRegisters
-        ON     DailyMeterRegisters.TNICode = #ForecastedUsage.TNICode
-        AND    DailyMeterRegisters.SettlementDate = #ForecastedUsage.SettlementDate
-        GROUP  BY #ForecastedUsage.TNICode,
-                  #ForecastedUsage.MeterRegisterKey,
-                  #ForecastedUsage.UnbilledFromDate) t
+        ON     DailyMeterRegisters.TNICode = #EstimatedUsage.TNICode
+        AND    DailyMeterRegisters.SettlementDate = #EstimatedUsage.SettlementDate
+        GROUP  BY #EstimatedUsage.TNICode,
+                  #EstimatedUsage.MeterRegisterKey,
+                  #EstimatedUsage.UnbilledFromDate) t
 ON     t.TNICode = UnbilledRevenue.TNICode
 AND    t.MeterRegisterKey = UnbilledRevenue.MeterRegisterKey
 AND    t.UnbilledFromDate = UnbilledRevenue.UnbilledFromDate;
@@ -968,7 +970,7 @@ AND    t.UnbilledFromDate = UnbilledRevenue.UnbilledFromDate;
 
 -- Set Total Usage
 UPDATE #UnbilledRevenue
-SET    TotalUnbilledUsage = COALESCE ((SettlementUsage + ForecastedUsage),0.0)
+SET    TotalUnbilledUsage = COALESCE ((SettlementUsage + EstimatedUsage),0.0)
 WHERE  #UnbilledRevenue.ScheduleType = N'Usage';
 
 -- 
@@ -1013,6 +1015,10 @@ WHERE  #UnbilledRevenue.ScheduleType = N'Usage';
 DELETE FROM Views.UnbilledRevenueReport
     WHERE ReportDate = @ReportDate;
 
+DECLARE @deleterowcount int 
+
+    SET @deleterowcount = @@ROWCOUNT
+
 -- Insert new records
 INSERT INTO [Views].[UnbilledRevenueReport]
            ([FinancialMonth]
@@ -1041,7 +1047,7 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[MeterRegisterKey]
            ,[MeterSystemSerialNumber]
            ,[RegisterMultiplier]
-           ,[MeterRegisterBillingType]
+           ,[MeterRegisterBillingTypeCode]
            ,[MeterRegisterReadDirection]
            ,[MeterRegisterStatus]
            ,[MeterRegisterActiveStartDate]
@@ -1070,7 +1076,7 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[UnbilledDays]
            ,[SettlementUsageEndDate]
            ,[SettlementUsage]
-           ,[ForecastedUsage]
+           ,[EstimatedUsage]
            ,[TotalUnbilledUsage]
            ,[TotalUnbilledRevenue]
      ,[Meta_Insert_TaskExecutionInstanceId])
@@ -1100,7 +1106,7 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[MeterRegisterKey]
            ,[MeterSystemSerialNumber]
            ,[RegisterMultiplier]
-           ,[MeterRegisterBillingType]
+           ,[MeterRegisterBillingTypeCode]
            ,[MeterRegisterReadDirection]
            ,[MeterRegisterStatus]
            ,[MeterRegisterActiveStartDate]
@@ -1129,7 +1135,7 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[UnbilledDays]
            ,[SettlementUsageEndDate]
            ,[SettlementUsage]
-           ,[ForecastedUsage]
+           ,[EstimatedUsage]
            ,[TotalUnbilledUsage]
            ,[TotalUnbilledRevenue]
      ,@TaskExecutionInstanceID
