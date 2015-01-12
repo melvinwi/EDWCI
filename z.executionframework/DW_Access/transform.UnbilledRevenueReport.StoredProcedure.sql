@@ -833,6 +833,27 @@ JOIN   (SELECT DimService.ServiceKey,
 -- =========================================================
 
 --Drop and create temporary table
+IF OBJECT_ID (N'tempdb..#MeterReads') IS NOT NULL
+    BEGIN
+        DROP TABLE #MeterReads;
+    END;
+
+-- Populate temporary meter reads table
+WITH meterReadCTE AS (SELECT ROW_NUMBER () OVER (PARTITION BY DimMeterRegister.MeterRegisterKey, FactBasicMeterRead.ReadDateId, FactBasicMeterRead.ReadValue ORDER BY FactBasicMeterRead.EstimatedRead ASC) AS recency,
+DimMeterRegister.MeterRegisterKey, FactBasicMeterRead.EstimatedRead, FactBasicMeterRead.ReadValue, FactBasicMeterRead.ReadDateId
+  FROM [DW_Dimensional].[DW].[FactBasicMeterRead]
+  INNER JOIN DW_Dimensional.DW.DimMeterRegister
+  ON DimMeterRegister.MeterRegisterId = FactBasicMeterRead.MeterRegisterId
+  WHERE FactBasicMeterRead.ReadType = N'Actual Read' OR FactBasicMeterRead.ReadType = N'Closing Read')
+  SELECT meterReadCTE.MeterRegisterKey, meterReadCTE.EstimatedRead, meterReadCTE.ReadValue, meterReadCTE.ReadDateId
+  INTO #MeterReads
+  FROM meterReadCTE
+  WHERE meterReadCTE.recency = 1
+   AND CONVERT(DATE, CAST(ReadDateID AS NCHAR(8)), 112) BETWEEN @ReportStartDate AND @ReportDate
+
+--============================================================================
+
+--Drop and create temporary table
 IF OBJECT_ID (N'tempdb..#SettlementUsage') IS NOT NULL
     BEGIN
         DROP TABLE #SettlementUsage;
