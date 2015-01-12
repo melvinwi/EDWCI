@@ -1,0 +1,8 @@
+read_type_id 	read_type_code 	read_type_desc 	active 	insert_datetime 	insert_user 	insert_process 	update_datetime 	update_user 	update_process 	Meta_Insert_TaskExecutionInstanceId 	Meta_LatestUpdate_TaskExecutionInstanceId 
+2	CLOSING	Closing Read	Y	NULL	NULL	NULL	NULL	NULL	NULL	28279	28279
+3	ACTUAL	Actual Read	Y	NULL	NULL	NULL	NULL	NULL	NULL	28279	28279
+11	NS	Next Scheduled Read Date	Y	NULL	NULL	NULL	2004-06-04 10:05:17.043	DEAN	MTUTREATYP	28279	28279
+12	MISREAD	Mis Read	Y	NULL	NULL	NULL	NULL	NULL	NULL	28279	28279
+13	PR	Previous Read Date	Y	2004-06-04 10:05:17.043	DEAN	MTUTREATYP	NULL	NULL	NULL	28279	28279
+14	NEM EST	NEMMCO Estimate	Y	2004-06-15 14:42:45.857	ADMIN	ADMIN	NULL	NULL	NULL	28279	28279
+15	PEN VAL	Pending Validation	Y	2014-04-06 10:08:06.970	PTM-DB10	DATALOAD	NULL	NULL	NULL	28279	28279

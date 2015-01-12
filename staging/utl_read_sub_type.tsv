@@ -1,0 +1,20 @@
+# design artefact							
+# ARTEFACT: utl_read_sub_type							
+# DESCRIPTION: Read Subtype reference table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+read_sub_type_id 	read_sub_type_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+read_type_id 	read_type_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+read_sub_type_code 	read_sub_type_code 	varchar	20		FALSE	FALSE	FALSE
+read_sub_type_desc 	read_sub_type_desc 	varchar	100		FALSE	FALSE	FALSE
+seq_colour_id 	seq_colour_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+active 	active 	char	1		FALSE	FALSE	FALSE
+insert_datetime 	insert_datetime 	datetime			FALSE	FALSE	FALSE
+insert_user 	insert_user 	varchar	20		FALSE	FALSE	FALSE
+insert_process 	insert_process 	varchar	20		FALSE	FALSE	FALSE
+update_datetime 	update_datetime 	datetime			FALSE	FALSE	FALSE
+update_user 	update_user 	varchar	20		FALSE	FALSE	FALSE
+update_process 	update_process 	varchar	20		FALSE	FALSE	FALSE
+seq_product_type_id 	seq_product_type_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+external_reference 	external_reference 	varchar	100		FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId 	Meta_Insert_TaskExecutionInstanceId 	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId 	Meta_LatestUpdate_TaskExecutionInstanceId 	int			FALSE	FALSE	FALSE

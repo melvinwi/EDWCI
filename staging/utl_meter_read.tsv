@@ -1,0 +1,45 @@
+# design artefact							
+# ARTEFACT: utl_meter_read							
+# DESCRIPTION: Meter Read transactional table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+meter_read_id 	meter_read_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+meter_id 	meter_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+read_type_id 	read_type_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+seq_product_item_id 	seq_product_item_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+meter_read 	meter_read 	numeric	"18, 4"		FALSE	FALSE	FALSE
+read_date 	read_date 	datetime			FALSE	FALSE	FALSE
+audit_reference 	audit_reference 	varchar	1000		FALSE	FALSE	FALSE
+estimated_read 	estimated_read 	char	1		FALSE	FALSE	FALSE
+active 	active 	char	1		FALSE	FALSE	FALSE
+insert_datetime 	insert_datetime 	datetime			FALSE	FALSE	FALSE
+insert_user 	insert_user 	varchar	20		FALSE	FALSE	FALSE
+insert_process 	insert_process 	varchar	20		FALSE	FALSE	FALSE
+update_datetime 	update_datetime 	datetime			FALSE	FALSE	FALSE
+update_user 	update_user 	varchar	20		FALSE	FALSE	FALSE
+update_process 	update_process 	varchar	20		FALSE	FALSE	FALSE
+add_factor 	add_factor 	numeric	"18, 0"		FALSE	FALSE	FALSE
+period_id 	period_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+if_filename 	if_filename 	varchar	1000		FALSE	FALSE	FALSE
+no_read_desc 	no_read_desc 	varchar	100		FALSE	FALSE	FALSE
+quality_method 	quality_method 	varchar	20		FALSE	FALSE	FALSE
+ret_service_order_id 	ret_service_order_id 	varchar	15		FALSE	FALSE	FALSE
+service_order_trans_code 	service_order_trans_code 	varchar	1		FALSE	FALSE	FALSE
+quantity 	quantity 	numeric	"15, 3"		FALSE	FALSE	FALSE
+read_sub_type_id 	read_sub_type_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+read_import_error_id 	read_import_error_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+reg_pressure 	reg_pressure 	numeric	"12, 5"		FALSE	FALSE	FALSE
+calorific_value 	calorific_value 	numeric	"12, 5"		FALSE	FALSE	FALSE
+consumption_factor 	consumption_factor 	numeric	"12, 6"		FALSE	FALSE	FALSE
+usage_units 	usage_units 	numeric	"18, 4"		FALSE	FALSE	FALSE
+previous_read 	previous_read 	numeric	"18, 4"		FALSE	FALSE	FALSE
+previous_read_date 	previous_read_date 	datetime			FALSE	FALSE	FALSE
+imperial_read 	imperial_read 	numeric	"18, 4"		FALSE	FALSE	FALSE
+market_load_datetime 	market_load_datetime 	datetime			FALSE	FALSE	FALSE
+nem_no_read_reason_id 	nem_no_read_reason_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+nem_no_read_reason_text 	nem_no_read_reason_text 	varchar	255		FALSE	FALSE	FALSE
+transaction_code 	transaction_code 	varchar	10		FALSE	FALSE	FALSE
+consumption_litres 	consumption_litres 	numeric	"19, 2"		FALSE	FALSE	FALSE
+common_factor 	common_factor 	numeric	"18, 6"		FALSE	FALSE	FALSE
+import_meter_read_id 	import_meter_read_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
