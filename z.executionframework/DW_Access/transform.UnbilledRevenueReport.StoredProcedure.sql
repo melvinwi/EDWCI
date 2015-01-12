@@ -88,6 +88,7 @@ MeterRegisterActiveEndDate   date     NULL,
 NetworkTariffCode      nvarchar (20) NULL,
 LastBilledRead         decimal (18, 4) NULL,
 LastBilledReadDate       date     NULL,
+LastBilledReadType      nchar(9)  NULL,
 ScheduleType         nchar (5) NULL,
 FixedTariffAdjustment    decimal (5, 4) NULL,
 VariableTariffAdjustment     decimal (5, 4) NULL,
@@ -853,6 +854,42 @@ DimMeterRegister.MeterRegisterKey, FactBasicMeterRead.EstimatedRead, FactBasicMe
 
 --============================================================================
 
+-- Set LastBilledReadType
+UPDATE #UnbilledRevenue
+SET LastBilledReadType = N'Actual'
+WHERE SiteMeteringType = N'TOU'
+AND   ScheduleType = N'Usage';
+
+UPDATE #UnbilledRevenue
+SET LastBilledReadType = N'Actual'
+WHERE ScheduleType = N'Daily';
+
+UPDATE #UnbilledRevenue
+SET LastBilledReadType = N'Never'
+WHERE #UnbilledRevenue.LastBilledReadDate IS NULL;
+
+UPDATE UnbilledRevenue
+SET    LastBilledReadType = t.LastBilledReadType
+FROM   #UnbilledRevenue UnbilledRevenue
+INNER
+JOIN   (SELECT #MeterReads.MeterRegisterKey,
+               #MeterReads.ReadValue AS LastBilledRead,
+      CONVERT(DATE, CAST(#MeterReads.ReadDateId AS NCHAR(8)), 112) AS LastBilledReadDate,
+               CASE #MeterReads.EstimatedRead WHEN N'No ' THEN N'Actual' WHEN N'Yes' THEN N'Estimated' END AS LastBilledReadType
+        FROM   #MeterReads) t
+ON     t.MeterRegisterKey = UnbilledRevenue.MeterRegisterKey
+AND    t.LastBilledReadDate = UnbilledRevenue.LastBilledReadDate
+AND    t.LastBilledRead = UnbilledRevenue.LastBilledRead
+WHERE  UnbilledRevenue.SiteMeteringType = N'Deemed'
+AND    UnbilledRevenue.ScheduleType = N'Usage'
+AND    UnbilledRevenue.LastBilledReadDate IS NOT NULL;
+
+UPDATE #UnbilledRevenue
+SET LastBilledReadType = N'Unknown'
+WHERE #UnbilledRevenue.LastBilledReadType IS NULL;
+
+--==============================================
+
 --Drop and create temporary table
 IF OBJECT_ID (N'tempdb..#SettlementUsage') IS NOT NULL
     BEGIN
@@ -1076,6 +1113,7 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[NetworkTariffCode]
            ,[LastBilledRead]
            ,[LastBilledReadDate]
+     ,[LastBilledReadType]
            ,[ScheduleType]
            ,[FixedTariffAdjustment]
            ,[VariableTariffAdjustment]
@@ -1135,6 +1173,7 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[NetworkTariffCode]
            ,[LastBilledRead]
            ,[LastBilledReadDate]
+     ,[LastBilledReadType]
            ,[ScheduleType]
            ,[FixedTariffAdjustment]
            ,[VariableTariffAdjustment]
