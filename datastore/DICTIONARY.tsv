@@ -6,6 +6,7 @@ Account	prefix	Reserved for DimAccount	NA
 Activity	prefix	describes activity attributes in the context of the table it resides	NA
 ActivityType	prefix	Reserved for DimActivityType	NA
 AwardedDate	prefix	Awarded	NA
+BasicMeterRead	prefix	Bill Cycle	NA
 BillCycle	prefix	Bill Cycle	NA
 ChangeReason	prefix	Reserved for DimChangeReason	NA
 Contact	prefix	to contact a customer	NA
@@ -73,6 +74,7 @@ AccountingPeriod	any	Accounting Period	NA
 ACN	any	ACN		NA
 ActivityCommunicationMethod	any	ActivityCommunicationMethod	NA
 ActivityNotes	any	Activity Notes	NA
+AddFactor	any	Add Factor	NA
 ATBDateId	any	ATBDateId	NA
 BillingType	any	BillingType		NA
 BillStart	any	Bill Start	NA
@@ -94,6 +96,7 @@ EndDate	any	End Date	NA
 EndRead	any	End Read	NA
 Energy	any	Energy	NA
 EstimatedDailyConsumption	any	Estimated Daily Consumption	NA
+EstimatedRead	any	Estimated Read	NA
 Gross	any	Gross	NA
 Header	any	Header	NA
 InferredGender	any	Inferred Gender	NA
@@ -115,10 +118,11 @@ PaidOnTime	any	Paid On Time	NA
 ParticipantCode	any	Participant	NA
 Phone	any	Phone	NA
 PricePlanType	any	Price Plan Type	NA
+QualityMethod	any	Quality Method		NA
 Question	any	Question		NA
 Rate	any	Rate	NA
 Reactive	any	Reactive	NA
-ReadType	any	ReadType	NA
+Read	any	Read	NA
 Reference	any	Reference	NA
 Relationship	any	Relationship	NA
 ResearchProjectName	any	ResearchProjectName		NA
@@ -169,6 +173,7 @@ EstimatedDailyConsumption	suffix	Estimated Daily Consumption		NA
 FirstName	suffix	First Name	NA
 Id	suffix	Identifier	NA
 Identity	suffix	Identity	NA
+InsertDatetime	suffix	Insert Datetime	NA
 Key	suffix	Identifier	NA
 LastName	suffix	Last Name	NA
 LossFactor	suffix	Loss Factor	NA
@@ -181,6 +186,7 @@ Network	suffix	Network	NA
 NetworkTariffCode	suffix	Network Tariff Code		NA
 PartyName	suffix	Party Name	NA
 Percentage	suffix	Percentage	NA
+Period	suffix	Period	NA
 Postcode	suffix	Address Postcode	NA
 Power	suffix	Power	NA
 Price	suffix	Price	NA

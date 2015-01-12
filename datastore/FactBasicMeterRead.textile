@@ -1,0 +1,21 @@
+
+h2. ARTEFACT: FactBasicMeterRead
+
+DESCRIPTION: Basic Meter Read fact table
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT*	|
+|AccountId	|Foreign key to DimAccount	|int	|	|-1	|TRUE	|FALSE	|FALSE	|
+|ServiceId	|Foreign key to DimService	|int	|	|-1	|TRUE	|FALSE	|FALSE	|
+|ProductId	|Foreign key to DimProduct	|int	|	|-1	|TRUE	|FALSE	|FALSE	|
+|MeterRegisterId	|Foreign key to DimMeterRegister	|int	|	|-1	|TRUE	|FALSE	|FALSE	|
+|BasicMeterReadKey	|Source table key	|int	|	|	|TRUE	|FALSE	|FALSE	|
+|ReadType	|Read Type	|nvarchar	|100	|-1	|TRUE	|FALSE	|FALSE	|
+|ReadSubtype	|Read Subtype	|nvarchar	|100	|-1	|TRUE	|FALSE	|FALSE	|
+|ReadValue	|Read Value	|decimal	|"18,4"	|	|TRUE	|FALSE	|FALSE	|
+|ReadDateId	|Foreign key to DimDate	|int	|	|99991231	|TRUE	|FALSE	|FALSE	|
+|ReadInsertDatetime	|Read Insert Datetime	|datetime2	|2	|	|TRUE	|FALSE	|FALSE	|
+|EstimatedRead	|Estimated Read flag	|nchar	|3	|	|TRUE	|FALSE	|FALSE	|
+|ReadPeriod	|Read Period Id	|int	|	|	|TRUE	|FALSE	|FALSE	|
+|QualityMethod	|Quality Method	|nvarchar	|20	|	|TRUE	|FALSE	|FALSE	|
+|AddFactor	|Add Factor	|int	|	|	|TRUE	|FALSE	|FALSE|
+
