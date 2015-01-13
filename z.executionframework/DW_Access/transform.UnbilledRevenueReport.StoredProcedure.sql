@@ -85,6 +85,7 @@ MeterRegisterReadDirection   nchar (6) NULL,
 MeterRegisterStatus      nchar (8) NULL,
 MeterRegisterActiveStartDate   date     NULL,
 MeterRegisterActiveEndDate   date     NULL,
+MeterRegisterSystemIdentifier nchar(10)  NULL,
 NetworkTariffCode      nvarchar (20) NULL,
 LastBilledRead         decimal (18, 4) NULL,
 LastBilledReadDate       date     NULL,
@@ -578,6 +579,7 @@ SELECT
      DimMeterRegister.RegisterReadDirection AS MeterRegisterReadDirection,
      DimMeterRegister.RegisterNetworkTariffCode AS NetworkTariffCode,
      DimMeterRegister.RegisterStatus AS MeterRegisterStatus,
+  DimMeterRegister.RegisterSystemIdentifer AS MeterRegisterSystemIdentifier,
      DimMeterRegister.Meta_EffectiveStartDate,
      DimMeterRegister.Meta_EffectiveEndDate
      INTO #MeterRegister     
@@ -599,7 +601,8 @@ SET    MeterRegisterEDC =     t.MeterRegisterEDC,
      MeterRegisterBillingTypeCode =   t.MeterRegisterBillingTypeCode,
      MeterRegisterReadDirection = t.MeterRegisterReadDirection,
      NetworkTariffCode =      t.NetworkTariffCode,
-     MeterRegisterStatus =      t.MeterRegisterStatus
+     MeterRegisterStatus =      t.MeterRegisterStatus,
+  MeterRegisterSystemIdentifier = t.MeterRegisterSystemIdentifier
 FROM   (SELECT
      MeterRegisterKey,
      MeterRegisterEDC,
@@ -610,6 +613,7 @@ FROM   (SELECT
      MeterRegisterReadDirection,
      NetworkTariffCode,
      MeterRegisterStatus,
+  MeterRegisterSystemIdentifier,
      Meta_EffectiveStartDate,
      Meta_EffectiveEndDate     
         FROM  #MeterRegister) t
@@ -631,7 +635,8 @@ SET    MeterRegisterEDC =     t.MeterRegisterEDC,
      MeterRegisterBillingTypeCode =   t.MeterRegisterBillingTypeCode,
      MeterRegisterReadDirection = t.MeterRegisterReadDirection,
      NetworkTariffCode =      t.NetworkTariffCode,
-     MeterRegisterStatus =      t.MeterRegisterStatus
+     MeterRegisterStatus =      t.MeterRegisterStatus,
+  MeterRegisterSystemIdentifier = t.MeterRegisterSystemIdentifier
 FROM   (SELECT
      MeterRegisterKey,
      MeterRegisterEDC,
@@ -642,6 +647,7 @@ FROM   (SELECT
      MeterRegisterReadDirection,
      NetworkTariffCode,
      MeterRegisterStatus,
+  MeterRegisterSystemIdentifier,
      ROW_NUMBER () OVER (PARTITION BY MeterRegisterKey ORDER BY Meta_EffectiveStartDate ASC) AS recency 
         FROM  #MeterRegister) t
 WHERE  #UnbilledRevenue.MeterRegisterKey IS NOT NULL
@@ -651,6 +657,17 @@ AND   t.recency = 1;
 
 
 -- 1m10s, 1,110,947 rows
+--======================================================================
+
+--Remove 1R registers where another nR register exists
+DELETE
+FROM   #UnbilledRevenue
+WHERE  ServiceKey IN (SELECT DISTINCT ServiceKey
+  FROM #UnbilledRevenue
+  where RTRIM(MeterRegisterSystemIdentifier) LIKE N'%R'
+  AND RTRIM(MeterRegisterSystemIdentifier) <> N'1R')
+  AND  MeterRegisterSystemIdentifier = N'1R';
+
 --=======================================================================
 -- Set Price for Schedule Type Daily
 UPDATE #UnbilledRevenue
@@ -1160,6 +1177,7 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[MeterRegisterStatus]
            ,[MeterRegisterActiveStartDate]
            ,[MeterRegisterActiveEndDate]
+     ,[MeterRegisterSystemIdentifier]
            ,[NetworkTariffCode]
            ,[LastBilledRead]
            ,[LastBilledReadDate]
@@ -1220,6 +1238,7 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[MeterRegisterStatus]
            ,[MeterRegisterActiveStartDate]
            ,[MeterRegisterActiveEndDate]
+     ,[MeterRegisterSystemIdentifier]
            ,[NetworkTariffCode]
            ,[LastBilledRead]
            ,[LastBilledReadDate]
