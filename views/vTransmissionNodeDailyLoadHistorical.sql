@@ -1,4 +1,4 @@
-CREATE VIEW Views.vTransmissionNodeDailyNodeHistorical
+CREATE VIEW Views.vTransmissionNodeDailyLoadHistorical
 AS
 SELECT -- DimTransmissionNode
        DimTransmissionNode.TransmissionNodeIdentity,
