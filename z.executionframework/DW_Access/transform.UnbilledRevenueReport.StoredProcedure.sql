@@ -1307,7 +1307,7 @@ ALTER INDEX [ClusteredColumnStoreIndex-UnbilledRevenueReport] ON [Views].[Unbill
     SELECT  0 AS ExtractRowCount,
             @insertrowcount AS InsertRowCount,
             0 AS UpdateRowCount,
-            0 AS DeleteRowCount,
+            @deleterowcount AS DeleteRowCount,
             0 AS ErrorRowCount;
     --/
 
