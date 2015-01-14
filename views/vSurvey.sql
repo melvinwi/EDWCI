@@ -35,7 +35,10 @@ SELECT -- DimCustomer
        DimQuestionCurrent.Question,
        -- FactSurvey
        CONVERT(DATE, CAST(FactSurvey.ResponseDateId AS NCHAR(8)), 120) AS ResponseDate,
-       FactSurvey.Response
+       FactSurvey.Response,
+       FactSurvey.RespondentKey,
+       FactSurvey.Segment,
+       FactSurvey.ResearchProjectName
 FROM   DW_Dimensional.DW.FactSurvey
 LEFT   JOIN DW_Dimensional.DW.DimCustomer ON DimCustomer.CustomerId = FactSurvey.CustomerId
 LEFT   JOIN DW_Dimensional.DW.DimCustomer AS DimCustomerCurrent ON DimCustomerCurrent.CustomerKey = DimCustomer.CustomerKey AND DimCustomerCurrent.Meta_IsCurrent = 1
