@@ -28,7 +28,8 @@ END
 		FactTransmissionNodeDailyLoad.SettlementAmount,
 		FactTransmissionNodeDailyLoad.MeterRun,
 		FactTransmissionNodeDailyLoad.MeteringDataAgent,
-		FactTransmissionNodeDailyLoad.TransmissionNodeDailyLoadKey)
+		FactTransmissionNodeDailyLoad.TransmissionNodeDailyLoadKey,
+		FactTransmissionNodeDailyLoad.TransmissionLossFactor)
 	  SELECT
 		COALESCE( _dimTransmissionNode.TransmissionNodeId , -1),
 		CONVERT(NCHAR(8), Settlement_CPDATA.SettlementDate , 112),
@@ -43,7 +44,8 @@ END
 		SUM(ISNULL( Settlement_CPDATA.EP , 0.0)),
 		MAX(ISNULL( Settlement_CPDATA.MeterRunNo , 0)),
 		MAX(ISNULL( Settlement_CPDATA.MDA , '')),
-		CONVERT(NCHAR(8), Settlement_CPDATA.SettlementDate , 112) + '.' + CAST(Settlement_CPDATA.VersionNo AS NVARCHAR(10)) + '.' + Settlement_CPDATA.ParticipantId + '.' + Settlement_CPDATA.TcpId + '.' + Settlement_CPDATA.MDA
+		CONVERT(NCHAR(8), Settlement_CPDATA.SettlementDate , 112) + '.' + CAST(Settlement_CPDATA.VersionNo AS NVARCHAR(10)) + '.' + Settlement_CPDATA.ParticipantId + '.' + Settlement_CPDATA.TcpId + '.' + Settlement_CPDATA.MDA,
+		MAX(ISNULL( Settlement_CPDATA.TLF , 0.0))
 	  FROM /* Staging */ lumo.Settlement_CPDATA LEFT JOIN dimTransmissionNode AS _dimTransmissionNode ON _dimTransmissionNode.TransmissionNodeIdentity = Settlement_CPDATA.TcpId AND _dimTransmissionNode.recency = 1 WHERE Settlement_CPDATA.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID GROUP BY Settlement_CPDATA.SettlementDate, Settlement_CPDATA.VersionNo, Settlement_CPDATA.ParticipantId, Settlement_CPDATA.TcpId, Settlement_CPDATA.MDA, _dimTransmissionNode.TransmissionNodeId;
 
 SELECT 0 AS ExtractRowCount,

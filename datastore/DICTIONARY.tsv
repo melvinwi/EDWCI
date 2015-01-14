@@ -148,6 +148,7 @@ TerminatedDate	any	Terminated	NA
 Threshold	any	Threshold		NA
 TotalEnergy	any	TotalEnergy	NA
 TransactionKey	any	Transaction Key	NA
+TransmissionLossFactor	any	Transmission Loss Factor	NA
 Units	any	Units	NA
 Value	any	Value	NA
 Version	any	Version	NA
