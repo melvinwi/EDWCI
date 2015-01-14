@@ -111,6 +111,7 @@ UnbilledToDate         date     NULL,
 UnbilledDays         int        NULL,
 SettlementUsageEndDate     date     NULL,
 SettlementUsage      decimal (18, 7) NULL,
+EstimatedUsageEndDate     date     NULL,
 EstimatedUsage      decimal (18, 7) NULL,
 TotalUnbilledUsage       decimal (18, 7) NULL,
 TotalUnbilledRevenue     money      NULL,
@@ -143,7 +144,7 @@ SELECT @ReportDate,
        PricePlans.MeterRegisterKey,
        PricePlans.PricePlanKey,
        CONVERT(DATE, CAST((SELECT MAX(UnbilledFromDate)
-                          FROM    (VALUES (COALESCE(UsageTransactions.LastBilledReadDate, Transactions.LastBilledReadDate)),
+                          FROM    (VALUES (CASE PricePlans.ScheduleType WHEN N'Daily' THEN Transactions.LastBilledReadDate WHEN N'Usage' THEN UsageTransactions.LastBilledReadDate END),
                                           (PricePlans.DailyPricePlanStartDateId),
                                           (PricePlans.ContractFRMPDateId),
                                           (Rates.RateStartDateId)) u(UnbilledFromDate)) AS NCHAR(8)), 112) AS UnbilledFromDate,
@@ -292,7 +293,7 @@ SELECT
      CONVERT(DATE, CAST(FactDailyPricePlan.DailyPricePlanStartDateId AS NCHAR(8)), 112) AS DailyPricePlanStartDate,
      CONVERT(DATE, CAST(FactDailyPricePlan.DailyPricePlanEndDateId AS NCHAR(8)), 112) AS DailyPricePlanEndDate,
      DimPricePlanCurrent.PricePlanCode,
-     DimPricePlanCurrent.Bundled AS BundledFlag,
+     COALESCE(DimPricePlanCurrent.Bundled,N'Bundled') AS BundledFlag,
      DimService.ServiceKey,
      DimPricePlan.PricePlanKey 
      INTO #AccCustPPServiceDaily 
@@ -389,7 +390,7 @@ SELECT
      CONVERT(DATE, CAST(FactUsagePricePlan.UsagePricePlanStartDateId AS NCHAR(8)), 112) AS UsagePricePlanStartDate,
      CONVERT(DATE, CAST(FactUsagePricePlan.UsagePricePlanEndDateId AS NCHAR(8)), 112) AS UsagePricePlanEndDate,
      DimPricePlanCurrent.PricePlanCode,
-     DimPricePlanCurrent.Bundled AS BundledFlag,
+     COALESCE(DimPricePlanCurrent.Bundled,N'Bundled') AS BundledFlag,
      DimService.ServiceKey,
      DimMeterRegister.MeterRegisterKey,
      DimPricePlan.PricePlanKey
@@ -563,6 +564,15 @@ AND   t.recency = 1;
 -- 2m22s, 261 rows
 --==========================================================================================
 
+-- Remove generator NMIs
+DELETE
+FROM #UnbilledRevenue
+WHERE MarketIdentifier LIKE N'6305761841%'
+   OR MarketIdentifier LIKE N'6305747406%'
+   OR MarketIdentifier LIKE N'6203746479%'
+   OR MarketIdentifier LIKE N'6203751751%';
+
+--====================================================
 --Drop and create temporary table
 IF OBJECT_ID (N'tempdb..#MeterRegister') IS NOT NULL
     BEGIN
@@ -847,6 +857,18 @@ JOIN   (SELECT DimService.ServiceKey,
         WHERE  FactServiceDailyLoad.SettlementDateId BETWEEN CONVERT(NCHAR(8), @ReportStartDate, 112) AND CONVERT(NCHAR(8), @ReportDate, 112)
         GROUP  BY DimService.ServiceKey) t ON t.ServiceKey = UnbilledRevenue.ServiceKey;
 
+-- Set EstimatedUsageEndDate
+UPDATE UnbilledRevenue
+SET    EstimatedUsageEndDate = t.EstimatedUsageEndDate
+FROM   #UnbilledRevenue UnbilledRevenue
+INNER
+JOIN   (SELECT DimTransmissionNode.TransmissionNodeIdentity,
+               CONVERT(DATE, CAST(MAX(FactTransmissionNodeDailyLoad.SettlementDateId) AS NCHAR(8)), 112) AS EstimatedUsageEndDate
+        FROM   DW_Dimensional.DW.FactTransmissionNodeDailyLoad
+        INNER  JOIN DW_Dimensional.DW.DimTransmissionNode ON DimTransmissionNode.TransmissionNodeId = FactTransmissionNodeDailyLoad.TransmissionNodeId
+        WHERE  FactTransmissionNodeDailyLoad.SettlementDateId BETWEEN CONVERT(NCHAR(8), @ReportStartDate, 112) AND CONVERT(NCHAR(8), @ReportDate, 112)
+        GROUP  BY DimTransmissionNode.TransmissionNodeIdentity) t ON t.TransmissionNodeIdentity = UnbilledRevenue.TNICode;
+
 -- 9s, 1,568,879 rows
 -- =========================================================
 
@@ -1095,8 +1117,7 @@ AND    t.UnbilledFromDate = UnbilledRevenue.UnbilledFromDate;
 
 -- Set Total Usage
 UPDATE #UnbilledRevenue
-SET    TotalUnbilledUsage = COALESCE(SettlementUsage,0.0) + COALESCE(EstimatedUsage,0.0)
-WHERE  #UnbilledRevenue.ScheduleType = N'Usage';
+SET    TotalUnbilledUsage = COALESCE(SettlementUsage,0.0) + COALESCE(EstimatedUsage,0.0);
 
 -- 
 -- =========================================================
@@ -1181,7 +1202,7 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[NetworkTariffCode]
            ,[LastBilledRead]
            ,[LastBilledReadDate]
-     ,[LastBilledReadType]
+           ,[LastBilledReadType]
            ,[ScheduleType]
            ,[FixedTariffAdjustment]
            ,[VariableTariffAdjustment]
@@ -1203,10 +1224,11 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[UnbilledDays]
            ,[SettlementUsageEndDate]
            ,[SettlementUsage]
+           ,[EstimatedUsageEndDate]
            ,[EstimatedUsage]
            ,[TotalUnbilledUsage]
            ,[TotalUnbilledRevenue]
-     ,[Meta_Insert_TaskExecutionInstanceId])
+           ,[Meta_Insert_TaskExecutionInstanceId])
     SELECT [FinancialMonth]
            ,[ReportDate]
            ,[AccountingPeriod]
@@ -1242,7 +1264,7 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[NetworkTariffCode]
            ,[LastBilledRead]
            ,[LastBilledReadDate]
-     ,[LastBilledReadType]
+           ,[LastBilledReadType]
            ,[ScheduleType]
            ,[FixedTariffAdjustment]
            ,[VariableTariffAdjustment]
@@ -1264,6 +1286,7 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[UnbilledDays]
            ,[SettlementUsageEndDate]
            ,[SettlementUsage]
+           ,[EstimatedUsageEndDate]
            ,[EstimatedUsage]
            ,[TotalUnbilledUsage]
            ,[TotalUnbilledRevenue]
