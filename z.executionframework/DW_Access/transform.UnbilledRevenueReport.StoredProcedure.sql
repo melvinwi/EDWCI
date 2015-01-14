@@ -144,7 +144,7 @@ SELECT @ReportDate,
        PricePlans.MeterRegisterKey,
        PricePlans.PricePlanKey,
        CONVERT(DATE, CAST((SELECT MAX(UnbilledFromDate)
-                          FROM    (VALUES (CASE PricePlans.ScheduleType WHEN N'Daily' THEN Transactions.LastBilledReadDate WHEN N'Usage' THEN UsageTransactions.LastBilledReadDate END),
+                          FROM    (VALUES (CASE PricePlans.ScheduleType WHEN N'Daily' THEN CONVERT(NCHAR(8), DATEADD(day,1,CONVERT(DATE, CAST(Transactions.LastBilledReadDate AS nchar(8)), 112)), 112) WHEN N'Usage' THEN CONVERT(NCHAR(8), DATEADD(day,1,CONVERT(DATE, CAST(UsageTransactions.LastBilledReadDate AS nchar(8)), 112)), 112) END),
                                           (PricePlans.DailyPricePlanStartDateId),
                                           (PricePlans.ContractFRMPDateId),
                                           (Rates.RateStartDateId)) u(UnbilledFromDate)) AS NCHAR(8)), 112) AS UnbilledFromDate,
