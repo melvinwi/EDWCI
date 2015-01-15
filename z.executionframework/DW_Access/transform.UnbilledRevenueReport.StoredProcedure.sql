@@ -971,7 +971,7 @@ IF OBJECT_ID (N'tempdb..#SiteEDC') IS NOT NULL
 
 SELECT SettlementUsage.ServiceKey,
        SettlementUsage.SettlementDate,
-       SUM(MeterRegisters.RegisterEstimatedDailyConsumption) AS EstimatedDailyConsumption
+       SUM(DimMeterRegister.RegisterEstimatedDailyConsumption) AS EstimatedDailyConsumption
 INTO   #SiteEDC
 FROM   (SELECT DISTINCT
                #SettlementUsage.ServiceKey,
@@ -980,16 +980,16 @@ FROM   (SELECT DISTINCT
 INNER
 JOIN   (SELECT DISTINCT
                DimService.ServiceKey,
-               DimMeterRegister.MeterRegisterKey,
-               DimMeterRegister.RegisterEstimatedDailyConsumption,
-               DimMeterRegister.Meta_EffectiveStartDate,
-               DimMeterRegister.Meta_EffectiveEndDate
+               DimMeterRegister.MeterRegisterKey
         FROM   DW_Dimensional.DW.FactServiceMeterRegister
         INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactServiceMeterRegister.ServiceId
-        INNER  JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactServiceMeterRegister.MeterRegisterId
-        WHERE  DimMeterRegister.RegisterStatus = N'Active') MeterRegisters
-ON     MeterRegisters.ServiceKey = SettlementUsage.ServiceKey
-AND    SettlementUsage.SettlementDate BETWEEN MeterRegisters.Meta_EffectiveStartDate AND MeterRegisters.Meta_EffectiveEndDate
+        INNER  JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactServiceMeterRegister.MeterRegisterId) MeterRegisterKeys
+ON     MeterRegisterKeys.ServiceKey = SettlementUsage.ServiceKey
+INNER
+JOIN   DW_Dimensional.DW.DimMeterRegister
+ON     DimMeterRegister.MeterRegisterKey = MeterRegisterKeys.MeterRegisterKey
+AND    SettlementUsage.SettlementDate BETWEEN DimMeterRegister.Meta_EffectiveStartDate AND DimMeterRegister.Meta_EffectiveEndDate
+AND    DimMeterRegister.RegisterStatus = N'Active'
 GROUP  BY SettlementUsage.ServiceKey,
           SettlementUsage.SettlementDate;
 
