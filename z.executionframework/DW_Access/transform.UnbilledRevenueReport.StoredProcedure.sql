@@ -64,7 +64,7 @@ AccountStatus        nchar (10) NULL,
 BillingCycle         nchar (10) NULL,
 TNICode          nvarchar (20) NULL,
 TransmissionLossFactor  decimal(25,15) NULL,
-NetworkState         nchar (3) NULL,
+DistrictState         nchar (3) NULL,
 MarketIdentifier       nvarchar (30) NULL,
 ServiceStatus        nvarchar (30) NULL,
 ServiceActiveStartDate     date       NULL,
@@ -288,6 +288,7 @@ SELECT
      DimCustomer.CustomerType,
      DimAccountCurrent.AccountStatus,
      DimAccountCurrent.BillCycleCode  AS BillingCycle,
+  DimAccountCurrent.DistrictState AS DistrictState,
      CONVERT(DATE, CAST(FactDailyPricePlan.ContractFRMPDateId AS NCHAR(8)), 112) AS FRMPStartDate,
      CONVERT(DATE, CAST(FactDailyPricePlan.ContractTerminatedDateId AS NCHAR(8)), 112) AS ContractTerminatedDate,
      DimProductCurrent.FixedTariffAdjustPercentage AS FixedTariffAdjustment,
@@ -335,6 +336,7 @@ SET    AccountNumber =       t.AccountNumber,
     CustomerType  =      t.CustomerType,
     AccountStatus =      t.AccountStatus,
     BillingCycle  =      t.BillingCycle,
+    DistrictState =      t.DistrictState,
     FRMPStartDate =      t.FRMPStartDate,
     ContractTerminatedDate =   t.ContractTerminatedDate,
     FixedTariffAdjustment =  t.FixedTariffAdjustment,
@@ -349,6 +351,7 @@ FROM   (SELECT
      CustomerType,
      AccountStatus,
      BillingCycle,
+  DistrictState,
      FRMPStartDate,
      ContractTerminatedDate,
      FixedTariffAdjustment,
@@ -385,6 +388,7 @@ SELECT
      DimCustomer.CustomerType  AS CustomerType,
      DimAccountCurrent.AccountStatus AS AccountStatus,
      DimAccountCurrent.BillCycleCode  AS BillingCycle,
+  DimAccountCurrent.DistrictState AS DistrictState,
      CONVERT(DATE, CAST(FactUsagePricePlan.ContractFRMPDateId AS NCHAR(8)), 112) AS FRMPStartDate,
      CONVERT(DATE, CAST(FactUsagePricePlan.ContractTerminatedDateId AS NCHAR(8)), 112) AS ContractTerminatedDate,
      DimProductCurrent.FixedTariffAdjustPercentage AS FixedTariffAdjustment,
@@ -433,6 +437,7 @@ SET    AccountNumber =       t.AccountNumber,
     CustomerType  =      t.CustomerType,
     AccountStatus =      t.AccountStatus,
     BillingCycle  =      t.BillingCycle,
+    DistrictState =      t.DistrictState,
     FRMPStartDate =      t.FRMPStartDate,
     ContractTerminatedDate =   t.ContractTerminatedDate,
     FixedTariffAdjustment =  t.FixedTariffAdjustment,
@@ -447,6 +452,7 @@ FROM   (SELECT
      CustomerType,
      AccountStatus,
      BillingCycle,
+  DistrictState,
      FRMPStartDate,
      ContractTerminatedDate,
      FixedTariffAdjustment,
@@ -481,7 +487,6 @@ SELECT
      DimService.ServiceKey,
      DimTransmissionNode.TransmissionNodeIdentity AS TNICode,
   DimTransmissionNode.TransmissionNodeLossFactor AS TransmissionLossFactor,
-     DimTransmissionNode.TransmissionNodeState AS NetworkState,
      DimService.MarketIdentifier,
      DimService.SiteStatusType AS ServiceStatus,
      DimService.ServiceType AS FuelType,
@@ -505,7 +510,6 @@ SELECT
 UPDATE #UnbilledRevenue
 SET    TNICode =       t.TNICode,
     TransmissionLossFactor = t.TransmissionLossFactor,
-    NetworkState  =    t.NetworkState,
     MarketIdentifier  =  t.MarketIdentifier,
     ServiceStatus =    t.ServiceStatus,
     FuelType =       t.FuelType,
@@ -517,7 +521,6 @@ FROM   (SELECT
      ServiceKey,
      TNICode,
   TransmissionLossFactor,
-     NetworkState,
      MarketIdentifier,
      ServiceStatus,
      FuelType,
@@ -541,7 +544,6 @@ AND    #UnbilledRevenue.UnbilledToDate <= CAST(t.Meta_EffectiveEndDate AS date);
 UPDATE #UnbilledRevenue
 SET    TNICode =       t.TNICode,
     TransmissionLossFactor = t.TransmissionLossFactor,
-    NetworkState  =    t.NetworkState,
     MarketIdentifier  =  t.MarketIdentifier,
     ServiceStatus =    t.ServiceStatus,
     FuelType =       t.FuelType,
@@ -553,7 +555,6 @@ FROM   (SELECT
      ServiceKey,
      TNICode,
   TransmissionLossFactor,
-     NetworkState,
      MarketIdentifier,
      ServiceStatus,
      FuelType,
@@ -1192,7 +1193,7 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[BillingCycle]
            ,[TNICode]
      ,[TransmissionLossFactor]
-           ,[NetworkState]
+           ,[DistrictState]
            ,[MarketIdentifier]
            ,[ServiceStatus]
            ,[ServiceActiveStartDate]
@@ -1255,7 +1256,7 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[BillingCycle]
            ,[TNICode]
      ,[TransmissionLossFactor]
-           ,[NetworkState]
+           ,[DistrictState]
            ,[MarketIdentifier]
            ,[ServiceStatus]
            ,[ServiceActiveStartDate]
