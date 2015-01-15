@@ -1,0 +1,74 @@
+# design artefact							
+# ARTEFACT: crm_activity_type							
+# DESCRIPTION: Activity Type reference table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+district_id 	district_id 	numeric	"18, 0"		TRUE	TRUE	FALSE
+district_code 	district_code 	varchar	20		FALSE	FALSE	FALSE
+district_desc 	district_desc 	varchar	50		FALSE	FALSE	FALSE
+district_bitmap 	district_bitmap 	varchar	250		FALSE	FALSE	FALSE
+active 	active 	char	1		FALSE	FALSE	FALSE
+insert_datetime 	insert_datetime 	datetime			FALSE	FALSE	FALSE
+insert_user 	insert_user 	varchar	20		FALSE	FALSE	FALSE
+insert_process 	insert_process 	varchar	20		FALSE	FALSE	FALSE
+update_datetime 	update_datetime 	datetime			FALSE	FALSE	FALSE
+update_user 	update_user 	varchar	20		FALSE	FALSE	FALSE
+update_process 	update_process 	varchar	20		FALSE	FALSE	FALSE
+company_name 	company_name 	varchar	100		FALSE	FALSE	FALSE
+company_abn_number 	company_abn_number 	varchar	25		FALSE	FALSE	FALSE
+company_phone_number 	company_phone_number 	varchar	30		FALSE	FALSE	FALSE
+company_fax_number 	company_fax_number 	varchar	30		FALSE	FALSE	FALSE
+company_web_site 	company_web_site 	varchar	100		FALSE	FALSE	FALSE
+invoice_logo_header_image_file 	invoice_logo_header_image_file 	varchar	100		FALSE	FALSE	FALSE
+invoice_remittance_image_file 	invoice_remittance_image_file 	varchar	100		FALSE	FALSE	FALSE
+postal_addr1 	postal_addr1 	varchar	100		FALSE	FALSE	FALSE
+postal_addr2 	postal_addr2 	varchar	100		FALSE	FALSE	FALSE
+postal_addr3 	postal_addr3 	varchar	100		FALSE	FALSE	FALSE
+email_address 	email_address 	varchar	100		FALSE	FALSE	FALSE
+power_juristiction_code 	power_juristiction_code 	varchar	10		FALSE	FALSE	FALSE
+gas_juristiction_code 	gas_juristiction_code 	varchar	10		FALSE	FALSE	FALSE
+post_payment_addr1 	post_payment_addr1 	varchar	100		FALSE	FALSE	FALSE
+post_payment_addr2 	post_payment_addr2 	varchar	100		FALSE	FALSE	FALSE
+post_payment_addr3 	post_payment_addr3 	varchar	100		FALSE	FALSE	FALSE
+power_frmp_code 	power_frmp_code 	varchar	15		FALSE	FALSE	FALSE
+gas_frmp_code 	gas_frmp_code 	varchar	15		FALSE	FALSE	FALSE
+power_login 	power_login 	varchar	20		FALSE	FALSE	FALSE
+gas_login 	gas_login 	varchar	20		FALSE	FALSE	FALSE
+nemmco_inbox 	nemmco_inbox 	varchar	200		FALSE	FALSE	FALSE
+nemmco_outbox 	nemmco_outbox 	varchar	200		FALSE	FALSE	FALSE
+nemmco_report_inbox 	nemmco_report_inbox 	varchar	200		FALSE	FALSE	FALSE
+nemmco_report_outbox 	nemmco_report_outbox 	varchar	200		FALSE	FALSE	FALSE
+vencorp_inbox 	vencorp_inbox 	varchar	200		FALSE	FALSE	FALSE
+vencorp_outbox 	vencorp_outbox 	varchar	200		FALSE	FALSE	FALSE
+orion_inbox 	orion_inbox 	varchar	200		FALSE	FALSE	FALSE
+orion_outbox 	orion_outbox 	varchar	200		FALSE	FALSE	FALSE
+power_emission_factor 	power_emission_factor 	decimal	"12, 4"		FALSE	FALSE	FALSE
+gas_emission_factor 	gas_emission_factor 	decimal	"12, 4"		FALSE	FALSE	FALSE
+process_power 	process_power 	varchar	1		FALSE	FALSE	FALSE
+process_gas 	process_gas 	varchar	1		FALSE	FALSE	FALSE
+ombudsman_phone_num 	ombudsman_phone_num 	varchar	30		FALSE	FALSE	FALSE
+orion_gen_override 	orion_gen_override 	varchar	1		FALSE	FALSE	FALSE
+country 	country 	varchar	50		FALSE	FALSE	FALSE
+tax_rate 	tax_rate 	numeric	"16, 4"		FALSE	FALSE	FALSE
+gen_power 	gen_power 	varchar	1		FALSE	FALSE	FALSE
+gen_gas 	gen_gas 	varchar	1		FALSE	FALSE	FALSE
+auspost_vendor_no 	auspost_vendor_no 	varchar	20		FALSE	FALSE	FALSE
+cheque_no 	cheque_no 	numeric	"18, 0"		FALSE	FALSE	FALSE
+ewov_inv_msg 	ewov_inv_msg 	varchar	1		FALSE	FALSE	FALSE
+grmco_inbox 	grmco_inbox 	varchar	200		FALSE	FALSE	FALSE
+grmco_outbox 	grmco_outbox 	varchar	200		FALSE	FALSE	FALSE
+grmco_xml_inbox 	grmco_xml_inbox 	varchar	200		FALSE	FALSE	FALSE
+grmco_xml_outbox 	grmco_xml_outbox 	varchar	200		FALSE	FALSE	FALSE
+alt_directory 	alt_directory 	varchar	100		FALSE	FALSE	FALSE
+Pay_interest_on_bond 	Pay_interest_on_bond 	varchar	1		FALSE	FALSE	FALSE
+seq_colour_id 	seq_colour_id 	numeric	"18, 0"		FALSE	FALSE	FALSE
+cool_off_days 	cool_off_days 	numeric	"18, 0"		FALSE	FALSE	FALSE
+alt_cool_off_days 	alt_cool_off_days 	numeric	"18, 0"		FALSE	FALSE	FALSE
+def_inv_due_bus_days 	def_inv_due_bus_days 	numeric	"18, 0"		FALSE	FALSE	FALSE
+timezone_shift 	timezone_shift 	numeric	"16, 2"		FALSE	FALSE	FALSE
+active_billing 	active_billing 	varchar	1		FALSE	FALSE	FALSE
+full_company_name 	full_company_name 	varchar	200		FALSE	FALSE	FALSE
+company_hours 	company_hours 	varchar	100		FALSE	FALSE	FALSE
+power_min_cons_start 	power_min_cons_start 	numeric	"18, 0"		FALSE	FALSE	FALSE
+gas_min_cons_start 	gas_min_cons_start 	numeric	"18, 0"		FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE

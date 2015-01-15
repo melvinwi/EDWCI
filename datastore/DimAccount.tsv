@@ -21,3 +21,4 @@ ACN	ACN	nvarchar	100		FALSE		FALSE
 ABN	ABN	nvarchar	100		FALSE		FALSE
 AccountType	Account Type	nchar	11		FALSE		FALSE
 BillCycleCode	Billing Cycle Code	nchar	10		FALSE		FALSE
+DistrictState	District State	nchar	3		FALSE		FALSE
