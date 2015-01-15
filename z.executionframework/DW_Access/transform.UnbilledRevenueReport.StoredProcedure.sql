@@ -199,7 +199,8 @@ FROM   (SELECT N'Daily' AS ScheduleType,
         AND    FactUsagePricePlan.ContractFRMPDateId < CONVERT(NCHAR(8), @ReportDate, 112)
         AND    DimService.ServiceType = N'Electricity'
         AND    DimService.SiteStatusType = N'Energised Site'
-        AND    DimMeterRegister.RegisterStatus = N'Active') PricePlans
+        AND    DimMeterRegister.RegisterStatus = N'Active'
+        AND    DimMeterRegister.RegisterSystemIdentifer <> 'E1') PricePlans
 INNER
 JOIN   (SELECT DISTINCT
                DimPricePlan.PricePlanKey,
@@ -990,6 +991,7 @@ JOIN   DW_Dimensional.DW.DimMeterRegister
 ON     DimMeterRegister.MeterRegisterKey = MeterRegisterKeys.MeterRegisterKey
 AND    SettlementUsage.SettlementDate BETWEEN DimMeterRegister.Meta_EffectiveStartDate AND DimMeterRegister.Meta_EffectiveEndDate
 AND    DimMeterRegister.RegisterStatus = N'Active'
+AND    DimMeterRegister.RegisterSystemIdentifer <> 'E1'
 GROUP  BY SettlementUsage.ServiceKey,
           SettlementUsage.SettlementDate;
 
@@ -1085,6 +1087,7 @@ JOIN   DW_Dimensional.DW.DimMeterRegister
 ON     DimMeterRegister.MeterRegisterKey = MeterRegisterKeys.MeterRegisterKey
 AND    EstimatedUsage.SettlementDate BETWEEN DimMeterRegister.Meta_EffectiveStartDate AND DimMeterRegister.Meta_EffectiveEndDate
 AND    DimMeterRegister.RegisterStatus = N'Active'
+AND    DimMeterRegister.RegisterSystemIdentifer <> 'E1'
 GROUP  BY EstimatedUsage.TNICode,
           EstimatedUsage.SettlementDate;
 
