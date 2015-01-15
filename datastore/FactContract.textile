@@ -15,5 +15,7 @@ DESCRIPTION: Contract factless fact table
 |ContractTerminatedDateId	|Contract Terminated Date	|int	|	|99991231	|TRUE	|FALSE	|FALSE	|
 |ContractStatus	|Contract Status	|nchar	|10	|	|TRUE	|FALSE	|FALSE	|
 |ContractKey	|Contract ID from the source system	|int	|	|-1	|TRUE	|FALSE	|FALSE	|
-|ContractCounter	|Counter (=1)	|tinyint	|	|1	|TRUE	|FALSE	|FALSE|
+|ContractCounter	|Counter (=1)	|tinyint	|	|1	|TRUE	|FALSE	|FALSE	|
+|ContractDetailedStatus	|ContractDetailedStatus	|nvarchar	|50	|	|TRUE	|FALSE	|FALSE	|
+|ContractLatestStatusDateId	|ContractLatestStatusDateId	|int	|	|	|TRUE	|FALSE	|FALSE|
 

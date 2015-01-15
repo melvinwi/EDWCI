@@ -26,7 +26,9 @@ END
 		FactContract.ContractTerminatedDateId,
 		FactContract.ContractStatus,
 		FactContract.ContractKey,
-		FactContract.ContractCounter)
+		FactContract.ContractCounter,
+		FactContract.ContractDetailedStatus,
+		FactContract.ContractLatestStatusDateId)
 	  SELECT
 		_DimAccount.AccountId,
 		_DimService.ServiceId,
@@ -39,7 +41,9 @@ END
 		CASE WHEN utl_account_status.accnt_status_class_id = 1 THEN CONVERT(NCHAR(8), COALESCE( nc_product_item.date_terminated , nc_product_item.accnt_status_date, '9999-12-31') , 112) WHEN  utl_account_status.accnt_status_class_id = 2 THEN 99991231 ELSE CONVERT (nchar (8) , COALESCE ( nc_product_item.date_terminated , '9999-12-31') , 112) END,
 		CAST(CASE utl_account_status.accnt_status_class_id WHEN 2 THEN N'Open' WHEN 3 THEN N'Pending' WHEN 4 THEN N'Error' ELSE N'Closed' END AS nchar(10)),
 		CAST( nc_product_item.seq_product_item_id AS int),
-		/* nc_product_item.seq_product_item_id */ 1
+		/* nc_product_item.seq_product_item_id */ 1,
+		CAST( utl_account_status.accnt_status_desc AS nvarchar(50)),
+		CONVERT (nchar (8) , COALESCE (  nc_product_item.accnt_status_date , '9999-12-31') , 112) 
 	  FROM /* Staging */ lumo.nc_client INNER JOIN /* Staging */ lumo.nc_product ON nc_product.seq_party_id = nc_client.seq_party_id INNER JOIN /* Staging */ lumo.nc_product_item ON nc_product_item.seq_product_id = nc_product.seq_product_id INNER JOIN productKey AS _productKey ON _productKey.seq_product_item_id = nc_product_item.seq_product_item_id LEFT OUTER JOIN /* Staging */ lumo.utl_account_status ON utl_account_status.accnt_status_id = nc_product_item.accnt_status_id LEFT JOIN pricePlan AS _pricePlan ON _pricePlan.seq_product_item_id = nc_product_item.seq_product_item_id AND _pricePlan.recency = 1 INNER JOIN /* Dimensional */ lumo.DimAccount AS _DimAccount ON _DimAccount.AccountKey = nc_client.seq_party_id AND _DimAccount.Meta_IsCurrent = 1 INNER JOIN /* Dimensional */ lumo.DimService AS _DimService ON _DimService.ServiceKey = CAST(nc_product_item.site_id AS int) AND _DimService.Meta_IsCurrent = 1 INNER JOIN /* Dimensional */ lumo.DimProduct AS _DimProduct ON _DimProduct.ProductKey = _productKey.ProductKey AND _DimProduct.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ lumo.DimPricePlan AS _DimPricePlan ON _DimPricePlan.PricePlanKey = N'DAILY.' + CAST(_pricePlan.price_plan_id AS nvarchar(20)) AND _DimPricePlan.Meta_IsCurrent = 1 WHERE nc_client.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nc_product.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nc_product_item.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _productKey.Meta_HasChanged = 1 OR utl_account_status.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _pricePlan.Meta_HasChanged = 1 OR _DimAccount.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _DimService.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _DimProduct.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR _DimPricePlan.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID;
 
 SELECT 0 AS ExtractRowCount,
