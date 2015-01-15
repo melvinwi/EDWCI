@@ -63,6 +63,7 @@ CustomerType         nchar (11) NULL,
 AccountStatus        nchar (10) NULL,
 BillingCycle         nchar (10) NULL,
 TNICode          nvarchar (20) NULL,
+TransmissionLossFactor  decimal(25,15) NULL,
 NetworkState         nchar (3) NULL,
 MarketIdentifier       nvarchar (30) NULL,
 ServiceStatus        nvarchar (30) NULL,
@@ -479,6 +480,7 @@ IF OBJECT_ID (N'tempdb..#ServiceTNI') IS NOT NULL
 SELECT
      DimService.ServiceKey,
      DimTransmissionNode.TransmissionNodeIdentity AS TNICode,
+  DimTransmissionNode.TransmissionNodeLossFactor AS TransmissionLossFactor,
      DimTransmissionNode.TransmissionNodeState AS NetworkState,
      DimService.MarketIdentifier,
      DimService.SiteStatusType AS ServiceStatus,
@@ -502,6 +504,7 @@ SELECT
 -- Set columns from DimService and DimTransmissionNode
 UPDATE #UnbilledRevenue
 SET    TNICode =       t.TNICode,
+    TransmissionLossFactor = t.TransmissionLossFactor,
     NetworkState  =    t.NetworkState,
     MarketIdentifier  =  t.MarketIdentifier,
     ServiceStatus =    t.ServiceStatus,
@@ -513,6 +516,7 @@ SET    TNICode =       t.TNICode,
 FROM   (SELECT
      ServiceKey,
      TNICode,
+  TransmissionLossFactor,
      NetworkState,
      MarketIdentifier,
      ServiceStatus,
@@ -536,6 +540,7 @@ AND    #UnbilledRevenue.UnbilledToDate <= CAST(t.Meta_EffectiveEndDate AS date);
 -- Fix missing DimService and DimTransmissionNode columns
 UPDATE #UnbilledRevenue
 SET    TNICode =       t.TNICode,
+    TransmissionLossFactor = t.TransmissionLossFactor,
     NetworkState  =    t.NetworkState,
     MarketIdentifier  =  t.MarketIdentifier,
     ServiceStatus =    t.ServiceStatus,
@@ -547,6 +552,7 @@ SET    TNICode =       t.TNICode,
 FROM   (SELECT
      ServiceKey,
      TNICode,
+  TransmissionLossFactor,
      NetworkState,
      MarketIdentifier,
      ServiceStatus,
@@ -1122,6 +1128,12 @@ AND    t.UnbilledFromDate = UnbilledRevenue.UnbilledFromDate;
 UPDATE #UnbilledRevenue
 SET    TotalUnbilledUsage = COALESCE(SettlementUsage,0.0) + COALESCE(EstimatedUsage,0.0);
 
+-- Set Total Usage for Unbundled
+
+UPDATE #UnbilledRevenue
+SET    TotalUnbilledUsage = (COALESCE(SettlementUsage,0.0) + COALESCE(EstimatedUsage,0.0)) * TransmissionLossFactor * DLF
+WHERE  BundledFlag = N'Not Bundled';
+
 -- 
 -- =========================================================
 
@@ -1179,6 +1191,7 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[AccountStatus]
            ,[BillingCycle]
            ,[TNICode]
+     ,[TransmissionLossFactor]
            ,[NetworkState]
            ,[MarketIdentifier]
            ,[ServiceStatus]
@@ -1241,6 +1254,7 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[AccountStatus]
            ,[BillingCycle]
            ,[TNICode]
+     ,[TransmissionLossFactor]
            ,[NetworkState]
            ,[MarketIdentifier]
            ,[ServiceStatus]
