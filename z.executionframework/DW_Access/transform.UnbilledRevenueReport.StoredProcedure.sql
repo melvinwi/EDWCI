@@ -1065,7 +1065,7 @@ IF OBJECT_ID (N'tempdb..#TNIEDC') IS NOT NULL
 
 SELECT EstimatedUsage.TNICode,
        EstimatedUsage.SettlementDate,
-       SUM(MeterRegisters.RegisterEstimatedDailyConsumption) AS EstimatedDailyConsumption
+       SUM(DimMeterRegister.RegisterEstimatedDailyConsumption) AS EstimatedDailyConsumption
 INTO   #TNIEDC
 FROM   (SELECT DISTINCT
                #EstimatedUsage.TNICode,
@@ -1074,17 +1074,17 @@ FROM   (SELECT DISTINCT
 INNER
 JOIN   (SELECT DISTINCT
                DimTransmissionNode.TransmissionNodeIdentity,
-               DimMeterRegister.MeterRegisterKey,
-               DimMeterRegister.RegisterEstimatedDailyConsumption,
-               DimMeterRegister.Meta_EffectiveStartDate,
-               DimMeterRegister.Meta_EffectiveEndDate
+               DimMeterRegister.MeterRegisterKey
         FROM   DW_Dimensional.DW.FactServiceMeterRegister
         INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactServiceMeterRegister.ServiceId
         INNER  JOIN DW_Dimensional.DW.DimTransmissionNode ON DimTransmissionNode.TransmissionNodeId = DimService.TransmissionNodeId
-        INNER  JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactServiceMeterRegister.MeterRegisterId
-        WHERE  DimMeterRegister.RegisterStatus = N'Active') MeterRegisters
-ON     MeterRegisters.TransmissionNodeIdentity = EstimatedUsage.TNICode
-AND    EstimatedUsage.SettlementDate BETWEEN MeterRegisters.Meta_EffectiveStartDate AND MeterRegisters.Meta_EffectiveEndDate
+        INNER  JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactServiceMeterRegister.MeterRegisterId) MeterRegisterKeys
+ON     MeterRegisterKeys.TransmissionNodeIdentity = EstimatedUsage.TNICode
+INNER
+JOIN   DW_Dimensional.DW.DimMeterRegister
+ON     DimMeterRegister.MeterRegisterKey = MeterRegisterKeys.MeterRegisterKey
+AND    EstimatedUsage.SettlementDate BETWEEN DimMeterRegister.Meta_EffectiveStartDate AND DimMeterRegister.Meta_EffectiveEndDate
+AND    DimMeterRegister.RegisterStatus = N'Active'
 GROUP  BY EstimatedUsage.TNICode,
           EstimatedUsage.SettlementDate;
 
