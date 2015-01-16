@@ -289,7 +289,7 @@ JOIN   (SELECT DimAccount.AccountKey,
                DimMeterRegister.MeterRegisterKey,
                FactTransaction.EndDateId AS LastBilledReadDate,
                FactTransaction.EndRead AS LastBilledRead,
-               ROW_NUMBER () OVER (PARTITION BY DimService.ServiceKey, DimMeterRegister.MeterRegisterKey ORDER BY FactTransaction.EndDateId DESC) AS recency
+               ROW_NUMBER () OVER (PARTITION BY DimAccount.AccountKey, DimService.ServiceKey, DimMeterRegister.MeterRegisterKey ORDER BY FactTransaction.EndDateId DESC) AS recency
         FROM   DW_Dimensional.DW.FactTransaction
         INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactTransaction.AccountId
         INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactTransaction.ServiceId
