@@ -1,5 +1,5 @@
 
-h2. ARTEFACT: csv_DimMarketingCampaign
+h2. ARTEFACT: DimMarketingCampaign
 
 DESCRIPTION: Campaign dimension csv source from marketing spreadsheet
 

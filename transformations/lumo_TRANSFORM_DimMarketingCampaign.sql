@@ -22,14 +22,14 @@ END
 		DimMarketingCampaign.ContactType,
 		DimMarketingCampaign.PrivacyAssessmentKey)
 	  SELECT
-		csv_DimMarketingCampaign.MarketingCampaignKey,
-		csv_DimMarketingCampaign.MarketingCampaignShortDesc,
-		csv_DimMarketingCampaign.MarketingCampaignDesc,
-		csv_DimMarketingCampaign.MarketingCampaignStartDate,
-		csv_DimMarketingCampaign.MarketingCampaignEndDate,
-		csv_DimMarketingCampaign.ContactType,
-		csv_DimMarketingCampaign.PrivacyAssessmentKey
-	  FROM lumo.csv_DimMarketingCampaign;
+		DimMarketingCampaign.MarketingCampaignKey,
+		DimMarketingCampaign.MarketingCampaignShortDesc,
+		DimMarketingCampaign.MarketingCampaignDesc,
+		DimMarketingCampaign.MarketingCampaignStartDate,
+		DimMarketingCampaign.MarketingCampaignEndDate,
+		DimMarketingCampaign.ContactType,
+		DimMarketingCampaign.PrivacyAssessmentKey
+	  FROM lumo.DimMarketingCampaign;
 
 SELECT 0 AS ExtractRowCount,
 @@ROWCOUNT AS InsertRowCount,

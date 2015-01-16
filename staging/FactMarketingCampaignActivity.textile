@@ -1,5 +1,5 @@
 
-h2. ARTEFACT: csv_FactMarketingCampaignActivity
+h2. ARTEFACT: FactMarketingCampaignActivity
 
 DESCRIPTION: Marketing campaign activity fact csv source from marketing spreadsheet
 

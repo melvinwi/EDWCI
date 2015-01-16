@@ -1,5 +1,5 @@
 # design artefact							
-# ARTEFACT: csv_DimMarketingOffer							
+# ARTEFACT: DimMarketingOffer							
 # DESCRIPTION: Offer dimension csv source from marketing spreadsheet							
 COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
 MarketingOfferKey	Offer key used in the source	int			FALSE	FALSE	FALSE

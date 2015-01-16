@@ -1,5 +1,5 @@
 # design artefact							
-# ARTEFACT: csv_FactMarketingCampaignActivity							
+# ARTEFACT: FactMarketingCampaignActivity							
 # DESCRIPTION: Marketing campaign activity fact csv source from marketing spreadsheet							
 COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
 MarketingCampaignId	Foreign key to DimMarketingCampaign	int			FALSE	FALSE	FALSE

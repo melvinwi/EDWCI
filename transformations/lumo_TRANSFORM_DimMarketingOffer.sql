@@ -18,10 +18,10 @@ END
 		DimMarketingOffer.MarketingOfferShortDesc,
 		DimMarketingOffer.MarketingOfferDesc)
 	  SELECT
-		csv_DimMarketingOffer.MarketingOfferKey,
-		csv_DimMarketingOffer.MarketingOfferShortDesc,
-		csv_DimMarketingOffer.MarketingOfferDesc
-	  FROM lumo.csv_DimMarketingOffer;
+		DimMarketingOffer.MarketingOfferKey,
+		DimMarketingOffer.MarketingOfferShortDesc,
+		DimMarketingOffer.MarketingOfferDesc
+	  FROM lumo.DimMarketingOffer;
 
 SELECT 0 AS ExtractRowCount,
 @@ROWCOUNT AS InsertRowCount,
