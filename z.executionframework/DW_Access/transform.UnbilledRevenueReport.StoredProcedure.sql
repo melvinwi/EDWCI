@@ -127,6 +127,7 @@ RateEndDateId        int        NULL
 INSERT INTO #UnbilledRevenue (
   ReportDate,
   AccountingPeriod,
+  AccountNumber,
   ScheduleType,
   ServiceKey,
   MeterRegisterKey,
@@ -138,87 +139,139 @@ INSERT INTO #UnbilledRevenue (
   LastBilledReadDate,
   LastBilledRead
 )
-SELECT @ReportDate,
-     @AccountingPeriod,
+SELECT @ReportDate AS ReportDate,
+       @AccountingPeriod AS AccountingPeriod,
+       DimAccount.AccountCode AS AccountNumber,
        PricePlans.ScheduleType,
-       PricePlans.ServiceKey,
-       PricePlans.MeterRegisterKey,
-       PricePlans.PricePlanKey,
+       DimService.ServiceKey,
+       DimMeterRegister.MeterRegisterKey,
+       DimPricePlan.PricePlanKey,
        CONVERT(DATE, CAST((SELECT MAX(UnbilledFromDate)
                           FROM    (VALUES (CASE PricePlans.ScheduleType WHEN N'Daily' THEN CONVERT(NCHAR(8), DATEADD(day,1,CONVERT(DATE, CAST(Transactions.LastBilledReadDate AS nchar(8)), 112)), 112) WHEN N'Usage' THEN CONVERT(NCHAR(8), DATEADD(day,1,CONVERT(DATE, CAST(UsageTransactions.LastBilledReadDate AS nchar(8)), 112)), 112) END),
-                                          (PricePlans.DailyPricePlanStartDateId),
+                                          (PricePlans.PricePlanStartDateId),
                                           (PricePlans.ContractFRMPDateId),
-                                          (Rates.RateStartDateId)) u(UnbilledFromDate)) AS NCHAR(8)), 112) AS UnbilledFromDate,
+                                          (PricePlanRates.RateStartDateId),
+                      (ActiveServices.ServiceActiveStartDateId),
+                      (ActiveMeterRegisters.MeterRegisterActiveStartDateId)) u(UnbilledFromDate)) AS NCHAR(8)), 112) AS UnbilledFromDate,
        CONVERT(DATE, CAST((SELECT MIN(UnbilledToDate)
                            FROM   (VALUES (CONVERT(NCHAR(8), @ReportDate, 112)),
-                                          (PricePlans.DailyPricePlanEndDateId),
+                                          (PricePlans.PricePlanEndDateId),
                                           (PricePlans.ContractTerminatedDateId),
-                                          (Rates.RateEndDateId)) t(UnbilledToDate)) AS NCHAR(8)), 112) AS UnbilledToDate,
-       Rates.RateStartDateId,
-       Rates.RateEndDateId,
-     CASE PricePlans.ScheduleType WHEN N'Daily' THEN CONVERT(DATE, CAST(Transactions.LastBilledReadDate AS NCHAR(8)), 112)
-                  WHEN N'Usage' THEN CONVERT(DATE, CAST(UsageTransactions.LastBilledReadDate AS NCHAR(8)), 112)
-     END,
+                                          (PricePlanRates.RateEndDateId),
+                      (ActiveServices.ServiceActiveEndDateId),
+                      (ActiveMeterRegisters.MeterRegisterActiveEndDateId)) t(UnbilledToDate)) AS NCHAR(8)), 112) AS UnbilledToDate,
+       PricePlanRates.RateStartDateId,
+       PricePlanRates.RateEndDateId,
+       CASE PricePlans.ScheduleType
+       WHEN N'Daily' THEN CONVERT(DATE, CAST(Transactions.LastBilledReadDate AS NCHAR(8)), 112)
+         WHEN N'Usage' THEN CONVERT(DATE, CAST(UsageTransactions.LastBilledReadDate AS NCHAR(8)), 112)
+       END AS LastBilledReadDate,
        UsageTransactions.LastBilledRead
 FROM   (SELECT N'Daily' AS ScheduleType,
-               DimService.ServiceKey,
-               NULL AS MeterRegisterKey,
-               DimPricePlan.PricePlanKey,
-               FactDailyPricePlan.DailyPricePlanStartDateId,
-               FactDailyPricePlan.DailyPricePlanEndDateId,
+               FactDailyPricePlan.AccountId,
+               FactDailyPricePlan.ServiceId,
+               -1 AS MeterRegisterId,
+               FactDailyPricePlan.PricePlanId,
+               FactDailyPricePlan.DailyPricePlanStartDateId AS PricePlanStartDateId,
+               FactDailyPricePlan.DailyPricePlanEndDateId AS PricePlanEndDateId,
                FactDailyPricePlan.ContractFRMPDateId,
                FactDailyPricePlan.ContractTerminatedDateId
         FROM   DW_Dimensional.DW.FactDailyPricePlan
-        INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactDailyPricePlan.ServiceId
-        INNER  JOIN DW_Dimensional.DW.DimPricePlan ON DimPricePlan.PricePlanId = FactDailyPricePlan.PricePlanId
-        WHERE  FactDailyPricePlan.DailyPricePlanStartDateId <= FactDailyPricePlan.ContractTerminatedDateId
-        AND    FactDailyPricePlan.DailyPricePlanStartDateId < CONVERT(NCHAR(8), @ReportDate, 112)
-        AND    FactDailyPricePlan.ContractFRMPDateId <= FactDailyPricePlan.DailyPricePlanEndDateId
-        AND    FactDailyPricePlan.ContractFRMPDateId < FactDailyPricePlan.ContractTerminatedDateId
-        AND    FactDailyPricePlan.ContractFRMPDateId < CONVERT(NCHAR(8), @ReportDate, 112)
-        AND    DimService.ServiceType = N'Electricity'
-        AND    DimService.SiteStatusType = N'Energised Site'
+        WHERE  FactDailyPricePlan.ContractFRMPDateId <= FactDailyPricePlan.DailyPricePlanEndDateId
+        AND    FactDailyPricePlan.ContractFRMPDateId <= FactDailyPricePlan.ContractTerminatedDateId
+        AND    FactDailyPricePlan.ContractFRMPDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
+        AND    FactDailyPricePlan.ContractTerminatedDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
+        AND    FactDailyPricePlan.DailyPricePlanStartDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
+        AND    FactDailyPricePlan.DailyPricePlanEndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
+        AND    FactDailyPricePlan.DailyPricePlanStartDateId <= FactDailyPricePlan.ContractTerminatedDateId
 
         UNION
 
         SELECT N'Usage' AS ScheduleType,
-               DimService.ServiceKey,
-               DimMeterRegister.MeterRegisterKey,
-               DimPricePlan.PricePlanKey,
-               FactUsagePricePlan.UsagePricePlanStartDateId,
-               FactUsagePricePlan.UsagePricePlanEndDateId,
+               FactUsagePricePlan.AccountId,
+               FactUsagePricePlan.ServiceId,
+               FactUsagePricePlan.MeterRegisterId,
+               FactUsagePricePlan.PricePlanId,
+               FactUsagePricePlan.UsagePricePlanStartDateId AS PricePlanStartDateId,
+               FactUsagePricePlan.UsagePricePlanEndDateId AS PricePlanEndDateId,
                FactUsagePricePlan.ContractFRMPDateId,
                FactUsagePricePlan.ContractTerminatedDateId
         FROM   DW_Dimensional.DW.FactUsagePricePlan
-        INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactUsagePricePlan.ServiceId
-        INNER  JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactUsagePricePlan.MeterRegisterId
-        INNER  JOIN DW_Dimensional.DW.DimPricePlan ON DimPricePlan.PricePlanId = FactUsagePricePlan.PricePlanId
-        WHERE  FactUsagePricePlan.UsagePricePlanStartDateId <= FactUsagePricePlan.ContractTerminatedDateId
-        AND    FactUsagePricePlan.UsagePricePlanStartDateId < CONVERT(NCHAR(8), @ReportDate, 112)
-        AND    FactUsagePricePlan.ContractFRMPDateId <= FactUsagePricePlan.UsagePricePlanEndDateId  
-        AND    FactUsagePricePlan.ContractFRMPDateId < FactUsagePricePlan.ContractTerminatedDateId
-        AND    FactUsagePricePlan.ContractFRMPDateId < CONVERT(NCHAR(8), @ReportDate, 112)
-        AND    DimService.ServiceType = N'Electricity'
-        AND    DimService.SiteStatusType = N'Energised Site'
-        AND    DimMeterRegister.RegisterStatus = N'Active'
-        AND    DimMeterRegister.RegisterSystemIdentifer <> 'E1') PricePlans
+        WHERE  FactUsagePricePlan.ContractFRMPDateId <= FactUsagePricePlan.UsagePricePlanEndDateId  
+        AND    FactUsagePricePlan.ContractFRMPDateId <= FactUsagePricePlan.ContractTerminatedDateId
+        AND    FactUsagePricePlan.ContractFRMPDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
+        AND    FactUsagePricePlan.ContractTerminatedDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
+        AND    FactUsagePricePlan.UsagePricePlanStartDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
+        AND    FactUsagePricePlan.UsagePricePlanEndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
+        AND    FactUsagePricePlan.UsagePricePlanStartDateId <= FactUsagePricePlan.ContractTerminatedDateId) PricePlans
+INNER
+JOIN   DW_Dimensional.DW.DimPricePlan
+ON     DimPricePlan.PricePlanId = PricePlans.PricePlanId
 INNER
 JOIN   (SELECT DISTINCT
                DimPricePlan.PricePlanKey,
                FactPricePlanRate.RateStartDateId,
                FactPricePlanRate.RateEndDateId
         FROM   DW_Dimensional.DW.FactPricePlanRate
-        INNER  JOIN DW_Dimensional.DW.DimPricePlan ON DimPricePlan.PricePlanId = FactPricePlanRate.PricePlanId) Rates
-ON      Rates.PricePlanKey = PricePlans.PricePlanKey
-AND     Rates.RateStartDateId <= PricePlans.DailyPricePlanEndDateId
-AND     Rates.RateStartDateId <= PricePlans.ContractTerminatedDateId
-AND     Rates.RateStartDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
-AND     Rates.RateEndDateId >= PricePlans.DailyPricePlanStartDateId
-AND     Rates.RateEndDateId >= PricePlans.ContractFRMPDateId
-LEFT
+        INNER  JOIN DW_Dimensional.DW.DimPricePlan ON DimPricePlan.PricePlanId = FactPricePlanRate.PricePlanId) PricePlanRates
+ON      PricePlanRates.PricePlanKey = DimPricePlan.PricePlanKey
+AND     PricePlanRates.RateStartDateId <= PricePlans.PricePlanEndDateId
+AND     PricePlanRates.RateStartDateId <= PricePlans.ContractTerminatedDateId
+AND     PricePlanRates.RateStartDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
+AND     PricePlanRates.RateEndDateId >= PricePlans.PricePlanStartDateId
+AND     PricePlanRates.RateEndDateId >= PricePlans.ContractFRMPDateId
+AND     PricePlanRates.RateEndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
+INNER
+JOIN   DW_Dimensional.DW.DimAccount
+ON     DimAccount.AccountId = PricePlans.AccountId
+INNER
+JOIN   DW_Dimensional.DW.DimService
+ON     DimService.ServiceId = PricePlans.ServiceId
+INNER
 JOIN   (SELECT DimService.ServiceKey,
+               CONVERT(NCHAR(8), MIN(DimService.Meta_EffectiveStartDate), 112) AS ServiceActiveStartDateId,
+               CONVERT(NCHAR(8), MAX(DimService.Meta_EffectiveEndDate), 112) AS ServiceActiveEndDateId
+        FROM   DW_Dimensional.DW.DimService
+        WHERE  DimService.ServiceType = N'Electricity'
+        AND    DimService.SiteStatusType = N'Energised Site'
+        GROUP  BY DimService.ServiceKey) ActiveServices
+ON     ActiveServices.ServiceKey = DimService.ServiceKey
+AND    ActiveServices.ServiceActiveStartDateId <= PricePlans.PricePlanEndDateId
+AND    ActiveServices.ServiceActiveStartDateId <= PricePlans.ContractTerminatedDateId
+AND    ActiveServices.ServiceActiveStartDateId <= PricePlanRates.RateEndDateId
+AND    ActiveServices.ServiceActiveStartDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
+AND    ActiveServices.ServiceActiveEndDateId >= PricePlans.PricePlanStartDateId
+AND    ActiveServices.ServiceActiveEndDateId >= PricePlans.ContractFRMPDateId
+AND    ActiveServices.ServiceActiveEndDateId >= PricePlanRates.RateStartDateId
+AND    ActiveServices.ServiceActiveEndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
+LEFT
+JOIN   DW_Dimensional.DW.DimMeterRegister
+ON     DimMeterRegister.MeterRegisterId = PricePlans.MeterRegisterId
+LEFT
+JOIN   (SELECT DimMeterRegister.MeterRegisterKey,
+               CONVERT(NCHAR(8), MIN(DimMeterRegister.Meta_EffectiveStartDate), 112) AS MeterRegisterActiveStartDateId,
+               CONVERT(NCHAR(8), MAX(DimMeterRegister.Meta_EffectiveEndDate), 112) AS MeterRegisterActiveEndDateId
+        FROM   DW_Dimensional.DW.DimMeterRegister
+        WHERE  DimMeterRegister.RegisterStatus = N'Active'
+        AND    DimMeterRegister.RegisterSystemIdentifer <> 'E1'
+        GROUP  BY DimMeterRegister.MeterRegisterKey) ActiveMeterRegisters
+ON     ActiveMeterRegisters.MeterRegisterKey = DimMeterRegister.MeterRegisterKey
+AND    ActiveMeterRegisters.MeterRegisterActiveStartDateId <= PricePlans.PricePlanEndDateId
+AND    ActiveMeterRegisters.MeterRegisterActiveStartDateId <= PricePlans.ContractTerminatedDateId
+AND    ActiveMeterRegisters.MeterRegisterActiveStartDateId <= PricePlanRates.RateEndDateId
+AND    ActiveMeterRegisters.MeterRegisterActiveStartDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
+AND    ActiveMeterRegisters.MeterRegisterActiveStartDateId <= ActiveServices.ServiceActiveEndDateId
+AND    ActiveMeterRegisters.MeterRegisterActiveEndDateId >= PricePlans.PricePlanStartDateId
+AND    ActiveMeterRegisters.MeterRegisterActiveEndDateId >= PricePlans.ContractFRMPDateId
+AND    ActiveMeterRegisters.MeterRegisterActiveEndDateId >= PricePlanRates.RateStartDateId
+AND    ActiveMeterRegisters.MeterRegisterActiveEndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
+AND    ActiveMeterRegisters.MeterRegisterActiveEndDateId >= ActiveServices.ServiceActiveStartDateId
+LEFT
+JOIN   (SELECT DimAccount.AccountKey,
+               DimService.ServiceKey,
                MAX(FactTransaction.EndDateId) AS LastBilledReadDate
         FROM   DW_Dimensional.DW.FactTransaction
+        INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactTransaction.AccountId
         INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactTransaction.ServiceId
         WHERE  FactTransaction.TransactionSubtype = N'Daily charge'
         AND    FactTransaction.Reversal = N'No '
@@ -226,32 +279,35 @@ JOIN   (SELECT DimService.ServiceKey,
         AND    FactTransaction.EndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
         AND    FactTransaction.EndDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
         AND    FactTransaction.EndDateId <> 99991231
-      AND    FactTransaction.AccountingPeriod <= @AccountingPeriod
-        GROUP  BY DimService.ServiceKey) Transactions ON Transactions.ServiceKey = PricePlans.ServiceKey
+        AND    FactTransaction.AccountingPeriod <= @AccountingPeriod
+        GROUP  BY DimAccount.AccountKey, DimService.ServiceKey) Transactions
+ON     Transactions.AccountKey = DimAccount.AccountKey
+AND    Transactions.ServiceKey = DimService.ServiceKey
 LEFT
-JOIN  (SELECT DimService.ServiceKey,
-      DimMeterRegister.MeterRegisterKey,
+JOIN   (SELECT DimAccount.AccountKey,
+               DimService.ServiceKey,
+               DimMeterRegister.MeterRegisterKey,
                FactTransaction.EndDateId AS LastBilledReadDate,
-      FactTransaction.EndRead AS LastBilledRead,
-      ROW_NUMBER () OVER (PARTITION BY DimService.ServiceKey, DimMeterRegister.MeterRegisterKey ORDER BY FactTransaction.EndDateId DESC) AS recency
+               FactTransaction.EndRead AS LastBilledRead,
+               ROW_NUMBER () OVER (PARTITION BY DimService.ServiceKey, DimMeterRegister.MeterRegisterKey ORDER BY FactTransaction.EndDateId DESC) AS recency
         FROM   DW_Dimensional.DW.FactTransaction
+        INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactTransaction.AccountId
         INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactTransaction.ServiceId
-     INNER  JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactTransaction.MeterRegisterId
+        INNER  JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactTransaction.MeterRegisterId
         WHERE  FactTransaction.TransactionSubtype = N'Usage Revenue'
         AND    FactTransaction.Reversal = N'No '
         AND    FactTransaction.Reversed = N'No '
         AND    FactTransaction.EndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
         AND    FactTransaction.EndDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
         AND    FactTransaction.EndDateId <> 99991231
-      AND    FactTransaction.AccountingPeriod <= @AccountingPeriod
-        GROUP  BY DimService.ServiceKey, DimMeterRegister.MeterRegisterKey, FactTransaction.EndDateId, FactTransaction.EndRead) UsageTransactions
-     ON UsageTransactions.ServiceKey = PricePlans.ServiceKey AND UsageTransactions.MeterRegisterKey = PricePlans.MeterRegisterKey AND UsageTransactions.recency = 1
-WHERE  COALESCE(Transactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= PricePlans.DailyPricePlanEndDateId
-AND    COALESCE(Transactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= PricePlans.ContractTerminatedDateId
-AND    COALESCE(Transactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= Rates.RateEndDateId
-AND    COALESCE(UsageTransactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= PricePlans.DailyPricePlanEndDateId
-AND    COALESCE(UsageTransactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= PricePlans.ContractTerminatedDateId
-AND    COALESCE(UsageTransactions.LastBilledReadDate, CONVERT(NCHAR(8), @ReportStartDate, 112)) <= Rates.RateEndDateId;
+        AND    FactTransaction.AccountingPeriod <= @AccountingPeriod
+        GROUP  BY DimAccount.AccountKey, DimService.ServiceKey, DimMeterRegister.MeterRegisterKey, FactTransaction.EndDateId, FactTransaction.EndRead) UsageTransactions
+ON     UsageTransactions.AccountKey = DimAccount.AccountKey
+AND    UsageTransactions.ServiceKey = DimService.ServiceKey
+AND    UsageTransactions.MeterRegisterKey = DimMeterRegister.MeterRegisterKey
+AND    UsageTransactions.recency = 1
+WHERE  PricePlans.ScheduleType = N'Daily'
+OR     ActiveMeterRegisters.MeterRegisterActiveStartDateId IS NOT NULL;
 
 -- Only report the last eight months of unbilled revenue
 UPDATE #UnbilledRevenue
