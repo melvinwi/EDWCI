@@ -32,10 +32,10 @@ AND t.FiscalYear = DimDate.FiscalYear;
 
 
 WITH t AS (SELECT
-CASE WHEN (FiscalMonthNumber -8) < 1 THEN
-(FiscalMonthNumber + 4)
-ELSE (FiscalMonthNumber -8) END AS AdjustedFiscalMonth, 
-CASE WHEN (FiscalMonthNumber -8) < 1 THEN
+CASE WHEN (FiscalMonthNumber -7) < 1 THEN
+(FiscalMonthNumber + 5)
+ELSE (FiscalMonthNumber -7) END AS AdjustedFiscalMonth, 
+CASE WHEN (FiscalMonthNumber -7) < 1 THEN
 CAST(RIGHT(FiscalYear,4) AS int) - 1 ELSE 
 CAST(RIGHT(FiscalYear,4) AS int) END AS AdjustedFiscalYear
 FROM DW_Dimensional.DW.DimDate
