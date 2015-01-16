@@ -1002,10 +1002,10 @@ IF OBJECT_ID (N'tempdb..#SettlementUsage') IS NOT NULL
 SELECT #UnbilledRevenue.ServiceKey,
        #UnbilledRevenue.MeterRegisterKey,
        #UnbilledRevenue.UnbilledFromDate,
-       #UnbilledRevenue.MeterRegisterEDC,
        #UnbilledRevenue.DLF,
        DailySettlementUsage.SettlementDate,
-       DailySettlementUsage.TotalEnergy
+       DailySettlementUsage.TotalEnergy,
+       DimMeterRegister.RegisterEstimatedDailyConsumption
 INTO   #SettlementUsage
 FROM   #UnbilledRevenue
 INNER
@@ -1018,8 +1018,12 @@ JOIN   (SELECT DimService.ServiceKey,
         WHERE  FactServiceDailyLoad.SettlementDateId BETWEEN CONVERT(NCHAR(8), @ReportStartDate, 112) AND CONVERT(NCHAR(8), @ReportDate, 112)) DailySettlementUsage
 ON     DailySettlementUsage.ServiceKey = #UnbilledRevenue.ServiceKey
 AND    DailySettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
-AND    DailySettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.ServiceActiveStartDate AND #UnbilledRevenue.ServiceActiveEndDate
-AND    DailySettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.MeterRegisterActiveStartDate AND #UnbilledRevenue.MeterRegisterActiveEndDate
+INNER
+JOIN   DW_Dimensional.DW.DimMeterRegister
+ON     DimMeterRegister.MeterRegisterKey = #UnbilledRevenue.MeterRegisterKey
+AND    DimMeterRegister.RegisterStatus = N'Active'
+AND    DimMeterRegister.RegisterSystemIdentifer <> 'E1'
+AND    DailySettlementUsage.SettlementDate BETWEEN DimMeterRegister.Meta_EffectiveStartDate AND DimMeterRegister.Meta_EffectiveEndDate
 WHERE  #UnbilledRevenue.ScheduleType = N'Usage'
 AND    #UnbilledRevenue.MeterRegisterReadDirection = N'Export'
 AND    DailySettlementUsage.recency = 1;
@@ -1052,9 +1056,9 @@ ON     MeterRegisterKeys.ServiceKey = SettlementUsage.ServiceKey
 INNER
 JOIN   DW_Dimensional.DW.DimMeterRegister
 ON     DimMeterRegister.MeterRegisterKey = MeterRegisterKeys.MeterRegisterKey
-AND    SettlementUsage.SettlementDate BETWEEN DimMeterRegister.Meta_EffectiveStartDate AND DimMeterRegister.Meta_EffectiveEndDate
 AND    DimMeterRegister.RegisterStatus = N'Active'
 AND    DimMeterRegister.RegisterSystemIdentifer <> 'E1'
+AND    SettlementUsage.SettlementDate BETWEEN DimMeterRegister.Meta_EffectiveStartDate AND DimMeterRegister.Meta_EffectiveEndDate
 GROUP  BY SettlementUsage.ServiceKey,
           SettlementUsage.SettlementDate;
 
@@ -1071,7 +1075,7 @@ JOIN   (SELECT #SettlementUsage.ServiceKey,
                #SettlementUsage.UnbilledFromDate,
                SUM(CASE
                      WHEN COALESCE(#SiteEDC.EstimatedDailyConsumption, 0.0) = 0.0 THEN 0.0
-                     ELSE #SettlementUsage.TotalEnergy * COALESCE(#SettlementUsage.MeterRegisterEDC, 0.0) / #SiteEDC.EstimatedDailyConsumption / COALESCE(#SettlementUsage.DLF, 1.0)
+                     ELSE #SettlementUsage.TotalEnergy * COALESCE(#SettlementUsage.RegisterEstimatedDailyConsumption, 0.0) / #SiteEDC.EstimatedDailyConsumption / COALESCE(#SettlementUsage.DLF, 1.0)
                    END) AS SettlementUsage
         FROM   #SettlementUsage
         LEFT   JOIN #SiteEDC ON #SiteEDC.ServiceKey = #SettlementUsage.ServiceKey AND #SiteEDC.SettlementDate = #SettlementUsage.SettlementDate
@@ -1092,14 +1096,12 @@ IF OBJECT_ID (N'tempdb..#EstimatedUsage') IS NOT NULL
     END;
 
 SELECT #UnbilledRevenue.TNICode,
-       #UnbilledRevenue.ServiceKey,
        #UnbilledRevenue.MeterRegisterKey,
        #UnbilledRevenue.UnbilledFromDate,
-       #UnbilledRevenue.MeterRegisterEDC,
        #UnbilledRevenue.DLF,
-       #UnbilledRevenue.SettlementUsageEndDate,
        DailyEstimatedUsage.SettlementDate,
-       DailyEstimatedUsage.ExportNetEnergy
+       DailyEstimatedUsage.ExportNetEnergy,
+       DimMeterRegister.RegisterEstimatedDailyConsumption
 INTO   #EstimatedUsage
 FROM   #UnbilledRevenue
 INNER
@@ -1112,9 +1114,13 @@ JOIN   (SELECT DimTransmissionNode.TransmissionNodeIdentity,
         WHERE  FactTransmissionNodeDailyLoad.SettlementDateId BETWEEN CONVERT(NCHAR(8), @ReportStartDate, 112) AND CONVERT(NCHAR(8), @ReportDate, 112)) DailyEstimatedUsage
 ON     DailyEstimatedUsage.TransmissionNodeIdentity = #UnbilledRevenue.TNICode
 AND    DailyEstimatedUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
-AND    DailyEstimatedUsage.SettlementDate BETWEEN #UnbilledRevenue.ServiceActiveStartDate AND #UnbilledRevenue.ServiceActiveEndDate
-AND    DailyEstimatedUsage.SettlementDate BETWEEN #UnbilledRevenue.MeterRegisterActiveStartDate AND #UnbilledRevenue.MeterRegisterActiveEndDate
 AND    DailyEstimatedUsage.SettlementDate > COALESCE(#UnbilledRevenue.SettlementUsageEndDate, '1900-01-01')
+INNER
+JOIN   DW_Dimensional.DW.DimMeterRegister
+ON     DimMeterRegister.MeterRegisterKey = #UnbilledRevenue.MeterRegisterKey
+AND    DimMeterRegister.RegisterStatus = N'Active'
+AND    DimMeterRegister.RegisterSystemIdentifer <> 'E1'
+AND    DailyEstimatedUsage.SettlementDate BETWEEN DimMeterRegister.Meta_EffectiveStartDate AND DimMeterRegister.Meta_EffectiveEndDate
 WHERE  #UnbilledRevenue.ScheduleType = N'Usage'
 AND    #UnbilledRevenue.MeterRegisterReadDirection = N'Export'
 AND    DailyEstimatedUsage.recency = 1;
@@ -1148,9 +1154,9 @@ ON     MeterRegisterKeys.TransmissionNodeIdentity = EstimatedUsage.TNICode
 INNER
 JOIN   DW_Dimensional.DW.DimMeterRegister
 ON     DimMeterRegister.MeterRegisterKey = MeterRegisterKeys.MeterRegisterKey
-AND    EstimatedUsage.SettlementDate BETWEEN DimMeterRegister.Meta_EffectiveStartDate AND DimMeterRegister.Meta_EffectiveEndDate
 AND    DimMeterRegister.RegisterStatus = N'Active'
 AND    DimMeterRegister.RegisterSystemIdentifer <> 'E1'
+AND    EstimatedUsage.SettlementDate BETWEEN DimMeterRegister.Meta_EffectiveStartDate AND DimMeterRegister.Meta_EffectiveEndDate
 GROUP  BY EstimatedUsage.TNICode,
           EstimatedUsage.SettlementDate;
 
@@ -1167,7 +1173,7 @@ JOIN   (SELECT #EstimatedUsage.TNICode,
                #EstimatedUsage.UnbilledFromDate,
                SUM(CASE
                      WHEN COALESCE(#TNIEDC.EstimatedDailyConsumption, 0.0) = 0.0 THEN 0.0
-                     ELSE #EstimatedUsage.ExportNetEnergy * 1000.0 * COALESCE(#EstimatedUsage.MeterRegisterEDC, 0.0) / #TNIEDC.EstimatedDailyConsumption / COALESCE(#EstimatedUsage.DLF, 1.0)
+                     ELSE #EstimatedUsage.ExportNetEnergy * 1000.0 * COALESCE(#EstimatedUsage.RegisterEstimatedDailyConsumption, 0.0) / #TNIEDC.EstimatedDailyConsumption / COALESCE(#EstimatedUsage.DLF, 1.0)
                    END) AS EstimatedUsage
         FROM   #EstimatedUsage
         LEFT   JOIN #TNIEDC ON #TNIEDC.TNICode = #EstimatedUsage.TNICode AND #TNIEDC.SettlementDate = #EstimatedUsage.SettlementDate
