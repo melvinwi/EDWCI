@@ -1,5 +1,5 @@
 # transformation test result artefact
 # ARTEFACT: TRANSFORM_FactUsagePricePlan
-# CREATED DATE: 2014-12-03T153056
+# CREATED DATE: 2015-01-16T110716
 
-2014-12-03 15:30:57	2	PASSED	source.length.should.equal(destination.length)	{"obj":148,"params":{"operator":"to be","expected":148,"showDiff":true},"negate":false}
+2015-01-16 11:07:19	2	PASSED	source.length.should.equal(destination.length)	{"obj":148,"params":{"operator":"to be","expected":148,"showDiff":true},"negate":false}
