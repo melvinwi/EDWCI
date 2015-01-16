@@ -60,7 +60,7 @@ AccountingPeriod       int        NULL,
 AccountNumber        int        NULL,
 CustomerName         nvarchar (100) NULL,
 CustomerType         nchar (11) NULL,
-AccountStatus        nchar (10) NULL,
+ContractStatus        nchar (10) NULL,
 BillingCycle         nchar (10) NULL,
 TNICode          nvarchar (20) NULL,
 TransmissionLossFactor  decimal(25,15) NULL,
@@ -342,7 +342,7 @@ SELECT
      DimAccountCurrent.AccountCode AS AccountNumber,
      DimCustomer.PartyName AS CustomerName,
      DimCustomer.CustomerType,
-     DimAccountCurrent.AccountStatus,
+     FactDailyPricePlan.ContractStatus,
      DimAccountCurrent.BillCycleCode  AS BillingCycle,
   DimAccountCurrent.DistrictState AS DistrictState,
      CONVERT(DATE, CAST(FactDailyPricePlan.ContractFRMPDateId AS NCHAR(8)), 112) AS FRMPStartDate,
@@ -390,7 +390,7 @@ UPDATE #UnbilledRevenue
 SET    AccountNumber =       t.AccountNumber,
     CustomerName  =      t.CustomerName,
     CustomerType  =      t.CustomerType,
-    AccountStatus =      t.AccountStatus,
+    ContractStatus =      t.ContractStatus,
     BillingCycle  =      t.BillingCycle,
     DistrictState =      t.DistrictState,
     FRMPStartDate =      t.FRMPStartDate,
@@ -405,7 +405,7 @@ FROM   (SELECT
      AccountNumber,
      CustomerName,
      CustomerType,
-     AccountStatus,
+     ContractStatus,
      BillingCycle,
   DistrictState,
      FRMPStartDate,
@@ -442,7 +442,7 @@ SELECT
      DimAccountCurrent.AccountCode AS AccountNumber,
      DimCustomer.PartyName AS CustomerName,
      DimCustomer.CustomerType  AS CustomerType,
-     DimAccountCurrent.AccountStatus AS AccountStatus,
+     FactUsagePricePlan.ContractStatus AS ContractStatus,
      DimAccountCurrent.BillCycleCode  AS BillingCycle,
   DimAccountCurrent.DistrictState AS DistrictState,
      CONVERT(DATE, CAST(FactUsagePricePlan.ContractFRMPDateId AS NCHAR(8)), 112) AS FRMPStartDate,
@@ -491,7 +491,7 @@ UPDATE #UnbilledRevenue
 SET    AccountNumber =       t.AccountNumber,
     CustomerName  =      t.CustomerName,
     CustomerType  =      t.CustomerType,
-    AccountStatus =      t.AccountStatus,
+    ContractStatus =      t.ContractStatus,
     BillingCycle  =      t.BillingCycle,
     DistrictState =      t.DistrictState,
     FRMPStartDate =      t.FRMPStartDate,
@@ -506,7 +506,7 @@ FROM   (SELECT
      AccountNumber,
      CustomerName,
      CustomerType,
-     AccountStatus,
+     ContractStatus,
      BillingCycle,
   DistrictState,
      FRMPStartDate,
@@ -531,6 +531,14 @@ AND   #UnbilledRevenue.UnbilledToDate   <= t.UsagePricePlanEndDate
 AND   #UnbilledRevenue.UnbilledToDate   <= t.ContractTerminatedDate;
 
 -- 41s, 1,110,947 rows
+--========================================
+
+-- Remove Error and Pending rows
+DELETE
+FROM #UnbilledRevenue
+WHERE ContractStatus = N'Error'
+OR ContractStatus = N'Pending';
+
 --========================================
 
 --Drop and create temporary table
@@ -1251,7 +1259,7 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[AccountNumber]
            ,[CustomerName]
            ,[CustomerType]
-           ,[AccountStatus]
+           ,[ContractStatus]
            ,[BillingCycle]
            ,[TNICode]
      ,[TransmissionLossFactor]
@@ -1314,7 +1322,7 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[AccountNumber]
            ,[CustomerName]
            ,[CustomerType]
-           ,[AccountStatus]
+           ,[ContractStatus]
            ,[BillingCycle]
            ,[TNICode]
      ,[TransmissionLossFactor]
