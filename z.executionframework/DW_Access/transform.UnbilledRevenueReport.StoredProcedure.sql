@@ -1067,6 +1067,10 @@ ON     DimMeterRegister.MeterRegisterKey = MeterRegisterKeys.MeterRegisterKey
 AND    DimMeterRegister.RegisterStatus = N'Active'
 AND    DimMeterRegister.RegisterSystemIdentifer <> 'E1'
 AND    SettlementUsage.SettlementDate BETWEEN DimMeterRegister.Meta_EffectiveStartDate AND DimMeterRegister.Meta_EffectiveEndDate
+LEFT
+JOIN   #UnbilledRevenue
+ON     #UnbilledRevenue.MeterRegisterKey = MeterRegisterKeys.MeterRegisterKey
+AND    SettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
 GROUP  BY SettlementUsage.ServiceKey,
           SettlementUsage.SettlementDate;
 
@@ -1165,6 +1169,10 @@ ON     DimMeterRegister.MeterRegisterKey = MeterRegisterKeys.MeterRegisterKey
 AND    DimMeterRegister.RegisterStatus = N'Active'
 AND    DimMeterRegister.RegisterSystemIdentifer <> 'E1'
 AND    EstimatedUsage.SettlementDate BETWEEN DimMeterRegister.Meta_EffectiveStartDate AND DimMeterRegister.Meta_EffectiveEndDate
+LEFT
+JOIN   #UnbilledRevenue
+ON     #UnbilledRevenue.MeterRegisterKey = MeterRegisterKeys.MeterRegisterKey
+AND    SettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
 GROUP  BY EstimatedUsage.TNICode,
           EstimatedUsage.SettlementDate;
 
