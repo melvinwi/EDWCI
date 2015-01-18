@@ -1172,7 +1172,7 @@ AND    EstimatedUsage.SettlementDate BETWEEN DimMeterRegister.Meta_EffectiveStar
 LEFT
 JOIN   #UnbilledRevenue
 ON     #UnbilledRevenue.MeterRegisterKey = MeterRegisterKeys.MeterRegisterKey
-AND    SettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
+AND    EstimatedUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
 GROUP  BY EstimatedUsage.TNICode,
           EstimatedUsage.SettlementDate;
 
