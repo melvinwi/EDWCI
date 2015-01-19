@@ -57,6 +57,7 @@ CREATE TABLE #UnbilledRevenue
 FinancialMonth         tinyint      NULL,
 ReportDate         date     NULL,
 AccountingPeriod       int        NULL,
+AccountKey        int        NULL,
 AccountNumber        int        NULL,
 CustomerName         nvarchar (100) NULL,
 CustomerType         nchar (11) NULL,
@@ -91,6 +92,8 @@ NetworkTariffCode      nvarchar (20) NULL,
 LastBilledRead         decimal (18, 4) NULL,
 LastBilledReadDate       date     NULL,
 LastBilledReadType      nchar(9)  NULL,
+LastBilledActualRead         decimal (18, 4) NULL,
+LastBilledActualReadDate       date     NULL,
 ScheduleType         nchar (5) NULL,
 FixedTariffAdjustment    decimal (5, 4) NULL,
 VariableTariffAdjustment     decimal (5, 4) NULL,
@@ -127,6 +130,7 @@ RateEndDateId        int        NULL
 INSERT INTO #UnbilledRevenue (
   ReportDate,
   AccountingPeriod,
+  AccountKey,
   AccountNumber,
   ScheduleType,
   ServiceKey,
@@ -141,6 +145,7 @@ INSERT INTO #UnbilledRevenue (
 )
 SELECT @ReportDate AS ReportDate,
        @AccountingPeriod AS AccountingPeriod,
+       DimAccount.AccountKey,
        DimAccount.AccountCode AS AccountNumber,
        PricePlans.ScheduleType,
        DimService.ServiceKey,
@@ -999,7 +1004,47 @@ UPDATE #UnbilledRevenue
 SET LastBilledReadType = N'Unknown'
 WHERE #UnbilledRevenue.LastBilledReadType IS NULL;
 
---==============================================
+-- Set LastBilledActualRead and LastBilledActualReadDate
+UPDATE UnbilledRevenue
+SET    LastBilledActualRead = t.LastBilledActualRead,
+       LastBilledActualReadDate = CONVERT(DATE, CAST(t.LastBilledActualReadDate AS NCHAR(8)), 112)
+FROM   #UnbilledRevenue UnbilledRevenue
+INNER
+JOIN   (SELECT DimAccount.AccountKey,
+               DimService.ServiceKey,
+               DimMeterRegister.MeterRegisterKey,
+               FactTransaction.EndDateId AS LastBilledActualReadDate,
+               FactTransaction.EndRead AS LastBilledActualRead,
+               ROW_NUMBER() OVER (PARTITION BY DimAccount.AccountKey, DimService.ServiceKey, DimMeterRegister.MeterRegisterKey ORDER BY FactTransaction.EndDateId DESC) AS recency
+        FROM   DW_Dimensional.DW.FactTransaction
+        INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactTransaction.AccountId
+        INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactTransaction.ServiceId
+        INNER  JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactTransaction.MeterRegisterId
+        LEFT   JOIN #MeterReads
+        ON     #MeterReads.MeterRegisterKey = DimMeterRegister.MeterRegisterKey
+        AND    #MeterReads.ReadDateId = FactTransaction.EndDateId
+        AND    #MeterReads.ReadValue = FactTransaction.EndRead
+        AND    #MeterReads.EstimatedRead = N'No '
+        WHERE  FactTransaction.TransactionSubtype = N'Usage Revenue'
+        AND    FactTransaction.Reversal = N'No '
+        AND    FactTransaction.Reversed = N'No '
+        AND    FactTransaction.EndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
+        AND    FactTransaction.EndDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
+        AND    FactTransaction.EndDateId <> 99991231
+        AND    FactTransaction.AccountingPeriod <= @AccountingPeriod
+        AND    ((DimService.MeteringType = N'Deemed' AND #MeterReads.MeterRegisterKey IS NOT NULL) OR DimService.MeteringType = N'TOU')
+        GROUP  BY DimAccount.AccountKey,
+                  DimService.ServiceKey,
+                  DimMeterRegister.MeterRegisterKey,
+                  FactTransaction.EndDateId,
+                  FactTransaction.EndRead) t
+ON     t.AccountKey = UnbilledRevenue.AccountKey
+AND    t.ServiceKey = UnbilledRevenue.ServiceKey
+AND    t.MeterRegisterKey = UnbilledRevenue.MeterRegisterKey
+AND    t.recency = 1;
+
+-- 7s, 639,718 rows
+-- =========================================================
 
 --Drop and create temporary table
 IF OBJECT_ID (N'tempdb..#SettlementUsage') IS NOT NULL
