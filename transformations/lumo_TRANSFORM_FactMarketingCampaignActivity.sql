@@ -13,7 +13,7 @@ EXEC DW_Utility.config.GetLatestSuccessfulTaskExecutionInstanceID
 END
 --/
 
-	;WITH factMarketingCampaignActivity AS (SELECT DISTINCT csv_FactMarketingCampaignActivity.MarketingCampaignKey, csv_FactMarketingCampaignActivity.MarketingOfferKey FROM /* Staging */ lumo.csv_FactMarketingCampaignActivity)
+	;WITH factMarketingCampaignActivity AS (SELECT DISTINCT FactMarketingCampaignActivity.MarketingCampaignKey, FactMarketingCampaignActivity.MarketingOfferKey FROM /* Staging */ lumo.FactMarketingCampaignActivity)
 	INSERT INTO lumo.FactMarketingCampaignActivity (
 		FactMarketingCampaignActivity.MarketingCampaignId,
 		FactMarketingCampaignActivity.ActivityTypeId,

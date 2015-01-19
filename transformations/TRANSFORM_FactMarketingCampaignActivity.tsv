@@ -2,7 +2,7 @@
 # ARTEFACT: TRANSFORM_FactMarketingCampaignActivity				
 # DESCRIPTION: Promote FactMarketingCampaignActivity from spreadsheet sourced tables to DataStore 				
 SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
-WITH_STATEMENTS	"WITH factMarketingCampaignActivity AS (SELECT DISTINCT csv_FactMarketingCampaignActivity.MarketingCampaignKey, csv_FactMarketingCampaignActivity.MarketingOfferKey FROM /* Staging */ [schema].csv_FactMarketingCampaignActivity)"			Distinct view of csv_FactMarketingCampaignActivity
+WITH_STATEMENTS	"WITH factMarketingCampaignActivity AS (SELECT DISTINCT FactMarketingCampaignActivity.MarketingCampaignKey, FactMarketingCampaignActivity.MarketingOfferKey FROM /* Staging */ [schema].FactMarketingCampaignActivity)"			Distinct view of csv_FactMarketingCampaignActivity
 	_DimMarketingCampaign.MarketingCampaignId		FactMarketingCampaignActivity.MarketingCampaignId	One to one mapping
 	_DimActivityType.ActivityTypeId		FactMarketingCampaignActivity.ActivityTypeId	One to one mapping
 CAST(	_factMarketingCampaignActivity.MarketingCampaignKey	"AS NVARCHAR(MAX)) + ' - ' + CAST(_factMarketingCampaignActivity.MarketingOfferKey AS NVARCHAR(MAX))"	FactMarketingCampaignActivity.MarketingCampaignActivityKey	Construct unique identifier for each transaction
