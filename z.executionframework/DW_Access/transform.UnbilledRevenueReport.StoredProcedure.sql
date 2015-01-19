@@ -147,7 +147,7 @@ SELECT @ReportDate AS ReportDate,
        DimMeterRegister.MeterRegisterKey,
        DimPricePlan.PricePlanKey,
        CONVERT(DATE, CAST((SELECT MAX(UnbilledFromDate)
-                          FROM    (VALUES (CASE PricePlans.ScheduleType WHEN N'Daily' THEN CONVERT(NCHAR(8), DATEADD(day,1,CONVERT(DATE, CAST(Transactions.LastBilledReadDate AS nchar(8)), 112)), 112) WHEN N'Usage' THEN CONVERT(NCHAR(8), DATEADD(day,1,CONVERT(DATE, CAST(UsageTransactions.LastBilledReadDate AS nchar(8)), 112)), 112) END),
+                          FROM    (VALUES (CASE PricePlans.ScheduleType WHEN N'Daily' THEN CONVERT(NCHAR(8), DATEADD(day,1,CONVERT(DATE, CAST(Transactions.LastBilledReadDate AS nchar(8)), 112)), 112) WHEN N'Usage' THEN CONVERT(NCHAR(8), DATEADD(day,1,CONVERT(DATE, CAST(COALESCE(Transactions.LastBilledReadDate, UsageTransactions.LastBilledReadDate) AS nchar(8)), 112)), 112) END),
                                           (PricePlans.PricePlanStartDateId),
                                           (PricePlans.ContractFRMPDateId),
                                           (PricePlanRates.RateStartDateId),
