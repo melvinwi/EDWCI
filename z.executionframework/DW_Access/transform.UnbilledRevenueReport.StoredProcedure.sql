@@ -1092,7 +1092,8 @@ IF OBJECT_ID (N'tempdb..#SiteEDC') IS NOT NULL
 
 SELECT SettlementUsage.ServiceKey,
        SettlementUsage.SettlementDate,
-       SUM(DimMeterRegister.RegisterEstimatedDailyConsumption) AS EstimatedDailyConsumption
+       SUM(DimMeterRegister.RegisterEstimatedDailyConsumption) AS EstimatedDailyConsumption,
+       COUNT(*) AS MeterRegisterCount
 INTO   #SiteEDC
 FROM   (SELECT DISTINCT
                #SettlementUsage.ServiceKey,
@@ -1130,9 +1131,10 @@ INNER
 JOIN   (SELECT #SettlementUsage.ServiceKey,
                #SettlementUsage.MeterRegisterKey,
                #SettlementUsage.UnbilledFromDate,
-               SUM(CASE
-                     WHEN COALESCE(#SiteEDC.EstimatedDailyConsumption, 0.0) = 0.0 THEN 0.0
-                     ELSE #SettlementUsage.TotalEnergy * COALESCE(#SettlementUsage.RegisterEstimatedDailyConsumption, 0.0) / #SiteEDC.EstimatedDailyConsumption / COALESCE(#SettlementUsage.DLF, 1.0)
+               SUM(#SettlementUsage.TotalEnergy / COALESCE(#SettlementUsage.DLF, 1.0) *
+                   CASE
+                     WHEN COALESCE(#SiteEDC.EstimatedDailyConsumption, 0.0) = 0.0 THEN 1.0 / #SiteEDC.MeterRegisterCount
+                     ELSE COALESCE(#SettlementUsage.RegisterEstimatedDailyConsumption, 0.0) / #SiteEDC.EstimatedDailyConsumption
                    END) AS SettlementUsage
         FROM   #SettlementUsage
         LEFT   JOIN #SiteEDC ON #SiteEDC.ServiceKey = #SettlementUsage.ServiceKey AND #SiteEDC.SettlementDate = #SettlementUsage.SettlementDate
@@ -1193,7 +1195,8 @@ IF OBJECT_ID (N'tempdb..#TNIEDC') IS NOT NULL
 
 SELECT EstimatedUsage.TNICode,
        EstimatedUsage.SettlementDate,
-       SUM(DimMeterRegister.RegisterEstimatedDailyConsumption) AS EstimatedDailyConsumption
+       SUM(DimMeterRegister.RegisterEstimatedDailyConsumption) AS EstimatedDailyConsumption,
+       COUNT(*) AS MeterRegisterCount
 INTO   #TNIEDC
 FROM   (SELECT DISTINCT
                #EstimatedUsage.TNICode,
@@ -1232,9 +1235,10 @@ INNER
 JOIN   (SELECT #EstimatedUsage.TNICode,
                #EstimatedUsage.MeterRegisterKey,
                #EstimatedUsage.UnbilledFromDate,
-               SUM(CASE
-                     WHEN COALESCE(#TNIEDC.EstimatedDailyConsumption, 0.0) = 0.0 THEN 0.0
-                     ELSE #EstimatedUsage.ExportNetEnergy * 1000.0 * COALESCE(#EstimatedUsage.RegisterEstimatedDailyConsumption, 0.0) / #TNIEDC.EstimatedDailyConsumption / COALESCE(#EstimatedUsage.DLF, 1.0)
+               SUM(#EstimatedUsage.ExportNetEnergy * 1000.0 / COALESCE(#EstimatedUsage.DLF, 1.0) *
+                   CASE
+                     WHEN COALESCE(#TNIEDC.EstimatedDailyConsumption, 0.0) = 0.0 THEN 1.0 / #TNIEDC.MeterRegisterCount
+                     ELSE COALESCE(#EstimatedUsage.RegisterEstimatedDailyConsumption, 0.0) / #TNIEDC.EstimatedDailyConsumption
                    END) AS EstimatedUsage
         FROM   #EstimatedUsage
         LEFT   JOIN #TNIEDC ON #TNIEDC.TNICode = #EstimatedUsage.TNICode AND #TNIEDC.SettlementDate = #EstimatedUsage.SettlementDate
