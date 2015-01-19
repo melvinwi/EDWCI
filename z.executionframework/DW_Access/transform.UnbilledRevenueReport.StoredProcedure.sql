@@ -114,6 +114,8 @@ UnbilledFromDate       date     NULL,
 UnbilledToDate         date     NULL,
 UnbilledDays         int        NULL,
 BilledEstimatedDays         int        NULL,
+BilledEstimatedUsage          decimal (18, 7) NULL,
+BilledEstimatedRevenue         money      NULL,
 SettlementUsageEndDate     date     NULL,
 SettlementUsage      decimal (18, 7) NULL,
 EstimatedUsageEndDate     date     NULL,
@@ -1449,6 +1451,9 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[UnbilledFromDate]
            ,[UnbilledToDate]
            ,[UnbilledDays]
+           ,[BilledEstimatedDays]
+           ,[BilledEstimatedUsage]
+           ,[BilledEstimatedRevenue]
            ,[SettlementUsageEndDate]
            ,[SettlementUsage]
            ,[EstimatedUsageEndDate]
@@ -1512,6 +1517,9 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[UnbilledFromDate]
            ,[UnbilledToDate]
            ,[UnbilledDays]
+           ,[BilledEstimatedDays]
+           ,[BilledEstimatedUsage]
+           ,[BilledEstimatedRevenue]
            ,[SettlementUsageEndDate]
            ,[SettlementUsage]
            ,[EstimatedUsageEndDate]
