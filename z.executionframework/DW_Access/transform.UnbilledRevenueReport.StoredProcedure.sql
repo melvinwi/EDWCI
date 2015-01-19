@@ -329,7 +329,13 @@ UPDATE #UnbilledRevenue
 SET    FinancialMonth = t.FinancialMonth
 FROM     (SELECT FiscalMonthNumber AS FinancialMonth
      FROM DW_Dimensional.DW.DimDate
-     WHERE [Date] = @ReportDate) AS t
+     WHERE [Date] = @ReportDate) AS t;
+
+-- Remove usage rows with no parent daily rows
+DELETE
+FROM   #UnbilledRevenue
+WHERE  NOT EXISTS (SELECT 1 FROM #UnbilledRevenue UR2 WHERE UR2.ScheduleType = N'Daily' AND UR2.AccountNumber = #UnbilledRevenue.AccountNumber AND UR2.MarketIdentifier = #UnbilledRevenue.MarketIdentifier)
+AND    ScheduleType = N'Usage';
 
 
   -- 2m 1,569,902 rows
