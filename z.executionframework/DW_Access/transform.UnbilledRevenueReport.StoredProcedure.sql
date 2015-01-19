@@ -113,6 +113,7 @@ UnitStep4          decimal (18, 7) NULL,
 UnbilledFromDate       date     NULL,
 UnbilledToDate         date     NULL,
 UnbilledDays         int        NULL,
+BilledEstimatedDays         int        NULL,
 SettlementUsageEndDate     date     NULL,
 SettlementUsage      decimal (18, 7) NULL,
 EstimatedUsageEndDate     date     NULL,
@@ -895,13 +896,6 @@ AND   #UnbilledRevenue.RateEndDateId = t.RateEndDateId;
 -- 0s, 0 rows
 -- =====================================================
 
--- Set Unbilled Days
-UPDATE #UnbilledRevenue
-SET    UnbilledDays = (DATEDIFF(day,UnbilledFromDate,UnbilledToDate) + 1);
-
--- 21s, 1,569,902 rows
--- =========================================================
-
 -- Set ServiceActiveStartDate and ServiceActiveEndDate
 UPDATE UnbilledRevenue
 SET    ServiceActiveStartDate = t.ServiceActiveStartDate,
@@ -1050,6 +1044,37 @@ AND    t.MeterRegisterKey = UnbilledRevenue.MeterRegisterKey
 AND    t.recency = 1;
 
 -- 7s, 639,718 rows
+-- =========================================================
+
+-- Reset UnbilledFromDate for rows with billed estimates
+UPDATE UnbilledRevenue
+SET    UnbilledFromDate = (SELECT MAX(UnbilledFromDate)
+                           FROM   (VALUES ((SELECT DATEADD(DAY, 1, MAX(#UnbilledRevenue.UnbilledToDate))
+                   	                        FROM   #UnbilledRevenue
+                                            WHERE  #UnbilledRevenue.MeterRegisterKey = UnbilledRevenue.MeterRegisterKey
+                                            AND    #UnbilledRevenue.UnbilledToDate < UnbilledRevenue.UnbilledFromDate)),
+                                          (DATEADD(DAY, 1, UnbilledRevenue.LastBilledActualReadDate)),
+                                          (@ReportStartDate)) u(UnbilledFromDate))
+FROM   #UnbilledRevenue UnbilledRevenue
+WHERE  UnbilledRevenue.LastBilledActualReadDate < UnbilledRevenue.LastBilledReadDate
+
+-- 
+-- =========================================================
+
+-- Set Unbilled Days
+UPDATE #UnbilledRevenue
+SET    UnbilledDays = (DATEDIFF(day,UnbilledFromDate,UnbilledToDate) + 1);
+
+-- 21s, 1,569,902 rows
+-- =========================================================
+
+-- Set BilledEstimatedDays
+UPDATE #UnbilledRevenue
+SET    BilledEstimatedDays = (DATEDIFF(DAY, UnbilledFromDate, LastBilledReadDate) + 1)
+WHERE  LastBilledActualReadDate < LastBilledReadDate
+AND    UnbilledFromDate < LastBilledReadDate;
+
+-- 3s, 1,313 rows
 -- =========================================================
 
 --Drop and create temporary table
