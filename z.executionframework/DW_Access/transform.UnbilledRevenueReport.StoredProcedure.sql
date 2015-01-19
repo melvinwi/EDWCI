@@ -1077,8 +1077,21 @@ ON     DimMeterRegister.MeterRegisterKey = #UnbilledRevenue.MeterRegisterKey
 AND    DimMeterRegister.RegisterStatus = N'Active'
 AND    DimMeterRegister.RegisterSystemIdentifer <> 'E1'
 AND    DailySettlementUsage.SettlementDate BETWEEN DimMeterRegister.Meta_EffectiveStartDate AND DimMeterRegister.Meta_EffectiveEndDate
+LEFT
+JOIN   (SELECT DISTINCT BasicMeterRegister.MeterRegisterKey
+        FROM   DW_Dimensional.DW.DimMeterRegister BasicMeterRegister
+        INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister BasicServiceMeterRegister ON BasicServiceMeterRegister.MeterRegisterId = BasicMeterRegister.MeterRegisterId
+        INNER  JOIN DW_Dimensional.DW.DimService BasicService ON BasicService.ServiceId = BasicServiceMeterRegister.ServiceId
+        INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceKey = BasicService.ServiceKey
+        INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister ON FactServiceMeterRegister.MeterRegisterId = DimService.ServiceId
+        INNER  JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactServiceMeterRegister.MeterRegisterId
+        WHERE  RTRIM(BasicMeterRegister.RegisterSystemIdentifer) = N'1R'
+        AND    RTRIM(DimMeterRegister.RegisterSystemIdentifer) <> N'1R'
+        AND    RTRIM(DimMeterRegister.RegisterSystemIdentifer) LIKE N'%R') BasicMeterRegisters
+ON     BasicMeterRegisters.MeterRegisterKey = #UnbilledRevenue.MeterRegisterKey
 WHERE  #UnbilledRevenue.ScheduleType = N'Usage'
 AND    #UnbilledRevenue.MeterRegisterReadDirection = N'Export'
+AND    (DimMeterRegister.MeterRegisterSystemIdentifier <> N'1R' OR BasicMeterRegisters.MeterRegisterKey IS NULL)
 AND    DailySettlementUsage.recency = 1;
 
 -- 6m, 30,387,597 rows
@@ -1117,6 +1130,19 @@ LEFT
 JOIN   #UnbilledRevenue
 ON     #UnbilledRevenue.MeterRegisterKey = MeterRegisterKeys.MeterRegisterKey
 AND    SettlementUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
+LEFT
+JOIN   (SELECT DISTINCT BasicMeterRegister.MeterRegisterKey
+        FROM   DW_Dimensional.DW.DimMeterRegister BasicMeterRegister
+        INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister BasicServiceMeterRegister ON BasicServiceMeterRegister.MeterRegisterId = BasicMeterRegister.MeterRegisterId
+        INNER  JOIN DW_Dimensional.DW.DimService BasicService ON BasicService.ServiceId = BasicServiceMeterRegister.ServiceId
+        INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceKey = BasicService.ServiceKey
+        INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister ON FactServiceMeterRegister.MeterRegisterId = DimService.ServiceId
+        INNER  JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactServiceMeterRegister.MeterRegisterId
+        WHERE  RTRIM(BasicMeterRegister.RegisterSystemIdentifer) = N'1R'
+        AND    RTRIM(DimMeterRegister.RegisterSystemIdentifer) <> N'1R'
+        AND    RTRIM(DimMeterRegister.RegisterSystemIdentifer) LIKE N'%R') BasicMeterRegisters
+ON     BasicMeterRegisters.MeterRegisterKey = DimMeterRegister.MeterRegisterKey
+WHERE  (DimMeterRegister.MeterRegisterSystemIdentifier <> N'1R' OR BasicMeterRegisters.MeterRegisterKey IS NULL)
 GROUP  BY SettlementUsage.ServiceKey,
           SettlementUsage.SettlementDate;
 
@@ -1180,8 +1206,21 @@ ON     DimMeterRegister.MeterRegisterKey = #UnbilledRevenue.MeterRegisterKey
 AND    DimMeterRegister.RegisterStatus = N'Active'
 AND    DimMeterRegister.RegisterSystemIdentifer <> 'E1'
 AND    DailyEstimatedUsage.SettlementDate BETWEEN DimMeterRegister.Meta_EffectiveStartDate AND DimMeterRegister.Meta_EffectiveEndDate
+LEFT
+JOIN   (SELECT DISTINCT BasicMeterRegister.MeterRegisterKey
+        FROM   DW_Dimensional.DW.DimMeterRegister BasicMeterRegister
+        INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister BasicServiceMeterRegister ON BasicServiceMeterRegister.MeterRegisterId = BasicMeterRegister.MeterRegisterId
+        INNER  JOIN DW_Dimensional.DW.DimService BasicService ON BasicService.ServiceId = BasicServiceMeterRegister.ServiceId
+        INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceKey = BasicService.ServiceKey
+        INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister ON FactServiceMeterRegister.MeterRegisterId = DimService.ServiceId
+        INNER  JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactServiceMeterRegister.MeterRegisterId
+        WHERE  RTRIM(BasicMeterRegister.RegisterSystemIdentifer) = N'1R'
+        AND    RTRIM(DimMeterRegister.RegisterSystemIdentifer) <> N'1R'
+        AND    RTRIM(DimMeterRegister.RegisterSystemIdentifer) LIKE N'%R') BasicMeterRegisters
+ON     BasicMeterRegisters.MeterRegisterKey = #UnbilledRevenue.MeterRegisterKey
 WHERE  #UnbilledRevenue.ScheduleType = N'Usage'
 AND    #UnbilledRevenue.MeterRegisterReadDirection = N'Export'
+AND    (DimMeterRegister.MeterRegisterSystemIdentifier <> N'1R' OR BasicMeterRegisters.MeterRegisterKey IS NULL)
 AND    DailyEstimatedUsage.recency = 1;
 
 -- 17s, 64,934,432 rows
@@ -1221,6 +1260,19 @@ LEFT
 JOIN   #UnbilledRevenue
 ON     #UnbilledRevenue.MeterRegisterKey = MeterRegisterKeys.MeterRegisterKey
 AND    EstimatedUsage.SettlementDate BETWEEN #UnbilledRevenue.UnbilledFromDate AND #UnbilledRevenue.UnbilledToDate
+LEFT
+JOIN   (SELECT DISTINCT BasicMeterRegister.MeterRegisterKey
+        FROM   DW_Dimensional.DW.DimMeterRegister BasicMeterRegister
+        INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister BasicServiceMeterRegister ON BasicServiceMeterRegister.MeterRegisterId = BasicMeterRegister.MeterRegisterId
+        INNER  JOIN DW_Dimensional.DW.DimService BasicService ON BasicService.ServiceId = BasicServiceMeterRegister.ServiceId
+        INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceKey = BasicService.ServiceKey
+        INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister ON FactServiceMeterRegister.MeterRegisterId = DimService.ServiceId
+        INNER  JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactServiceMeterRegister.MeterRegisterId
+        WHERE  RTRIM(BasicMeterRegister.RegisterSystemIdentifer) = N'1R'
+        AND    RTRIM(DimMeterRegister.RegisterSystemIdentifer) <> N'1R'
+        AND    RTRIM(DimMeterRegister.RegisterSystemIdentifer) LIKE N'%R') BasicMeterRegisters
+ON     BasicMeterRegisters.MeterRegisterKey = DimMeterRegister.MeterRegisterKey
+WHERE  (DimMeterRegister.MeterRegisterSystemIdentifier <> N'1R' OR BasicMeterRegisters.MeterRegisterKey IS NULL)
 GROUP  BY EstimatedUsage.TNICode,
           EstimatedUsage.SettlementDate;
 
