@@ -334,7 +334,7 @@ FROM     (SELECT FiscalMonthNumber AS FinancialMonth
 -- Remove usage rows with no parent daily rows
 DELETE
 FROM   #UnbilledRevenue
-WHERE  NOT EXISTS (SELECT 1 FROM #UnbilledRevenue UR2 WHERE UR2.ScheduleType = N'Daily' AND UR2.AccountNumber = #UnbilledRevenue.AccountNumber AND UR2.MarketIdentifier = #UnbilledRevenue.MarketIdentifier)
+WHERE  NOT EXISTS (SELECT 1 FROM #UnbilledRevenue UR2 WHERE UR2.ScheduleType = N'Daily' AND UR2.AccountNumber = #UnbilledRevenue.AccountNumber AND UR2.MeterRegisterKey = #UnbilledRevenue.MeterRegisterKey)
 AND    ScheduleType = N'Usage';
 
 
