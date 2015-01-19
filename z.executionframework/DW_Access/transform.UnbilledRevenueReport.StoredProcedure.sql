@@ -1091,7 +1091,7 @@ JOIN   (SELECT DISTINCT BasicMeterRegister.MeterRegisterKey
 ON     BasicMeterRegisters.MeterRegisterKey = #UnbilledRevenue.MeterRegisterKey
 WHERE  #UnbilledRevenue.ScheduleType = N'Usage'
 AND    #UnbilledRevenue.MeterRegisterReadDirection = N'Export'
-AND    (DimMeterRegister.MeterRegisterSystemIdentifier <> N'1R' OR BasicMeterRegisters.MeterRegisterKey IS NULL)
+AND    (DimMeterRegister.RegisterSystemIdentifer <> N'1R' OR BasicMeterRegisters.MeterRegisterKey IS NULL)
 AND    DailySettlementUsage.recency = 1;
 
 -- 6m, 30,387,597 rows
@@ -1142,7 +1142,7 @@ JOIN   (SELECT DISTINCT BasicMeterRegister.MeterRegisterKey
         AND    RTRIM(DimMeterRegister.RegisterSystemIdentifer) <> N'1R'
         AND    RTRIM(DimMeterRegister.RegisterSystemIdentifer) LIKE N'%R') BasicMeterRegisters
 ON     BasicMeterRegisters.MeterRegisterKey = DimMeterRegister.MeterRegisterKey
-WHERE  (DimMeterRegister.MeterRegisterSystemIdentifier <> N'1R' OR BasicMeterRegisters.MeterRegisterKey IS NULL)
+WHERE  (DimMeterRegister.RegisterSystemIdentifer <> N'1R' OR BasicMeterRegisters.MeterRegisterKey IS NULL)
 GROUP  BY SettlementUsage.ServiceKey,
           SettlementUsage.SettlementDate;
 
@@ -1220,7 +1220,7 @@ JOIN   (SELECT DISTINCT BasicMeterRegister.MeterRegisterKey
 ON     BasicMeterRegisters.MeterRegisterKey = #UnbilledRevenue.MeterRegisterKey
 WHERE  #UnbilledRevenue.ScheduleType = N'Usage'
 AND    #UnbilledRevenue.MeterRegisterReadDirection = N'Export'
-AND    (DimMeterRegister.MeterRegisterSystemIdentifier <> N'1R' OR BasicMeterRegisters.MeterRegisterKey IS NULL)
+AND    (DimMeterRegister.RegisterSystemIdentifer <> N'1R' OR BasicMeterRegisters.MeterRegisterKey IS NULL)
 AND    DailyEstimatedUsage.recency = 1;
 
 -- 17s, 64,934,432 rows
@@ -1272,7 +1272,7 @@ JOIN   (SELECT DISTINCT BasicMeterRegister.MeterRegisterKey
         AND    RTRIM(DimMeterRegister.RegisterSystemIdentifer) <> N'1R'
         AND    RTRIM(DimMeterRegister.RegisterSystemIdentifer) LIKE N'%R') BasicMeterRegisters
 ON     BasicMeterRegisters.MeterRegisterKey = DimMeterRegister.MeterRegisterKey
-WHERE  (DimMeterRegister.MeterRegisterSystemIdentifier <> N'1R' OR BasicMeterRegisters.MeterRegisterKey IS NULL)
+WHERE  (DimMeterRegister.RegisterSystemIdentifer <> N'1R' OR BasicMeterRegisters.MeterRegisterKey IS NULL)
 GROUP  BY EstimatedUsage.TNICode,
           EstimatedUsage.SettlementDate;
 
