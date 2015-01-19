@@ -1083,7 +1083,7 @@ JOIN   (SELECT DISTINCT BasicMeterRegister.MeterRegisterKey
         INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister BasicServiceMeterRegister ON BasicServiceMeterRegister.MeterRegisterId = BasicMeterRegister.MeterRegisterId
         INNER  JOIN DW_Dimensional.DW.DimService BasicService ON BasicService.ServiceId = BasicServiceMeterRegister.ServiceId
         INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceKey = BasicService.ServiceKey
-        INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister ON FactServiceMeterRegister.MeterRegisterId = DimService.ServiceId
+        INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister ON FactServiceMeterRegister.ServiceId = DimService.ServiceId
         INNER  JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactServiceMeterRegister.MeterRegisterId
         WHERE  RTRIM(BasicMeterRegister.RegisterSystemIdentifer) = N'1R'
         AND    RTRIM(DimMeterRegister.RegisterSystemIdentifer) <> N'1R'
@@ -1136,7 +1136,7 @@ JOIN   (SELECT DISTINCT BasicMeterRegister.MeterRegisterKey
         INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister BasicServiceMeterRegister ON BasicServiceMeterRegister.MeterRegisterId = BasicMeterRegister.MeterRegisterId
         INNER  JOIN DW_Dimensional.DW.DimService BasicService ON BasicService.ServiceId = BasicServiceMeterRegister.ServiceId
         INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceKey = BasicService.ServiceKey
-        INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister ON FactServiceMeterRegister.MeterRegisterId = DimService.ServiceId
+        INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister ON FactServiceMeterRegister.ServiceId = DimService.ServiceId
         INNER  JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactServiceMeterRegister.MeterRegisterId
         WHERE  RTRIM(BasicMeterRegister.RegisterSystemIdentifer) = N'1R'
         AND    RTRIM(DimMeterRegister.RegisterSystemIdentifer) <> N'1R'
@@ -1212,7 +1212,7 @@ JOIN   (SELECT DISTINCT BasicMeterRegister.MeterRegisterKey
         INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister BasicServiceMeterRegister ON BasicServiceMeterRegister.MeterRegisterId = BasicMeterRegister.MeterRegisterId
         INNER  JOIN DW_Dimensional.DW.DimService BasicService ON BasicService.ServiceId = BasicServiceMeterRegister.ServiceId
         INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceKey = BasicService.ServiceKey
-        INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister ON FactServiceMeterRegister.MeterRegisterId = DimService.ServiceId
+        INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister ON FactServiceMeterRegister.ServiceId = DimService.ServiceId
         INNER  JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactServiceMeterRegister.MeterRegisterId
         WHERE  RTRIM(BasicMeterRegister.RegisterSystemIdentifer) = N'1R'
         AND    RTRIM(DimMeterRegister.RegisterSystemIdentifer) <> N'1R'
@@ -1266,7 +1266,7 @@ JOIN   (SELECT DISTINCT BasicMeterRegister.MeterRegisterKey
         INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister BasicServiceMeterRegister ON BasicServiceMeterRegister.MeterRegisterId = BasicMeterRegister.MeterRegisterId
         INNER  JOIN DW_Dimensional.DW.DimService BasicService ON BasicService.ServiceId = BasicServiceMeterRegister.ServiceId
         INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceKey = BasicService.ServiceKey
-        INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister ON FactServiceMeterRegister.MeterRegisterId = DimService.ServiceId
+        INNER  JOIN DW_Dimensional.DW.FactServiceMeterRegister ON FactServiceMeterRegister.ServiceId = DimService.ServiceId
         INNER  JOIN DW_Dimensional.DW.DimMeterRegister ON DimMeterRegister.MeterRegisterId = FactServiceMeterRegister.MeterRegisterId
         WHERE  RTRIM(BasicMeterRegister.RegisterSystemIdentifer) = N'1R'
         AND    RTRIM(DimMeterRegister.RegisterSystemIdentifer) <> N'1R'
