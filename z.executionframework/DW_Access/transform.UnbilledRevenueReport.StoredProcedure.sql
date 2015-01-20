@@ -1057,6 +1057,7 @@ SET    UnbilledFromDate = (SELECT MAX(UnbilledFromDate)
                                           (@ReportStartDate)) u(UnbilledFromDate))
 FROM   #UnbilledRevenue UnbilledRevenue
 WHERE  UnbilledRevenue.LastBilledActualReadDate < UnbilledRevenue.LastBilledReadDate
+AND    UnbilledRevenue.LastBilledReadType = N'Estimated';
 
 -- 
 -- =========================================================
