@@ -1050,7 +1050,7 @@ AND    t.recency = 1;
 UPDATE UnbilledRevenue
 SET    UnbilledFromDate = (SELECT MAX(UnbilledFromDate)
                            FROM   (VALUES ((SELECT DATEADD(DAY, 1, MAX(#UnbilledRevenue.UnbilledToDate))
-                   	                        FROM   #UnbilledRevenue
+                                            FROM   #UnbilledRevenue
                                             WHERE  #UnbilledRevenue.MeterRegisterKey = UnbilledRevenue.MeterRegisterKey
                                             AND    #UnbilledRevenue.UnbilledToDate < UnbilledRevenue.UnbilledFromDate)),
                                           (DATEADD(DAY, 1, UnbilledRevenue.LastBilledActualReadDate)),
@@ -1076,6 +1076,16 @@ AND    UnbilledFromDate < LastBilledReadDate;
 
 -- 3s, 1,313 rows
 -- =========================================================
+
+-- Set BilledEstimatedUsage
+UPDATE #UnbilledRevenue
+SET    BilledEstimatedUsage = LastBilledRead - LastBilledActualRead
+WHERE  ScheduleType = N'Usage'
+AND    MeterRegisterReadDirection = N'Export'
+AND    LastBilledReadType = N'Estimated';
+
+-- 0s, 11,290 rows
+--==========================================================
 
 --Drop and create temporary table
 IF OBJECT_ID (N'tempdb..#SettlementUsage') IS NOT NULL
@@ -1125,7 +1135,7 @@ AND    #UnbilledRevenue.MeterRegisterReadDirection = N'Export'
 AND    (DimMeterRegister.RegisterSystemIdentifer <> N'1R' OR BasicMeterRegisters.MeterRegisterKey IS NULL)
 AND    DailySettlementUsage.recency = 1;
 
--- 6m, 30,387,597 rows
+-- 1m15s, 29,511,932 rows
 -- =========================================================
 
 --Drop and create temporary table
@@ -1177,7 +1187,7 @@ WHERE  (DimMeterRegister.RegisterSystemIdentifer <> N'1R' OR BasicMeterRegisters
 GROUP  BY SettlementUsage.ServiceKey,
           SettlementUsage.SettlementDate;
 
--- 11s, 13,059,371 rows
+-- 15s, 16,265,768 rows
 -- =========================================================
 
 -- Set SettlementUsage
@@ -1202,7 +1212,7 @@ ON     t.ServiceKey = UnbilledRevenue.ServiceKey
 AND    t.MeterRegisterKey = UnbilledRevenue.MeterRegisterKey
 AND    t.UnbilledFromDate = UnbilledRevenue.UnbilledFromDate;
 
--- 1m, 1,100,456 rows
+-- 20s, 687,331 rows
 -- =========================================================
 
 --Drop and create temporary table
@@ -1254,7 +1264,7 @@ AND    #UnbilledRevenue.MeterRegisterReadDirection = N'Export'
 AND    (DimMeterRegister.RegisterSystemIdentifer <> N'1R' OR BasicMeterRegisters.MeterRegisterKey IS NULL)
 AND    DailyEstimatedUsage.recency = 1;
 
--- 17s, 64,934,432 rows
+-- 19s, 91,915 rows
 -- =========================================================
 
 --Drop and create temporary table
@@ -1307,7 +1317,7 @@ WHERE  (DimMeterRegister.RegisterSystemIdentifer <> N'1R' OR BasicMeterRegisters
 GROUP  BY EstimatedUsage.TNICode,
           EstimatedUsage.SettlementDate;
 
--- 34s, 40,823 rows
+-- 28s, 13,701 rows
 -- =========================================================
 
 -- Set EstimatedUsage
@@ -1332,7 +1342,7 @@ ON     t.TNICode = UnbilledRevenue.TNICode
 AND    t.MeterRegisterKey = UnbilledRevenue.MeterRegisterKey
 AND    t.UnbilledFromDate = UnbilledRevenue.UnbilledFromDate;
 
--- 37s, 924,428 rows
+-- 0s, 9,971 rows
 -- =========================================================
 
 -- Set Total Usage
@@ -1345,7 +1355,7 @@ UPDATE #UnbilledRevenue
 SET    TotalUnbilledUsage = (COALESCE(SettlementUsage,0.0) + COALESCE(EstimatedUsage,0.0)) * TransmissionLossFactor * DLF
 WHERE  BundledFlag = N'Not Bundled';
 
--- 
+-- 8s, 1,118,252 + 809 rows
 -- =========================================================
 
 -- Set TotalUnbilledRevenue for Daily
@@ -1353,7 +1363,7 @@ UPDATE #UnbilledRevenue
 SET    TotalUnbilledRevenue = PriceStep1 * UnbilledDays * FixedTariffAdjustment
 WHERE  #UnbilledRevenue.ScheduleType = N'Daily';
 
--- 4s, 458,955 rows
+-- 4s, 380,186 rows
 --==========================================================
 
 -- Set TotalUnbilledRevenue for Usage
@@ -1380,7 +1390,44 @@ ELSE 0
 END) * VariableTariffAdjustment
 WHERE  #UnbilledRevenue.ScheduleType = N'Usage';
 
--- 
+-- 6s, 738,066 rows
+--==========================================================
+
+-- Set BilledEstimatedRevenue for Billed Estimated Usage
+UPDATE #UnbilledRevenue
+SET    BilledEstimatedRevenue = SIGN(BilledEstimatedUsage) *
+(CASE WHEN ABS(BilledEstimatedUsage) > (UnitStep1 * BilledEstimatedDays) THEN UnitStep1 * BilledEstimatedDays * PriceStep1 
+WHEN ABS(BilledEstimatedUsage) > 0 THEN ABS(BilledEstimatedUsage) * PriceStep1
+ELSE 0
+END
++
+CASE WHEN ABS(BilledEstimatedUsage) > (UnitStep2 * BilledEstimatedDays) THEN (UnitStep2 - UnitStep1) * BilledEstimatedDays * PriceStep2 
+WHEN ABS(BilledEstimatedUsage) > (UnitStep1 * BilledEstimatedDays) THEN (ABS(BilledEstimatedUsage) - (UnitStep1*BilledEstimatedDays)) * PriceStep2
+ELSE 0
+END
++
+CASE WHEN ABS(BilledEstimatedUsage) > (UnitStep3 * BilledEstimatedDays) THEN (UnitStep3 - UnitStep2) * BilledEstimatedDays * PriceStep3
+WHEN ABS(BilledEstimatedUsage) > (UnitStep2 * BilledEstimatedDays) THEN (ABS(BilledEstimatedUsage) - (UnitStep2*BilledEstimatedDays)) * PriceStep3
+ELSE 0
+END
++
+CASE WHEN ABS(BilledEstimatedUsage) > (UnitStep4 * BilledEstimatedDays) THEN ((UnitStep4 - UnitStep3) * BilledEstimatedDays * PriceStep4) + ((ABS(BilledEstimatedUsage) - (UnitStep4*BilledEstimatedDays)) * PriceStep5)
+WHEN ABS(BilledEstimatedUsage) > (UnitStep3 * BilledEstimatedDays) THEN (ABS(BilledEstimatedUsage) - (UnitStep3*BilledEstimatedDays)) * PriceStep4
+ELSE 0
+END) * VariableTariffAdjustment
+WHERE  #UnbilledRevenue.BilledEstimatedUsage IS NOT NULL;
+
+-- 0s, 718 rows
+--==========================================================
+
+-- Update Total for Billed Estimate
+
+UPDATE #UnbilledRevenue
+SET    TotalUnbilledUsage = TotalUnbilledUsage - BilledEstimatedUsage,
+    TotalUnbilledRevenue = TotalUnbilledRevenue - BilledEstimatedRevenue
+WHERE  #UnbilledRevenue.BilledEstimatedUsage IS NOT NULL;
+
+--0s, 718 rows
 --==========================================================
 
 -- Remove historical records for this report date
@@ -1430,6 +1477,8 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[LastBilledRead]
            ,[LastBilledReadDate]
            ,[LastBilledReadType]
+     ,[LastBilledActualRead]
+     ,[LastBilledActualReadDate]
            ,[ScheduleType]
            ,[FixedTariffAdjustment]
            ,[VariableTariffAdjustment]
@@ -1496,6 +1545,8 @@ INSERT INTO [Views].[UnbilledRevenueReport]
            ,[LastBilledRead]
            ,[LastBilledReadDate]
            ,[LastBilledReadType]
+     ,[LastBilledActualRead]
+     ,[LastBilledActualReadDate]
            ,[ScheduleType]
            ,[FixedTariffAdjustment]
            ,[VariableTariffAdjustment]
