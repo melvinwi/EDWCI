@@ -1079,7 +1079,7 @@ AND    UnbilledFromDate < LastBilledReadDate;
 
 -- Set BilledEstimatedUsage
 UPDATE #UnbilledRevenue
-SET    BilledEstimatedUsage = LastBilledRead - LastBilledActualRead
+SET    BilledEstimatedUsage = (LastBilledRead - LastBilledActualRead) * RegisterMultiplier
 WHERE  ScheduleType = N'Usage'
 AND    MeterRegisterReadDirection = N'Export'
 AND    LastBilledReadType = N'Estimated';
