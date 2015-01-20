@@ -1029,7 +1029,6 @@ JOIN   (SELECT DimAccount.AccountKey,
         AND    FactTransaction.Reversal = N'No '
         AND    FactTransaction.Reversed = N'No '
         AND    FactTransaction.EndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
-        AND    FactTransaction.EndDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
         AND    FactTransaction.EndDateId <> 99991231
         AND    FactTransaction.AccountingPeriod <= @AccountingPeriod
         AND    ((DimService.MeteringType = N'Deemed' AND #MeterReads.MeterRegisterKey IS NOT NULL) OR DimService.MeteringType = N'TOU')
