@@ -285,7 +285,6 @@ JOIN   (SELECT DimAccount.AccountKey,
         AND    FactTransaction.Reversal = N'No '
         AND    FactTransaction.Reversed = N'No '
         AND    FactTransaction.EndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
-        AND    FactTransaction.EndDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
         AND    FactTransaction.EndDateId <> 99991231
         AND    FactTransaction.AccountingPeriod <= @AccountingPeriod
         GROUP  BY DimAccount.AccountKey, DimService.ServiceKey) Transactions
@@ -306,7 +305,6 @@ JOIN   (SELECT DimAccount.AccountKey,
         AND    FactTransaction.Reversal = N'No '
         AND    FactTransaction.Reversed = N'No '
         AND    FactTransaction.EndDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
-        AND    FactTransaction.EndDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
         AND    FactTransaction.EndDateId <> 99991231
         AND    FactTransaction.AccountingPeriod <= @AccountingPeriod
         GROUP  BY DimAccount.AccountKey, DimService.ServiceKey, DimMeterRegister.MeterRegisterKey, FactTransaction.EndDateId, FactTransaction.EndRead) UsageTransactions
