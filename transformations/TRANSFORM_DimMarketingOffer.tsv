@@ -1,8 +1,0 @@
-# design artefact				
-# ARTEFACT: TRANSFORM_DimMarketingOffer				
-# DESCRIPTION: Promote DimMarketingOffer from spreadsheet sourced tables to DataStore 				
-SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
-	csv_DimMarketingOffer.MarketingOfferKey		DimMarketingOffer.MarketingOfferKey	One to one mapping
-	csv_DimMarketingOffer.MarketingOfferShortDesc		DimMarketingOffer.MarketingOfferShortDesc	One to one mapping
-	csv_DimMarketingOffer.MarketingOfferDesc		DimMarketingOffer.MarketingOfferDesc	One to one mapping	
-SELECTION_CRITERIA	"FROM [schema].csv_DimMarketingOffer"			

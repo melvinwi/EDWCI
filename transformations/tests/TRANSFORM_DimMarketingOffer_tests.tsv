@@ -1,8 +1,0 @@
-# test artefact			
-# ARTEFACT: TRANSFORM_DimMarketingOffer_tests			
-# DESCRIPTION: Test each transformation rule			
-SOURCE_SELECTION_CRITERIA	DESTINATION_SELECTION_CRITERIA	TEST	DESCRIPTION
-FROM [schema].csv_DimMarketingOffer		source.length.should.equal(destination.length)	row counts should match
-FROM [schema].csv_DimMarketingOffer WHERE MarketingOfferKey = '1'	WHERE MarketingOfferKey = '1'	source[0].MarketingOfferKey.should.equal(destination[0].MarketingOfferKey)	one to one
-FROM [schema].csv_DimMarketingOffer WHERE MarketingOfferKey = '1'	WHERE MarketingOfferKey = '1'	source[0].MarketingOfferShortDesc.should.equal(destination[0].MarketingOfferShortDesc)	one to one
-FROM [schema].csv_DimMarketingOffer WHERE MarketingOfferKey = '1'	WHERE MarketingOfferKey = '1'	source[0].MarketingOfferDesc.should.equal(destination[0].MarketingOfferDesc)	one to one
