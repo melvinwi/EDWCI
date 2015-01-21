@@ -1,4 +1,4 @@
-CREATE VIEW Views.vTransmissionNodeDailyLoad
+CREATE VIEW [Views].[vTransmissionNodeDailyLoad]
 AS
 SELECT -- DimTransmissionNode
        DimTransmissionNode.TransmissionNodeIdentity,
@@ -19,7 +19,8 @@ SELECT -- DimTransmissionNode
        FactTransmissionNodeDailyLoad.ExportReactivePower,
        FactTransmissionNodeDailyLoad.SettlementAmount,
        FactTransmissionNodeDailyLoad.MeterRun,
-       FactTransmissionNodeDailyLoad.MeteringDataAgent
+       FactTransmissionNodeDailyLoad.MeteringDataAgent,
+	  FactTransmissionNodeDailyLoad.TransmissionLossFactor
 FROM   DW_Dimensional.DW.FactTransmissionNodeDailyLoad
 INNER  JOIN (SELECT FactTransmissionNodeDailyLoad.TransmissionNodeId,
                     FactTransmissionNodeDailyLoad.SettlementDateId,
@@ -28,3 +29,6 @@ INNER  JOIN (SELECT FactTransmissionNodeDailyLoad.TransmissionNodeId,
              GROUP  BY FactTransmissionNodeDailyLoad.TransmissionNodeId,
                        FactTransmissionNodeDailyLoad.SettlementDateId) t ON t.TransmissionNodeId = FactTransmissionNodeDailyLoad.TransmissionNodeId AND t.SettlementDateId = FactTransmissionNodeDailyLoad.SettlementDateId AND t.MaxSettlementRun = FactTransmissionNodeDailyLoad.SettlementRun
 LEFT   JOIN DW_Dimensional.DW.DimTransmissionNode ON DimTransmissionNode.TransmissionNodeId = FactTransmissionNodeDailyLoad.TransmissionNodeId;
+
+GO
+

@@ -1,10 +1,10 @@
-CREATE VIEW Views.vActivity
+CREATE VIEW [Views].[vActivity]
 AS
 WITH   dimMarketingCampaign
        AS (SELECT DimActivityType.ActivityTypeKey,
                   DimMarketingCampaign.MarketingCampaignShortDesc,
                   DimMarketingCampaign.MarketingCampaignStartDate,
-                  row_number() OVER (PARTITION BY DimActivityType.ActivityTypeKey ORDER BY DimMarketingCampaign.MarketingCampaignStartDate DESC) AS recency
+                  ROW_NUMBER() OVER (PARTITION BY DimActivityType.ActivityTypeKey ORDER BY DimMarketingCampaign.MarketingCampaignStartDate DESC) AS recency
            FROM   DW_Dimensional.DW.DimActivityType
            INNER  JOIN DW_Dimensional.DW.FactMarketingCampaignActivity ON FactMarketingCampaignActivity.ActivityTypeId = DimActivityType.ActivityTypeId
            INNER  JOIN DW_Dimensional.DW.DimMarketingCampaign ON DimMarketingCampaign.MarketingCampaignId = FactMarketingCampaignActivity.MarketingCampaignId),
@@ -12,7 +12,7 @@ WITH   dimMarketingCampaign
        AS (SELECT DimCustomer.CustomerKey,
                   DimAccount.AccountKey,
                   DimAccount.AccountClosedDate,
-                  row_number() OVER (PARTITION BY DimCustomer.CustomerKey ORDER BY DimAccount.Meta_EffectiveStartDate DESC) AS recency
+                  ROW_NUMBER() OVER (PARTITION BY DimCustomer.CustomerKey ORDER BY DimAccount.Meta_EffectiveStartDate DESC) AS recency
            FROM   DW_Dimensional.DW.DimCustomer
            INNER  JOIN DW_Dimensional.DW.FactCustomerAccount ON FactCustomerAccount.CustomerId = DimCustomer.CustomerId
            INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactCustomerAccount.AccountId),
@@ -64,9 +64,9 @@ SELECT -- DimCustomer
        -- DimActivityType
        DimActivityTypeCurrent.ActivityTypeCode,
        DimActivityTypeCurrent.ActivityTypeDesc,
+       DimActivityTypeCurrent.ActivityCategory,
        -- FactActivity
        CONVERT(DATETIME2, CAST(FactActivity.ActivityDateId AS NCHAR(8)) + ' ' + CAST(FactActivity.ActivityTime AS NCHAR(16))) AS ActivityDate,
-       FactActivity.ActivityCategory,
        FactActivity.ActivityCommunicationMethod,
        FactActivity.ActivityNotes,
        -- DimCampaign
@@ -87,3 +87,6 @@ LEFT   JOIN DW_Dimensional.DW.DimActivityType AS DimActivityTypeCurrent ON DimAc
 LEFT   JOIN dimMarketingCampaign ON dimMarketingCampaign.ActivityTypeKey = DimActivityTypeCurrent.ActivityTypeKey AND dimMarketingCampaign.recency = 1
 LEFT   JOIN dimAccount ON dimAccount.CustomerKey = DimCustomerCurrent.CustomerKey AND dimAccount.recency = 1
 LEFT   JOIN factContract ON factContract.AccountKey = dimAccount.AccountKey AND CONVERT(DATE, CAST(factContract.MaxContractStartDateId AS NCHAR(8)), 120) >= dimMarketingCampaign.MarketingCampaignStartDate;
+
+GO
+

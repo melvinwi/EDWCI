@@ -1,4 +1,4 @@
-CREATE VIEW Views.vContract
+CREATE VIEW [Views].[vContract]
 AS
 WITH dimCustomer
        AS (SELECT DimAccount.AccountKey,
@@ -25,8 +25,9 @@ SELECT -- DimAccount
        DimAccountCurrent.MyAccountStatus,
        DimAccountCurrent.ACN,
        DimAccountCurrent.ABN,
-	   DimAccountCurrent.AccountType,
-	   DimAccountCurrent.BillCycleCode,
+	  DimAccountCurrent.AccountType,
+	  DimAccountCurrent.BillCycleCode,
+	  DimAccountCurrent.DistrictState,
        -- DimService
        DimServiceCurrent.MarketIdentifier,
        DimServiceCurrent.ServiceType,
@@ -39,40 +40,42 @@ SELECT -- DimAccount
        DimServiceCurrent.NextScheduledReadDate,
        DimServiceCurrent.FRMPDate,
        DimServiceCurrent.Threshold,
-	   DimServiceCurrent.FirstImportRegisterDate,
+	  DimServiceCurrent.FirstImportRegisterDate,
        DimServiceCurrent.SiteStatus,
        DimServiceCurrent.SiteStatusType,
-	   -- DimTransmissionNode
-	   DimTransmissionNodeCurrent.TransmissionNodeIdentity,
-	   DimTransmissionNodeCurrent.TransmissionNodeName,
-	   DimTransmissionNodeCurrent.TransmissionNodeState,
-	   DimTransmissionNodeCurrent.TransmissionNodeNetwork,
-	   DimTransmissionNodeCurrent.TransmissionNodeServiceType,
-	   DimTransmissionNodeCurrent.TransmissionNodeLossFactor,
+	  -- DimTransmissionNode
+	  DimTransmissionNodeCurrent.TransmissionNodeIdentity,
+	  DimTransmissionNodeCurrent.TransmissionNodeName,
+	  DimTransmissionNodeCurrent.TransmissionNodeState,
+	  DimTransmissionNodeCurrent.TransmissionNodeNetwork,
+	  DimTransmissionNodeCurrent.TransmissionNodeServiceType,
+	  DimTransmissionNodeCurrent.TransmissionNodeLossFactor,
        -- DimProduct
        DimProductCurrent.ProductName,
        DimProductCurrent.ProductDesc,
        DimProductCurrent.ProductType,
-	   DimProductCurrent.FixedTariffAdjustPercentage,
-	   DimProductCurrent.VariableTariffAdjustPercentage,
+	  DimProductCurrent.FixedTariffAdjustPercentage,
+	  DimProductCurrent.VariableTariffAdjustPercentage,
        -- DimPricePlan
        DimPricePlanCurrent.PricePlanCode,
        DimPricePlanCurrent.PricePlanName,
        DimPricePlanCurrent.PricePlanDiscountPercentage,
        DimPricePlanCurrent.PricePlanValueRatio,
-	   DimPricePlanCurrent.PricePlanType,
-	   DimPricePlanCurrent.Bundled,
-	   DimPricePlanCurrent.ParentPricePlanCode,
-	   -- dimCustomer
-	   dimCustomer.LastName,
+	  DimPricePlanCurrent.PricePlanType,
+	  DimPricePlanCurrent.Bundled,
+	  DimPricePlanCurrent.ParentPricePlanCode,
+	  -- dimCustomer
+	  dimCustomer.LastName,
        -- FactContract
        CONVERT(DATE, CAST(FactContract.ContractConnectedDateId AS NCHAR(8)), 112) AS ContractConnectedDate,
-	   CONVERT(DATE, CAST(FactContract.ContractFRMPDateId AS NCHAR(8)), 112) AS ContractFRMPDate,
-	   CONVERT(DATE, CAST(FactContract.ContractStartDateId AS NCHAR(8)), 112) AS ContractStartDate,
+	  CONVERT(DATE, CAST(FactContract.ContractFRMPDateId AS NCHAR(8)), 112) AS ContractFRMPDate,
+	  CONVERT(DATE, CAST(FactContract.ContractStartDateId AS NCHAR(8)), 112) AS ContractStartDate,
        CONVERT(DATE, CAST(FactContract.ContractEndDateId AS NCHAR(8)), 112) AS ContractEndDate,
        CONVERT(DATE, CAST(FactContract.ContractTerminatedDateId AS NCHAR(8)), 112) AS ContractTerminatedDate,
        FactContract.ContractStatus,
-       FactContract.ContractCounter
+       FactContract.ContractCounter,
+	  FactContract.ContractDetailedStatus,
+	  CONVERT(DATE, CAST(FactContract.ContractLatestStatusDateId AS NCHAR(8)), 112) AS ContractLatestStatusDate
 FROM   DW_Dimensional.DW.FactContract
 LEFT   JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactContract.AccountId
 LEFT   JOIN DW_Dimensional.DW.DimAccount AS DimAccountCurrent ON DimAccountCurrent.AccountKey = DimAccount.AccountKey AND DimAccountCurrent.Meta_IsCurrent = 1
@@ -84,3 +87,7 @@ LEFT   JOIN DW_Dimensional.DW.DimProduct AS DimProductCurrent ON DimProductCurre
 LEFT   JOIN DW_Dimensional.DW.DimPricePlan ON DimPricePlan.PricePlanId = FactContract.PricePlanId
 LEFT   JOIN DW_Dimensional.DW.DimPricePlan AS DimPricePlanCurrent ON DimPricePlanCurrent.PricePlanKey = DimPricePlan.PricePlanKey AND DimPricePlanCurrent.Meta_IsCurrent = 1
 LEFT   JOIN dimCustomer ON dimCustomer.AccountKey = DimAccountCurrent.AccountKey AND dimCustomer.recency = 1;
+
+
+GO
+

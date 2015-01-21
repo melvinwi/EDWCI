@@ -1,4 +1,4 @@
-CREATE VIEW Views.vSalesActivity
+CREATE VIEW [Views].[vSalesActivity]
 AS
 SELECT -- DimAccount
        DimAccountCurrent.AccountCode,
@@ -18,7 +18,8 @@ SELECT -- DimAccount
        DimAccountCurrent.ACN,
        DimAccountCurrent.ABN,
        DimAccountCurrent.AccountType,
-       DimAccountCurrent.BillCycleCode,
+	  DimAccountCurrent.BillCycleCode,
+	  DimAccountCurrent.DistrictState,
        -- DimService
        DimServiceCurrent.MarketIdentifier,
        DimServiceCurrent.ServiceType,
@@ -31,23 +32,23 @@ SELECT -- DimAccount
        DimServiceCurrent.NextScheduledReadDate,
        DimServiceCurrent.FRMPDate,
        DimServiceCurrent.Threshold,
-       DimServiceCurrent.FirstImportRegisterDate,
+	  DimServiceCurrent.FirstImportRegisterDate,
        DimServiceCurrent.SiteStatus,
        DimServiceCurrent.SiteStatusType,
        -- DimProduct
        DimProductCurrent.ProductName,
        DimProductCurrent.ProductDesc,
        DimProductCurrent.ProductType,
-       DimProductCurrent.FixedTariffAdjustPercentage,
-       DimProductCurrent.VariableTariffAdjustPercentage,
+	  DimProductCurrent.FixedTariffAdjustPercentage,
+	  DimProductCurrent.VariableTariffAdjustPercentage,
        -- DimPricePlan
        DimPricePlanCurrent.PricePlanCode,
        DimPricePlanCurrent.PricePlanName,
        DimPricePlanCurrent.PricePlanDiscountPercentage,
        DimPricePlanCurrent.PricePlanValueRatio,
-       DimPricePlanCurrent.PricePlanType,
-       DimPricePlanCurrent.Bundled,
-       DimPricePlanCurrent.ParentPricePlanCode,
+	  DimPricePlanCurrent.PricePlanType,
+	  DimPricePlanCurrent.Bundled,
+	  DimPricePlanCurrent.ParentPricePlanCode,
        -- DimRepresentative
        DimRepresentativeCurrent.RepresentativePartyName,
        -- DimOrganisation
@@ -72,3 +73,7 @@ LEFT   JOIN DW_Dimensional.DW.DimRepresentative ON DimRepresentative.Representat
 LEFT   JOIN DW_Dimensional.DW.DimRepresentative AS DimRepresentativeCurrent ON DimRepresentativeCurrent.RepresentativeKey = DimRepresentative.RepresentativeKey AND DimRepresentative.Meta_IsCurrent = 1
 LEFT   JOIN DW_Dimensional.DW.DimOrganisation ON DimOrganisation.OrganisationId = FactSalesActivity.OrganisationId
 LEFT   JOIN DW_Dimensional.DW.DimOrganisation AS DimOrganisationCurrent ON DimOrganisationCurrent.OrganisationKey = DimOrganisation.OrganisationKey AND DimOrganisation.Meta_IsCurrent = 1;
+
+
+GO
+

@@ -1,4 +1,4 @@
-CREATE VIEW Views.vServiceDailyLoad
+CREATE VIEW [Views].[vServiceDailyLoad]
 AS
 SELECT -- DimService
        DimService.ServiceType,
@@ -37,3 +37,5 @@ INNER  JOIN (SELECT FactServiceDailyLoad.MarketIdentifier,
                        FactServiceDailyLoad.SettlementDateId) t ON t.MarketIdentifier = FactServiceDailyLoad.MarketIdentifier AND t.SettlementDateId = FactServiceDailyLoad.SettlementDateId AND t.MaxSettlementCase = FactServiceDailyLoad.SettlementCase
 LEFT   JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactServiceDailyLoad.ServiceId
 LEFT   JOIN DW_Dimensional.DW.DimTransmissionNode ON DimTransmissionNode.TransmissionNodeId = FactServiceDailyLoad.TransmissionNodeId;
+GO
+

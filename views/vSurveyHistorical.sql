@@ -42,3 +42,5 @@ SELECT -- DimCustomer
 FROM   DW_Dimensional.DW.FactSurvey
 LEFT   JOIN DW_Dimensional.DW.DimCustomer ON DimCustomer.CustomerId = FactSurvey.CustomerId
 LEFT   JOIN DW_Dimensional.DW.DimQuestion ON DimQuestion.QuestionId = FactSurvey.QuestionId;
+GO
+

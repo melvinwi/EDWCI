@@ -1,4 +1,4 @@
-CREATE VIEW Views.vServiceDailyLoadHistorical
+CREATE VIEW [Views].[vServiceDailyLoadHistorical]
 AS
 SELECT -- DimService
        DimService.ServiceType,
@@ -31,3 +31,5 @@ SELECT -- DimService
 FROM   DW_Dimensional.DW.FactServiceDailyLoad
 LEFT   JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactServiceDailyLoad.ServiceId
 LEFT   JOIN DW_Dimensional.DW.DimTransmissionNode ON DimTransmissionNode.TransmissionNodeId = FactServiceDailyLoad.TransmissionNodeId;
+GO
+

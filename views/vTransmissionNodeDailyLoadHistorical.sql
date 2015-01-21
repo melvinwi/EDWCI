@@ -1,4 +1,4 @@
-CREATE VIEW Views.vTransmissionNodeDailyLoadHistorical
+CREATE VIEW [Views].[vTransmissionNodeDailyLoadHistorical]
 AS
 SELECT -- DimTransmissionNode
        DimTransmissionNode.TransmissionNodeIdentity,
@@ -22,3 +22,5 @@ SELECT -- DimTransmissionNode
        FactTransmissionNodeDailyLoad.MeteringDataAgent
 FROM   DW_Dimensional.DW.FactTransmissionNodeDailyLoad
 LEFT   JOIN DW_Dimensional.DW.DimTransmissionNode ON DimTransmissionNode.TransmissionNodeId = FactTransmissionNodeDailyLoad.TransmissionNodeId;
+GO
+

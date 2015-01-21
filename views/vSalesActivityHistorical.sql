@@ -1,4 +1,4 @@
-CREATE VIEW Views.vSalesActivityHistorical
+CREATE VIEW [Views].[vSalesActivityHistorical]
 AS
 SELECT -- DimAccount
        DimAccount.AccountCode,
@@ -18,7 +18,8 @@ SELECT -- DimAccount
        DimAccount.ACN,
        DimAccount.ABN,
        DimAccount.AccountType,
-       DimAccount.BillCycleCode,
+	  DimAccount.BillCycleCode,
+	  DimAccount.DistrictState,
        -- DimService
        DimService.MarketIdentifier,
        DimService.ServiceType,
@@ -31,23 +32,23 @@ SELECT -- DimAccount
        DimService.NextScheduledReadDate,
        DimService.FRMPDate,
        DimService.Threshold,
-       DimService.FirstImportRegisterDate,
+	  DimService.FirstImportRegisterDate,
        DimService.SiteStatus,
        DimService.SiteStatusType,
        -- DimProduct
        DimProduct.ProductName,
        DimProduct.ProductDesc,
        DimProduct.ProductType,
-       DimProduct.FixedTariffAdjustPercentage,
-       DimProduct.VariableTariffAdjustPercentage,
+	  DimProduct.FixedTariffAdjustPercentage,
+	  DimProduct.VariableTariffAdjustPercentage,
        -- DimPricePlan
        DimPricePlan.PricePlanCode,
        DimPricePlan.PricePlanName,
        DimPricePlan.PricePlanDiscountPercentage,
        DimPricePlan.PricePlanValueRatio,
-       DimPricePlan.PricePlanType,
-       DimPricePlan.Bundled,
-       DimPricePlan.ParentPricePlanCode,
+	  DimPricePlan.PricePlanType,
+	  DimPricePlan.Bundled,
+	  DimPricePlan.ParentPricePlanCode,
        -- DimRepresentative
        DimRepresentative.RepresentativePartyName,
        -- DimOrganisation
@@ -66,3 +67,7 @@ LEFT   JOIN DW_Dimensional.DW.DimProduct ON DimProduct.ProductId = FactSalesActi
 LEFT   JOIN DW_Dimensional.DW.DimPricePlan ON DimPricePlan.PricePlanId = FactSalesActivity.PricePlanId
 LEFT   JOIN DW_Dimensional.DW.DimRepresentative ON DimRepresentative.RepresentativeId = FactSalesActivity.RepresentativeId
 LEFT   JOIN DW_Dimensional.DW.DimOrganisation ON DimOrganisation.OrganisationId = FactSalesActivity.OrganisationId;
+
+
+GO
+

@@ -1,4 +1,4 @@
-CREATE VIEW Views.vCustomerAccountHistorical
+CREATE VIEW [Views].[vCustomerAccountHistorical]
 AS
 WITH   factSalesActivity
        AS (SELECT DimAccount.AccountKey,
@@ -26,6 +26,7 @@ SELECT -- DimAccount
        DimAccount.ABN,
        DimAccount.AccountType,
        DimAccount.BillCycleCode,
+	  DimAccount.DistrictState,
        -- DimCustomer
        DimCustomer.CustomerCode,
        DimCustomer.Title,
@@ -72,3 +73,6 @@ FROM   DW_Dimensional.DW.FactCustomerAccount
 INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactCustomerAccount.AccountId
 INNER  JOIN DW_Dimensional.DW.DimCustomer ON DimCustomer.CustomerId = FactCustomerAccount.CustomerId
 LEFT   JOIN factSalesActivity ON factSalesActivity.AccountKey = DimAccount.AccountKey AND factSalesActivity.Instance = 1;
+
+GO
+
