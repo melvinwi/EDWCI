@@ -49,8 +49,7 @@ BEGIN
               #notifications.ServiceKey;
 
     -- #latestNotification
-    SELECT #notifications.AccountId,
-           #notifications.ServiceId,
+    SELECT #notifications.AccountKey,
            #notifications.ChangeReasonId,
            #notifications.TransactionDateId,
            _previousNotification.TransactionDateId AS RequestDateId,
@@ -137,17 +136,6 @@ BEGIN
     FROM   DW_Dimensional.DW.FactAgedTrialBalance
     WHERE  DATEDIFF(DAY, CONVERT(NCHAR(8), FactAgedTrialBalance.ATBDateId, 112), GETDATE()) <= 7;
 
-    -- #dimService
-    SELECT DimAccount.AccountKey,
-           MIN(DimService.NextScheduledReadDate) AS NextScheduledReadDate
-    INTO   #dimService
-    FROM   DW_Dimensional.DW.DimAccount
-    INNER  JOIN DW_Dimensional.DW.FactContract ON FactContract.AccountId = DimAccount.AccountId
-    INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactContract.ServiceId
-    WHERE  DimService.Meta_IsCurrent = 1
-    AND    NextScheduledReadDate IS NOT NULL
-    GROUP  BY DimAccount.AccountKey;
-
     -- #salesActivities
     SELECT DimAccount.AccountKey,
            FactSalesActivity.SalesActivityType,
@@ -171,11 +159,11 @@ BEGIN
     AND    CONVERT(DATETIME, CAST(FactActivity.ActivityDateId AS NCHAR(8)), 112) BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE();
 
     -- #CallList
-    SELECT ISNULL(DimCustomer.PartyName, '') AS [Name],
-           ISNULL(DimCustomer.ResidentialAddressLine1, '') AS [ADDRESS],
-           ISNULL(DimCustomer.ResidentialSuburb, '') AS [SUBURB],
-           ISNULL(DimCustomer.PostalPostcode, '') AS [POSTCODE],
-           ISNULL(DimCustomer.ResidentialState, '') AS [ZONE],
+    SELECT ISNULL(DimCustomerCurrent.PartyName, '') AS [Name],
+           ISNULL(DimCustomerCurrent.ResidentialAddressLine1, '') AS [ADDRESS],
+           ISNULL(DimCustomerCurrent.ResidentialSuburb, '') AS [SUBURB],
+           ISNULL(DimCustomerCurrent.PostalPostcode, '') AS [POSTCODE],
+           ISNULL(DimCustomerCurrent.ResidentialState, '') AS [ZONE],
            CASE
              WHEN #phoneNumbers.HomePhone1 IS NOT NULL THEN #phoneNumbers.HomePhone1
              WHEN #phoneNumbers.HomePhone2 IS NOT NULL THEN #phoneNumbers.HomePhone2
@@ -198,9 +186,9 @@ BEGIN
            '' AS [Ph_Work_02],
            '' AS [Ph_Other_01],
            '' AS [Ph_Other_02],
-           ISNULL(DimCustomer.Title, '') AS [TITLE],
-           ISNULL(DimCustomer.CustomerCode, '') AS [PARTYCODE],
-           CONVERT(VARCHAR, DimCustomer.DateOfBirth, 101) AS [DOB],
+           ISNULL(DimCustomerCurrent.Title, '') AS [TITLE],
+           ISNULL(DimCustomerCurrent.CustomerCode, '') AS [PARTYCODE],
+           CONVERT(VARCHAR, DimCustomerCurrent.DateOfBirth, 101) AS [DOB],
            COALESCE(DATEDIFF(DAY, CONVERT(DATE, CAST(#salesActivities.SalesActivityDateId AS NCHAR(8)), 112), GETDATE()), 0) AS [RETAINEDON], --Number of days since last sales involvement (optional)
            CASE
              WHEN #phoneNumbers.MobilePhone1 IS NOT NULL OR #phoneNumbers.MobilePhone2 IS NOT NULL THEN N'Y'
@@ -208,11 +196,11 @@ BEGIN
            END AS [Mobile],
            COALESCE((SELECT COUNT(*)
                      FROM   #contactActivities
-                     WHERE  #contactActivities.CustomerKey = DimCustomer.CustomerKey
+                     WHERE  #contactActivities.CustomerKey = DimCustomerCurrent.CustomerKey
                      AND    DATEDIFF(DAY, CONVERT(NCHAR(8), #contactActivities.ActivityDateId, 112), GETDATE()) <= 10), 0) AS [CONTACTS_10], -- Count of dispositions in last 10 days specific to retention
            COALESCE((SELECT COUNT(*)
                      FROM   #contactActivities
-                     WHERE  #contactActivities.CustomerKey = DimCustomer.CustomerKey
+                     WHERE  #contactActivities.CustomerKey = DimCustomerCurrent.CustomerKey
                      AND    #contactActivities.ActivityDateId >= #latestNotification.RequestDateId), 0) AS [CONTACTS_CR], -- Count of dispositions since CR date
            DATEDIFF(DAY, CONVERT(DATE, CAST(#latestNotification.RequestDateId AS NCHAR(8)), 112), GETDATE()) AS [CRRAISED], -- Number of days since CR raised
            COALESCE(CONVERT(NCHAR(10), DATEDIFF(DAY, GETDATE(), NextScheduledReadDate)), '') AS [CRLOST], -- Number of days before CR is due to be completed (next scheduled read date)
@@ -231,12 +219,12 @@ BEGIN
              ELSE 1
            END AS [PROPENSITYSCORE],
            CASE
-             WHEN DimChangeReason.ChangeReasonCode IN (N'1000', N'1010') THEN DimChangeReason.ChangeReasonCode ELSE ''
+             WHEN DimChangeReasonCurrent.ChangeReasonCode IN (N'1000', N'1010') THEN DimChangeReasonCurrent.ChangeReasonCode ELSE ''
            END AS [UserField1],
-           CASE WHEN DimChangeReason.ChangeReasonCode IN (N'0001', N'0003') THEN DimChangeReason.ChangeReasonCode ELSE '' END AS [UserField2],
+           CASE WHEN DimChangeReasonCurrent.ChangeReasonCode IN (N'0001', N'0003') THEN DimChangeReasonCurrent.ChangeReasonCode ELSE '' END AS [UserField2],
            CONVERT(VARCHAR, GETDATE(), 101) AS [ImportDate],
            '' AS [Remarks],
-           ISNULL(DimCustomer.Email, '') AS [UserField3],
+           ISNULL(DimCustomerCurrent.Email, '') AS [UserField3],
            '' AS [LASTDISPOSITION],
            '' AS [LASTDISPDATE],
            '' AS [LASTDISPTIME],
@@ -250,28 +238,28 @@ BEGIN
            '' AS [PREVIEW],
            '' AS [PREVIOUSCONTACT],
            '' AS [JOB],
-           ISNULL(DimCustomer.PrivacyPreferredStatus, '') AS [Privacy],
-           ROW_NUMBER() OVER (PARTITION BY DimCustomer.CustomerCode ORDER BY #latestNotification.TransactionDateId DESC, #latestNotification.TransactionTime DESC) AS RC
+           ISNULL(DimCustomerCurrent.PrivacyPreferredStatus, '') AS [Privacy],
+           ROW_NUMBER() OVER (PARTITION BY DimCustomerCurrent.CustomerCode ORDER BY #latestNotification.TransactionDateId DESC, #latestNotification.TransactionTime DESC) AS RC
     INTO   #CallList
     FROM   #latestNotification
-    INNER  JOIN DW_Dimensional.DW.DimChangeReason ON DimChangeReason.ChangeReasonId = #latestNotification.ChangeReasonId AND DimChangeReason.Meta_IsCurrent = 1
-    INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = #latestNotification.AccountId AND DimAccount.Meta_IsCurrent = 1
+    INNER  JOIN DW_Dimensional.DW.DimChangeReason ON DimChangeReason.ChangeReasonId = #latestNotification.ChangeReasonId
+    INNER  JOIN DW_Dimensional.DW.DimChangeReason AS DimChangeReasonCurrent ON DimChangeReasonCurrent.ChangeReasonKey = DimChangeReason.ChangeReasonKey AND DimChangeReasonCurrent.Meta_IsCurrent = 1t
+    INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountKey = #latestNotification.AccountKey AND DimAccount.Meta_IsCurrent = 1
     INNER  JOIN DW_Dimensional.DW.FactCustomerAccount ON FactCustomerAccount.AccountId = DimAccount.AccountId
-    INNER  JOIN DW_Dimensional.DW.DimCustomer ON DimCustomer.CustomerId = FactCustomerAccount.CustomerId AND DimCustomer.Meta_IsCurrent = 1
-    INNER  JOIN #phoneNumbers ON #phoneNumbers.CustomerKey = DimCustomer.CustomerKey
-    INNER  JOIN #customerValue ON #customerValue.CustomerKey = DimCustomer.CustomerKey AND #customerValue.RC = 1
-    LEFT   JOIN #retentionActivities ON #retentionActivities.CustomerKey = DimCustomer.CustomerKey
+    INNER  JOIN DW_Dimensional.DW.DimCustomer ON DimCustomer.CustomerId = FactCustomerAccount.CustomerId
+    INNER  JOIN DW_Dimensional.DW.DimCustomer AS DimCustomerCurrent ON DimCustomerCurrent.CustomerKey = DimCustomer.CustomerKey AND DimCustomerCurrent.Meta_IsCurrent = 1
+    INNER  JOIN #phoneNumbers ON #phoneNumbers.CustomerKey = DimCustomerCurrent.CustomerKey
+    INNER  JOIN #customerValue ON #customerValue.CustomerKey = DimCustomerCurrent.CustomerKey AND #customerValue.RC = 1
+    LEFT   JOIN #retentionActivities ON #retentionActivities.CustomerKey = DimCustomerCurrent.CustomerKey
     LEFT   JOIN #agedTrialBalance ON #agedTrialBalance.AccountId = DimAccount.AccountId AND #agedTrialBalance.RC = 1
-    LEFT   JOIN #dimService ON #dimService.AccountKey = DimAccount.AccountKey
     LEFT   JOIN #salesActivities ON #salesActivities.AccountKey = DimAccount.AccountKey AND #salesActivities.RC = 1
-    WHERE  DimChangeReason.ChangeReasonCode IN (N'1000', N'1010', N'0001', N'0003')
-    AND    DimCustomer.CustomerType = N'Residential'
+    WHERE  DimChangeReasonCurrent.ChangeReasonCode IN (N'1000', N'1010', N'0001', N'0003')
+    AND    DimCustomerCurrent.CustomerType = N'Residential'
     AND    NOT ISNULL(#latestNotification.ParticipantCode, N'VENCORP') IN (N'VEPL', N'VEGAS', N'SAEPL', N'QEPL', N'NSWEPL', N'LUMOUSR')
     AND    DimAccount.AccountStatus = N'Open'
     AND    (DimAccount.CreditControlStatus LIKE N'Standard%' OR DimAccount.CreditControlStatus LIKE N'Payplan%')
     AND    #retentionActivities.CustomerKey IS NULL
     AND    COALESCE(#agedTrialBalance.Days61To90 + #agedTrialBalance.Days90Plus, 0) < 500;
-
     
     INSERT INTO [views].[RetentionDiallerList]
         ( [Name]
@@ -380,10 +368,6 @@ BEGIN
             0 AS ErrorRowCount;
     --/
 
-
-
 END;
-
-
 
 GO
