@@ -30,7 +30,7 @@ BEGIN
            FactMarketTransaction.TransactionTime,
            FactMarketTransaction.TransactionStatus,
            FactMarketTransaction.ParticipantCode,
-           ROW_NUMBER() OVER (PARTITION BY DimAccount.AccountKey, DimService.ServiceKey ORDER BY FactMarketTransaction.TransactionDateId DESC, FactMarketTransaction.TransactionTime DESC, FactMarketTransaction.TransactionKey DESC) AS RC
+           ROW_NUMBER() OVER (PARTITION BY DimAccount.AccountKey, DimService.ServiceKey ORDER BY FactMarketTransaction.TransactionDateId DESC, FactMarketTransaction.TransactionTime DESC, CASE WHEN FactMarketTransaction.TransactionStatus IN (N'Requested', N'Pending') THEN 0 ELSE 1 END DESC) AS RC
     INTO   #notifications
     FROM   DW_Dimensional.DW.FactMarketTransaction
     INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactMarketTransaction.AccountId
@@ -136,6 +136,17 @@ BEGIN
     FROM   DW_Dimensional.DW.FactAgedTrialBalance
     WHERE  DATEDIFF(DAY, CONVERT(NCHAR(8), FactAgedTrialBalance.ATBDateId, 112), GETDATE()) <= 7;
 
+    -- #dimService
+    SELECT DimAccount.AccountKey,
+           MIN(DimService.NextScheduledReadDate) AS NextScheduledReadDate
+    INTO   #dimService
+    FROM   DW_Dimensional.DW.DimAccount
+    INNER  JOIN DW_Dimensional.DW.FactContract ON FactContract.AccountId = DimAccount.AccountId
+    INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactContract.ServiceId
+    WHERE  DimService.Meta_IsCurrent = 1
+    AND    DimService.NextScheduledReadDate IS NOT NULL
+    GROUP  BY DimAccount.AccountKey;
+
     -- #salesActivities
     SELECT DimAccount.AccountKey,
            FactSalesActivity.SalesActivityType,
@@ -203,7 +214,7 @@ BEGIN
                      WHERE  #contactActivities.CustomerKey = DimCustomerCurrent.CustomerKey
                      AND    #contactActivities.ActivityDateId >= #latestNotification.RequestDateId), 0) AS [CONTACTS_CR], -- Count of dispositions since CR date
            DATEDIFF(DAY, CONVERT(DATE, CAST(#latestNotification.RequestDateId AS NCHAR(8)), 112), GETDATE()) AS [CRRAISED], -- Number of days since CR raised
-           COALESCE(CONVERT(NCHAR(10), DATEDIFF(DAY, GETDATE(), NextScheduledReadDate)), '') AS [CRLOST], -- Number of days before CR is due to be completed (next scheduled read date)
+           COALESCE(CONVERT(NCHAR(10), DATEDIFF(DAY, GETDATE(), #dimService.NextScheduledReadDate)), '') AS [CRLOST], -- Number of days before CR is due to be completed (next scheduled read date)
            CASE #salesActivities.SalesActivityType
              WHEN N'Retained' THEN 6
              WHEN N'Existing Retain' THEN 18
@@ -243,7 +254,7 @@ BEGIN
     INTO   #CallList
     FROM   #latestNotification
     INNER  JOIN DW_Dimensional.DW.DimChangeReason ON DimChangeReason.ChangeReasonId = #latestNotification.ChangeReasonId
-    INNER  JOIN DW_Dimensional.DW.DimChangeReason AS DimChangeReasonCurrent ON DimChangeReasonCurrent.ChangeReasonKey = DimChangeReason.ChangeReasonKey AND DimChangeReasonCurrent.Meta_IsCurrent = 1t
+    INNER  JOIN DW_Dimensional.DW.DimChangeReason AS DimChangeReasonCurrent ON DimChangeReasonCurrent.ChangeReasonKey = DimChangeReason.ChangeReasonKey AND DimChangeReasonCurrent.Meta_IsCurrent = 1
     INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountKey = #latestNotification.AccountKey AND DimAccount.Meta_IsCurrent = 1
     INNER  JOIN DW_Dimensional.DW.FactCustomerAccount ON FactCustomerAccount.AccountId = DimAccount.AccountId
     INNER  JOIN DW_Dimensional.DW.DimCustomer ON DimCustomer.CustomerId = FactCustomerAccount.CustomerId
@@ -252,14 +263,18 @@ BEGIN
     INNER  JOIN #customerValue ON #customerValue.CustomerKey = DimCustomerCurrent.CustomerKey AND #customerValue.RC = 1
     LEFT   JOIN #retentionActivities ON #retentionActivities.CustomerKey = DimCustomerCurrent.CustomerKey
     LEFT   JOIN #agedTrialBalance ON #agedTrialBalance.AccountId = DimAccount.AccountId AND #agedTrialBalance.RC = 1
+    LEFT   JOIN #dimService ON #dimService.AccountKey = #latestNotification.AccountKey
     LEFT   JOIN #salesActivities ON #salesActivities.AccountKey = DimAccount.AccountKey AND #salesActivities.RC = 1
     WHERE  DimChangeReasonCurrent.ChangeReasonCode IN (N'1000', N'1010', N'0001', N'0003')
     AND    DimCustomerCurrent.CustomerType = N'Residential'
+    AND    DimCustomerCurrent.FirstName NOT LIKE '%Occupier%'
+    AND    DimCustomerCurrent.LastName NOT LIKE '%Occupier%'
+    AND    DimCustomerCurrent.PartyName NOT LIKE '%Occupier%'
     AND    NOT ISNULL(#latestNotification.ParticipantCode, N'VENCORP') IN (N'VEPL', N'VEGAS', N'SAEPL', N'QEPL', N'NSWEPL', N'LUMOUSR')
     AND    DimAccount.AccountStatus = N'Open'
     AND    (DimAccount.CreditControlStatus LIKE N'Standard%' OR DimAccount.CreditControlStatus LIKE N'Payplan%')
     AND    #retentionActivities.CustomerKey IS NULL
-    AND    COALESCE(#agedTrialBalance.Days61To90 + #agedTrialBalance.Days90Plus, 0) < 500;
+    AND    COALESCE(#agedTrialBalance.Days61To90 + #agedTrialBalance.Days90Plus, 0.0) < 500.0;
     
     INSERT INTO [views].[RetentionDiallerList]
         ( [Name]
