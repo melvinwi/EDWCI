@@ -30,7 +30,7 @@ BEGIN
            FactMarketTransaction.TransactionTime,
            FactMarketTransaction.TransactionStatus,
            FactMarketTransaction.ParticipantCode,
-           ROW_NUMBER() OVER (PARTITION BY DimAccount.AccountKey, DimService.ServiceKey ORDER BY FactMarketTransaction.TransactionDateId DESC, FactMarketTransaction.TransactionTime DESC) AS RC
+           ROW_NUMBER() OVER (PARTITION BY DimAccount.AccountKey, DimService.ServiceKey ORDER BY FactMarketTransaction.TransactionDateId DESC, FactMarketTransaction.TransactionTime DESC, FactMarketTransaction.TransactionKey DESC) AS RC
     INTO   #notifications
     FROM   DW_Dimensional.DW.FactMarketTransaction
     INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactMarketTransaction.AccountId
