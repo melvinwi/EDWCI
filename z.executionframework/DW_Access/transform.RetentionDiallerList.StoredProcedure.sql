@@ -121,7 +121,7 @@ BEGIN
                                                 1902, -- Outbound Retention - Lost
                                                 2128, -- Retention - Outbound No Retain Added 09/05/2012 at Hari's request (BIU-386)
                                                 2123) -- Retention – Inbound No Retain Added 04/06/2012 at Hari's request
-            AND DATEDIFF(MONTH, CONVERT(NCHAR(8), FactActivity.ActivityDateId, 112), GETDATE()) <= 3)
+            AND DATEDIFF(DAY, CONVERT(NCHAR(8), FactActivity.ActivityDateId, 112), GETDATE()) <= 90)
     -- Checks for Outbound Retention - Callback within the last 5 days
     OR     (DimActivityType.ActivityTypeKey IN (1903, -- Outbound Retention - Callback
                                                 2130) -- Retention - Outbound Call Back Added 09/05/2012 at Hari's request (BIU-386)
