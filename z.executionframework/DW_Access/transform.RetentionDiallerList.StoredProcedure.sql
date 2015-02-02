@@ -141,6 +141,7 @@ BEGIN
 
     -- #dimService
     SELECT DimAccount.AccountKey,
+           DimService.ServiceKey,
            MIN(DimServiceCurrent.NextScheduledReadDate) AS NextScheduledReadDate
     INTO   #dimService
     FROM   DW_Dimensional.DW.DimAccount
@@ -148,7 +149,8 @@ BEGIN
     INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactContract.ServiceId
     INNER  JOIN DW_Dimensional.DW.DimService AS DimServiceCurrent ON DimServiceCurrent.ServiceKey = DimService.ServiceKey AND DimServiceCurrent.Meta_IsCurrent = 1
     WHERE  DimServiceCurrent.NextScheduledReadDate IS NOT NULL
-    GROUP  BY DimAccount.AccountKey;
+    GROUP  BY DimAccount.AccountKey,
+              DimService.ServiceKey;
 
     -- #salesActivities
     SELECT DimAccount.AccountKey,
@@ -261,7 +263,7 @@ BEGIN
     INNER  JOIN #customerValue ON #customerValue.CustomerKey = DimCustomerCurrent.CustomerKey AND #customerValue.RC = 1
     LEFT   JOIN #retentionActivities ON #retentionActivities.CustomerKey = DimCustomerCurrent.CustomerKey
     LEFT   JOIN #agedTrialBalance ON #agedTrialBalance.AccountKey = #latestNotification.AccountKey AND #agedTrialBalance.RC = 1
-    LEFT   JOIN #dimService ON #dimService.AccountKey = #latestNotification.AccountKey
+    LEFT   JOIN #dimService ON #dimService.AccountKey = #latestNotification.AccountKey AND #dimService.ServiceKey = #latestNotification.ServiceKey
     LEFT   JOIN #salesActivities ON #salesActivities.AccountKey = #latestNotification.AccountKey AND #salesActivities.ServiceKey = #latestNotification.ServiceKey AND #salesActivities.RC = 1
     WHERE  DimCustomerCurrent.CustomerType = N'Residential'
     AND    DimCustomerCurrent.FirstName NOT LIKE '%Occupier%'
