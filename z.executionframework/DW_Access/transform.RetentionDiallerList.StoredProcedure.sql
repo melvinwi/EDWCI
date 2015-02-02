@@ -23,7 +23,7 @@ BEGIN
     -- #notifications
     SELECT DimAccount.AccountKey,
            DimService.ServiceKey,
-           FactMarketTransaction.ChangeReasonId,
+           DimChangeReasonCurrent.ChangeReasonCode,
            FactMarketTransaction.TransactionDateId,
            FactMarketTransaction.TransactionTime,
            FactMarketTransaction.TransactionStatus,
@@ -33,7 +33,10 @@ BEGIN
     FROM   DW_Dimensional.DW.FactMarketTransaction
     INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactMarketTransaction.AccountId
     INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactMarketTransaction.ServiceId
+    INNER  JOIN DW_Dimensional.DW.DimChangeReason ON DimChangeReason.ChangeReasonId = FactMarketTransaction.ChangeReasonId
+    INNER  JOIN DW_Dimensional.DW.DimChangeReason AS DimChangeReasonCurrent ON DimChangeReasonCurrent.ChangeReasonKey = DimChangeReason.ChangeReasonKey AND DimChangeReasonCurrent.Meta_IsCurrent = 1
     WHERE  FactMarketTransaction.TransactionType = N'NOTIFICATION'
+    AND    DimChangeReasonCurrent.ChangeReasonCode IN (N'1000', N'1010', N'0001', N'0003')
     AND    CONVERT(DATETIME, CAST(FactMarketTransaction.TransactionDateId AS NCHAR(8)), 112) BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE();
 
     -- #requestNotifications
@@ -49,7 +52,7 @@ BEGIN
     -- #latestNotification
     SELECT #notifications.AccountKey,
            #notifications.ServiceKey,
-           #notifications.ChangeReasonId,
+           #notifications.ChangeReasonCode,
            #notifications.TransactionDateId,
            _previousNotification.TransactionDateId AS RequestDateId,
            #notifications.TransactionTime,
@@ -227,9 +230,9 @@ BEGIN
              ELSE 1
            END AS [PROPENSITYSCORE],
            CASE
-             WHEN DimChangeReasonCurrent.ChangeReasonCode IN (N'1000', N'1010') THEN DimChangeReasonCurrent.ChangeReasonCode ELSE ''
+             WHEN #latestNotification.ChangeReasonCode IN (N'1000', N'1010') THEN #latestNotification.ChangeReasonCode ELSE ''
            END AS [UserField1],
-           CASE WHEN DimChangeReasonCurrent.ChangeReasonCode IN (N'0001', N'0003') THEN DimChangeReasonCurrent.ChangeReasonCode ELSE '' END AS [UserField2],
+           CASE WHEN #latestNotification.ChangeReasonCode IN (N'0001', N'0003') THEN #latestNotification.ChangeReasonCode ELSE '' END AS [UserField2],
            CONVERT(VARCHAR, GETDATE(), 101) AS [ImportDate],
            '' AS [Remarks],
            ISNULL(DimCustomerCurrent.Email, '') AS [UserField3],
@@ -250,8 +253,6 @@ BEGIN
            ROW_NUMBER() OVER (PARTITION BY DimCustomerCurrent.CustomerCode ORDER BY #latestNotification.TransactionDateId DESC, #latestNotification.TransactionTime DESC) AS RC
     INTO   #CallList
     FROM   #latestNotification
-    INNER  JOIN DW_Dimensional.DW.DimChangeReason ON DimChangeReason.ChangeReasonId = #latestNotification.ChangeReasonId
-    INNER  JOIN DW_Dimensional.DW.DimChangeReason AS DimChangeReasonCurrent ON DimChangeReasonCurrent.ChangeReasonKey = DimChangeReason.ChangeReasonKey AND DimChangeReasonCurrent.Meta_IsCurrent = 1
     INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountKey = #latestNotification.AccountKey AND DimAccount.Meta_IsCurrent = 1
     INNER  JOIN DW_Dimensional.DW.FactCustomerAccount ON FactCustomerAccount.AccountId = DimAccount.AccountId
     INNER  JOIN DW_Dimensional.DW.DimCustomer ON DimCustomer.CustomerId = FactCustomerAccount.CustomerId
@@ -262,8 +263,7 @@ BEGIN
     LEFT   JOIN #agedTrialBalance ON #agedTrialBalance.AccountKey = #latestNotification.AccountKey AND #agedTrialBalance.RC = 1
     LEFT   JOIN #dimService ON #dimService.AccountKey = #latestNotification.AccountKey
     LEFT   JOIN #salesActivities ON #salesActivities.AccountKey = #latestNotification.AccountKey AND #salesActivities.ServiceKey = #latestNotification.ServiceKey AND #salesActivities.RC = 1
-    WHERE  DimChangeReasonCurrent.ChangeReasonCode IN (N'1000', N'1010', N'0001', N'0003')
-    AND    DimCustomerCurrent.CustomerType = N'Residential'
+    WHERE  DimCustomerCurrent.CustomerType = N'Residential'
     AND    DimCustomerCurrent.FirstName NOT LIKE '%Occupier%'
     AND    DimCustomerCurrent.LastName NOT LIKE '%Occupier%'
     AND    DimCustomerCurrent.PartyName NOT LIKE '%Occupier%'
