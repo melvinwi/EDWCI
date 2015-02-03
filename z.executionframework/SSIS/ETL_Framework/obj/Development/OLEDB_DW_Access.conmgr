@@ -9,6 +9,6 @@
     DTS:Name="InitialCatalog">"DW_Access"</DTS:PropertyExpression>
   <DTS:ObjectData>
     <DTS:ConnectionManager
-      DTS:ConnectionString="Data Source=PTM-DB04\SQLDEV1;Initial Catalog=DW_Access;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      DTS:ConnectionString="Data Source=S-PTM-DB23\SQLSTG1;Initial Catalog=DW_Access;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
   </DTS:ObjectData>
 </DTS:ConnectionManager>

@@ -12,18 +12,19 @@
   DTS:ObjectName="CSV - Import - csv_DimMarketingOffer"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="93"
-  DTS:VersionGUID="{9BA548B6-6ED6-43A9-AC7B-171CA42B698F}">
+  DTS:VersionBuild="99"
+  DTS:VersionGUID="{4C1E7756-3D51-4F80-9F4C-EE3D52FF6836}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Flat File - CSV]"
       DTS:CreationName="FLATFILE"
+      DTS:DelayValidation="True"
       DTS:DTSID="{DF8A641E-5B78-4A52-94A7-A6701E23E26E}"
       DTS:ObjectName="Flat File - CSV">
       <DTS:PropertyExpression
-        DTS:Name="ConnectionString">@[User::FilePath]</DTS:PropertyExpression>
+        DTS:Name="ConnectionString">@[User::CSV_Import_Working_FilePath]</DTS:PropertyExpression>
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:Format="Delimited"
@@ -33,7 +34,7 @@
           DTS:RowDelimiter=""
           DTS:TextQualifier="_x003C_none_x003E_"
           DTS:CodePage="1252"
-          DTS:ConnectionString="C:\DW_Development\DataWarehouse\CSV\Import\DimMarketingOffer.csv">
+          DTS:ConnectionString="C:\DW_Development\DataWarehouse\Import\Import_Working\DimMarketingOffer.csv">
           <DTS:FlatFileColumns>
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -129,6 +130,29 @@
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
+      DTS:DTSID="{07194C73-23B7-499E-95A0-D5D6132E7351}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::File_Import_Pending_Folder]  + @[$Package::FileName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="CSV_Import_Pending_FilePath"
+      DTS:RaiseChangedEvent="True">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\DW_Development\DataWarehouse\Import\Import_Pending\DimMarketingOffer.csv</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0CFE0221-A17F-4647-BCEF-DE8EE68A202E}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::File_Import_Working_Folder]  + @[$Package::FileName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="CSV_Import_Working_FilePath">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\DW_Development\DataWarehouse\Import\Import_Working\DimMarketingOffer.csv</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
       DTS:DTSID="{0FC63363-AC28-4B74-BDBE-8453582C57CE}"
       DTS:IncludeInDebugDump="6789"
       DTS:Namespace="User"
@@ -163,18 +187,6 @@
       DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
         DTS:DataType="11">0</DTS:VariableValue>
-    </DTS:Variable>
-    <DTS:Variable
-      DTS:CreationName=""
-      DTS:DTSID="{07194C73-23B7-499E-95A0-D5D6132E7351}"
-      DTS:EvaluateAsExpression="True"
-      DTS:Expression="@[$Project::CSV_ImportFolderPath] + @[$Package::FileName]"
-      DTS:IncludeInDebugDump="2345"
-      DTS:Namespace="User"
-      DTS:ObjectName="FilePath"
-      DTS:RaiseChangedEvent="True">
-      <DTS:VariableValue
-        DTS:DataType="8">C:\DW_Development\DataWarehouse\CSV\Import\DimMarketingOffer.csv</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -561,7 +573,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[csv_temp].[csv_DimMarketingOffer]</property>
+                  name="OpenRowset">[csv_temp].[DimMarketingOffer]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -777,13 +789,15 @@
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\File System Task - Delete File"
+      DTS:refId="Package\File System Task - Move CSV File to Import_Error"
       DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
       DTS:Description="File System Task"
-      DTS:DTSID="{374840F0-21F3-4EFA-9388-0C16A20E823D}"
+      DTS:DTSID="{52125cc5-84ef-40e4-96a7-3d17e8feef61}"
       DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:FailPackageOnFailure="True"
+      DTS:FailParentOnFailure="True"
       DTS:LocaleID="-1"
-      DTS:ObjectName="File System Task - Delete File"
+      DTS:ObjectName="File System Task - Move CSV File to Import_Error"
       DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
       DTS:ThreadHint="0">
       <DTS:Variables />
@@ -791,9 +805,60 @@
         DTS:FilterKind="0" />
       <DTS:ObjectData>
         <FileSystemData
-          TaskOperationType="DeleteFile"
-          TaskSourcePath="User::FilePath"
-          TaskIsSourceVariable="True" />
+          TaskOperationType="MoveFile"
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="User::CSV_Import_Working_FilePath"
+          TaskIsSourceVariable="True"
+          TaskDestinationPath="$Project::File_Import_Error_Folder"
+          TaskIsDestinationVariable="True" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\File System Task - Move CSV File to Import_Success"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="File System Task"
+      DTS:DTSID="{7647e3fe-1062-4f90-b7e9-c5db46faf79c}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:FailPackageOnFailure="True"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="File System Task - Move CSV File to Import_Success"
+      DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOperationType="MoveFile"
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="User::CSV_Import_Working_FilePath"
+          TaskIsSourceVariable="True"
+          TaskDestinationPath="$Project::File_Import_Success_Folder"
+          TaskIsDestinationVariable="True"
+          TaskFileAttributes="Archive" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\File System Task - Move CSV File to Import_Working"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="File System Task"
+      DTS:DTSID="{5ead8611-01a7-42bb-8b32-da10daf1736c}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:MaxErrorCount="0"
+      DTS:ObjectName="File System Task - Move CSV File to Import_Working"
+      DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOperationType="MoveFile"
+          TaskSourcePath="User::CSV_Import_Pending_FilePath"
+          TaskIsSourceVariable="True"
+          TaskDestinationPath="$Project::File_Import_Working_Folder"
+          TaskIsDestinationVariable="True" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -814,7 +879,7 @@
           VSTAMajorVersion="3"
           VSTAMinorVersion="0"
           Language="CSharp"
-          ReadOnlyVariables="User::FilePath"
+          ReadOnlyVariables="User::CSV_Import_Pending_FilePath"
           ReadWriteVariables="User::FileExists">
           <ProjectItem
             Name="Properties\Settings.settings"
@@ -1042,7 +1107,7 @@ namespace ST_a3a73c6caad64cb8b0f0a8969332cb0b
         /// </summary>
 		public void Main()
 		{
-            String Filepath = Dts.Variables["User::FilePath"].Value.ToString();
+            String Filepath = Dts.Variables["User::CSV_Import_Pending_FilePath"].Value.ToString();
 
             if (
             File.Exists(Filepath))
@@ -1074,15 +1139,15 @@ namespace ST_a3a73c6caad64cb8b0f0a8969332cb0b
             Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
 <c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
 	<msb:PropertyGroup>
-		<msb:CodeName>ST_a3a73c6caad64cb8b0f0a8969332cb0b</msb:CodeName>
 		<msb:Language>msBuild</msb:Language>
+		<msb:CodeName>ST_a3a73c6caad64cb8b0f0a8969332cb0b</msb:CodeName>
 		<msb:DisplayName>ST_a3a73c6caad64cb8b0f0a8969332cb0b</msb:DisplayName>
 		<msb:ProjectId>{0E82BCAC-C6CA-48BF-A5E2-3D80ED8F62BD}</msb:ProjectId>
 	</msb:PropertyGroup>
 	<msb:ItemGroup>
 		<msb:Project Include="ST_5ba335a6240b457cb1a6c1c924456bfb.csproj"/>
-		<msb:File Include="Properties\AssemblyInfo.cs"/>
 		<msb:File Include="Properties\Settings.settings"/>
+		<msb:File Include="Properties\AssemblyInfo.cs"/>
 		<msb:File Include="Properties\Resources.resx"/>
 		<msb:File Include="Properties\Resources.Designer.cs"/>
 		<msb:File Include="Properties\Settings.Designer.cs"/>
@@ -1217,44 +1282,44 @@ namespace ST_a3a73c6caad64cb8b0f0a8969332cb0b.Properties {
     }
 }]]></ProjectItem>
           <BinaryItem
-            Name="ST_a3a73c6caad64cb8b0f0a8969332cb0b.dll">TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            Name="ST_5ba335a6240b457cb1a6c1c924456bfb.dll">TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
-ZGUuDQ0KJAAAAAAAAABQRQAATAEDAB0jGlQAAAAAAAAAAOAAAiELAQsAABAAAAAIAAAAAAAAfi4A
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDALdmt1QAAAAAAAAAAOAAAiELAQsAABAAAAAIAAAAAAAAzi4A
 AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAEAAAAAAAAAACAAAAAAgAAAAAAAAMAQIUAABAA
-ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAACguAABTAAAAAEAAAAgEAAAAAAAAAAAAAAAAAAAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAAHQuAABXAAAAAEAAAAgEAAAAAAAAAAAAAAAAAAAA
 AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAAhA4AAAAgAAAAEAAAAAIA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAA1A4AAAAgAAAAEAAAAAIA
 AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAAAgEAAAAQAAAAAYAAAASAAAAAAAAAAAAAAAAAABAAABA
-LnJlbG9jAAAMAAAAAGAAAAACAAAAGAAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAABg
-LgAAAAAAAEgAAAACAAUA4CEAAEgMAAABAAAAAAAAACghAAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAGAAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAACw
+LgAAAAAAAEgAAAACAAUA4CEAAJQMAAABAAAAAAAAACghAAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4CKA4AAAoqEzACAC0AAAABAAARfgEAAAQtIHIBAABw0AIA
 AAIoDwAACm8QAAAKcxEAAAoKBoABAAAEfgEAAAQqGn4CAAAEKh4CgAIAAAQqGn4DAAAEKi5zBgAA
 BoADAAAEKh4CKBQAAAoqABMwAgBVAAAAAgAAEQIoFgAACm8XAAAKcnMAAHBvGAAACm8ZAAAKbxoA
-AAoKBigbAAAKLCACKBYAAApvFwAACnKRAABwbxgAAAoXjB8AAAFvHAAACgIoFgAAChZvHQAACioe
+AAoKBigbAAAKLCACKBYAAApvFwAACnK3AABwbxgAAAoXjB8AAAFvHAAACgIoFgAAChZvHQAACioe
 AigeAAAKKgAAALQAAADOyu++AQAAAJEAAABsU3lzdGVtLlJlc291cmNlcy5SZXNvdXJjZVJlYWRl
 ciwgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlU
 b2tlbj1iNzdhNWM1NjE5MzRlMDg5I1N5c3RlbS5SZXNvdXJjZXMuUnVudGltZVJlc291cmNlU2V0
 AgAAAAAAAAAAAAAAUEFEUEFEULQAAABCU0pCAQABAAAAAAAMAAAAdjQuMC4zMDMxOQAAAAAFAGwA
-AADYAwAAI34AAEQEAADUBQAAI1N0cmluZ3MAAAAAGAoAALQAAAAjVVMAzAoAABAAAAAjR1VJRAAA
-ANwKAABsAQAAI0Jsb2IAAAAAAAAAAgAAAVcdogEJAwAAAPolMwAWAAABAAAAHwAAAAUAAAAGAAAA
+AADYAwAAI34AAEQEAAD4BQAAI1N0cmluZ3MAAAAAPAoAANwAAAAjVVMAGAsAABAAAAAjR1VJRAAA
+ACgLAABsAQAAI0Jsb2IAAAAAAAAAAgAAAVcdogEJAwAAAPolMwAWAAABAAAAHwAAAAUAAAAGAAAA
 CQAAAAEAAAAeAAAAAgAAAA8AAAACAAAAAgAAAAMAAAAEAAAAAQAAAAQAAAABAAAAAQAAAAAACgAB
 AAAAAAAGAMEAugAKAN0AyAAOAD0BFAEGAFkBugAGAG8BXgEGAKABiwEGAFcCPQIGAIICcAIGAJkC
 cAIGALYCcAIGANUCcAIGAO4CcAIGAAcDcAIGACIDcAIGAD0DcAIGAFYDcAIGAI8DbwMGAK8DbwMG
-AOADzQMGAP0DugAGAAIEugAGACYEcAIKAFIEPAQKAGsEPAQGAIAEbwMOAKIEFAEOAMQEFAESAB0F
-/QQSADUF/QQGAGQFWgUGAHAFugAAAAAAAQAAAAAAAQABAAAAEAAyADwABQABAAEAAAEQAGsAPAAJ
+AAQE8QMGACEEugAGACYEugAGAEoEcAIKAHYEYAQKAI8EYAQGAKQEbwMOAMYEFAEOAOgEFAESAEEF
+IQUSAFkFIQUGAIgFfgUGAJQFugAAAAAAAQAAAAAAAQABAAAAEAAyADwABQABAAEAAAEQAGsAPAAJ
 AAMABQABABAAdAB/AA0ABAAIAAMBAACjAAAAEQAEAAoAEQB/ARMAEQCsARcAEQD2ATkABgYfAkcA
 VoAnAkoAVoAvAkoAUCAAAAAAgxi8ARsAAQBYIAAAAACTCMIBHwABAJEgAAAAAJMI1gEkAAEAmCAA
-AAAAkwjiASkAAQCgIAAAAACWCAYCPQACALMgAAAAAIYYvAEbAAIApyAAAAAAkRibBIkAAgC8IAAA
+AAAAkwjiASkAAQCgIAAAAACWCAYCPQACALMgAAAAAIYYvAEbAAIApyAAAAAAkRi/BIkAAgC8IAAA
 AACGABoCGwACAB0hAAAAAIYYvAEbAAIAAAABADcCOQC8AVgAQQC8AVgASQC8AVgAUQC8AVgAWQC8
 AVgAYQC8AVgAaQC8AVgAcQC8AVgAeQC8AVgAgQC8AVgAiQC8AV0AkQC8ARsAmQC8ARsACQC8ARsA
-oQAUBGIAoQAvBGkAKQC8AW4AuQC8AXoAyQC8ARsAEQC8ARsA0QC8ARsAGQDWBI0A2QAnBZIA4QA+
-BZcA6QBHBZ0ACQBRBaEA8QBpBaUA6QB4BaoA2QCCBV0AGQC8ARsACAAUAE4ACAAYAFMAKQCTAIAA
+oQA4BGIAoQBTBGkAKQC8AW4AuQC8AXoAyQC8ARsAEQC8ARsA0QC8ARsAGQD6BI0A2QBLBZIA4QBi
+BZcA6QBrBZ0ACQB1BaEA8QCNBaUA6QCcBaoA2QCmBV0AGQC8ARsACAAUAE4ACAAYAFMAKQCTAIAA
 LgAbACQBLgAjACQBLgBjAEoBLgALALMALgATAPsALgAzAPsALgArACQBLgA7ACoBLgBDACQBLgBb
 AEEBQwBrAFMASQCTAIAAYQCbAFMAgwCrAFMAdQCvAAIAAQADAAMAAABvAS8AAADuATQAAAASAkIA
-AgACAAMAAgADAAUAAQAEAAUAAgAFAAcABIAAAAEAAAD+FKZOAAAAAAAAfwAAAAQAAAAAAAAAAAAA
+AgACAAMAAgADAAUAAQAEAAUAAgAFAAcABIAAAAEAAAB1FTN/AAAAAAAAzQMAAAQAAAAAAAAAAAAA
 AAEAsQAAAAAABAAAAAAAAAAAAAAAAQC6AAAAAAALAAAAAAAAAAAAAAAKAPUAAAAAAAsAAAAAAAAA
-AAAAAAoA3gQAAAAAAAAAAAEAAACRBQAABQAEAAAAAAAAPE1vZHVsZT4AU1RfYTNhNzNjNmNhYWQ2
-NGNiOGIwZjBhODk2OTMzMmNiMGIuZGxsAFJlc291cmNlcwBTVF9hM2E3M2M2Y2FhZDY0Y2I4YjBm
+AAAAAAoAAgUAAAAAAAAAAAEAAAC1BQAABQAEAAAAAAAAPE1vZHVsZT4AU1RfNWJhMzM1YTYyNDBi
+NDU3Y2IxYTZjMWM5MjQ0NTZiZmIuZGxsAFJlc291cmNlcwBTVF9hM2E3M2M2Y2FhZDY0Y2I4YjBm
 MGE4OTY5MzMyY2IwYi5Qcm9wZXJ0aWVzAFNldHRpbmdzAFNjcmlwdE1haW4AU1RfYTNhNzNjNmNh
 YWQ2NGNiOGIwZjBhODk2OTMzMmNiMGIAU2NyaXB0UmVzdWx0cwBtc2NvcmxpYgBTeXN0ZW0AT2Jq
 ZWN0AFN5c3RlbS5Db25maWd1cmF0aW9uAEFwcGxpY2F0aW9uU2V0dGluZ3NCYXNlAE1pY3Jvc29m
@@ -1270,29 +1335,29 @@ cmF0aW9uQXR0cmlidXRlAEFzc2VtYmx5Q29tcGFueUF0dHJpYnV0ZQBBc3NlbWJseVByb2R1Y3RB
 dHRyaWJ1dGUAQXNzZW1ibHlDb3B5cmlnaHRBdHRyaWJ1dGUAQXNzZW1ibHlUcmFkZW1hcmtBdHRy
 aWJ1dGUAQXNzZW1ibHlDdWx0dXJlQXR0cmlidXRlAEFzc2VtYmx5VmVyc2lvbkF0dHJpYnV0ZQBT
 eXN0ZW0uUnVudGltZS5Db21waWxlclNlcnZpY2VzAENvbXBpbGF0aW9uUmVsYXhhdGlvbnNBdHRy
-aWJ1dGUAUnVudGltZUNvbXBhdGliaWxpdHlBdHRyaWJ1dGUAU3lzdGVtLkRpYWdub3N0aWNzAERl
-YnVnZ2VyTm9uVXNlckNvZGVBdHRyaWJ1dGUAVHlwZQBSdW50aW1lVHlwZUhhbmRsZQBHZXRUeXBl
-RnJvbUhhbmRsZQBBc3NlbWJseQBnZXRfQXNzZW1ibHkAU3lzdGVtLkNvbXBvbmVudE1vZGVsAEVk
-aXRvckJyb3dzYWJsZUF0dHJpYnV0ZQBFZGl0b3JCcm93c2FibGVTdGF0ZQBDb21waWxlckdlbmVy
-YXRlZEF0dHJpYnV0ZQAuY2N0b3IAU1NJU1NjcmlwdFRhc2tFbnRyeVBvaW50QXR0cmlidXRlAFNj
-cmlwdE9iamVjdE1vZGVsAGdldF9EdHMATWljcm9zb2Z0LlNxbFNlcnZlci5NYW5hZ2VkRFRTAE1p
-Y3Jvc29mdC5TcWxTZXJ2ZXIuRHRzLlJ1bnRpbWUAVmFyaWFibGVzAGdldF9WYXJpYWJsZXMAVmFy
-aWFibGUAZ2V0X0l0ZW0AZ2V0X1ZhbHVlAFRvU3RyaW5nAFN5c3RlbS5JTwBGaWxlAEV4aXN0cwBC
-b29sZWFuAHNldF9WYWx1ZQBzZXRfVGFza1Jlc3VsdABTVF9hM2E3M2M2Y2FhZDY0Y2I4YjBmMGE4
-OTY5MzMyY2IwYi5Qcm9wZXJ0aWVzLlJlc291cmNlcy5yZXNvdXJjZXMAAHFTAFQAXwBhADMAYQA3
-ADMAYwA2AGMAYQBhAGQANgA0AGMAYgA4AGIAMABmADAAYQA4ADkANgA5ADMAMwAyAGMAYgAwAGIA
-LgBQAHIAbwBwAGUAcgB0AGkAZQBzAC4AUgBlAHMAbwB1AHIAYwBlAHMAAB1VAHMAZQByADoAOgBG
-AGkAbABlAFAAYQB0AGgAACFVAHMAZQByADoAOgBGAGkAbABlAEUAeABpAHMAdABzAAAAunAY82kx
-l0iWU6dM1xn7RgAIt3pcVhk04IkIiYRdzYCAzJEDBhIVAwYSGQMgAAEEAAASFQQAABIZBQABARIZ
-BAgAEhUECAASGQMGEgwEAAASDAQIABIMAgYIAwYRFAQAAAAABAEAAAAEIAEBDgQgAQEIBgABElER
-VQQgABJZBiACAQ4SWQQHARIVBSABARFhCAEAAgAAAAAAAwAAAQQgABJtBCAAEnEFIAESdRwDIAAc
-AyAADgQAAQIOBCABARwDBwEORwEAGi5ORVRGcmFtZXdvcmssVmVyc2lvbj12NC4wAQBUDhRGcmFt
-ZXdvcmtEaXNwbGF5TmFtZRAuTkVUIEZyYW1ld29yayA0KAEAI1NUX2EzYTczYzZjYWFkNjRjYjhi
-MGYwYTg5NjkzMzJjYjBiAAAFAQAAAAAWAQARQ29weXJpZ2h0IEAgIDIwMTQAAAgBAAgAAAAAAB4B
-AAEAVAIWV3JhcE5vbkV4Y2VwdGlvblRocm93cwEAAABQLgAAAAAAAAAAAABuLgAAACAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAYC4AAAAAAAAAAAAAAAAAAAAAX0NvckRsbE1haW4AbXNjb3JlZS5kbGwA
-AAAAAP8lACAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+aWJ1dGUAUnVudGltZUNvbXBhdGliaWxpdHlBdHRyaWJ1dGUAU1RfNWJhMzM1YTYyNDBiNDU3Y2Ix
+YTZjMWM5MjQ0NTZiZmIAU3lzdGVtLkRpYWdub3N0aWNzAERlYnVnZ2VyTm9uVXNlckNvZGVBdHRy
+aWJ1dGUAVHlwZQBSdW50aW1lVHlwZUhhbmRsZQBHZXRUeXBlRnJvbUhhbmRsZQBBc3NlbWJseQBn
+ZXRfQXNzZW1ibHkAU3lzdGVtLkNvbXBvbmVudE1vZGVsAEVkaXRvckJyb3dzYWJsZUF0dHJpYnV0
+ZQBFZGl0b3JCcm93c2FibGVTdGF0ZQBDb21waWxlckdlbmVyYXRlZEF0dHJpYnV0ZQAuY2N0b3IA
+U1NJU1NjcmlwdFRhc2tFbnRyeVBvaW50QXR0cmlidXRlAFNjcmlwdE9iamVjdE1vZGVsAGdldF9E
+dHMATWljcm9zb2Z0LlNxbFNlcnZlci5NYW5hZ2VkRFRTAE1pY3Jvc29mdC5TcWxTZXJ2ZXIuRHRz
+LlJ1bnRpbWUAVmFyaWFibGVzAGdldF9WYXJpYWJsZXMAVmFyaWFibGUAZ2V0X0l0ZW0AZ2V0X1Zh
+bHVlAFRvU3RyaW5nAFN5c3RlbS5JTwBGaWxlAEV4aXN0cwBCb29sZWFuAHNldF9WYWx1ZQBzZXRf
+VGFza1Jlc3VsdABTVF9hM2E3M2M2Y2FhZDY0Y2I4YjBmMGE4OTY5MzMyY2IwYi5Qcm9wZXJ0aWVz
+LlJlc291cmNlcy5yZXNvdXJjZXMAAHFTAFQAXwBhADMAYQA3ADMAYwA2AGMAYQBhAGQANgA0AGMA
+YgA4AGIAMABmADAAYQA4ADkANgA5ADMAMwAyAGMAYgAwAGIALgBQAHIAbwBwAGUAcgB0AGkAZQBz
+AC4AUgBlAHMAbwB1AHIAYwBlAHMAAENVAHMAZQByADoAOgBDAFMAVgBfAEkAbQBwAG8AcgB0AF8A
+UABlAG4AZABpAG4AZwBfAEYAaQBsAGUAUABhAHQAaAAAIVUAcwBlAHIAOgA6AEYAaQBsAGUARQB4
+AGkAcwB0AHMAAAAAABSJnqKHLS5Bl6Wzhfjmak8ACLd6XFYZNOCJCImEXc2AgMyRAwYSFQMGEhkD
+IAABBAAAEhUEAAASGQUAAQESGQQIABIVBAgAEhkDBhIMBAAAEgwECAASDAIGCAMGERQEAAAAAAQB
+AAAABCABAQ4EIAEBCAYAARJREVUEIAASWQYgAgEOElkEBwESFQUgAQERYQgBAAIAAAAAAAMAAAEE
+IAASbQQgABJxBSABEnUcAyAAHAMgAA4EAAECDgQgAQEcAwcBDkcBABouTkVURnJhbWV3b3JrLFZl
+cnNpb249djQuMAEAVA4URnJhbWV3b3JrRGlzcGxheU5hbWUQLk5FVCBGcmFtZXdvcmsgNCgBACNT
+VF9hM2E3M2M2Y2FhZDY0Y2I4YjBmMGE4OTY5MzMyY2IwYgAABQEAAAAAFgEAEUNvcHlyaWdodCBA
+ICAyMDE0AAAIAQAIAAAAAAAeAQABAFQCFldyYXBOb25FeGNlcHRpb25UaHJvd3MBAAAAnC4AAAAA
+AAAAAAAAvi4AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAALAuAAAAAAAAAAAAAAAAAAAAAAAAAABf
+Q29yRGxsTWFpbgBtc2NvcmVlLmRsbAAAAAAA/yUAIAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -1300,22 +1365,22 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAABABAAAAAYAACAAAAAAAAAAAAAAAAAAAABAAEAAAAwAACAAAAAAAAAAAAAAAAAAAABAAAA
 AABIAAAAWEAAALADAAAAAAAAAAAAALADNAAAAFYAUwBfAFYARQBSAFMASQBPAE4AXwBJAE4ARgBP
-AAAAAAC9BO/+AAABAAAAAQCmTv4UAAABAKZO/hQ/AAAAAAAAAAQAAAACAAAAAAAAAAAAAAAAAAAA
+AAAAAAC9BO/+AAABAAAAAQAzf3UVAAABADN/dRU/AAAAAAAAAAQAAAACAAAAAAAAAAAAAAAAAAAA
 RAAAAAEAVgBhAHIARgBpAGwAZQBJAG4AZgBvAAAAAAAkAAQAAABUAHIAYQBuAHMAbABhAHQAaQBv
 AG4AAAAAAAAAsAQQAwAAAQBTAHQAcgBpAG4AZwBGAGkAbABlAEkAbgBmAG8AAADsAgAAAQAwADAA
 MAAwADAANABiADAAAABwACQAAQBGAGkAbABlAEQAZQBzAGMAcgBpAHAAdABpAG8AbgAAAAAAUwBU
 AF8AYQAzAGEANwAzAGMANgBjAGEAYQBkADYANABjAGIAOABiADAAZgAwAGEAOAA5ADYAOQAzADMA
-MgBjAGIAMABiAAAAQAAPAAEARgBpAGwAZQBWAGUAcgBzAGkAbwBuAAAAAAAxAC4AMAAuADUAMwA3
-ADQALgAyADAAMQAzADQAAAAAAHAAKAABAEkAbgB0AGUAcgBuAGEAbABOAGEAbQBlAAAAUwBUAF8A
-YQAzAGEANwAzAGMANgBjAGEAYQBkADYANABjAGIAOABiADAAZgAwAGEAOAA5ADYAOQAzADMAMgBj
-AGIAMABiAC4AZABsAGwAAABIABIAAQBMAGUAZwBhAGwAQwBvAHAAeQByAGkAZwBoAHQAAABDAG8A
+MgBjAGIAMABiAAAAQAAPAAEARgBpAGwAZQBWAGUAcgBzAGkAbwBuAAAAAAAxAC4AMAAuADUANAA5
+ADMALgAzADIANQA2ADMAAAAAAHAAKAABAEkAbgB0AGUAcgBuAGEAbABOAGEAbQBlAAAAUwBUAF8A
+NQBiAGEAMwAzADUAYQA2ADIANAAwAGIANAA1ADcAYwBiADEAYQA2AGMAMQBjADkAMgA0ADQANQA2
+AGIAZgBiAC4AZABsAGwAAABIABIAAQBMAGUAZwBhAGwAQwBvAHAAeQByAGkAZwBoAHQAAABDAG8A
 cAB5AHIAaQBnAGgAdAAgAEAAIAAgADIAMAAxADQAAAB4ACgAAQBPAHIAaQBnAGkAbgBhAGwARgBp
-AGwAZQBuAGEAbQBlAAAAUwBUAF8AYQAzAGEANwAzAGMANgBjAGEAYQBkADYANABjAGIAOABiADAA
-ZgAwAGEAOAA5ADYAOQAzADMAMgBjAGIAMABiAC4AZABsAGwAAABoACQAAQBQAHIAbwBkAHUAYwB0
+AGwAZQBuAGEAbQBlAAAAUwBUAF8ANQBiAGEAMwAzADUAYQA2ADIANAAwAGIANAA1ADcAYwBiADEA
+YQA2AGMAMQBjADkAMgA0ADQANQA2AGIAZgBiAC4AZABsAGwAAABoACQAAQBQAHIAbwBkAHUAYwB0
 AE4AYQBtAGUAAAAAAFMAVABfAGEAMwBhADcAMwBjADYAYwBhAGEAZAA2ADQAYwBiADgAYgAwAGYA
 MABhADgAOQA2ADkAMwAzADIAYwBiADAAYgAAAEQADwABAFAAcgBvAGQAdQBjAHQAVgBlAHIAcwBp
-AG8AbgAAADEALgAwAC4ANQAzADcANAAuADIAMAAxADMANAAAAAAASAAPAAEAQQBzAHMAZQBtAGIA
-bAB5ACAAVgBlAHIAcwBpAG8AbgAAADEALgAwAC4ANQAzADcANAAuADIAMAAxADMANAAAAAAAAAAA
+AG8AbgAAADEALgAwAC4ANQA0ADkAMwAuADMAMgA1ADYAMwAAAAAASAAPAAEAQQBzAHMAZQBtAGIA
+bAB5ACAAVgBlAHIAcwBpAG8AbgAAADEALgAwAC4ANQA0ADkAMwAuADMAMgA1ADYAMwAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -1324,7 +1389,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAwAAACAPgAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAwAAADQPgAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -1342,21 +1407,38 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
-      DTS:DTSID="{3F64EFC7-72EF-4058-9012-3037D4A731F7}"
+      DTS:DTSID="{40D6B04E-4F3E-4951-802D-B9FC33CD975E}"
       DTS:EvalOp="3"
       DTS:Expression="@[User::FileExists]"
       DTS:From="Package\Script Task - Check if file exists"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
-      DTS:To="Package\Data Flow Task" />
+      DTS:To="Package\File System Task - Move CSV File to Import_Working" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
-      DTS:DTSID="{64BFC44F-153A-4F67-83D4-17D5CE0A9D6E}"
-      DTS:From="Package\Data Flow Task"
+      DTS:DTSID="{395BF372-F56D-4102-B5F5-AB61D29663C2}"
+      DTS:From="Package\File System Task - Move CSV File to Import_Working"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 1"
-      DTS:To="Package\File System Task - Delete File" />
+      DTS:To="Package\Data Flow Task" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{EDD3669F-5790-4A52-A446-4E639319F5FB}"
+      DTS:From="Package\Data Flow Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\File System Task - Move CSV File to Import_Success" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{AFD326FE-28BC-44ED-AEF8-3A1E2DC4B5EE}"
+      DTS:From="Package\Data Flow Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\File System Task - Move CSV File to Import_Error"
+      DTS:Value="1" />
   </DTS:PrecedenceConstraints>
   <DTS:EventHandlers>
     <DTS:EventHandler
@@ -1611,6 +1693,15 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
               ReadOnlyVariables="$Package::HeartBeatInterval"
               ReadWriteVariables="User::OverrideHeartBeat,User::LastHeartBeat">
               <ProjectItem
+                Name="Properties\Settings.settings"
+                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></ProjectItem>
+              <ProjectItem
                 Name="Properties\Resources.resx"
                 Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <root>
@@ -1729,35 +1820,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 </root>]]></ProjectItem>
-              <ProjectItem
-                Name="Properties\Settings.Designer.cs"
-                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
-// <auto-generated>
-//     This code was generated by a tool.
-//
-//     Changes to this file may cause incorrect behavior and will be lost if
-//     the code is regenerated.
-// </auto-generated>
-//------------------------------------------------------------------------------
-
-[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_ca5b7fa7e0f44198881f68ae2ec688f7.Properties.Settings.get_Default():ST_ca5b7fa7e0f44198881f68ae2ec688f7.Properties.Sett" +
-    "ings")]
-
-namespace ST_ca5b7fa7e0f44198881f68ae2ec688f7.Properties {
-    
-    
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
-        
-        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        private static Settings defaultInstance = new Settings();
-        
-        public static Settings Default {
-            get {
-                return defaultInstance;
-            }
-        }
-    }
-}]]></ProjectItem>
               <ProjectItem
                 Name="ST_ca5b7fa7e0f44198881f68ae2ec688f7.csproj"
                 Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -1991,6 +2053,35 @@ namespace ST_ca5b7fa7e0f44198881f68ae2ec688f7
 	</msb:ItemGroup>
 </c:Project>]]></ProjectItem>
               <ProjectItem
+                Name="Properties\Settings.Designer.cs"
+                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_ca5b7fa7e0f44198881f68ae2ec688f7.Properties.Settings.get_Default():ST_ca5b7fa7e0f44198881f68ae2ec688f7.Properties.Sett" +
+    "ings")]
+
+namespace ST_ca5b7fa7e0f44198881f68ae2ec688f7.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}]]></ProjectItem>
+              <ProjectItem
                 Name="Properties\AssemblyInfo.cs"
                 Encoding="UTF8"><![CDATA[using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -2020,15 +2111,6 @@ using System.Runtime.CompilerServices;
 // by using the '*' as shown below:
 
 [assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
-              <ProjectItem
-                Name="Properties\Settings.settings"
-                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
-</SettingsFile>]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.Designer.cs"
                 Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
@@ -2353,65 +2435,15 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:s="clr-namespace:System;assembly=mscorlib">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="151,42"
           Id="Package\Data Flow Task"
-          TopLeft="539.5,149.5" />
-        <NodeLayout
-          Size="218,42"
-          Id="Package\File System Task - Delete File"
-          TopLeft="512.5,223.5" />
+          TopLeft="572.5,186.5" />
         <NodeLayout
           Size="226,42"
           Id="Package\Script Task - Check if file exists"
-          TopLeft="506.5,68.5" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="617.25,110.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="0,39"
-              Start="0,0"
-              End="0,31.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,31.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-79.6137890625,7.75,159.227578125,16"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="618.25,191.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="0,32"
-              Start="0,0"
-              End="0,24.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,24.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          TopLeft="534.5,42.5" />
         <AnnotationLayout
           Text="CSV - Import - &#xA;csv_DimMarketingOffer"
           ParentId="51e29885-cbbd-4242-a576-2395d6bf56be"
@@ -2449,27 +2481,155 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
           </AnnotationLayout.FontInfo>
         </AnnotationLayout>
         <AnnotationLayout
-          Text="Checks whether the CSV file exists, &#xA;imports it, then deletes it."
+          Text="Checks whether the CSV file exists, &#xA;moves it to a working folder, imports it,&#xA;then moves it to a success / error folder."
           ParentId="51e29885-cbbd-4242-a576-2395d6bf56be"
           FontInfo="{x:Null}"
-          Size="215,56"
-          Id="d4b75bee-769f-4977-bf4b-89d2bf043d92"
-          TopLeft="6.5,62.5" />
+          Size="242,72"
+          Id="bc5230dc-1bb7-44f8-a040-9150b072aea6"
+          TopLeft="2,59" />
         <GroupLayout
           Text="Package Info"
           ParentId="Package"
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="228,248"
-          Size="228,291"
+          PanelSize="248,248"
+          Size="248,291"
           Id="51e29885-cbbd-4242-a576-2395d6bf56be"
-          TopLeft="188.5,37.5">
+          TopLeft="158.5,31.5">
           <GroupLayout.ChildrenIds>
             <s:String>9e3afc48-2eeb-442c-8334-823857e73cf7</s:String>
             <s:String>944dab99-a3c8-4cd3-b671-41b1edc6975c</s:String>
-            <s:String>d4b75bee-769f-4977-bf4b-89d2bf043d92</s:String>
+            <s:String>bc5230dc-1bb7-44f8-a040-9150b072aea6</s:String>
           </GroupLayout.ChildrenIds>
         </GroupLayout>
+        <NodeLayout
+          Size="215,42"
+          Id="Package\File System Task - Move CSV File to Import_Working"
+          TopLeft="540,114.5" />
+        <NodeLayout
+          Size="212,42"
+          Id="Package\File System Task - Move CSV File to Import_Success"
+          TopLeft="430.5,266" />
+        <NodeLayout
+          Size="205,42"
+          Id="Package\File System Task - Move CSV File to Import_Error"
+          TopLeft="655,266.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="647.5,84.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,30"
+              Start="0,0"
+              End="0,22.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-79.6137890625,3.25,159.227578125,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="647.75,156.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,30"
+              Start="0,0"
+              End="0,22.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="624.166666666667,228.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-87.6666666666666,37.5"
+              Start="0,0"
+              End="-87.6666666666666,30">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,11.2359108781127" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,11.2359108781127"
+                    Point2="0,15.2359108781127"
+                    Point3="-4,15.2359108781127" />
+                  <mssgle:LineSegment
+                    End="-83.6666666666666,15.2359108781127" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-83.6666666666666,15.2359108781127"
+                    Point2="-87.6666666666666,15.2359108781127"
+                    Point3="-87.6666666666666,19.2359108781127" />
+                  <mssgle:LineSegment
+                    End="-87.6666666666666,30" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="671.833333333333,228.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="85.6666666666666,38"
+              Start="0,0"
+              End="85.6666666666666,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,11.4390563564875" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,11.4390563564875"
+                    Point2="0,15.4390563564875"
+                    Point3="4,15.4390563564875" />
+                  <mssgle:LineSegment
+                    End="81.6666666666666,15.4390563564875" />
+                  <mssgle:CubicBezierSegment
+                    Point1="81.6666666666666,15.4390563564875"
+                    Point2="85.6666666666666,15.4390563564875"
+                    Point3="85.6666666666666,19.4390563564875" />
+                  <mssgle:LineSegment
+                    End="85.6666666666666,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="27.5919856770833,20.4390563564875,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
@@ -2643,25 +2803,25 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="169,42"
-          Id="Package\Data Flow Task\Row Count - Insert"
-          TopLeft="456,280.5" />
-        <NodeLayout
           Size="163,42"
           Id="Package\Data Flow Task\Insert Destination"
           TopLeft="458.5,350.5" />
-        <NodeLayout
-          Size="174,42"
-          Id="Package\Data Flow Task\Row Count - Extract"
-          TopLeft="451.5,134.5" />
         <NodeLayout
           Size="271,42"
           Id="Package\Data Flow Task\Flat File Source - csv_DimMarketingOffer"
           TopLeft="404,61.4999999999999" />
         <NodeLayout
+          Size="169,42"
+          Id="Package\Data Flow Task\Row Count - Insert"
+          TopLeft="456,280.5" />
+        <NodeLayout
           Size="159,42"
           Id="Package\Data Flow Task\Derived Columns"
           TopLeft="459.5,209.5" />
+        <NodeLayout
+          Size="174,42"
+          Id="Package\Data Flow Task\Row Count - Extract"
+          TopLeft="451.5,134.5" />
         <EdgeLayout
           Id="Package\Data Flow Task.Paths[Row Count Output 11]"
           TopLeft="540.25,322.5">

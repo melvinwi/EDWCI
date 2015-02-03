@@ -1,27 +1,6 @@
 ﻿<?xml version="1.0"?>
 <SSIS:Parameters xmlns:SSIS="www.microsoft.com/SqlServer/SSIS">
   <SSIS:Parameter
-    SSIS:Name="CSV_ImportFolderPath">
-    <SSIS:Properties>
-      <SSIS:Property
-        SSIS:Name="ID">{41d763cc-4fa6-4328-8173-fed9472493ee}</SSIS:Property>
-      <SSIS:Property
-        SSIS:Name="CreationName"></SSIS:Property>
-      <SSIS:Property
-        SSIS:Name="Description"></SSIS:Property>
-      <SSIS:Property
-        SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
-      <SSIS:Property
-        SSIS:Name="Required">0</SSIS:Property>
-      <SSIS:Property
-        SSIS:Name="Sensitive">0</SSIS:Property>
-      <SSIS:Property
-        SSIS:Name="Value">C:\DW_Development\DataWarehouse\CSV\Import\</SSIS:Property>
-      <SSIS:Property
-        SSIS:Name="DataType">18</SSIS:Property>
-    </SSIS:Properties>
-  </SSIS:Parameter>
-  <SSIS:Parameter
     SSIS:Name="Complaints_ADONET_ConnectionString">
     <SSIS:Properties>
       <SSIS:Property
@@ -37,7 +16,7 @@
       <SSIS:Property
         SSIS:Name="Sensitive">0</SSIS:Property>
       <SSIS:Property
-        SSIS:Name="Value">Data Source=PTM-DB14\SQLTST1;Initial Catalog=complaints;Integrated Security=True;</SSIS:Property>
+        SSIS:Name="Value">Data Source=PTM-CLU-DB01\INTSHARED;Initial Catalog=complaints;Integrated Security=True;</SSIS:Property>
       <SSIS:Property
         SSIS:Name="DataType">18</SSIS:Property>
     </SSIS:Properties>
@@ -58,7 +37,7 @@
       <SSIS:Property
         SSIS:Name="Sensitive">0</SSIS:Property>
       <SSIS:Property
-        SSIS:Name="Value">Data Source=PTM-DB14\SQLTST1;Initial Catalog=complaints;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</SSIS:Property>
+        SSIS:Name="Value">Data Source=PTM-CLU-DB01\INTSHARED;Initial Catalog=complaints;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</SSIS:Property>
       <SSIS:Property
         SSIS:Name="DataType">18</SSIS:Property>
     </SSIS:Properties>
@@ -79,7 +58,7 @@
       <SSIS:Property
         SSIS:Name="Sensitive">0</SSIS:Property>
       <SSIS:Property
-        SSIS:Name="Value">Data Source=PTM-DB10\ORIONCORE;Initial Catalog=orion_ve;Integrated Security=True;</SSIS:Property>
+        SSIS:Name="Value">Data Source=PTM-DB14\ORIONCORE;Initial Catalog=orion_ve;Integrated Security=True;</SSIS:Property>
       <SSIS:Property
         SSIS:Name="DataType">18</SSIS:Property>
     </SSIS:Properties>
@@ -100,7 +79,7 @@
       <SSIS:Property
         SSIS:Name="Sensitive">0</SSIS:Property>
       <SSIS:Property
-        SSIS:Name="Value">Data Source=PTM-DB10\ORIONCORE;Initial Catalog=orion_ve;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</SSIS:Property>
+        SSIS:Name="Value">Data Source=PTM-DB14\ORIONCORE;Initial Catalog=orion_ve;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</SSIS:Property>
       <SSIS:Property
         SSIS:Name="DataType">18</SSIS:Property>
     </SSIS:Properties>
@@ -121,7 +100,7 @@
       <SSIS:Property
         SSIS:Name="Sensitive">0</SSIS:Property>
       <SSIS:Property
-        SSIS:Name="Value">Data Source=PTM-DB04\SQLDEV1;Initial Catalog=DW_Staging;Integrated Security=True;</SSIS:Property>
+        SSIS:Name="Value">Data Source=S-PTM-DB23\SQLSTG1;Initial Catalog=DW_Staging;Integrated Security=True;</SSIS:Property>
       <SSIS:Property
         SSIS:Name="DataType">18</SSIS:Property>
     </SSIS:Properties>
@@ -142,16 +121,16 @@
       <SSIS:Property
         SSIS:Name="Sensitive">0</SSIS:Property>
       <SSIS:Property
-        SSIS:Name="Value">Data Source=PTM-DB04\SQLDEV1;Initial Catalog=DW_Utility;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</SSIS:Property>
+        SSIS:Name="Value">Data Source=S-PTM-DB23\SQLSTG1;Initial Catalog=DW_Utility;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</SSIS:Property>
       <SSIS:Property
         SSIS:Name="DataType">18</SSIS:Property>
     </SSIS:Properties>
   </SSIS:Parameter>
   <SSIS:Parameter
-    SSIS:Name="CSV_ExportFolderPath">
+    SSIS:Name="File_Import_Pending_Folder">
     <SSIS:Properties>
       <SSIS:Property
-        SSIS:Name="ID">{8880be3d-a8fa-49f2-97e1-946dd3164979}</SSIS:Property>
+        SSIS:Name="ID">{dee0e746-4582-4e97-8257-7e4c3d203767}</SSIS:Property>
       <SSIS:Property
         SSIS:Name="CreationName"></SSIS:Property>
       <SSIS:Property
@@ -163,16 +142,16 @@
       <SSIS:Property
         SSIS:Name="Sensitive">0</SSIS:Property>
       <SSIS:Property
-        SSIS:Name="Value">C:\DW_Development\DataWarehouse\CSV\Export\</SSIS:Property>
+        SSIS:Name="Value">C:\DW_Development\DataWarehouse\Import\Import_Pending\</SSIS:Property>
       <SSIS:Property
         SSIS:Name="DataType">18</SSIS:Property>
     </SSIS:Properties>
   </SSIS:Parameter>
   <SSIS:Parameter
-    SSIS:Name="XML_ImportFolderPath">
+    SSIS:Name="File_Import_Working_Folder">
     <SSIS:Properties>
       <SSIS:Property
-        SSIS:Name="ID">{100a27f4-3038-4bbd-8d20-86d0c4e417b8}</SSIS:Property>
+        SSIS:Name="ID">{cbdd015c-e24e-4d3f-8265-688935e645ef}</SSIS:Property>
       <SSIS:Property
         SSIS:Name="CreationName"></SSIS:Property>
       <SSIS:Property
@@ -184,16 +163,16 @@
       <SSIS:Property
         SSIS:Name="Sensitive">0</SSIS:Property>
       <SSIS:Property
-        SSIS:Name="Value">C:\DW_Development\DataWarehouse\XML\Import\</SSIS:Property>
+        SSIS:Name="Value">C:\DW_Development\DataWarehouse\Import\Import_Working\</SSIS:Property>
       <SSIS:Property
         SSIS:Name="DataType">18</SSIS:Property>
     </SSIS:Properties>
   </SSIS:Parameter>
   <SSIS:Parameter
-    SSIS:Name="XML_ControlFolderPath">
+    SSIS:Name="File_Import_Success_Folder">
     <SSIS:Properties>
       <SSIS:Property
-        SSIS:Name="ID">{b078e0be-af5f-4885-aff7-71d799ac042d}</SSIS:Property>
+        SSIS:Name="ID">{f67bdf95-d1ac-49a1-bcfb-718f1f2da3ac}</SSIS:Property>
       <SSIS:Property
         SSIS:Name="CreationName"></SSIS:Property>
       <SSIS:Property
@@ -205,7 +184,70 @@
       <SSIS:Property
         SSIS:Name="Sensitive">0</SSIS:Property>
       <SSIS:Property
-        SSIS:Name="Value">C:\DW_Development\DataWarehouse\XML\Control\</SSIS:Property>
+        SSIS:Name="Value">C:\DW_Development\DataWarehouse\Import\Import_Success\</SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="DataType">18</SSIS:Property>
+    </SSIS:Properties>
+  </SSIS:Parameter>
+  <SSIS:Parameter
+    SSIS:Name="File_Import_Error_Folder">
+    <SSIS:Properties>
+      <SSIS:Property
+        SSIS:Name="ID">{8b411d79-eb50-44d3-a1b6-0a166d890a3a}</SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="CreationName"></SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="Description"></SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="Required">0</SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="Sensitive">0</SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="Value">C:\DW_Development\DataWarehouse\Import\Import_Error\</SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="DataType">18</SSIS:Property>
+    </SSIS:Properties>
+  </SSIS:Parameter>
+  <SSIS:Parameter
+    SSIS:Name="File_Export_Folder">
+    <SSIS:Properties>
+      <SSIS:Property
+        SSIS:Name="ID">{e5f2b773-3a1e-4bc8-93ec-6d7da953b7a0}</SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="CreationName"></SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="Description"></SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="Required">0</SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="Sensitive">0</SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="Value">C:\DW_Development\DataWarehouse\Export\</SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="DataType">18</SSIS:Property>
+    </SSIS:Properties>
+  </SSIS:Parameter>
+  <SSIS:Parameter
+    SSIS:Name="File_Import_Control_Folder">
+    <SSIS:Properties>
+      <SSIS:Property
+        SSIS:Name="ID">{c752de6c-0c60-4751-a6b8-b76819fffadb}</SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="CreationName"></SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="Description"></SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="Required">0</SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="Sensitive">0</SSIS:Property>
+      <SSIS:Property
+        SSIS:Name="Value">C:\DW_Development\DataWarehouse\Import\Control\</SSIS:Property>
       <SSIS:Property
         SSIS:Name="DataType">18</SSIS:Property>
     </SSIS:Properties>
