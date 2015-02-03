@@ -220,7 +220,7 @@ BEGIN
                      FROM   #contactActivities
                      WHERE  #contactActivities.CustomerKey = DimCustomerCurrent.CustomerKey
                      AND    #contactActivities.ActivityDateId >= #latestNotification.RequestDateId), 0) AS [CONTACTS_CR], -- Count of dispositions since CR date
-           COALESCE(DATEDIFF(DAY, CONVERT(DATE, CAST(#latestNotification.RequestDateId AS NCHAR(8)), 112), GETDATE()), '') AS [CRRAISED], -- Number of days since CR raised
+           COALESCE(CAST(DATEDIFF(DAY, CONVERT(DATE, CAST(#latestNotification.RequestDateId AS NCHAR(8)), 112), GETDATE()) AS NVARCHAR(10)), '') AS [CRRAISED], -- Number of days since CR raised
            COALESCE(CONVERT(NCHAR(10), DATEDIFF(DAY, GETDATE(), #dimService.NextScheduledReadDate)), '') AS [CRLOST], -- Number of days before CR is due to be completed (next scheduled read date)
            '' AS [CRRETAIN], -- Last sales involvement code if it was a retain (optional)
            ISNULL(#latestNotification.ParticipantCode, '') AS [COMPETITOR],
