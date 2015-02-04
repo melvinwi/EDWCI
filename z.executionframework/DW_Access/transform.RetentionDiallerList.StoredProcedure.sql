@@ -33,10 +33,10 @@ BEGIN
     FROM   DW_Dimensional.DW.FactMarketTransaction
     INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactMarketTransaction.AccountId
     INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactMarketTransaction.ServiceId
-    INNER  JOIN DW_Dimensional.DW.DimChangeReason ON DimChangeReason.ChangeReasonId = FactMarketTransaction.ChangeReasonId
-    INNER  JOIN DW_Dimensional.DW.DimChangeReason AS DimChangeReasonCurrent ON DimChangeReasonCurrent.ChangeReasonKey = DimChangeReason.ChangeReasonKey AND DimChangeReasonCurrent.Meta_IsCurrent = 1
-    WHERE  FactMarketTransaction.TransactionType = N'NOTIFICATION'
-    AND    DimChangeReasonCurrent.ChangeReasonCode IN (N'1000', N'1010', N'0001', N'0003')
+    LEFT   JOIN DW_Dimensional.DW.DimChangeReason ON DimChangeReason.ChangeReasonId = FactMarketTransaction.ChangeReasonId
+    LEFT   JOIN DW_Dimensional.DW.DimChangeReason AS DimChangeReasonCurrent ON DimChangeReasonCurrent.ChangeReasonKey = DimChangeReason.ChangeReasonKey AND DimChangeReasonCurrent.Meta_IsCurrent = 1
+    WHERE  ((FactMarketTransaction.TransactionType = N'NOTIFICATION' AND DimChangeReasonCurrent.ChangeReasonCode IN (N'1000', N'1010', N'0001', N'0003'))
+    OR      (FactMarketTransaction.TransactionType = N'DPRTInitChangeOfUser' AND FactMarketTransaction.MoveIn = N'No'))
     AND    CONVERT(DATETIME, CAST(FactMarketTransaction.TransactionDateId AS NCHAR(8)), 112) BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE();
 
     -- #requestNotifications
