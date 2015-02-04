@@ -9,6 +9,6 @@
     DTS:Name="InitialCatalog">"orion_ve"</DTS:PropertyExpression>
   <DTS:ObjectData>
     <DTS:ConnectionManager
-      DTS:ConnectionString="Data Source=PTM-DB10\ORIONCORE;Initial Catalog=orion_ve;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      DTS:ConnectionString="Data Source=PTM-DB14\ORIONCORE;Initial Catalog=orion_ve;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
   </DTS:ObjectData>
 </DTS:ConnectionManager>

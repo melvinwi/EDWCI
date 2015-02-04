@@ -12,8 +12,8 @@
   DTS:ObjectName="Application"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="36"
-  DTS:VersionGUID="{C3ED803C-0475-4596-8F18-D8BA67104AC9}">
+  DTS:VersionBuild="46"
+  DTS:VersionGUID="{8FAB069F-6BA3-4BA2-86DD-EAAC1BC7ACCD}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:PackageParameters>
@@ -85,19 +85,28 @@
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
-      DTS:DTSID="{1C6C7532-B385-4154-AACF-1F2581948515}"
+      DTS:DTSID="{F20AA33D-E9C7-42B2-A30B-1CA77410A7B7}"
       DTS:IncludeInDebugDump="6789"
       DTS:Namespace="User"
-      DTS:ObjectName="IsApplicationRecovery">
+      DTS:ObjectName="IsApplicationRunnable">
       <DTS:VariableValue
         DTS:DataType="11">0</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
-      DTS:DTSID="{F20AA33D-E9C7-42B2-A30B-1CA77410A7B7}"
+      DTS:DTSID="{1C6C7532-B385-4154-AACF-1F2581948515}"
       DTS:IncludeInDebugDump="6789"
       DTS:Namespace="User"
-      DTS:ObjectName="IsApplicationRunnable">
+      DTS:ObjectName="RecoveringApplicationExecutionInstanceID">
+      <DTS:VariableValue
+        DTS:DataType="3">-1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E7EC5F39-FF1A-4F09-B620-23595261DC13}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="TasksAreInitialised">
       <DTS:VariableValue
         DTS:DataType="11">0</DTS:VariableValue>
     </DTS:Variable>
@@ -171,10 +180,16 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{876CECFA-1EB8-4B85-9447-8577CB0C2EFD}"
-              SQLTask:SqlStatementSource="dbo.InitializeTasks  ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="dbo.InitializeTasks  ?, ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="User::ApplicationExecutionInstanceID"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::RecoveringApplicationExecutionInstanceID"
                 SQLTask:ParameterDirection="Input"
                 SQLTask:DataType="3"
                 SQLTask:ParameterSize="-1" />
@@ -207,7 +222,10 @@
                 SQLTask:DtsVariableName="User::ApplicationName" />
               <SQLTask:ResultBinding
                 SQLTask:ResultName="2"
-                SQLTask:DtsVariableName="User::IsApplicationRecovery" />
+                SQLTask:DtsVariableName="User::RecoveringApplicationExecutionInstanceID" />
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="3"
+                SQLTask:DtsVariableName="User::TasksAreInitialised" />
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="$Package::ApplicationID"
@@ -236,7 +254,7 @@
           DTS:CreationName=""
           DTS:DTSID="{E559B2D7-6E9C-4460-AE6D-DFDC561EF44B}"
           DTS:EvalOp="3"
-          DTS:Expression="@IsApplicationRecovery == false"
+          DTS:Expression="@TasksAreInitialised == false"
           DTS:From="Package\Application Pre-Flight\Start Application"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint"
@@ -274,6 +292,23 @@
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
+      DTS:refId="Package\Clean Up Applications"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{9A90AE7B-2DC6-440F-9758-C6A9B1726C83}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Clean Up Applications"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{876CECFA-1EB8-4B85-9447-8577CB0C2EFD}"
+          SQLTask:SqlStatementSource="EXEC [dbo].[CleanUpApplications]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
       DTS:refId="Package\Fail Application"
       DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
       DTS:Description="Fail Application"
@@ -289,7 +324,7 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{876CECFA-1EB8-4B85-9447-8577CB0C2EFD}"
-          SQLTask:SqlStatementSource="RAISERROR ('ApplicationId ? not initialised because it is already running', 16, 1)"
+          SQLTask:SqlStatementSource="RAISERROR ('ApplicationId ? not initialised because it is disabled or already running', 16, 1)"
           SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="0"
@@ -442,6 +477,14 @@
       DTS:ObjectName="Constraint 2"
       DTS:To="Package\Application Pre-Flight" />
     <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{A0000499-15BF-4C93-8769-B0620F806996}"
+      DTS:From="Package\Clean Up Applications"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Check If Runnable" />
+    <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
       DTS:CreationName=""
       DTS:DTSID="{8F73A5BC-ED89-4E10-A0B4-3499A6E00331}"
@@ -504,7 +547,7 @@
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-111.46,3.14622641509442,222.92,16"
+              BoundingBox="-104.21,3.1462264150944,208.42,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -519,6 +562,10 @@
           Size="165,42"
           Id="Package\Check If Runnable"
           TopLeft="579.057502246181,177.933812518719" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\Clean Up Applications"
+          TopLeft="570,112" />
         <NodeLayout
           Size="150,42"
           Id="Package\Fail Application"
@@ -617,6 +664,28 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="661.028751123091,154">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,23.933812518719"
+              Start="0,0"
+              End="0,16.433812518719">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.433812518719" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
           TopLeft="635.390835579514,219.933812518719">
           <EdgeLayout.Curve>
@@ -653,7 +722,7 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <AnnotationLayout
-          Text="Prevent application from being started if another &#xD;&#xA;instance is already running, or if it is disabled."
+          Text="Prevent application from being started if another &#xA;instance is already running, or if it is disabled."
           ParentId="Package"
           Size="274,51"
           Id="a497144b-ab4e-4c7b-9c10-8ee6f10210d8"
@@ -688,7 +757,7 @@
           </AnnotationLayout.FontInfo>
         </AnnotationLayout>
         <AnnotationLayout
-          Text="If the application failed on its last run, and was set to&#xA;be recoverable, the application will pick up from &#xA;where it left off.&#xA;&#xA;Otherwise, it will insert a new record in the application &#xA;execution instance table, and one record for each task &#xA;in the task execution instance table."
+          Text="If the application failed on its last run, and was set to&#xA;be recoverable, the application will reinitialise the &#xA;application and the recoverable tasks only.&#xA;&#xA;Otherwise, it will insert a new record in the application &#xA;execution instance table, and one record for each task &#xA;in the task execution instance table."
           ParentId="Package"
           Size="303,119"
           Id="62f3d2bf-5f3c-44d4-a25f-c8f7f3b292ef"

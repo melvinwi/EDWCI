@@ -4,7 +4,7 @@
     <Configuration>
       <Name>Development</Name>
       <Options>
-        <ServerName>PTM-DB04\SQLDEV1</ServerName>
+        <ServerName>S-PTM-DB23\SQLSTG1</ServerName>
         <PathOnServer>/SSISDB/DW/DW</PathOnServer>
         <Run64BitRuntime>true</Run64BitRuntime>
         <UserIDs />

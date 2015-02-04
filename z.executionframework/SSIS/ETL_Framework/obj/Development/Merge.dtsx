@@ -12,8 +12,8 @@
   DTS:ObjectName="Merge"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="83"
-  DTS:VersionGUID="{4372E8DC-47A4-4E1A-ADE7-96AC810777A1}">
+  DTS:VersionBuild="98"
+  DTS:VersionGUID="{EC6EF8CC-0E10-4B8D-AA1D-CCA82F37CA7E}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:LogProviders>
@@ -29,6 +29,15 @@
     </DTS:LogProvider>
   </DTS:LogProviders>
   <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{39065387-55CB-48DF-9683-27C797D45593}"
+      DTS:ObjectName="BatchPageCountThreshold">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">0</DTS:Property>
+    </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
       DTS:DataType="11"
@@ -58,12 +67,12 @@
     </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
-      DTS:DataType="8"
+      DTS:DataType="3"
       DTS:DTSID="{EEE75636-5E6D-4D09-AB05-6BC2DC286107}"
       DTS:ObjectName="SCDType">
       <DTS:Property
-        DTS:DataType="8"
-        DTS:Name="ParameterValue">2</DTS:Property>
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
     </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
@@ -72,7 +81,7 @@
       DTS:ObjectName="SourceDatabase">
       <DTS:Property
         DTS:DataType="8"
-        DTS:Name="ParameterValue">DW_Work</DTS:Property>
+        DTS:Name="ParameterValue">DW_Staging</DTS:Property>
     </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
@@ -81,7 +90,7 @@
       DTS:ObjectName="SourceSchema">
       <DTS:Property
         DTS:DataType="8"
-        DTS:Name="ParameterValue">temp</DTS:Property>
+        DTS:Name="ParameterValue">AEMO_temp</DTS:Property>
     </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
@@ -90,7 +99,7 @@
       DTS:ObjectName="SourceTable">
       <DTS:Property
         DTS:DataType="8"
-        DTS:Name="ParameterValue">DimCustomer</DTS:Property>
+        DTS:Name="ParameterValue">v_Level2_CSVData_NetChanges</DTS:Property>
     </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
@@ -99,7 +108,7 @@
       DTS:ObjectName="SourceTargetJoinPredicate">
       <DTS:Property
         DTS:DataType="8"
-        DTS:Name="ParameterValue">CustomerKey</DTS:Property>
+        DTS:Name="ParameterValue">SettlementCase,SettlementDate,NMI,SeqNo</DTS:Property>
     </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
@@ -108,7 +117,7 @@
       DTS:ObjectName="TargetDatabase">
       <DTS:Property
         DTS:DataType="8"
-        DTS:Name="ParameterValue">DW_Dimensional</DTS:Property>
+        DTS:Name="ParameterValue">DW_Staging</DTS:Property>
     </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
@@ -117,7 +126,7 @@
       DTS:ObjectName="TargetSchema">
       <DTS:Property
         DTS:DataType="8"
-        DTS:Name="ParameterValue">dw</DTS:Property>
+        DTS:Name="ParameterValue">AEMO</DTS:Property>
     </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
@@ -126,7 +135,7 @@
       DTS:ObjectName="TargetTable">
       <DTS:Property
         DTS:DataType="8"
-        DTS:Name="ParameterValue">DimCustomer</DTS:Property>
+        DTS:Name="ParameterValue">Level2_CSVData</DTS:Property>
     </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
@@ -139,6 +148,37 @@
     </DTS:PackageParameter>
   </DTS:PackageParameters>
   <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{48C2DDB9-F340-49F2-A407-3A46ACF7C7D9}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;OLEDB_&quot; + @[$Package::SourceDatabase]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="BatchConnection">
+      <DTS:VariableValue
+        DTS:DataType="8">OLEDB_DW_Staging</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{58B794A0-F80B-4CF0-9976-7B36435374F0}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="BatchIterationCount"
+      DTS:RaiseChangedEvent="True">
+      <DTS:VariableValue
+        DTS:DataType="8">NULL</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5952B4F8-E43E-44E5-AA04-5225F531002F}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="BatchRowCount"
+      DTS:RaiseChangedEvent="True">
+      <DTS:VariableValue
+        DTS:DataType="8">NULL</DTS:VariableValue>
+    </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
       DTS:DTSID="{1F69AB8C-479F-4185-B9CB-B27CB69845F6}"
@@ -170,25 +210,53 @@
       DTS:CreationName=""
       DTS:DTSID="{385BFF35-46AC-408E-9173-14820AE259B4}"
       DTS:EvaluateAsExpression="True"
-      DTS:Expression="&quot;EXEC [dbo].[GenerateMergeStatement]&#xA;          @SrcDB             = '&quot; + @[$Package::SourceDatabase] + &quot;'&#xA;        , @SrcSchema         = '&quot; + @[$Package::SourceSchema] + &quot;'&#xA;        , @SrcTable          = '&quot; + @[$Package::SourceTable] + &quot;'&#xA;        , @TgtDB             = '&quot; + @[$Package::TargetDatabase] + &quot;'&#xA;        , @TgtSchema         = '&quot; + @[$Package::TargetSchema] + &quot;'&#xA;        , @TgtTable          = '&quot; + @[$Package::TargetTable] + &quot;'&#xA;        , @SCDType           = &quot; + @[$Package::SCDType] + &quot;        &#xA;        , @predicate         = '&quot; + @[$Package::SourceTargetJoinPredicate] + &quot;'&#xA;        , @debug             = 0&#xA;        , @ApplyNullDefaults = 0&#xA;        , @TaskExecutionInstanceId = &quot; + (DT_STR, 10, 1252)@[User::TaskExecutionInstanceId] + &quot; &#xA;        , @AsAtDate          = NULL &quot;"
+      DTS:Expression="&quot;EXEC [dbo].[GenerateMergeStatement]&#xA;  @SrcDB             = '&quot; + @[$Package::SourceDatabase] + &quot;'&#xA;, @SrcSchema         = '&quot; + @[$Package::SourceSchema] + &quot;'&#xA;, @SrcTable          = '&quot; + @[$Package::SourceTable] + &quot;'&#xA;, @TgtDB             = '&quot; + @[$Package::TargetDatabase] + &quot;'&#xA;, @TgtSchema         = '&quot; + @[$Package::TargetSchema] + &quot;'&#xA;, @TgtTable          = '&quot; + @[$Package::TargetTable] + &quot;'&#xA;, @SCDType           = &quot; + (DT_STR, 10, 1252)@[$Package::SCDType] + &quot;&#xA;, @predicate         = '&quot; + @[$Package::SourceTargetJoinPredicate] + &quot;'&#xA;, @debug             = 0&#xA;, @ApplyNullDefaults = 0&#xA;, @TaskExecutionInstanceId = &quot; + (DT_STR, 10, 1252)@[User::TaskExecutionInstanceId] + &quot;&#xA;, @AsAtDate            = NULL&#xA;, @BatchIterationCount = &quot; + @[User::BatchIterationCount] + &quot;&#xA;, @BatchRowCount       = &quot; + @[User::BatchRowCount]"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
       DTS:ObjectName="GenerateMergeSQL"
       DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
         DTS:DataType="8">EXEC [dbo].[GenerateMergeStatement]
-          @SrcDB             = 'DW_Work'
-        , @SrcSchema         = 'temp'
-        , @SrcTable          = 'DimCustomer'
-        , @TgtDB             = 'DW_Dimensional'
-        , @TgtSchema         = 'dw'
-        , @TgtTable          = 'DimCustomer'
-        , @SCDType           = 2        
-        , @predicate         = 'CustomerKey'
-        , @debug             = 0
-        , @ApplyNullDefaults = 0
-        , @TaskExecutionInstanceId = 0 
-        , @AsAtDate          = NULL </DTS:VariableValue>
+  @SrcDB             = 'DW_Staging'
+, @SrcSchema         = 'AEMO_temp'
+, @SrcTable          = 'v_Level2_CSVData_NetChanges'
+, @TgtDB             = 'DW_Staging'
+, @TgtSchema         = 'AEMO'
+, @TgtTable          = 'Level2_CSVData'
+, @SCDType           = 1
+, @predicate         = 'SettlementCase,SettlementDate,NMI,SeqNo'
+, @debug             = 0
+, @ApplyNullDefaults = 0
+, @TaskExecutionInstanceId = 0
+, @AsAtDate            = NULL
+, @BatchIterationCount = NULL
+, @BatchRowCount       = NULL</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E20671B9-6F79-46E5-A48E-90E656AF770C}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;;WITH TableInfo AS (&#xA;  SELECT  SUM(p.row_count) AS [RowCount]&#xA;, CEILING(NULLIF(SUM(p.used_page_count),0) / (NULLIF(&quot; + (DT_STR, 10, 1252)ABS(@[$Package::BatchPageCountThreshold]) + &quot;,0) * 1.0)) AS BatchIterationCount&#xA;FROM sys.dm_db_partition_stats AS p&#xA;INNER JOIN sys.objects AS o&#xA;           ON o.[object_id] = p.[object_id]&#xA;WHERE object_name(o.[object_id]) = '&quot; + @[$Package::SourceTable] + &quot;'&#xA;  AND schema_name(o.[schema_id]) = '&quot; + @[$Package::SourceSchema] + &quot;'&#xA;  AND p.index_id IN (0,1)&#xA;  )&#xA;SELECT  ISNULL(CAST(T.BatchIterationCount AS NVARCHAR(20)), N'NULL')                                    AS BatchIterationCount&#xA;      , ISNULL(CAST(CEILING(T.[RowCount] / NULLIF(T.BatchIterationCount,0)) AS NVARCHAR(20)), N'NULL')  AS BatchRowCount&#xA;      , ISNULL(S.SourceRowCount, 0)                                                                     AS SourceRowCount&#xA;FROM TableInfo AS T&#xA;CROSS JOIN (SELECT COUNT(1) AS SourceRowCount FROM &quot; + @[$Package::SourceSchema] + &quot;.&quot; + @[$Package::SourceTable] + &quot;) AS S&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="GetBatchingVariablesSQL"
+      DTS:RaiseChangedEvent="True">
+      <DTS:VariableValue
+        DTS:DataType="8">;WITH TableInfo AS (
+  SELECT  SUM(p.row_count) AS [RowCount]
+, CEILING(NULLIF(SUM(p.used_page_count),0) / (NULLIF(0,0) * 1.0)) AS BatchIterationCount
+FROM sys.dm_db_partition_stats AS p
+INNER JOIN sys.objects AS o
+           ON o.[object_id] = p.[object_id]
+WHERE object_name(o.[object_id]) = 'v_Level2_CSVData_NetChanges'
+  AND schema_name(o.[schema_id]) = 'AEMO_temp'
+  AND p.index_id IN (0,1)
+  )
+SELECT  ISNULL(CAST(T.BatchIterationCount AS NVARCHAR(20)), N'NULL')                                    AS BatchIterationCount
+      , ISNULL(CAST(CEILING(T.[RowCount] / NULLIF(T.BatchIterationCount,0)) AS NVARCHAR(20)), N'NULL')  AS BatchRowCount
+      , ISNULL(S.SourceRowCount, 0)                                                                     AS SourceRowCount
+FROM TableInfo AS T
+CROSS JOIN (SELECT COUNT(1) AS SourceRowCount FROM AEMO_temp.v_Level2_CSVData_NetChanges) AS S</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -207,6 +275,15 @@
       DTS:ObjectName="LastHeartBeat">
       <DTS:VariableValue
         DTS:DataType="7">4/17/2013 7:42:46 AM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3E647BC0-FF3F-4690-BD2D-BBD90DBC5BDF}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="SourceRowCount">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -268,7 +345,51 @@
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task - Get Batching Variables"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{0CE5F967-3D62-44B3-8D97-67906FD7F0A6}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task - Get Batching Variables"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="Connection">@[User::BatchConnection]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="OLEDB_DW_Staging"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::GetBatchingVariablesSQL"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="BatchIterationCount"
+            SQLTask:DtsVariableName="User::BatchIterationCount" />
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="BatchRowCount"
+            SQLTask:DtsVariableName="User::BatchRowCount" />
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="SourceRowCount"
+            SQLTask:DtsVariableName="User::SourceRowCount" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
   </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{13C66C4C-292E-4796-8B56-9EA41C92A0DF}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[User::SourceRowCount] &gt; 0"
+      DTS:From="Package\Execute SQL Task - Get Batching Variables"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Execute SQL Task - Generate Merge"
+      DTS:Value="2" />
+  </DTS:PrecedenceConstraints>
   <DTS:EventHandlers>
     <DTS:EventHandler
       DTS:refId="Package.EventHandlers[OnPostExecute]"
@@ -522,35 +643,14 @@
               ReadOnlyVariables="$Package::HeartBeatInterval"
               ReadWriteVariables="User::OverrideHeartBeat,User::LastHeartBeat">
               <ProjectItem
-                Name="Properties\AssemblyInfo.cs"
-                Encoding="UTF8"><![CDATA[using System.Reflection;
-using System.Runtime.CompilerServices;
-
-//
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-//
-[assembly: AssemblyTitle("ST_ca5b7fa7e0f44198881f68ae2ec688f7")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ST_ca5b7fa7e0f44198881f68ae2ec688f7")]
-[assembly: AssemblyCopyright("Copyright @  2013")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-//
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Revision and Build Numbers 
-// by using the '*' as shown below:
-
-[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
+                Name="Properties\Settings.settings"
+                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.resx"
                 Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -932,14 +1032,35 @@ namespace ST_ca5b7fa7e0f44198881f68ae2ec688f7.Properties {
     }
 }]]></ProjectItem>
               <ProjectItem
-                Name="Properties\Settings.settings"
-                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
-</SettingsFile>]]></ProjectItem>
+                Name="Properties\AssemblyInfo.cs"
+                Encoding="UTF8"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("ST_ca5b7fa7e0f44198881f68ae2ec688f7")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ST_ca5b7fa7e0f44198881f68ae2ec688f7")]
+[assembly: AssemblyCopyright("Copyright @  2013")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.Designer.cs"
                 Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
@@ -1264,11 +1385,39 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:s="clr-namespace:System;assembly=mscorlib">
         <NodeLayout
           Size="249,42"
           Id="Package\Execute SQL Task - Generate Merge"
-          TopLeft="361,110" />
+          TopLeft="344,206" />
+        <NodeLayout
+          Size="280,42"
+          Id="Package\Execute SQL Task - Get Batching Variables"
+          TopLeft="331,86" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="469.75,128">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,78"
+              Start="0,0"
+              End="0,70.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,70.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-114.26685546875,27.25,228.5337109375,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <AnnotationLayout
           Text="Merge"
           ParentId="51e29885-cbbd-4242-a576-2395d6bf56be"
@@ -1311,7 +1460,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
           FontInfo="{x:Null}"
           Size="233,56"
           Id="d4b75bee-769f-4977-bf4b-89d2bf043d92"
-          TopLeft="8.5,36.5" />
+          TopLeft="6.5,38.5" />
         <GroupLayout
           Text="Package Info"
           ParentId="Package"
@@ -1494,5 +1643,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
       </GraphLayout>
     </LayoutInfo>
   </DtsEventHandler>
+  <PrecedenceConstraint
+    design-time-name="Package.PrecedenceConstraints[Constraint 2]">
+    <ShowAnnotation>ConstraintOptions</ShowAnnotation>
+  </PrecedenceConstraint>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>

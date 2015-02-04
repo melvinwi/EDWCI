@@ -9,6 +9,6 @@
     DTS:Name="InitialCatalog">"complaints"</DTS:PropertyExpression>
   <DTS:ObjectData>
     <DTS:ConnectionManager
-      DTS:ConnectionString="Data Source=PTM-DB14\SQLTST1;Initial Catalog=complaints;Integrated Security=True;" />
+      DTS:ConnectionString="Data Source=PTM-CLU-DB01\INTSHARED;Initial Catalog=complaints;Integrated Security=True;" />
   </DTS:ObjectData>
 </DTS:ConnectionManager>

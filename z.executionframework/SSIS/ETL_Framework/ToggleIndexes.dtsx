@@ -12,8 +12,8 @@
   DTS:ObjectName="ToggleIndexes"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="65"
-  DTS:VersionGUID="{6AA08289-8A80-4933-9785-229BA561AB09}">
+  DTS:VersionBuild="66"
+  DTS:VersionGUID="{8EAEEC5C-8573-4F5F-84EF-09B861886EAA}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:LogProviders>
@@ -64,6 +64,15 @@
       <DTS:Property
         DTS:DataType="8"
         DTS:Name="ParameterValue">REBUILD</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="11"
+      DTS:DTSID="{10F76DB4-A673-465C-85C1-FEDC936D01B5}"
+      DTS:ObjectName="RebuildEnabledIndexes">
+      <DTS:Property
+        DTS:DataType="11"
+        DTS:Name="ParameterValue">0</DTS:Property>
     </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
@@ -163,13 +172,13 @@
       DTS:CreationName=""
       DTS:DTSID="{AFF96DE1-2BC5-47C5-983A-CDB01EFA9FDC}"
       DTS:EvaluateAsExpression="True"
-      DTS:Expression="&quot;EXEC [dbo].[ToggleIndexes] @DatabaseName = '&quot; + @[$Package::TargetDatabase]  + &quot;', @SchemaName = '&quot; + @[$Package::TargetSchema]  + &quot;', @TableName = '&quot; + @[$Package::TargetTable]  + &quot;', @Operation = '&quot; + @[$Package::Operation]  + &quot;', @Debug = 0&quot;"
+      DTS:Expression="&quot;EXEC [dbo].[ToggleIndexes] @DatabaseName = '&quot; + @[$Package::TargetDatabase]  + &quot;', @SchemaName = '&quot; + @[$Package::TargetSchema]  + &quot;', @TableName = '&quot; + @[$Package::TargetTable]  + &quot;', @Operation = '&quot; + @[$Package::Operation]  + &quot;', @RebuildEnabledIndexes = &quot; + (DT_STR, 5, 1252) @[$Package::RebuildEnabledIndexes]  + &quot;, @Debug = 0&quot;"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
       DTS:ObjectName="ToggleIndexesSQL"
       DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
-        DTS:DataType="8">EXEC [dbo].[ToggleIndexes] @DatabaseName = 'DW_Staging', @SchemaName = 'orion', @TableName = 'utl_transaction', @Operation = 'REBUILD', @Debug = 0</DTS:VariableValue>
+        DTS:DataType="8">EXEC [dbo].[ToggleIndexes] @DatabaseName = 'DW_Staging', @SchemaName = 'orion', @TableName = 'utl_transaction', @Operation = 'REBUILD', @RebuildEnabledIndexes = False, @Debug = 0</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -464,14 +473,35 @@
               ReadOnlyVariables="$Package::HeartBeatInterval"
               ReadWriteVariables="User::OverrideHeartBeat,User::LastHeartBeat">
               <ProjectItem
-                Name="Properties\Settings.settings"
-                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
-</SettingsFile>]]></ProjectItem>
+                Name="Properties\AssemblyInfo.cs"
+                Encoding="UTF8"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("ST_ca5b7fa7e0f44198881f68ae2ec688f7")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ST_ca5b7fa7e0f44198881f68ae2ec688f7")]
+[assembly: AssemblyCopyright("Copyright @  2013")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.resx"
                 Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -853,35 +883,14 @@ namespace ST_ca5b7fa7e0f44198881f68ae2ec688f7.Properties {
     }
 }]]></ProjectItem>
               <ProjectItem
-                Name="Properties\AssemblyInfo.cs"
-                Encoding="UTF8"><![CDATA[using System.Reflection;
-using System.Runtime.CompilerServices;
-
-//
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-//
-[assembly: AssemblyTitle("ST_ca5b7fa7e0f44198881f68ae2ec688f7")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ST_ca5b7fa7e0f44198881f68ae2ec688f7")]
-[assembly: AssemblyCopyright("Copyright @  2013")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-//
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Revision and Build Numbers 
-// by using the '*' as shown below:
-
-[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
+                Name="Properties\Settings.settings"
+                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.Designer.cs"
                 Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------

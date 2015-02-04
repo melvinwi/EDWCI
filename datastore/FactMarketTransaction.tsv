@@ -13,4 +13,5 @@ TransactionKey	Transaction ID from the source system	int		-1	TRUE		FALSE
 ParticipantCode	Participant Code	nvarchar	20		FALSE		FALSE
 NEMTransactionKey	Market Transaction ID	nvarchar	100		FALSE		FALSE
 NEMInitialTransactionKey	Initial Market Transaction ID	nvarchar	100		FALSE		FALSE
+MoveIn	Move In	nchar	3		FALSE		FALSE
 TransactionCounter	Counter (=1)	tinyint		1	TRUE		FALSE
