@@ -259,6 +259,8 @@ BEGIN
     INNER  JOIN DW_Dimensional.DW.FactCustomerAccount ON FactCustomerAccount.AccountId = DimAccount.AccountId
     INNER  JOIN DW_Dimensional.DW.DimCustomer ON DimCustomer.CustomerId = FactCustomerAccount.CustomerId
     INNER  JOIN DW_Dimensional.DW.DimCustomer AS DimCustomerCurrent ON DimCustomerCurrent.CustomerKey = DimCustomer.CustomerKey AND DimCustomerCurrent.Meta_IsCurrent = 1
+    INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceKey = #latestNotification.ServiceKey
+    INNER  JOIN DW_Dimensional.DW.FactContract ON FactContract.ServiceId = DimService.ServiceId
     INNER  JOIN #phoneNumbers ON #phoneNumbers.CustomerKey = DimCustomerCurrent.CustomerKey
     INNER  JOIN #customerValue ON #customerValue.CustomerKey = DimCustomerCurrent.CustomerKey AND #customerValue.RC = 1
     LEFT   JOIN #retentionActivities ON #retentionActivities.CustomerKey = DimCustomerCurrent.CustomerKey
@@ -270,7 +272,7 @@ BEGIN
     AND    DimCustomerCurrent.LastName NOT LIKE '%Occupier%'
     AND    DimCustomerCurrent.PartyName NOT LIKE '%Occupier%'
     AND    NOT ISNULL(#latestNotification.ParticipantCode, N'VENCORP') IN (N'VEPL', N'VEGAS', N'SAEPL', N'QEPL', N'NSWEPL', N'LUMOUSR')
-    AND    DimAccount.AccountStatus = N'Open'
+    AND    FactContract.ContractDetailedStatus IN (N'Pending Switch Out/Move Out', N'Pending Switchout Retro')
     AND    (DimAccount.CreditControlStatus LIKE N'Standard%' OR DimAccount.CreditControlStatus LIKE N'Payplan%')
     AND    #retentionActivities.CustomerKey IS NULL
     AND    (COALESCE(DATEDIFF(DAY, CONVERT(DATE, CAST(#salesActivities.SalesActivityDateId AS NCHAR(8)), 112), GETDATE()), 11) > 10 OR COALESCE(#salesActivities.SalesActivityType, '') NOT IN (N'CR Retain', N'CR Recontract', N'CR Winback', N'OB_CR Retain', N'OB_CR Recontract', N'OB_CR Winback'))
