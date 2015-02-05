@@ -6,6 +6,7 @@ AccountId	Foreign key to DimAccount	int		-1	TRUE	FALSE	FALSE
 ServiceId	Foreign key to DimService	int		-1	TRUE	FALSE	FALSE
 ProductId	Foreign key to DimProduct	int		-1	TRUE	FALSE	FALSE
 PricePlanId	Foreign key to DimPricePlan	int		-1	TRUE	FALSE	FALSE
+ContractDetailsId	Foreign key to DimContractDetails	int		-1	TRUE	FALSE	FALSE
 ContractConnectedDateId	Contract Connected Date	int		99991231	TRUE	FALSE	FALSE
 ContractFRMPDateId	Contract FRMP Date	int		99991231	TRUE	FALSE	FALSE
 ContractStartDateId	Contract Start Date	int		99991231	TRUE	FALSE	FALSE
