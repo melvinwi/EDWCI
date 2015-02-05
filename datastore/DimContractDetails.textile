@@ -1,0 +1,12 @@
+
+h2. ARTEFACT: DimContractDetails
+
+DESCRIPTION: Contract Details dimension
+
+|*COLUMN*	|*DESC*	|*TYPE*	|*LENGTH*	|*DEFAULT*	|*NOT_NULL*	|*PK*	|*AUTO_INCREMENT
+*	|
+|ContractDetailsKey	|Contract ID from the source system	|int	|	|-1	|TRUE	|FALSE	|FALSE
+	|
+|ContractStatus	|Contract Status	|nchar	|10	|	|TRUE	|FALSE	|FALSE
+	|
+|ContractDetailedStatus	|ContractDetailedStatus	|nvarchar	|50	|	|TRUE	|FALSE	|FALSE|
