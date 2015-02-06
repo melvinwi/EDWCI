@@ -26,6 +26,7 @@ BEGIN
            DimChangeReasonCurrent.ChangeReasonCode,
            FactMarketTransaction.TransactionDateId,
            FactMarketTransaction.TransactionTime,
+           FactMarketTransaction.TransactionType,
            FactMarketTransaction.TransactionStatus,
            FactMarketTransaction.ParticipantCode,
            ROW_NUMBER() OVER (PARTITION BY DimAccount.AccountKey, DimService.ServiceKey ORDER BY FactMarketTransaction.TransactionDateId DESC, FactMarketTransaction.TransactionTime DESC, CASE WHEN FactMarketTransaction.TransactionStatus IN (N'Requested', N'Pending') THEN 0 ELSE 1 END DESC) AS RC
@@ -54,7 +55,10 @@ BEGIN
            #notifications.ServiceKey,
            #notifications.ChangeReasonCode,
            #notifications.TransactionDateId,
-           _previousNotification.TransactionDateId AS RequestDateId,
+           CASE
+             WHEN #notifications.TransactionType IN (N'DPRTInitChangeOfUser', N'DPRTNotifyChangeOfUsertoUser') THEN #notifications.TransactionDateId
+             ELSE _previousNotification.TransactionDateId
+           END AS RequestDateId,
            #notifications.TransactionTime,
            #notifications.TransactionStatus,
            #notifications.ParticipantCode,
