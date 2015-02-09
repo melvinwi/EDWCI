@@ -9,8 +9,8 @@ WITH   customerValue AS (SELECT DimCustomer.CustomerCode,
                          INNER  JOIN DW_Dimensional.DW.FactCustomerValue ON FactCustomerValue.CustomerId = DimCustomer.CustomerId)
 SELECT customerValue.CustomerCode,
        customerValue.ValueRating AS Rating,
-       ISNULL(NULLIF(customerValue.PartyName, '') , '{Unknown}') AS PartyName,
-       ISNULL(NULLIF(customerValue.ResidentialState, '') , '{U}') AS ResidentialState
+       customerValue.PartyName AS PartyName,
+       customerValue.ResidentialState AS ResidentialState
 FROM   customerValue
 WHERE  customerValue.recency = 1
 

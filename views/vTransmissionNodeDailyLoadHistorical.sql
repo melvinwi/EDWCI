@@ -19,7 +19,8 @@ SELECT -- DimTransmissionNode
        FactTransmissionNodeDailyLoad.ExportReactivePower,
        FactTransmissionNodeDailyLoad.SettlementAmount,
        FactTransmissionNodeDailyLoad.MeterRun,
-       FactTransmissionNodeDailyLoad.MeteringDataAgent
+       FactTransmissionNodeDailyLoad.MeteringDataAgent,
+       FactTransmissionNodeDailyLoad.TransmissionLossFactor
 FROM   DW_Dimensional.DW.FactTransmissionNodeDailyLoad
 LEFT   JOIN DW_Dimensional.DW.DimTransmissionNode ON DimTransmissionNode.TransmissionNodeId = FactTransmissionNodeDailyLoad.TransmissionNodeId;
 GO

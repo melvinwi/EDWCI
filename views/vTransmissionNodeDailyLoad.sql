@@ -20,7 +20,7 @@ SELECT -- DimTransmissionNode
        FactTransmissionNodeDailyLoad.SettlementAmount,
        FactTransmissionNodeDailyLoad.MeterRun,
        FactTransmissionNodeDailyLoad.MeteringDataAgent,
-	  FactTransmissionNodeDailyLoad.TransmissionLossFactor
+       FactTransmissionNodeDailyLoad.TransmissionLossFactor
 FROM   DW_Dimensional.DW.FactTransmissionNodeDailyLoad
 INNER  JOIN (SELECT FactTransmissionNodeDailyLoad.TransmissionNodeId,
                     FactTransmissionNodeDailyLoad.SettlementDateId,
