@@ -13,8 +13,8 @@ CREATE TABLE [DW].[FactHeader](
 	[HeaderKey] [nvarchar](20) NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
 	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NULL
-) ON [data]
+) ON [DATA]
 
 GO
-CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactHeader] ON [DW].[FactHeader] WITH (DROP_EXISTING = OFF) ON [data]
+CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactHeader] ON [DW].[FactHeader] WITH (DROP_EXISTING = OFF) ON [DATA]
 GO

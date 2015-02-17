@@ -19,16 +19,16 @@ CREATE TABLE [Views].[RetentionDiallerList](
 	[Ph_Other_01] [nvarchar](24) NOT NULL,
 	[Ph_Other_02] [nvarchar](24) NOT NULL,
 	[TITLE] [nchar](4) NOT NULL,
-	[PARTYCODE] [int] NOT NULL,
+	[PARTYCODE] [nvarchar](10) NOT NULL,
 	[DOB] [nvarchar](30) NULL,
-	[ACCTSEXCL] [int] NULL,
-	[RETAINEDON] [int] NULL,
+	[ACCTSEXCL] [nvarchar](10) NULL,
+	[RETAINEDON] [nvarchar](10) NULL,
 	[Mobile] [nvarchar](1) NOT NULL,
-	[CONTACTS_10] [int] NULL,
-	[CONTACTS_CR] [int] NULL,
-	[CRRAISED] [int] NULL,
+	[CONTACTS_10] [nvarchar](10) NULL,
+	[CONTACTS_CR] [nvarchar](10) NULL,
+	[CRRAISED] [nvarchar](10) NULL,
 	[CRLOST] [nvarchar](10) NULL,
-	[CRRETAIN] [int] NULL,
+	[CRRETAIN] [nvarchar](10) NULL,
 	[COMPETITOR] [nvarchar](20) NOT NULL,
 	[SKILLNAME] [nvarchar](1) NOT NULL,
 	[PROPENSITYSCORE] [int] NOT NULL,
@@ -54,9 +54,4 @@ CREATE TABLE [Views].[RetentionDiallerList](
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL
 ) ON [data]
 
-GO
-CREATE NONCLUSTERED INDEX [IX_RetentionDiallerList_MetaInsertTaskExecutionInstanceId] ON [Views].[RetentionDiallerList]
-(
-	[Meta_Insert_TaskExecutionInstanceId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [data]
 GO

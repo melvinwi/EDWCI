@@ -20,7 +20,10 @@ CREATE TABLE [DW].[FactTransmissionNodeDailyLoad](
 	[MeteringDataAgent] [nvarchar](10) NULL,
 	[TransmissionNodeDailyLoadKey] [nvarchar](50) NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
-	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NOT NULL
-) ON [data]
+	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NOT NULL,
+	[TransmissionLossFactor] [decimal](25, 15) NULL
+) ON [DATA]
 
+GO
+CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactTransmissionNodeDailyLoad] ON [DW].[FactTransmissionNodeDailyLoad] WITH (DROP_EXISTING = OFF) ON [DATA]
 GO

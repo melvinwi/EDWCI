@@ -2,3 +2,7 @@ USE [DW_Work]
 GO
 CREATE SCHEMA [temp]
 GO
+USE [DW_Work]
+GO
+CREATE SCHEMA [temp]
+GO

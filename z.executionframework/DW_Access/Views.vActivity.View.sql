@@ -4,9 +4,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
-
-
 CREATE VIEW [Views].[vActivity]
 AS
 WITH   dimMarketingCampaign
@@ -38,6 +35,11 @@ SELECT -- DimCustomer
        DimCustomerCurrent.MiddleInitial,
        DimCustomerCurrent.LastName,
        DimCustomerCurrent.PartyName,
+       DimCustomerCurrent.PostalAddressLine1,
+       DimCustomerCurrent.PostalSuburb,
+       DimCustomerCurrent.PostalPostcode,
+       DimCustomerCurrent.PostalState,
+       DimCustomerCurrent.PostalStateAsProvided,
        DimCustomerCurrent.ResidentialAddressLine1,
        DimCustomerCurrent.ResidentialSuburb,
        DimCustomerCurrent.ResidentialPostcode,
@@ -96,7 +98,6 @@ LEFT   JOIN DW_Dimensional.DW.DimActivityType AS DimActivityTypeCurrent ON DimAc
 LEFT   JOIN dimMarketingCampaign ON dimMarketingCampaign.ActivityTypeKey = DimActivityTypeCurrent.ActivityTypeKey AND dimMarketingCampaign.recency = 1
 LEFT   JOIN dimAccount ON dimAccount.CustomerKey = DimCustomerCurrent.CustomerKey AND dimAccount.recency = 1
 LEFT   JOIN factContract ON factContract.AccountKey = dimAccount.AccountKey AND CONVERT(DATE, CAST(factContract.MaxContractStartDateId AS NCHAR(8)), 120) >= dimMarketingCampaign.MarketingCampaignStartDate;
-
 
 
 GO

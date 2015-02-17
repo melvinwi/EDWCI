@@ -229,4 +229,5 @@ AND DimAccount.AccountId > 0
 AND DimCustomer.CustomerId >0;
 
 
+
 GO

@@ -14,8 +14,8 @@ CREATE TABLE [DW].[FactLoyaltyPoints](
 	[LoyaltyPointsKey] [int] NOT NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
 	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NOT NULL
-) ON [data]
+) ON [INDEX]
 
 GO
-CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactLoyaltyPoints] ON [DW].[FactLoyaltyPoints] WITH (DROP_EXISTING = OFF) ON [data]
+CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactLoyaltyPoints] ON [DW].[FactLoyaltyPoints] WITH (DROP_EXISTING = OFF) ON [INDEX]
 GO

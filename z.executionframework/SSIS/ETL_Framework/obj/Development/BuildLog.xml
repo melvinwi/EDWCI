@@ -2,13 +2,13 @@
 <BuildLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ProjectInfo>
     <Name>ETL_Framework</Name>
-    <LastWriteTime>2015-02-03T00:00:43.8684943Z</LastWriteTime>
+    <LastWriteTime>2015-02-16T00:07:46.8565785Z</LastWriteTime>
     <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
   </ProjectInfo>
   <LastBuildInfos>
     <ProjectBuildItemInfo>
       <Name>Task.dtsx</Name>
-      <LastWriteTime>2015-01-28T06:32:38.9747548Z</LastWriteTime>
+      <LastWriteTime>2015-02-16T03:14:07.7563354Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
@@ -18,7 +18,7 @@
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>Application.dtsx</Name>
-      <LastWriteTime>2015-01-28T03:00:31.7452936Z</LastWriteTime>
+      <LastWriteTime>2015-02-16T00:07:46.7945717Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
@@ -48,7 +48,7 @@
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>ExecuteSQL.dtsx</Name>
-      <LastWriteTime>2015-02-03T00:30:10.1872247Z</LastWriteTime>
+      <LastWriteTime>2015-02-04T06:33:48.0375111Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
   </LastBuildInfos>
