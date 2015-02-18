@@ -1,0 +1,4 @@
+USE [DW_Dimensional]
+GO
+CREATE USER [STAFF\Ronald.Teoh] FOR LOGIN [STAFF\Ronald.Teoh] WITH DEFAULT_SCHEMA=[dbo]
+GO

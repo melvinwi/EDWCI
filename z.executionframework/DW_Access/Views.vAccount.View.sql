@@ -35,6 +35,7 @@ WITH   factContract
            FROM   DW_Dimensional.DW.FactContract INNER JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactContract.AccountId
            INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactContract.ServiceId
            INNER  JOIN DW_Dimensional.DW.DimProduct ON DimProduct.ProductId = FactContract.ProductId
+           INNER  JOIN DW_Dimensional.DW.DimContractDetails ON DimContractDetails.ContractDetailsId = FactContract.ContractDetailsId
            GROUP  BY DimAccount.AccountKey),
        factHeader
        AS (SELECT Dimaccount.AccountKey,
@@ -109,9 +110,10 @@ WITH   factContract
                   DATEADD(DAY, -1, CONVERT(DATE, CAST(FactContract.ContractStartDateId AS NCHAR(8)), 112)) AS PossibleTenureStartDate,
                   CONVERT(DATE, CAST(FactContract.ContractStartDateId AS NCHAR(8)), 112) AS ContractStartDate,
                   CONVERT(DATE, CAST(FactContract.ContractTerminatedDateId AS NCHAR(8)), 112) AS ContractTerminatedDate,
-                  FactContract.ContractStatus
+                  DimContractDetails.ContractStatus
            FROM   DW_Dimensional.DW.DimAccount
-           INNER  JOIN DW_Dimensional.DW.FactContract ON FactContract.AccountId = DimAccount.AccountId),
+           INNER  JOIN DW_Dimensional.DW.FactContract ON FactContract.AccountId = DimAccount.AccountId
+           INNER  JOIN DW_Dimensional.DW.DimContractDetails ON DimContractDetails.ContractDetailsId = FactContract.ContractDetailsId),
        tenureStart
        AS (SELECT candidate.AccountKey,
                   DATEADD(DAY, 1, MAX(candidate.PossibleTenureStartDate)) as TenureStartDate
@@ -225,6 +227,7 @@ WHERE  DimAccount.Meta_IsCurrent = 1
 AND    DimCustomer.Meta_IsCurrent = 1
 AND DimAccount.AccountId > 0
 AND DimCustomer.CustomerId >0;
+
 
 
 GO

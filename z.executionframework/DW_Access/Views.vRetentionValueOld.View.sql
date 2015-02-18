@@ -14,6 +14,8 @@ AS WITH factContract
              FROM
                   DW_Dimensional.DW.FactContract INNER JOIN DW_Dimensional.DW.DimAccount
                   ON DimAccount.AccountId = FactContract.AccountId
+                                                 INNER JOIN DW_Dimensional.DW.DimContractDetails
+                  ON DimContractDetails.ContractDetailsId = FactContract.ContractDetailsId
              GROUP  BY DimAccount.AccountKey) ,
 ATB
        AS (SELECT AccountId,
@@ -35,8 +37,10 @@ gasUsage
                   ON DimAccount.AccountId = FactContract.AccountId
                                                  INNER JOIN DW_Dimensional.DW.DimService
                   ON DimService.ServiceId = FactContract.ServiceId
+                                                 INNER JOIN DW_Dimensional.DW.DimContractDetails
+                  ON DimContractDetails.ContractDetailsId = FactContract.ContractDetailsId
              WHERE DimService.ServiceType = 'Gas'
-		   AND  FactContract.ContractStatus = 'Open'
+		   AND  DimContractDetails.ContractStatus = 'Open'
              GROUP BY DimAccount.AccountKey) ,
 elecUsage
        AS (SELECT DimAccount.AccountKey,
@@ -46,8 +50,10 @@ elecUsage
                   ON DimAccount.AccountId = FactContract.AccountId
                                                  INNER JOIN DW_Dimensional.DW.DimService
                   ON DimService.ServiceId = FactContract.ServiceId
+                                                 INNER JOIN DW_Dimensional.DW.DimContractDetails
+                  ON DimContractDetails.ContractDetailsId = FactContract.ContractDetailsId
              WHERE DimService.ServiceType = 'Electricity'
-		   AND  FactContract.ContractStatus = 'Open'
+		   AND  DimContractDetails.ContractStatus = 'Open'
              GROUP BY DimAccount.AccountKey) ,
 lossFactor
        AS (SELECT DimAccount.AccountKey,
@@ -57,8 +63,10 @@ lossFactor
                   ON DimAccount.AccountId = FactContract.AccountId
                                                  INNER JOIN DW_Dimensional.DW.DimService
                   ON DimService.ServiceId = FactContract.ServiceId
+                                                 INNER JOIN DW_Dimensional.DW.DimContractDetails
+                  ON DimContractDetails.ContractDetailsId = FactContract.ContractDetailsId
              WHERE DimService.ServiceType = 'Electricity'
-		   AND  FactContract.ContractStatus = 'Open'
+		   AND  DimContractDetails.ContractStatus = 'Open'
              GROUP BY DimAccount.AccountKey) ,
 paymentMethod
        AS (SELECT DimAccount.AccountKey,
@@ -83,7 +91,9 @@ pricePlanProfitability
                   ON DimService.ServiceId = FactContract.ServiceId
                                                  INNER JOIN DW_Dimensional.DW.DimPricePlan
                   ON DimPricePlan.PricePlanId = FactContract.PricePlanId
-			   WHERE  FactContract.ContractStatus = 'Open'
+                                                 INNER JOIN DW_Dimensional.DW.DimContractDetails
+                  ON DimContractDetails.ContractDetailsId = FactContract.ContractDetailsId
+			   WHERE  DimContractDetails.ContractStatus = 'Open'
              GROUP BY DimAccount.AccountKey) ,
 paidOnTime
        AS (SELECT DimAccount.AccountKey,
@@ -305,4 +315,5 @@ theRating
               DW_Dimensional.DW.DimCustomer INNER JOIN theRating
               ON theRating.CustomerCode = DimCustomer.CustomerCode
          WHERE DimCustomer.Meta_IsCurrent = 1;
+
 GO

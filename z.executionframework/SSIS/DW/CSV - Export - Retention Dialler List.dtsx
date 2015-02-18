@@ -12,8 +12,8 @@
   DTS:ObjectName="CSV - Export - Retention Dialler List"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="132"
-  DTS:VersionGUID="{478E9DAE-2FBC-4C68-BA85-BC7BA09FE560}">
+  DTS:VersionBuild="136"
+  DTS:VersionGUID="{C3120082-EEDC-4DB0-912A-FD92D26A7408}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:ConnectionManagers>
@@ -23,7 +23,7 @@
       DTS:DTSID="{1CF808BD-A81E-4E8C-A043-A8FEAC129730}"
       DTS:ObjectName="Flat File - CSV">
       <DTS:PropertyExpression
-        DTS:Name="ConnectionString">@[User::FilePath]</DTS:PropertyExpression>
+        DTS:Name="ConnectionString">@[User::CSV_Export_FilePath]</DTS:PropertyExpression>
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:Format="Delimited"
@@ -33,7 +33,7 @@
           DTS:RowDelimiter=""
           DTS:TextQualifier="_x0022_"
           DTS:CodePage="1252"
-          DTS:ConnectionString="C:\DW_Development\DataWarehouse\CSV\Export\Retention_Outbound_20141202.csv">
+          DTS:ConnectionString="C:\DW_Development\DataWarehouse\Export\Retention_Outbound_20150213.csv">
           <DTS:FlatFileColumns>
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -506,6 +506,29 @@
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
+      DTS:DTSID="{0319397B-5702-4454-86E6-28D06EE13FB1}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::File_Export_Folder] + @[User::CSV_FileName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="CSV_Export_FilePath"
+      DTS:RaiseChangedEvent="True">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\DW_Development\DataWarehouse\Export\Retention_Outbound_20150213.csv</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{79ECAB12-AD6B-4375-8BCD-18132530D987}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;Retention_Outbound_&quot; + @[User::DateToday] + &quot;.csv&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="CSV_FileName">
+      <DTS:VariableValue
+        DTS:DataType="8">Retention_Outbound_20150213.csv</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
       DTS:DTSID="{655D3452-ED1E-41E4-848F-A46598DE62B4}"
       DTS:EvaluateAsExpression="True"
       DTS:Expression="(DT_STR,4,1252)DATEPART( &quot;yyyy&quot; , getdate() ) +&#xA;RIGHT(&quot;0&quot; + (DT_STR,4,1252)DATEPART( &quot;mm&quot; , getdate() ), 2) +&#xA;RIGHT(&quot;0&quot; + (DT_STR,4,1252)DATEPART( &quot;dd&quot; , getdate() ), 2)"
@@ -513,7 +536,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="DateToday">
       <DTS:VariableValue
-        DTS:DataType="8">20141202</DTS:VariableValue>
+        DTS:DataType="8">20150213</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -541,29 +564,6 @@
       DTS:ObjectName="ExtractRowCount">
       <DTS:VariableValue
         DTS:DataType="3">0</DTS:VariableValue>
-    </DTS:Variable>
-    <DTS:Variable
-      DTS:CreationName=""
-      DTS:DTSID="{79ECAB12-AD6B-4375-8BCD-18132530D987}"
-      DTS:EvaluateAsExpression="True"
-      DTS:Expression="&quot;Retention_Outbound_&quot; + @[User::DateToday] + &quot;.csv&quot;"
-      DTS:IncludeInDebugDump="2345"
-      DTS:Namespace="User"
-      DTS:ObjectName="FileName">
-      <DTS:VariableValue
-        DTS:DataType="8">Retention_Outbound_20141202.csv</DTS:VariableValue>
-    </DTS:Variable>
-    <DTS:Variable
-      DTS:CreationName=""
-      DTS:DTSID="{0319397B-5702-4454-86E6-28D06EE13FB1}"
-      DTS:EvaluateAsExpression="True"
-      DTS:Expression="@[$Project::CSV_ExportFolderPath]  + @[User::FileName]"
-      DTS:IncludeInDebugDump="2345"
-      DTS:Namespace="User"
-      DTS:ObjectName="FilePath"
-      DTS:RaiseChangedEvent="True">
-      <DTS:VariableValue
-        DTS:DataType="8">C:\DW_Development\DataWarehouse\CSV\Export\Retention_Outbound_20141202.csv</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -772,7 +772,8 @@
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[TITLE]" />
                     <inputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\Flat File Destination.Inputs[Flat File Destination Input].Columns[PARTYCODE]"
-                      cachedDataType="i4"
+                      cachedDataType="wstr"
+                      cachedLength="10"
                       cachedName="PARTYCODE"
                       externalMetadataColumnId="Package\Data Flow Task - DW_Access -&gt; CSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[PARTYCODE]"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[PARTYCODE]" />
@@ -785,13 +786,15 @@
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[DOB]" />
                     <inputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\Flat File Destination.Inputs[Flat File Destination Input].Columns[ACCTSEXCL]"
-                      cachedDataType="i4"
+                      cachedDataType="wstr"
+                      cachedLength="10"
                       cachedName="ACCTSEXCL"
                       externalMetadataColumnId="Package\Data Flow Task - DW_Access -&gt; CSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[ACCTSEXCL]"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[ACCTSEXCL]" />
                     <inputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\Flat File Destination.Inputs[Flat File Destination Input].Columns[RETAINEDON]"
-                      cachedDataType="i4"
+                      cachedDataType="wstr"
+                      cachedLength="10"
                       cachedName="RETAINEDON"
                       externalMetadataColumnId="Package\Data Flow Task - DW_Access -&gt; CSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[RETAINEDON]"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[RETAINEDON]" />
@@ -804,19 +807,22 @@
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[Mobile]" />
                     <inputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\Flat File Destination.Inputs[Flat File Destination Input].Columns[CONTACTS_10]"
-                      cachedDataType="i4"
+                      cachedDataType="wstr"
+                      cachedLength="10"
                       cachedName="CONTACTS_10"
                       externalMetadataColumnId="Package\Data Flow Task - DW_Access -&gt; CSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[CONTACTS_10]"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[CONTACTS_10]" />
                     <inputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\Flat File Destination.Inputs[Flat File Destination Input].Columns[CONTACTS_CR]"
-                      cachedDataType="i4"
+                      cachedDataType="wstr"
+                      cachedLength="10"
                       cachedName="CONTACTS_CR"
                       externalMetadataColumnId="Package\Data Flow Task - DW_Access -&gt; CSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[CONTACTS_CR]"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[CONTACTS_CR]" />
                     <inputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\Flat File Destination.Inputs[Flat File Destination Input].Columns[CRRAISED]"
-                      cachedDataType="i4"
+                      cachedDataType="wstr"
+                      cachedLength="10"
                       cachedName="CRRAISED"
                       externalMetadataColumnId="Package\Data Flow Task - DW_Access -&gt; CSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[CRRAISED]"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[CRRAISED]" />
@@ -829,7 +835,8 @@
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[CRLOST]" />
                     <inputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\Flat File Destination.Inputs[Flat File Destination Input].Columns[CRRETAIN]"
-                      cachedDataType="i4"
+                      cachedDataType="wstr"
+                      cachedLength="10"
                       cachedName="CRRETAIN"
                       externalMetadataColumnId="Package\Data Flow Task - DW_Access -&gt; CSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[CRRETAIN]"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[CRRETAIN]" />
@@ -1470,10 +1477,11 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[PARTYCODE]"
-                      dataType="i4"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PARTYCODE]"
+                      length="10"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[PARTYCODE]"
                       name="PARTYCODE"
                       truncationRowDisposition="FailComponent" />
@@ -1489,19 +1497,21 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[ACCTSEXCL]"
-                      dataType="i4"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ACCTSEXCL]"
+                      length="10"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[ACCTSEXCL]"
                       name="ACCTSEXCL"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[RETAINEDON]"
-                      dataType="i4"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[RETAINEDON]"
+                      length="10"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[RETAINEDON]"
                       name="RETAINEDON"
                       truncationRowDisposition="FailComponent" />
@@ -1517,28 +1527,31 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[CONTACTS_10]"
-                      dataType="i4"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CONTACTS_10]"
+                      length="10"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[CONTACTS_10]"
                       name="CONTACTS_10"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[CONTACTS_CR]"
-                      dataType="i4"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CONTACTS_CR]"
+                      length="10"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[CONTACTS_CR]"
                       name="CONTACTS_CR"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[CRRAISED]"
-                      dataType="i4"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CRRAISED]"
+                      length="10"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[CRRAISED]"
                       name="CRRAISED"
                       truncationRowDisposition="FailComponent" />
@@ -1554,10 +1567,11 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[CRRETAIN]"
-                      dataType="i4"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CRRETAIN]"
+                      length="10"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[CRRETAIN]"
                       name="CRRETAIN"
                       truncationRowDisposition="FailComponent" />
@@ -1864,7 +1878,8 @@
                       name="TITLE" />
                     <externalMetadataColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PARTYCODE]"
-                      dataType="i4"
+                      dataType="wstr"
+                      length="10"
                       name="PARTYCODE" />
                     <externalMetadataColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DOB]"
@@ -1873,11 +1888,13 @@
                       name="DOB" />
                     <externalMetadataColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ACCTSEXCL]"
-                      dataType="i4"
+                      dataType="wstr"
+                      length="10"
                       name="ACCTSEXCL" />
                     <externalMetadataColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[RETAINEDON]"
-                      dataType="i4"
+                      dataType="wstr"
+                      length="10"
                       name="RETAINEDON" />
                     <externalMetadataColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Mobile]"
@@ -1886,15 +1903,18 @@
                       name="Mobile" />
                     <externalMetadataColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CONTACTS_10]"
-                      dataType="i4"
+                      dataType="wstr"
+                      length="10"
                       name="CONTACTS_10" />
                     <externalMetadataColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CONTACTS_CR]"
-                      dataType="i4"
+                      dataType="wstr"
+                      length="10"
                       name="CONTACTS_CR" />
                     <externalMetadataColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CRRAISED]"
-                      dataType="i4"
+                      dataType="wstr"
+                      length="10"
                       name="CRRAISED" />
                     <externalMetadataColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CRLOST]"
@@ -1903,7 +1923,8 @@
                       name="CRLOST" />
                     <externalMetadataColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CRRETAIN]"
-                      dataType="i4"
+                      dataType="wstr"
+                      length="10"
                       name="CRRETAIN" />
                     <externalMetadataColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[COMPETITOR]"
@@ -2111,7 +2132,8 @@
                       name="TITLE" />
                     <outputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PARTYCODE]"
-                      dataType="i4"
+                      dataType="wstr"
+                      length="10"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PARTYCODE]"
                       name="PARTYCODE" />
                     <outputColumn
@@ -2122,12 +2144,14 @@
                       name="DOB" />
                     <outputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ACCTSEXCL]"
-                      dataType="i4"
+                      dataType="wstr"
+                      length="10"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ACCTSEXCL]"
                       name="ACCTSEXCL" />
                     <outputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[RETAINEDON]"
-                      dataType="i4"
+                      dataType="wstr"
+                      length="10"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[RETAINEDON]"
                       name="RETAINEDON" />
                     <outputColumn
@@ -2138,17 +2162,20 @@
                       name="Mobile" />
                     <outputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CONTACTS_10]"
-                      dataType="i4"
+                      dataType="wstr"
+                      length="10"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CONTACTS_10]"
                       name="CONTACTS_10" />
                     <outputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CONTACTS_CR]"
-                      dataType="i4"
+                      dataType="wstr"
+                      length="10"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CONTACTS_CR]"
                       name="CONTACTS_CR" />
                     <outputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CRRAISED]"
-                      dataType="i4"
+                      dataType="wstr"
+                      length="10"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CRRAISED]"
                       name="CRRAISED" />
                     <outputColumn
@@ -2159,7 +2186,8 @@
                       name="CRLOST" />
                     <outputColumn
                       refId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CRRETAIN]"
-                      dataType="i4"
+                      dataType="wstr"
+                      length="10"
                       lineageId="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CRRETAIN]"
                       name="CRRETAIN" />
                     <outputColumn
@@ -3604,28 +3632,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
           Id="Package\Data Flow Task - DW_Access -&gt; CSV\OLE DB Source"
           TopLeft="463,47" />
         <EdgeLayout
-          Id="Package\Data Flow Task - DW_Access -&gt; CSV.Paths[OLE DB Source Output]"
-          TopLeft="537.5,89">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="0,42.5"
-              Start="0,0"
-              End="0,35">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,35" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
           Id="Package\Data Flow Task - DW_Access -&gt; CSV.Paths[Row Count Output 1]"
           TopLeft="536,173.5">
           <EdgeLayout.Curve>
@@ -3639,6 +3645,28 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,33" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task - DW_Access -&gt; CSV.Paths[OLE DB Source Output]"
+          TopLeft="537.5,89">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,42.5"
+              Start="0,0"
+              End="0,35">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

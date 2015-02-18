@@ -17,6 +17,8 @@ CREATE TABLE [DW].[FactServiceDailyLoad](
 	[ServiceDailyLoadKey] [nvarchar](100) NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
 	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NOT NULL
-) ON [data]
+) ON [DATA]
 
+GO
+CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactServiceDailyLoad] ON [DW].[FactServiceDailyLoad] WITH (DROP_EXISTING = OFF) ON [DATA]
 GO

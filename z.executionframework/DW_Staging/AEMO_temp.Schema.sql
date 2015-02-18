@@ -2,3 +2,7 @@ USE [DW_Staging]
 GO
 CREATE SCHEMA [AEMO_temp]
 GO
+USE [DW_Staging]
+GO
+CREATE SCHEMA [AEMO_temp]
+GO

@@ -8,19 +8,19 @@ CREATE TABLE [DW].[FactContract](
 	[AccountId] [int] NOT NULL,
 	[ServiceId] [int] NOT NULL,
 	[ProductId] [int] NOT NULL,
+	[PricePlanId] [int] NOT NULL,
+	[ContractDetailsId] [int] NOT NULL,
+	[ContractConnectedDateId] [int] NULL,
+	[ContractFRMPDateId] [int] NULL,
 	[ContractStartDateId] [int] NOT NULL,
 	[ContractEndDateId] [int] NOT NULL,
 	[ContractTerminatedDateId] [int] NOT NULL,
-	[ContractStatus] [nchar](10) NOT NULL,
 	[ContractKey] [int] NOT NULL,
 	[ContractCounter] [tinyint] NOT NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
-	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NOT NULL,
-	[PricePlanId] [int] NULL,
-	[ContractConnectedDateId] [int] NULL,
-	[ContractFRMPDateId] [int] NULL
-) ON [data]
+	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NOT NULL
+) ON [DATA]
 
 GO
-CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactContract] ON [DW].[FactContract] WITH (DROP_EXISTING = OFF) ON [data]
+CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactContract] ON [DW].[FactContract] WITH (DROP_EXISTING = OFF) ON [DATA]
 GO

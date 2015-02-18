@@ -16,8 +16,8 @@ CREATE TABLE [DW].[FactActivity](
 	[ActivityKey] [int] NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
 	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NULL
-) ON [data]
+) ON [DATA]
 
 GO
-CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactActivity] ON [DW].[FactActivity] WITH (DROP_EXISTING = OFF) ON [data]
+CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactActivity] ON [DW].[FactActivity] WITH (DROP_EXISTING = OFF) ON [DATA]
 GO

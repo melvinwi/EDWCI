@@ -2,5 +2,5 @@
 # ARTEFACT: DimQuestion							
 # DESCRIPTION: Question dimension table							
 COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
-QuestionKey	QuestionKey	nvarchar	255		FALSE		FALSE
+QuestionKey	QuestionKey	int		-1	FALSE		FALSE
 Question	Question	nvarchar	255		FALSE		FALSE

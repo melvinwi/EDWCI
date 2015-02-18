@@ -2,428 +2,478 @@
 <BuildLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ProjectInfo>
     <Name>DW</Name>
-    <LastWriteTime>2014-12-10T23:29:35.5811489Z</LastWriteTime>
+    <LastWriteTime>2015-02-17T00:54:14.4176949Z</LastWriteTime>
     <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
   </ProjectInfo>
   <LastBuildInfos>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_account_price_plan.dtsx</Name>
-      <LastWriteTime>2014-10-13T04:00:54.9928982Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T04:00:56Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - nc_inv_deliver_mode.dtsx</Name>
-      <LastWriteTime>2014-09-09T06:09:35.0212062Z</LastWriteTime>
+      <LastWriteTime>2014-09-09T06:09:36Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_contract_term.dtsx</Name>
-      <LastWriteTime>2014-09-09T06:09:35.432256Z</LastWriteTime>
+      <LastWriteTime>2014-09-09T06:09:36Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - nc_credit_control_status.dtsx</Name>
-      <LastWriteTime>2014-09-09T06:04:12.1811713Z</LastWriteTime>
+      <LastWriteTime>2014-09-09T06:04:14Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_air_points.dtsx</Name>
-      <LastWriteTime>2014-09-09T06:04:12.1981688Z</LastWriteTime>
+      <LastWriteTime>2014-09-09T06:04:14Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_total_customer_offering.dtsx</Name>
-      <LastWriteTime>2014-10-31T00:21:36.2408988Z</LastWriteTime>
+      <LastWriteTime>2014-10-31T00:21:38Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - crm_party.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:47:39.0289135Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:47:40Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_price_category.dtsx</Name>
-      <LastWriteTime>2014-09-22T09:18:52.431621Z</LastWriteTime>
+      <LastWriteTime>2014-09-22T09:18:54Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_price_plan.dtsx</Name>
-      <LastWriteTime>2014-11-13T23:18:34.2128559Z</LastWriteTime>
+      <LastWriteTime>2014-11-13T23:18:36Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - nc_product_item.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:48:36.4366744Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:48:38Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - crm_party_flag.dtsx</Name>
-      <LastWriteTime>2014-11-12T22:32:53.4842516Z</LastWriteTime>
+      <LastWriteTime>2014-11-12T22:32:54Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - crm_payment_plan.dtsx</Name>
-      <LastWriteTime>2014-11-12T22:32:53.4722518Z</LastWriteTime>
+      <LastWriteTime>2014-11-12T22:32:54Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - nc_client.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:46:01.7108444Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:46:02Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - nc_product.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:46:00.8827769Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:46:02Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_account_status.dtsx</Name>
-      <LastWriteTime>2014-09-09T05:33:43.4697053Z</LastWriteTime>
+      <LastWriteTime>2014-09-09T05:33:44Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_meter.dtsx</Name>
-      <LastWriteTime>2014-10-13T04:01:15.9016334Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T04:01:16Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_meter_header.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:45:12.0437298Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:45:14Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_site.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:46:00.9027784Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:46:02Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - crm_element_hierarchy.dtsx</Name>
-      <LastWriteTime>2014-10-13T04:01:39.8676194Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T04:01:40Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Complaints - Complaint.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:43:31.8334224Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:43:32Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - ar_adjust.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:56:43.8390765Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:56:44Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - ar_account.dtsx</Name>
-      <LastWriteTime>2014-10-15T04:57:50.1538603Z</LastWriteTime>
+      <LastWriteTime>2014-10-15T04:57:52Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - ar_account_group.dtsx</Name>
-      <LastWriteTime>2014-09-11T04:54:51.4142653Z</LastWriteTime>
+      <LastWriteTime>2014-09-11T04:54:52Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - ar_adjust_reason.dtsx</Name>
-      <LastWriteTime>2014-09-11T04:57:35.5979329Z</LastWriteTime>
+      <LastWriteTime>2014-09-11T04:57:36Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - ar_invoice.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:56:24.0014371Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:56:26Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - ar_receipt.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:51:43.49118Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:51:44Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - crm_party_type.dtsx</Name>
-      <LastWriteTime>2014-09-11T05:11:10.6117333Z</LastWriteTime>
+      <LastWriteTime>2014-09-11T05:11:12Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - inv_charge_item.dtsx</Name>
-      <LastWriteTime>2014-09-11T05:17:22.0239105Z</LastWriteTime>
+      <LastWriteTime>2014-09-11T05:17:24Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - inv_client_charges.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:39:40.3262277Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:39:42Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - inv_invoice_detail.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:25:30.398772Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:25:32Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - inv_invoice_header.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:25:22.102087Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:25:24Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_charge_transaction.dtsx</Name>
-      <LastWriteTime>2014-10-16T07:48:20.1185237Z</LastWriteTime>
+      <LastWriteTime>2014-10-16T07:48:22Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_conc_trans.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:57:04.6568015Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:57:06Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_concession.dtsx</Name>
-      <LastWriteTime>2014-09-11T06:54:42.8966257Z</LastWriteTime>
+      <LastWriteTime>2014-09-11T06:54:44Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_meter_class.dtsx</Name>
-      <LastWriteTime>2014-09-11T06:56:44.8035183Z</LastWriteTime>
+      <LastWriteTime>2014-09-11T06:56:46Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_pp_schedule.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:43:20.9175234Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:43:22Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_pp_schedule_type.dtsx</Name>
-      <LastWriteTime>2014-09-15T01:11:45.8933755Z</LastWriteTime>
+      <LastWriteTime>2014-09-15T01:11:46Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_transaction.dtsx</Name>
-      <LastWriteTime>2014-11-11T23:10:24.6271808Z</LastWriteTime>
+      <LastWriteTime>2014-11-11T23:10:26Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_transaction_type.dtsx</Name>
-      <LastWriteTime>2014-09-11T06:57:26.8832769Z</LastWriteTime>
+      <LastWriteTime>2014-09-11T06:57:28Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_pp_simple_schedule.dtsx</Name>
-      <LastWriteTime>2014-09-11T07:04:49.617823Z</LastWriteTime>
+      <LastWriteTime>2014-09-11T07:04:50Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_unit_of_measure.dtsx</Name>
-      <LastWriteTime>2014-09-12T00:45:24.7835708Z</LastWriteTime>
+      <LastWriteTime>2014-09-12T00:45:26Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - nc_tax_rate_history.dtsx</Name>
-      <LastWriteTime>2014-09-15T03:11:25.7645626Z</LastWriteTime>
+      <LastWriteTime>2014-09-15T03:11:26Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_meter_type.dtsx</Name>
-      <LastWriteTime>2014-09-16T01:48:12.0817405Z</LastWriteTime>
+      <LastWriteTime>2014-09-16T01:48:14Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_pp_schedule_class.dtsx</Name>
-      <LastWriteTime>2014-09-17T04:25:54.3312089Z</LastWriteTime>
+      <LastWriteTime>2014-09-17T04:25:56Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - nc_product_type.dtsx</Name>
-      <LastWriteTime>2014-09-17T06:26:53.5479387Z</LastWriteTime>
+      <LastWriteTime>2014-09-17T06:26:54Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CSV - Import - csv_DimMarketingCampaign.dtsx</Name>
-      <LastWriteTime>2014-11-26T06:40:00.9491941Z</LastWriteTime>
+      <LastWriteTime>2015-01-15T07:25:15.3383283Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CSV - Import - csv_DimMarketingOffer.dtsx</Name>
-      <LastWriteTime>2014-11-26T06:41:10.1764867Z</LastWriteTime>
+      <LastWriteTime>2015-01-16T00:33:36.7878812Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CSV - Import - csv_FactMarketingCampaignActivity.dtsx</Name>
-      <LastWriteTime>2014-11-26T06:41:49.2344739Z</LastWriteTime>
+      <LastWriteTime>2015-01-15T07:25:15.3153271Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - ar_receipt_batch.dtsx</Name>
-      <LastWriteTime>2014-09-26T06:32:59.2104093Z</LastWriteTime>
+      <LastWriteTime>2014-09-26T06:33:00Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - ar_receipt_batch_type.dtsx</Name>
-      <LastWriteTime>2014-10-01T05:41:23.7343549Z</LastWriteTime>
+      <LastWriteTime>2014-10-01T05:41:24Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - crm_activity.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:50:57.4333653Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:50:58Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - crm_activity_type.dtsx</Name>
-      <LastWriteTime>2014-09-29T06:04:10.7749263Z</LastWriteTime>
+      <LastWriteTime>2014-09-29T06:04:12Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - ar_aged_debtor_balance.dtsx</Name>
-      <LastWriteTime>2014-11-13T04:41:03.4760169Z</LastWriteTime>
+      <LastWriteTime>2014-11-13T04:41:04Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - nem_change_reason.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:13:48.0505516Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:13:50Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - nem_trans_status.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:19:49.1294849Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:19:50Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - nem_transaction.dtsx</Name>
-      <LastWriteTime>2014-10-13T04:38:10.7332357Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T04:38:12Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - nem_transaction_type.dtsx</Name>
-      <LastWriteTime>2014-10-13T02:55:11.0589635Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T02:55:12Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_price_class.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:22:19.6869664Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:22:20Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_distrib_loss_factor_sched.dtsx</Name>
-      <LastWriteTime>2014-10-13T03:21:11.2012817Z</LastWriteTime>
+      <LastWriteTime>2014-10-13T03:21:12Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CSV - Import - value_code.dtsx</Name>
-      <LastWriteTime>2014-11-26T06:39:29.5307922Z</LastWriteTime>
+      <LastWriteTime>2015-01-16T00:35:46.0216865Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - crm_activity_source.dtsx</Name>
-      <LastWriteTime>2014-10-15T05:14:54.1106531Z</LastWriteTime>
+      <LastWriteTime>2014-10-15T05:14:56Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - crm_activity_category.dtsx</Name>
-      <LastWriteTime>2014-10-16T03:54:42.2123322Z</LastWriteTime>
+      <LastWriteTime>2014-10-16T03:54:44Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - crm_activity_notes.dtsx</Name>
-      <LastWriteTime>2014-11-27T05:47:16.7560381Z</LastWriteTime>
+      <LastWriteTime>2014-11-27T05:47:18Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CSV - Import - CX_Monitor.dtsx</Name>
-      <LastWriteTime>2014-12-01T03:54:56.479612Z</LastWriteTime>
+      <LastWriteTime>2015-01-16T02:53:35.1402717Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CSV - Import - CX_MonitorCodes.dtsx</Name>
-      <LastWriteTime>2014-11-26T06:42:18.4807148Z</LastWriteTime>
+      <LastWriteTime>2015-01-16T02:54:00.778604Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - nc_involvement_type.dtsx</Name>
-      <LastWriteTime>2014-11-06T04:37:32.4538362Z</LastWriteTime>
+      <LastWriteTime>2014-11-06T04:37:34Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - nc_sales_involvement.dtsx</Name>
-      <LastWriteTime>2014-11-06T04:37:32.0788023Z</LastWriteTime>
+      <LastWriteTime>2014-11-06T04:37:34Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - crm_activity_disposition.dtsx</Name>
-      <LastWriteTime>2014-11-11T23:10:24.0471421Z</LastWriteTime>
+      <LastWriteTime>2014-11-11T23:10:26Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_site_class.dtsx</Name>
-      <LastWriteTime>2014-11-13T04:40:14.6974081Z</LastWriteTime>
+      <LastWriteTime>2014-11-13T04:40:16Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - crm_activity_disposition_class.dtsx</Name>
-      <LastWriteTime>2014-11-13T01:50:37.4074778Z</LastWriteTime>
+      <LastWriteTime>2014-11-13T01:50:38Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_virtual_meter_type.dtsx</Name>
-      <LastWriteTime>2014-11-21T03:06:52.2027348Z</LastWriteTime>
+      <LastWriteTime>2014-11-21T03:06:54Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_network.dtsx</Name>
-      <LastWriteTime>2014-11-21T03:46:01.3230779Z</LastWriteTime>
+      <LastWriteTime>2014-11-21T03:46:02Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_network_node.dtsx</Name>
-      <LastWriteTime>2014-11-24T22:56:12.8565266Z</LastWriteTime>
+      <LastWriteTime>2014-11-24T22:56:14Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_network_region.dtsx</Name>
-      <LastWriteTime>2014-11-24T01:15:36.8993441Z</LastWriteTime>
+      <LastWriteTime>2014-11-24T01:15:38Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_account_frmp_history.dtsx</Name>
-      <LastWriteTime>2014-11-25T01:48:27.1087952Z</LastWriteTime>
+      <LastWriteTime>2014-11-25T01:48:28Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CSV - Export - Retention Dialler List.dtsx</Name>
-      <LastWriteTime>2014-12-02T02:53:46.6037911Z</LastWriteTime>
+      <LastWriteTime>2015-02-12T22:14:01.3894069Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_site_status.dtsx</Name>
-      <LastWriteTime>2014-11-28T00:10:00.8563315Z</LastWriteTime>
+      <LastWriteTime>2014-11-28T00:10:02Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_site_status_class.dtsx</Name>
-      <LastWriteTime>2014-11-28T00:11:06.1003201Z</LastWriteTime>
+      <LastWriteTime>2014-11-28T00:11:08Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>XML - Import - AEMO - Level2SettlementReconciliation.dtsx</Name>
-      <LastWriteTime>2014-12-10T23:59:07.480715Z</LastWriteTime>
+      <LastWriteTime>2015-01-30T08:31:00.7649697Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_pp_schedule_rate.dtsx</Name>
-      <LastWriteTime>2014-12-08T00:09:13.3098121Z</LastWriteTime>
+      <LastWriteTime>2014-12-08T00:09:14Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_pp_simple_schedule_rate.dtsx</Name>
-      <LastWriteTime>2014-12-08T00:12:02.2722514Z</LastWriteTime>
+      <LastWriteTime>2014-12-08T00:12:04Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_accnt_meter_price_plan.dtsx</Name>
-      <LastWriteTime>2014-12-08T00:14:46.7775252Z</LastWriteTime>
+      <LastWriteTime>2014-12-08T00:14:48Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CDC - Table Refresh - Orion - utl_pp_relationship.dtsx</Name>
-      <LastWriteTime>2014-12-08T06:38:58.123775Z</LastWriteTime>
+      <LastWriteTime>2014-12-08T06:39:00Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CSV - Import - AEMO - Settlement_CPDATA.dtsx</Name>
-      <LastWriteTime>2014-12-15T23:34:37.8610445Z</LastWriteTime>
+      <LastWriteTime>2015-01-27T00:30:22.0385169Z</LastWriteTime>
+      <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>CDC - Table Refresh - Orion - nc_payment_method.dtsx</Name>
+      <LastWriteTime>2015-01-05T22:18:10.8139293Z</LastWriteTime>
+      <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>CDC - Table Refresh - Orion - crm_pplan_type.dtsx</Name>
+      <LastWriteTime>2015-01-05T22:20:35.119627Z</LastWriteTime>
+      <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>CDC - Table Refresh - Orion - nc_billing_cycle.dtsx</Name>
+      <LastWriteTime>2015-01-05T22:28:36.0181861Z</LastWriteTime>
+      <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>CDC - Table Refresh - Orion - utl_meter_read.dtsx</Name>
+      <LastWriteTime>2015-01-09T05:51:04.7385879Z</LastWriteTime>
+      <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>CDC - Table Refresh - Orion - utl_read_type.dtsx</Name>
+      <LastWriteTime>2015-01-09T05:54:02.4078793Z</LastWriteTime>
+      <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>CDC - Table Refresh - Orion - utl_period.dtsx</Name>
+      <LastWriteTime>2015-01-09T05:57:27.6101802Z</LastWriteTime>
+      <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>CDC - Table Refresh - Orion - utl_period_consumption.dtsx</Name>
+      <LastWriteTime>2015-01-09T06:01:31.9294614Z</LastWriteTime>
+      <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>CDC - Table Refresh - Orion - utl_read_sub_type.dtsx</Name>
+      <LastWriteTime>2015-01-09T06:04:14.9950338Z</LastWriteTime>
+      <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>CDC - Table Refresh - Orion - utl_network_node_sched.dtsx</Name>
+      <LastWriteTime>2015-01-15T01:12:07.7747043Z</LastWriteTime>
+      <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>CDC - Table Refresh - Orion - crm_district.dtsx</Name>
+      <LastWriteTime>2015-01-15T23:28:14.4507851Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
   </LastBuildInfos>

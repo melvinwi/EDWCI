@@ -18,10 +18,10 @@ SELECT -- DimAccount
        DimAccountCurrent.ACN, 
        DimAccountCurrent.ABN,
        DimAccountCurrent.AccountType,
-	  DimAccountCurrent.BillCycleCode,
-	  DimAccountCurrent.DistrictState,
-	  -- DimService
-	  DimServiceCurrent.MarketIdentifier,
+       DimAccountCurrent.BillCycleCode,
+       DimAccountCurrent.DistrictState,
+       -- DimService
+       DimServiceCurrent.MarketIdentifier,
        DimServiceCurrent.ServiceType,
        DimServiceCurrent.LossFactor,
        DimServiceCurrent.EstimatedDailyConsumption,
@@ -31,35 +31,35 @@ SELECT -- DimAccount
        DimServiceCurrent.ResidentialState,
        DimServiceCurrent.NextScheduledReadDate,
        DimServiceCurrent.FRMPDate,
-	  DimServiceCurrent.Threshold,
-	  DimServiceCurrent.FirstImportRegisterDate,
-	  DimServiceCurrent.SiteStatus,
-	  DimServiceCurrent.SiteStatusType,
-	  -- DimTransmissionNode
-	  DimTransmissionNodeCurrent.TransmissionNodeIdentity,
-	  DimTransmissionNodeCurrent.TransmissionNodeName,
-	  DimTransmissionNodeCurrent.TransmissionNodeState,
-	  DimTransmissionNodeCurrent.TransmissionNodeNetwork,
-	  DimTransmissionNodeCurrent.TransmissionNodeServiceType,
-	  DimTransmissionNodeCurrent.TransmissionNodeLossFactor,
-	  -- DimProduct
-	  DimProductCurrent.ProductName,
+       DimServiceCurrent.Threshold,
+       DimServiceCurrent.FirstImportRegisterDate,
+       DimServiceCurrent.SiteStatus,
+       DimServiceCurrent.SiteStatusType,
+       -- DimTransmissionNode
+       DimTransmissionNodeCurrent.TransmissionNodeIdentity,
+       DimTransmissionNodeCurrent.TransmissionNodeName,
+       DimTransmissionNodeCurrent.TransmissionNodeState,
+       DimTransmissionNodeCurrent.TransmissionNodeNetwork,
+       DimTransmissionNodeCurrent.TransmissionNodeServiceType,
+       DimTransmissionNodeCurrent.TransmissionNodeLossFactor,
+       -- DimProduct
+       DimProductCurrent.ProductName,
        DimProductCurrent.ProductDesc,
        DimProductCurrent.ProductType,
-	  DimProductCurrent.FixedTariffAdjustPercentage,
+       DimProductCurrent.FixedTariffAdjustPercentage,
        DimProductCurrent.VariableTariffAdjustPercentage,
-	  -- DimFinancialAccount
-	  DimFinancialAccountCurrent.FinancialAccountName,
+       -- DimFinancialAccount
+       DimFinancialAccountCurrent.FinancialAccountName,
        DimFinancialAccountCurrent.FinancialAccountType,
        DimFinancialAccountCurrent.Level1Name,
        DimFinancialAccountCurrent.Level2Name,
        DimFinancialAccountCurrent.Level3Name,
-	  -- DimVersion
-	  DimVersionCurrent.VersionName,
-	  -- DimUnitType
-	  DimUnitTypeCurrent.UnitTypeName,
+       -- DimVersion
+       DimVersionCurrent.VersionName,
+       -- DimUnitType
+       DimUnitTypeCurrent.UnitTypeName,
        DimUnitTypeCurrent.MultiplicationFactorToBase,
-	  -- DimMeterRegister
+       -- DimMeterRegister
        DimMeterRegisterCurrent.MeterMarketSerialNumber,
        DimMeterRegisterCurrent.MeterSystemSerialNumber,
        DimMeterRegisterCurrent.MeterServiceType,
@@ -76,22 +76,22 @@ SELECT -- DimAccount
        DimMeterRegisterCurrent.RegisterStatus,
        DimMeterRegisterCurrent.RegisterVirtualStartDate,
        DimMeterRegisterCurrent.RegisterVirtualType,
-	  --FactTransaction
-	  CONVERT(DATE, CAST(FactTransaction.TransactionDateId AS NCHAR(8)), 112) AS TransactionDate,
-	  FactTransaction.Units,
+       --FactTransaction
+       CONVERT(DATE, CAST(FactTransaction.TransactionDateId AS NCHAR(8)), 112) AS TransactionDate,
+       FactTransaction.Units,
        FactTransaction.Value,
        FactTransaction.Currency,
        FactTransaction.Tax,
        FactTransaction.TransactionType,
-	  FactTransaction.TransactionDesc,
-	  FactTransaction.TransactionSubtype,
+       FactTransaction.TransactionDesc,
+       FactTransaction.TransactionSubtype,
        FactTransaction.Reversal,
        FactTransaction.Reversed,
        FactTransaction.StartRead,
        FactTransaction.EndRead,
-	  FactTransaction.AccountingPeriod,
-	  CONVERT(DATE, CAST(FactTransaction.StartDateId AS NCHAR(8)), 112) AS StartDate,
-	  CONVERT(DATE, CAST(FactTransaction.EndDateId AS NCHAR(8)), 112) AS EndDate
+       FactTransaction.AccountingPeriod,
+       CONVERT(DATE, CAST(FactTransaction.StartDateId AS NCHAR(8)), 112) AS StartDate,
+       CONVERT(DATE, CAST(FactTransaction.EndDateId AS NCHAR(8)), 112) AS EndDate
 FROM   DW_Dimensional.DW.FactTransaction
 LEFT   JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactTransaction.AccountId
 LEFT   JOIN DW_Dimensional.DW.DimAccount AS DimAccountCurrent ON DimAccountCurrent.AccountKey = DimAccount.AccountKey AND DimAccountCurrent.Meta_IsCurrent = 1

@@ -26,6 +26,11 @@ SELECT -- DimCustomer
        DimCustomer.MiddleInitial,
        DimCustomer.LastName,
        DimCustomer.PartyName,
+       DimCustomer.PostalAddressLine1,
+       DimCustomer.PostalSuburb,
+       DimCustomer.PostalPostcode,
+       DimCustomer.PostalState,
+       DimCustomer.PostalStateAsProvided,
        DimCustomer.ResidentialAddressLine1,
        DimCustomer.ResidentialSuburb,
        DimCustomer.ResidentialPostcode,
@@ -63,7 +68,6 @@ SELECT -- DimCustomer
        DimActivityType.ActivityTypeDesc,
        -- FactActivity
        CONVERT(DATETIME2, CAST(FactActivity.ActivityDateId AS NCHAR(8)) + ' ' + CAST(FactActivity.ActivityTime AS NCHAR(16))) AS ActivityDate,
-       FactActivity.ActivityCategory,
        FactActivity.ActivityCommunicationMethod,
        FactActivity.ActivityNotes,
        -- DimCampaign

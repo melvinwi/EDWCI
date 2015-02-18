@@ -14,8 +14,8 @@ CREATE TABLE [DW].[FactAgedTrialBalance](
 	[Days90Plus] [money] NULL DEFAULT (NULL),
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
 	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NULL
-) ON [data]
+) ON [DATA]
 
 GO
-CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactAgedTrialBalance] ON [DW].[FactAgedTrialBalance] WITH (DROP_EXISTING = OFF) ON [data]
+CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactAgedTrialBalance] ON [DW].[FactAgedTrialBalance] WITH (DROP_EXISTING = OFF) ON [DATA]
 GO

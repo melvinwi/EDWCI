@@ -25,8 +25,8 @@ SELECT -- DimAccount
        DimAccountCurrent.ACN,
        DimAccountCurrent.ABN,
        DimAccountCurrent.AccountType,
-	  DimAccountCurrent.BillCycleCode,
-	  DimAccountCurrent.DistrictState,
+       DimAccountCurrent.BillCycleCode,
+       DimAccountCurrent.DistrictState,
        -- DimCustomer
        DimCustomerCurrent.CustomerCode,
        DimCustomerCurrent.Title,

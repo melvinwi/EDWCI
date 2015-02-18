@@ -8,6 +8,7 @@ GO
 
 
 
+
 CREATE procedure [dbo].[usp_StatisticsUpdate] 
 as
 
@@ -15,6 +16,7 @@ as
 -- usp_stats_update_instance_DBs
 --
 -- 2014-04-17 Darren Pilkington Initial release
+-- 2014-10-02 Darren Pilkington corrected stats history purge
 --
 
 /*
@@ -68,18 +70,19 @@ DEALLOCATE cr_stats_dbs
 
 -- PURGE DefragLog HISTORY
 
---DECLARE @defrag_LOG_HISTORY_RETENTION AS INTEGER;
---DECLARE @KEEPDATE DATETIME;
+DECLARE @defrag_LOG_HISTORY_RETENTION AS INTEGER;
+DECLARE @KEEPDATE DATETIME;
 
 
 /****	purge old records from dbo.stats_update_log	***/
 
-----	set @retention_days to configured value, or if none then set to 30
---select @retention_days = 
---convert(smallint, (select coalesce((select parameter_value from dbo.SystemParameters where parameter_name = 'RETENTION_DAYS_stats_update'),30)))
+--	set @retention_days to configured value, or if none then set to 30
+SELECT @retention_days = 
+CONVERT(SMALLINT, (SELECT COALESCE((SELECT parameter_value FROM [dba_admin].[dbo].[SystemParameters] WHERE parameter_name = 'RETENTION_DAYS_STATS_UPDATE'),30)))
 
---delete from dba_admin.dbo.stats_update_log
---where startTime < dateadd(dd, -@retention_days , getdate())
+DELETE FROM [dba_admin].[dbo].[DatabaseStatisticsLog]
+WHERE start_time < DATEADD(DD, -@retention_days , GETDATE())
+
 
 
 

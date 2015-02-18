@@ -74,6 +74,7 @@ AS WITH LoyaltyPoints
            INNER JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactContract.AccountId
            INNER JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactContract.ServiceId
            INNER JOIN DW_Dimensional.DW.DimProduct ON DimProduct.ProductId = FactContract.ProductId
+           INNER JOIN DW_Dimensional.DW.DimContractDetails ON DimContractDetails.ContractDetailsId = FactContract.ContractDetailsId
            GROUP  BY DimAccount.AccountKey),
        factActivity
        AS (SELECT DimCustomer.CustomerKey,
@@ -154,6 +155,7 @@ AS WITH LoyaltyPoints
        WHERE  Contracts.ContractEndDate >= DATEADD (day, 60, GETDATE ())
        AND    Contracts.ContractEndDate <= DATEADD (day, 90, GETDATE ())
        AND    DimCustomer.PartyName NOT LIKE '%estate%';
+
 
 
 

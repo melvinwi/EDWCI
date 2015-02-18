@@ -2,48 +2,53 @@
 <BuildLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ProjectInfo>
     <Name>ETL_Framework</Name>
-    <LastWriteTime>2014-12-02T01:43:19.0595027Z</LastWriteTime>
+    <LastWriteTime>2015-02-16T00:07:46.8565785Z</LastWriteTime>
     <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
   </ProjectInfo>
   <LastBuildInfos>
     <ProjectBuildItemInfo>
       <Name>Task.dtsx</Name>
-      <LastWriteTime>2014-11-14T06:27:20.5181837Z</LastWriteTime>
+      <LastWriteTime>2015-02-16T03:14:07.7563354Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>TaskFactory.dtsx</Name>
-      <LastWriteTime>2014-11-14T05:58:28.4417373Z</LastWriteTime>
+      <LastWriteTime>2014-11-14T05:58:30Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>Application.dtsx</Name>
-      <LastWriteTime>2014-12-05T05:21:04.8515337Z</LastWriteTime>
+      <LastWriteTime>2015-02-16T00:07:46.7945717Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>Merge.dtsx</Name>
-      <LastWriteTime>2014-11-06T03:26:23.613389Z</LastWriteTime>
+      <LastWriteTime>2015-01-28T04:31:19.3382159Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>TruncateTable.dtsx</Name>
-      <LastWriteTime>2014-11-06T03:26:23.6223844Z</LastWriteTime>
+      <LastWriteTime>2014-11-06T03:26:24Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>Update.dtsx</Name>
-      <LastWriteTime>2014-10-06T01:49:07.2506699Z</LastWriteTime>
+      <LastWriteTime>2014-10-06T01:49:08Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>ExecuteTransform.dtsx</Name>
-      <LastWriteTime>2014-11-06T03:26:23.59138Z</LastWriteTime>
+      <LastWriteTime>2014-11-06T03:26:24Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>ToggleIndexes.dtsx</Name>
-      <LastWriteTime>2014-10-13T06:45:45.9148213Z</LastWriteTime>
+      <LastWriteTime>2015-02-02T05:27:23.6149933Z</LastWriteTime>
+      <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>ExecuteSQL.dtsx</Name>
+      <LastWriteTime>2015-02-04T06:33:48.0375111Z</LastWriteTime>
       <LastKnownProtectionLevel>DontSaveSensitive</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
   </LastBuildInfos>

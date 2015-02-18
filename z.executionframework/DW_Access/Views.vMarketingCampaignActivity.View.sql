@@ -22,5 +22,4 @@ FROM   DW_Dimensional.DW.FactMarketingCampaignActivity
 INNER  JOIN DW_Dimensional.DW.DimMarketingCampaign ON DimMarketingCampaign.MarketingCampaignId = FactMarketingCampaignActivity.MarketingCampaignId
 INNER  JOIN DW_Dimensional.DW.DimActivityType ON DimActivityType.ActivityTypeId = FactMarketingCampaignActivity.ActivityTypeId
 
-
 GO

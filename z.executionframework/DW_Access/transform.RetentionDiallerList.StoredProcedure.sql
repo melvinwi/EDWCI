@@ -26,6 +26,7 @@ BEGIN
            DimChangeReasonCurrent.ChangeReasonCode,
            FactMarketTransaction.TransactionDateId,
            FactMarketTransaction.TransactionTime,
+           FactMarketTransaction.TransactionType,
            FactMarketTransaction.TransactionStatus,
            FactMarketTransaction.ParticipantCode,
            ROW_NUMBER() OVER (PARTITION BY DimAccount.AccountKey, DimService.ServiceKey ORDER BY FactMarketTransaction.TransactionDateId DESC, FactMarketTransaction.TransactionTime DESC, CASE WHEN FactMarketTransaction.TransactionStatus IN (N'Requested', N'Pending') THEN 0 ELSE 1 END DESC) AS RC
@@ -33,10 +34,10 @@ BEGIN
     FROM   DW_Dimensional.DW.FactMarketTransaction
     INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactMarketTransaction.AccountId
     INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceId = FactMarketTransaction.ServiceId
-    INNER  JOIN DW_Dimensional.DW.DimChangeReason ON DimChangeReason.ChangeReasonId = FactMarketTransaction.ChangeReasonId
-    INNER  JOIN DW_Dimensional.DW.DimChangeReason AS DimChangeReasonCurrent ON DimChangeReasonCurrent.ChangeReasonKey = DimChangeReason.ChangeReasonKey AND DimChangeReasonCurrent.Meta_IsCurrent = 1
-    WHERE  FactMarketTransaction.TransactionType = N'NOTIFICATION'
-    AND    DimChangeReasonCurrent.ChangeReasonCode IN (N'1000', N'1010', N'0001', N'0003')
+    LEFT   JOIN DW_Dimensional.DW.DimChangeReason ON DimChangeReason.ChangeReasonId = FactMarketTransaction.ChangeReasonId
+    LEFT   JOIN DW_Dimensional.DW.DimChangeReason AS DimChangeReasonCurrent ON DimChangeReasonCurrent.ChangeReasonKey = DimChangeReason.ChangeReasonKey AND DimChangeReasonCurrent.Meta_IsCurrent = 1
+    WHERE  ((FactMarketTransaction.TransactionType = N'NOTIFICATION' AND DimChangeReasonCurrent.ChangeReasonCode IN (N'1000', N'1010', N'0001', N'0003'))
+    OR      (FactMarketTransaction.TransactionType IN (N'DPRTInitChangeOfUser', N'DPRTNotifyChangeOfUsertoUser') AND FactMarketTransaction.MoveIn = N'No'))
     AND    CONVERT(DATETIME, CAST(FactMarketTransaction.TransactionDateId AS NCHAR(8)), 112) BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE();
 
     -- #requestNotifications
@@ -54,7 +55,10 @@ BEGIN
            #notifications.ServiceKey,
            #notifications.ChangeReasonCode,
            #notifications.TransactionDateId,
-           _previousNotification.TransactionDateId AS RequestDateId,
+           CASE
+             WHEN #notifications.TransactionType IN (N'DPRTInitChangeOfUser', N'DPRTNotifyChangeOfUsertoUser') THEN #notifications.TransactionDateId
+             ELSE _previousNotification.TransactionDateId
+           END AS RequestDateId,
            #notifications.TransactionTime,
            #notifications.TransactionStatus,
            #notifications.ParticipantCode,
@@ -64,7 +68,7 @@ BEGIN
     LEFT   JOIN #requestNotifications ON #requestNotifications.AccountKey = #notifications.AccountKey AND #requestNotifications.ServiceKey = #notifications.ServiceKey
     LEFT   JOIN #notifications AS _previousNotification ON _previousNotification.AccountKey = #notifications.AccountKey AND _previousNotification.ServiceKey = #notifications.ServiceKey AND _previousNotification.RC = #requestNotifications.RC
     WHERE  #notifications.RC = 1
-    AND    #notifications.TransactionStatus IN (N'Requested', N'Pending');
+    AND    #notifications.TransactionStatus IN (N'Requested', N'Pending', N'Permitted');
 
     -- #phoneNumbers
     SELECT CustomerKey,
@@ -220,7 +224,7 @@ BEGIN
                      FROM   #contactActivities
                      WHERE  #contactActivities.CustomerKey = DimCustomerCurrent.CustomerKey
                      AND    #contactActivities.ActivityDateId >= #latestNotification.RequestDateId), 0) AS [CONTACTS_CR], -- Count of dispositions since CR date
-           DATEDIFF(DAY, CONVERT(DATE, CAST(#latestNotification.RequestDateId AS NCHAR(8)), 112), GETDATE()) AS [CRRAISED], -- Number of days since CR raised
+           COALESCE(CAST(DATEDIFF(DAY, CONVERT(DATE, CAST(#latestNotification.RequestDateId AS NCHAR(8)), 112), GETDATE()) AS NVARCHAR(10)), '') AS [CRRAISED], -- Number of days since CR raised
            COALESCE(CONVERT(NCHAR(10), DATEDIFF(DAY, GETDATE(), #dimService.NextScheduledReadDate)), '') AS [CRLOST], -- Number of days before CR is due to be completed (next scheduled read date)
            '' AS [CRRETAIN], -- Last sales involvement code if it was a retain (optional)
            ISNULL(#latestNotification.ParticipantCode, '') AS [COMPETITOR],
@@ -259,6 +263,10 @@ BEGIN
     INNER  JOIN DW_Dimensional.DW.FactCustomerAccount ON FactCustomerAccount.AccountId = DimAccount.AccountId
     INNER  JOIN DW_Dimensional.DW.DimCustomer ON DimCustomer.CustomerId = FactCustomerAccount.CustomerId
     INNER  JOIN DW_Dimensional.DW.DimCustomer AS DimCustomerCurrent ON DimCustomerCurrent.CustomerKey = DimCustomer.CustomerKey AND DimCustomerCurrent.Meta_IsCurrent = 1
+    INNER  JOIN DW_Dimensional.DW.DimService ON DimService.ServiceKey = #latestNotification.ServiceKey
+    INNER  JOIN DW_Dimensional.DW.FactContract ON FactContract.ServiceId = DimService.ServiceId
+    INNER  JOIN DW_Dimensional.DW.DimContractDetails ON DimContractDetails.ContractDetailsId = FactContract.ContractDetailsId
+    INNER  JOIN DW_Dimensional.DW.DimContractDetails AS DimContractDetailsCurrent ON DimContractDetailsCurrent.ContractDetailsKey = DimContractDetails.ContractDetailsKey AND DimContractDetailsCurrent.Meta_IsCurrent = 1
     INNER  JOIN #phoneNumbers ON #phoneNumbers.CustomerKey = DimCustomerCurrent.CustomerKey
     INNER  JOIN #customerValue ON #customerValue.CustomerKey = DimCustomerCurrent.CustomerKey AND #customerValue.RC = 1
     LEFT   JOIN #retentionActivities ON #retentionActivities.CustomerKey = DimCustomerCurrent.CustomerKey
@@ -270,7 +278,7 @@ BEGIN
     AND    DimCustomerCurrent.LastName NOT LIKE '%Occupier%'
     AND    DimCustomerCurrent.PartyName NOT LIKE '%Occupier%'
     AND    NOT ISNULL(#latestNotification.ParticipantCode, N'VENCORP') IN (N'VEPL', N'VEGAS', N'SAEPL', N'QEPL', N'NSWEPL', N'LUMOUSR')
-    AND    DimAccount.AccountStatus = N'Open'
+    AND    DimContractDetailsCurrent.ContractDetailedStatus IN (N'Pending Switch Out/Move Out', N'Pending Switchout Retro')
     AND    (DimAccount.CreditControlStatus LIKE N'Standard%' OR DimAccount.CreditControlStatus LIKE N'Payplan%')
     AND    #retentionActivities.CustomerKey IS NULL
     AND    (COALESCE(DATEDIFF(DAY, CONVERT(DATE, CAST(#salesActivities.SalesActivityDateId AS NCHAR(8)), 112), GETDATE()), 11) > 10 OR COALESCE(#salesActivities.SalesActivityType, '') NOT IN (N'CR Retain', N'CR Recontract', N'CR Winback', N'OB_CR Retain', N'OB_CR Recontract', N'OB_CR Winback'))
@@ -339,9 +347,9 @@ BEGIN
            [Ph_Other_01],
            [Ph_Other_02],
            [TITLE],
-           [PARTYCODE],
+           #CallList.[PARTYCODE],
            [DOB],
-           (SELECT CASE WHEN COUNT(*) > 0 THEN COUNT(*) - 1 ELSE 0 END FROM #CallList AS CL2 WHERE CL2.PartyCode = #CallList.PartyCode) AS [ACCTSEXCL],
+           CASE WHEN t.[Count] > 0 THEN t.[Count] - 1 ELSE 0 END AS [ACCTSEXCL],
            [RETAINEDON],
            [Mobile],
            [CONTACTS_10],
@@ -349,11 +357,11 @@ BEGIN
            [CRRAISED],
            [CRLOST],
            [CRRETAIN],
-           [COMPETITOR],
+           t.[COMPETITOR],
            [SKILLNAME],
            [PROPENSITYSCORE],
-           [UserField1],
-           [UserField2],
+           t.[UserField1],
+           t.[UserField2],
            [ImportDate],
            [Remarks],
            [UserField3],
@@ -373,6 +381,13 @@ BEGIN
            [Privacy],
            @TaskExecutionInstanceID
     FROM   #CallList
+    INNER  JOIN (SELECT CL2.PARTYCODE,
+                        COUNT(*) AS [Count],
+                        MAX(CL2.COMPETITOR) AS COMPETITOR,
+                        MAX(CL2.UserField1) AS UserField1,
+                        MAX(CL2.UserField2) AS UserField2
+                 FROM   #CallList AS CL2
+                 GROUP  BY CL2.PARTYCODE) t ON t.PARTYCODE = #CallList.PARTYCODE
     WHERE  #CallList.RC = 1;
     
     --Return row counts
@@ -384,5 +399,6 @@ BEGIN
     --/
 
 END;
+
 
 GO

@@ -6,6 +6,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
+
 CREATE VIEW [Views].[vSalesActivity]
 AS
 SELECT -- DimAccount
@@ -27,6 +28,7 @@ SELECT -- DimAccount
        DimAccountCurrent.ABN,
        DimAccountCurrent.AccountType,
 	  DimAccountCurrent.BillCycleCode,
+	  DimAccountCurrent.DistrictState,
        -- DimService
        DimServiceCurrent.MarketIdentifier,
        DimServiceCurrent.ServiceType,

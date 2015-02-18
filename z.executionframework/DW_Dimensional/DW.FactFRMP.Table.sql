@@ -1,0 +1,13 @@
+USE [DW_Dimensional]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [DW].[FactFRMP](
+	[ServiceId] [int] NOT NULL,
+	[FRMPStartDateId] [int] NOT NULL,
+	[FRMPEndDateId] [int] NOT NULL
+) ON [DATA]
+
+GO

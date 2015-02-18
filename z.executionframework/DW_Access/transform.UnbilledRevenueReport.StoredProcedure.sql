@@ -1,3 +1,9 @@
+USE [DW_Access]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE proc [transform].[UnbilledRevenueReport]
     @TaskExecutionInstanceID INT
   , @LatestSuccessfulTaskExecutionInstanceID INT
@@ -186,7 +192,7 @@ FROM   (SELECT N'Daily' AS ScheduleType,
                FactDailyPricePlan.ContractTerminatedDateId
         FROM   DW_Dimensional.DW.FactDailyPricePlan
         WHERE  FactDailyPricePlan.ContractFRMPDateId <= FactDailyPricePlan.DailyPricePlanEndDateId
-        AND    FactDailyPricePlan.ContractFRMPDateId <= FactDailyPricePlan.ContractTerminatedDateId
+        AND    FactDailyPricePlan.ContractFRMPDateId < FactDailyPricePlan.ContractTerminatedDateId
         AND    FactDailyPricePlan.ContractFRMPDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
         AND    FactDailyPricePlan.ContractTerminatedDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
         AND    FactDailyPricePlan.DailyPricePlanStartDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
@@ -206,7 +212,7 @@ FROM   (SELECT N'Daily' AS ScheduleType,
                FactUsagePricePlan.ContractTerminatedDateId
         FROM   DW_Dimensional.DW.FactUsagePricePlan
         WHERE  FactUsagePricePlan.ContractFRMPDateId <= FactUsagePricePlan.UsagePricePlanEndDateId  
-        AND    FactUsagePricePlan.ContractFRMPDateId <= FactUsagePricePlan.ContractTerminatedDateId
+        AND    FactUsagePricePlan.ContractFRMPDateId < FactUsagePricePlan.ContractTerminatedDateId
         AND    FactUsagePricePlan.ContractFRMPDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
         AND    FactUsagePricePlan.ContractTerminatedDateId >= CONVERT(NCHAR(8), @ReportStartDate, 112)
         AND    FactUsagePricePlan.UsagePricePlanStartDateId <= CONVERT(NCHAR(8), @ReportDate, 112)
@@ -1583,9 +1589,9 @@ INSERT INTO [Views].[UnbilledRevenueReport]
     SET @insertrowcount = @@ROWCOUNT
   
 
---Rebuild index
-ALTER INDEX [ClusteredColumnStoreIndex-UnbilledRevenueReport] ON [Views].[UnbilledRevenueReport] 
-    REBUILD PARTITION = ALL WITH (DATA_COMPRESSION = COLUMNSTORE);
+----Rebuild index
+--ALTER INDEX [ClusteredColumnStoreIndex-UnbilledRevenueReport] ON [Views].[UnbilledRevenueReport] 
+--    REBUILD PARTITION = ALL WITH (DATA_COMPRESSION = COLUMNSTORE);
 
    
     --Return row counts
@@ -1599,6 +1605,7 @@ ALTER INDEX [ClusteredColumnStoreIndex-UnbilledRevenueReport] ON [Views].[Unbill
 
 
 END;
+
 
 
 

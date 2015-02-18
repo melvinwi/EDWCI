@@ -1,0 +1,8 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_DimContractDetails				
+# DESCRIPTION: Promote contract details from Orion tables to DataStore 				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+CAST(	nc_product_item.seq_product_item_id	AS int)	DimContractDetails.ContractDetailsKey	One to one mapping with int cast
+CAST(CASE	utl_account_status.accnt_status_class_id	WHEN 2 THEN N'Open' WHEN 3 THEN N'Pending' WHEN 4 THEN N'Error' ELSE N'Closed' END AS nchar(10))	DimContractDetails.ContractStatus	Decode account status into readable values
+CAST(	utl_account_status.accnt_status_desc	AS nvarchar(50))	DimContractDetails.ContractDetailedStatus	One to one mapping with int cast
+SELECTION_CRITERIA	FROM /* Staging */ lumo.nc_product_item LEFT JOIN /* Staging */ lumo.utl_account_status ON utl_account_status.accnt_status_id = nc_product_item.accnt_status_id WHERE nc_product_item.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR utl_account_status.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID			
