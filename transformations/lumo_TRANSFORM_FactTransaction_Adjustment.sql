@@ -54,7 +54,7 @@ END
 		ar_adjust_reason.adj_statement_desc,
 		/* ar_adjust.seq_ar_adjust_id */ N'ADJ' + CAST(ar_adjust.seq_ar_adjust_id AS NVARCHAR(11)),
 		/* ar_adjust.seq_ar_adjust_id */ -1,
-		/* ar_adjust.seq_ar_adjust_id */ N'Adjustments',
+		ar_adjust_reason.adj_code,
 		CASE WHEN ar_adjust_reason.adj_desc LIKE '%REVERSAL%' THEN N'Yes' ELSE N'No ' END,
 		/* ar_adjust.seq_ar_adjust_id */ N'No ',
 		/* ar_adjust.seq_ar_adjust_id */ 0,
