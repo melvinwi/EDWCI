@@ -7,6 +7,7 @@ SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
 /*	ar_receipt.seq_rcpt_id	*/ -1	FactTransaction.ProductId	Hardcode -1
 COALESCE(	_DimFinancialAccount.FinancialAccountId	", -1)"	FactTransaction.FinancialAccountId	One to one mapping
 "CONVERT(NCHAR(8), COALESCE("	ar_receipt.rcpt_date	", '9999-12-31'), 112)"	FactTransaction.TransactionDateId	One to one mapping with int cast
+"CONVERT(NCHAR(8), COALESCE("	ar_receipt.posted_date	", '9999-12-31'), 112)"	FactTransaction.PostedDateId	One to one mapping with int cast
 COALESCE(	_DimVersion.VersionId	", -1)"	FactTransaction.VersionId	One to one mapping
 /*	ar_receipt.seq_rcpt_id	*/ -1	FactTransaction.UnitTypeId	Hardcode -1
 /*	ar_receipt.seq_rcpt_id	*/ 0	FactTransaction.Units	Hardcode 0
@@ -25,4 +26,5 @@ CAST(	ar_receipt_batch_type.rcpt_batch_type_desc	AS nvarchar(30))	FactTransactio
 /*	ar_receipt.seq_rcpt_id	*/ 99991231	FactTransaction.StartDateId	Default
 /*	ar_receipt.seq_rcpt_id	*/ 99991231	FactTransaction.EndDateId	Default
 	ar_receipt.seq_accounting_period_id		FactTransaction.AccountingPeriod	
+	ar_receipt.seq_rcpt_batch_id		FactTransaction.ReceiptBatch	One to one mapping
 SELECTION_CRITERIA	FROM /* Staging */ [schema].ar_receipt INNER JOIN /* Staging */ [schema].ar_receipt_batch ON ar_receipt_batch.seq_rcpt_batch_id = ar_receipt.seq_rcpt_batch_id INNER JOIN /* Staging */ [schema].ar_receipt_batch_type ON ar_receipt_batch_type.seq_rcpt_batch_type_id = ar_receipt_batch.seq_rcpt_batch_type_id INNER JOIN /* Dimensional */ [schema].DimAccount AS _DimAccount ON _DimAccount.AccountKey = ar_receipt.seq_party_id AND _DimAccount.Meta_IsCurrent = 1 INNER JOIN /* Staging */ [schema].nc_client ON nc_client.seq_party_id = ar_receipt.seq_party_id INNER JOIN /* Staging */ [schema].crm_element_hierarchy ON crm_element_hierarchy.element_id = nc_client.seq_party_id AND crm_element_hierarchy.element_struct_code = 'CLIENT' INNER JOIN /* Staging */ [schema].crm_party_type ON crm_party_type.seq_party_type_id = crm_element_hierarchy.seq_element_type_id AND crm_party_type.party_type <> 'SUBCLIENT'LEFT JOIN /* Dimensional */ [schema].DimFinancialAccount AS _DimFinancialAccount ON _DimFinancialAccount.FinancialAccountKey = 10 AND _DimFinancialAccount.Meta_IsCurrent = 1 LEFT JOIN /* Dimensional */ [schema].DimVersion AS _DimVersion ON _DimVersion.VersionKey = N'Actual' WHERE ar_receipt.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID AND ar_receipt.seq_accounting_period_id IS NOT NULL			

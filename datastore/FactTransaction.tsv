@@ -7,6 +7,7 @@ ServiceId	Foreign key to DimService	int		-1	TRUE	FALSE	FALSE
 ProductId	Foreign key to DimProduct	int		-1	TRUE	FALSE	FALSE
 FinancialAccountId	Foreign key to DimFinancialAccount	int		-1	TRUE	FALSE	FALSE
 TransactionDateId	Transaction Date	int		99991231	TRUE	FALSE	FALSE
+PostedDateId	Posted Date	int		99991231	TRUE	FALSE	FALSE
 VersionId	Foreign key to DimVersion	int		-1	TRUE	FALSE	FALSE
 UnitTypeId	Foreign key to DimUnitType	int		-1	TRUE	FALSE	FALSE
 Units	Units	decimal	"18,4"		TRUE	FALSE	FALSE
@@ -25,3 +26,4 @@ EndRead	End Read	decimal	"18,4"	0	FALSE	FALSE	FALSE
 StartDateId	Start Date	int		99991231	FALSE	FALSE	FALSE
 EndDateId	End Date	int		99991231	FALSE	FALSE	FALSE
 AccountingPeriod	Accounting Period	int			FALSE	FALSE	FALSE
+ReceiptBatch	Receipt Batch	int			FALSE	FALSE	FALSE
