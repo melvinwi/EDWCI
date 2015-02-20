@@ -1,0 +1,10 @@
+# design artefact				
+# ARTEFACT: TRANSFORM_DimActivityType_Sales				
+# DESCRIPTION: Promote DimActivityType_Sales from Orion tables to DataStore				
+SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
+WITH_STATEMENTS	"WITH _nit AS ( SELECT _nit.seq_involve_type_id ,_nit.involve_type_desc ,_nit.Meta_LatestUpdate_TaskExecutionInstanceId FROM [schema].[nc_involvement_type] _nit ) , _categories AS ( SELECT _categories.Code ,_categories.name ,_categories.Meta_LatestUpdate_TaskExecutionInstanceId  FROM [schema].[tbl_3_131_EN] _categories )"			
+CAST('SAT'+''+CAST(	_reference_daily_sales_and_cancellations_entity.[uda_132_2922]	AS NVARCHAR(20))AS nvarchar(20))	DimActivityType.ActivityTypeKey	One to one mapping
+CAST(	_reference_daily_sales_and_cancellations_entity.[uda_132_2922]	AS nvarchar(20))	DimActivityType.ActivityTypeCode	One to one mapping
+CAST(	_nit.involve_type_desc	AS nvarchar(100))	DimActivityType.ActivityTypeDesc	One to one mapping
+CAST(	_categories.name	AS nvarchar(100))	DimActivityType.ActivityCategory	One to one mapping
+SELECTION_CRITERIA	FROM  [schema].[tbl_3_132_EN] _reference_daily_sales_and_cancellations_entity INNER JOIN _nit                   ON _reference_daily_sales_and_cancellations_entity.[uda_132_2922] = _nit.seq_involve_type_id LEFT JOIN _categories                  ON _reference_daily_sales_and_cancellations_entity.[uda_132_2923] = _categories.Code  WHERE  _reference_daily_sales_and_cancellations_entity.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID  OR   _categories.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR   _nit.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID;			

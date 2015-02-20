@@ -19,7 +19,7 @@ END
 		DimActivityType.ActivityTypeDesc,
 		DimActivityType.ActivityCategory)
 	  SELECT
-		CAST( crm_activity_type.seq_act_type_id AS int),
+		CAST( crm_activity_type.seq_act_type_id AS nvarchar(20)),
 		CAST( crm_activity_type.act_type_code AS nvarchar(20)),
 		CAST( crm_activity_type.act_type_desc AS nvarchar(100)),
 		CAST( crm_activity_category.act_cat_desc AS nvarchar(100))
