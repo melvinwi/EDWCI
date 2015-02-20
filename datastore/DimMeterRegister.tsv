@@ -11,6 +11,7 @@ RegisterBillingTypeCode	Register Billing Type Code	nchar	10		FALSE		FALSE
 RegisterClass	Register Class	nvarchar	40		FALSE		FALSE
 RegisterCreationDate	Register Creation Date in Orion	date			FALSE		FALSE
 RegisterEstimatedDailyConsumption	Register Estimated Daily Consumption	decimal	"18,6"		FALSE		FALSE
+RegisterEstimatedAnnualConsumption	Register Estimated Annual Consumption	decimal	"18,6"		FALSE		FALSE
 RegisterMarketIdentifier	Register Market Identifier	nchar	10		FALSE		FALSE
 RegisterSystemIdentifer	Register Orion Identifier	nchar	10		FALSE		FALSE
 RegisterMultiplier	Register Multiplier	decimal	"18,6"		FALSE		FALSE

@@ -1,0 +1,29 @@
+# design artefact							
+# ARTEFACT: tbl_3_132_EN							
+# DESCRIPTION: tbl_3_132_EN table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+Version_ID	Version_ID	int			FALSE	FALSE	FALSE
+ID	ID	int			FALSE	FALSE	FALSE
+Status_ID	Status_ID	tinyint			FALSE	FALSE	FALSE
+ValidationStatus_ID	ValidationStatus_ID	tinyint			FALSE	FALSE	FALSE
+Name	Name	nvarchar	250		FALSE	FALSE	FALSE
+Code	Code	nvarchar	250		FALSE	FALSE	FALSE
+ChangeTrackingMask	ChangeTrackingMask	int			FALSE	FALSE	FALSE
+EnterDTM	EnterDTM	datetime2			FALSE	FALSE	FALSE
+EnterUserID	EnterUserID	int			FALSE	FALSE	FALSE
+EnterVersionID	EnterVersionID	int			FALSE	FALSE	FALSE
+LastChgDTM	LastChgDTM	datetime2			FALSE	FALSE	FALSE
+LastChgUserID	LastChgUserID	int			FALSE	FALSE	FALSE
+LastChgVersionID	LastChgVersionID	int			FALSE	FALSE	FALSE
+LastChgTS	LastChgTS	datetime2			FALSE	FALSE	FALSE
+AsOf_ID	AsOf_ID	int			FALSE	FALSE	FALSE
+MUID	MUID	uniqueidentifier			FALSE	FALSE	FALSE
+uda_132_2922	uda_132_2922	int			FALSE	FALSE	FALSE
+uda_132_2923	uda_132_2923	int			FALSE	FALSE	FALSE
+uda_132_2924	uda_132_2924	nvarchar	255		FALSE	FALSE	FALSE
+uda_132_2925	uda_132_2925	decimal	"36,2"		FALSE	FALSE	FALSE
+uda_132_2942	uda_132_2942	int			FALSE	FALSE	FALSE
+uda_132_2979	uda_132_2979	decimal	"38,0"		FALSE	FALSE	FALSE

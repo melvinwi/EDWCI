@@ -11,6 +11,7 @@ CAST(	utl_meter_type.meter_type_code	AS nchar(10))	DimMeterRegister.RegisterBill
 CAST(	utl_meter_class.meter_class_desc	AS nvarchar(40))	DimMeterRegister.RegisterClass	One to one mapping
 	utl_meter.insert_datetime		DimMeterRegister.RegisterCreationDate	One to one mapping
 	utl_meter.est_daily_consumption		DimMeterRegister.RegisterEstimatedDailyConsumption	One to one mapping
+	utl_meter.est_annual_consumption		DimMeterRegister.RegisterEstimatedAnnualConsumption	One to one mapping
 CAST(COALESCE(	utl_meter.market_meter_register	", utl_meter.meter_register) AS nchar(10))"	DimMeterRegister.RegisterMarketIdentifier	One to one mapping
 CAST(	utl_meter.meter_register	AS nchar(10))	DimMeterRegister.RegisterSystemIdentifer	One to one mapping
 	utl_meter.multiplier		DimMeterRegister.RegisterMultiplier	One to one mapping

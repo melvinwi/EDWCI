@@ -1,0 +1,23 @@
+# design artefact							
+# ARTEFACT: tbl_3_131_EN							
+# DESCRIPTION: tbl_3_131_EN table from MDS							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+Version_ID	Version_ID	int			FALSE	FALSE	FALSE
+ID	ID	int			FALSE	FALSE	FALSE
+Status_ID	Status_ID	tinyint			FALSE	FALSE	FALSE
+ValidationStatus_ID	ValidationStatus_ID	tinyint			FALSE	FALSE	FALSE
+Name	Name	nvarchar	250		FALSE	FALSE	FALSE
+Code	Code	nvarchar	250		FALSE	FALSE	FALSE
+ChangeTrackingMask	ChangeTrackingMask	int			FALSE	FALSE	FALSE
+EnterDTM	EnterDTM	datetime2			FALSE	FALSE	FALSE
+EnterUserID	EnterUserID	int			FALSE	FALSE	FALSE
+EnterVersionID	EnterVersionID	int			FALSE	FALSE	FALSE
+LastChgDTM	LastChgDTM	datetime2			FALSE	FALSE	FALSE
+LastChgUserID	LastChgUserID	int			FALSE	FALSE	FALSE
+LastChgVersionID	LastChgVersionID	int			FALSE	FALSE	FALSE
+LastChgTS	LastChgTS	datetime2			FALSE	FALSE	FALSE
+AsOf_ID	AsOf_ID	int			FALSE	FALSE	FALSE
+MUID	MUID	uniqueidentifier			FALSE	FALSE	FALSE
