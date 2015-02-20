@@ -1,0 +1,28 @@
+# design artefact							
+# ARTEFACT: bfc_sys_user							
+# DESCRIPTION: bfc_sys_user table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+sys_user_id	sys_user_id	numeric	"18,0"		FALSE	FALSE	FALSE
+user_code	user_code	char	10		FALSE	FALSE	FALSE
+user_login	user_login	varchar	20		FALSE	FALSE	FALSE
+enabled	enabled	char	1		FALSE	FALSE	FALSE
+failed_login_count	failed_login_count	int	"10,0"		FALSE	FALSE	FALSE
+password_expiry	password_expiry	datetime			FALSE	FALSE	FALSE
+password_last_changed	password_last_changed	datetime			FALSE	FALSE	FALSE
+user_password	user_password	varchar	20		FALSE	FALSE	FALSE
+lower_credit_approval_limit	lower_credit_approval_limit	money	"19,4"		FALSE	FALSE	FALSE
+upper_credit_approval_limit	upper_credit_approval_limit	money	"19,4"		FALSE	FALSE	FALSE
+active	active	char	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+signature_image	signature_image	varchar	100		FALSE	FALSE	FALSE
+logon_date	logon_date	datetime			FALSE	FALSE	FALSE
+resolution	resolution	varchar	20		FALSE	FALSE	FALSE
+user_task_identifier	user_task_identifier	uniqueidentifier			FALSE	FALSE	FALSE

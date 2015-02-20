@@ -28,9 +28,10 @@ CREATE TABLE [DW].[FactTransaction](
 	[StartRead] [decimal](18, 4) NULL,
 	[EndRead] [decimal](18, 4) NULL,
 	[StartDateId] [int] NULL,
-	[EndDateId] [int] NULL
-) ON [data]
+	[EndDateId] [int] NULL,
+	[AccountingPeriod] [int] NULL
+) ON [INDEX]
 
 GO
-CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactTransaction] ON [DW].[FactTransaction] WITH (DROP_EXISTING = OFF) ON [data]
+CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactTransaction] ON [DW].[FactTransaction] WITH (DROP_EXISTING = OFF) ON [INDEX]
 GO

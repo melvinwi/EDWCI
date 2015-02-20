@@ -1,3 +1,9 @@
+USE [DW_Access]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE proc [transform].[UnbilledRevenueReport]
     @TaskExecutionInstanceID INT
   , @LatestSuccessfulTaskExecutionInstanceID INT
@@ -1583,9 +1589,9 @@ INSERT INTO [Views].[UnbilledRevenueReport]
     SET @insertrowcount = @@ROWCOUNT
   
 
---Rebuild index
-ALTER INDEX [ClusteredColumnStoreIndex-UnbilledRevenueReport] ON [Views].[UnbilledRevenueReport] 
-    REBUILD PARTITION = ALL WITH (DATA_COMPRESSION = COLUMNSTORE);
+----Rebuild index
+--ALTER INDEX [ClusteredColumnStoreIndex-UnbilledRevenueReport] ON [Views].[UnbilledRevenueReport] 
+--    REBUILD PARTITION = ALL WITH (DATA_COMPRESSION = COLUMNSTORE);
 
    
     --Return row counts
@@ -1599,6 +1605,7 @@ ALTER INDEX [ClusteredColumnStoreIndex-UnbilledRevenueReport] ON [Views].[Unbill
 
 
 END;
+
 
 
 

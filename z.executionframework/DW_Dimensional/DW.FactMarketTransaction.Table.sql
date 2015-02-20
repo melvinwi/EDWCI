@@ -18,9 +18,10 @@ CREATE TABLE [DW].[FactMarketTransaction](
 	[TransactionCounter] [tinyint] NULL DEFAULT (NULL),
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
 	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NOT NULL,
-	[TransactionTime] [time](7) NULL
-) ON [data]
+	[TransactionTime] [time](7) NULL,
+	[MoveIn] [nchar](3) NULL
+) ON [DATA]
 
 GO
-CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactMarketTransaction] ON [DW].[FactMarketTransaction] WITH (DROP_EXISTING = OFF) ON [data]
+CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactMarketTransaction] ON [DW].[FactMarketTransaction] WITH (DROP_EXISTING = OFF) ON [DATA]
 GO

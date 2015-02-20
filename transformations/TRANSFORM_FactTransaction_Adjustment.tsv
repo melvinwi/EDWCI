@@ -18,7 +18,7 @@ COALESCE(	_DimVersion.VersionId	", -1)"	FactTransaction.VersionId	One to one map
 	ar_adjust_reason.adj_statement_desc		FactTransaction.TransactionDesc	One to one mapping
 /*	ar_adjust.seq_ar_adjust_id	*/ N'ADJ' + CAST(ar_adjust.seq_ar_adjust_id AS NVARCHAR(11))	FactTransaction.TransactionKey	Derive the transaction key
 /*	ar_adjust.seq_ar_adjust_id	*/ -1	FactTransaction.MeterRegisterId	Default
-/*	ar_adjust.seq_ar_adjust_id	*/ N'Adjustments'	FactTransaction.TransactionSubtype	Default
+	ar_adjust_reason.adj_code		FactTransaction.TransactionSubtype	Default
 CASE WHEN	ar_adjust_reason.adj_desc	LIKE '%REVERSAL%' THEN N'Yes' ELSE N'No ' END	FactTransaction.Reversal	Derive
 /*	ar_adjust.seq_ar_adjust_id	*/ N'No '	FactTransaction.Reversed	Default
 /*	ar_adjust.seq_ar_adjust_id	*/ 0	FactTransaction.StartRead	Default

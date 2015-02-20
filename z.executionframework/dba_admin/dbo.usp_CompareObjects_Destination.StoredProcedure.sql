@@ -5,6 +5,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+
 -- =============================================
 -- Lumo Energy | Database Administration
 -- Author:		Darren Pilkington
@@ -291,7 +292,7 @@ SELECT
 	[sch_name],
 	[obj_name],
 	name,
-	column_id,
+	--column_id,
 	system_type_id,
 	user_type_id,
 	max_length,
@@ -310,7 +311,7 @@ SELECT
 	[sch_name],
 	[obj_name],
 	name,
-	column_id,
+	--column_id,
 	system_type_id,
 	user_type_id,
 	max_length,
@@ -331,7 +332,7 @@ SELECT
 	[sch_name],
 	[obj_name],
 	name,
-	column_id,
+	--column_id,
 	system_type_id,
 	user_type_id,
 	max_length,
@@ -350,7 +351,7 @@ SELECT
 	[sch_name],
 	[obj_name],
 	name,
-	column_id,
+	--column_id,
 	system_type_id,
 	user_type_id,
 	max_length,
@@ -430,7 +431,7 @@ SELECT 'SOURCE FILE: '+@SOURCE_FILE;
 SELECT 'TABLE CONSTRAINTS IN CURRENT DATABASE THAT AREN''T ON SOURCE';
 	
 SELECT 
-	[name],
+	LEFT([name],22),
 	[parent_table_name],
 	[type],
 	[column_name],
@@ -440,7 +441,7 @@ FROM
 	#TEMP_CONSTRAINTS
 EXCEPT
 SELECT
-	[name],
+	LEFT([name],22),
 	[parent_table_name],
 	[type],
 	[column_name],
@@ -452,7 +453,7 @@ FROM
 SELECT 'TABLE CONSTRAINTS IN SOURCE DATABASE THAT AREN''T IN CURRENT';
 	
 SELECT 
-	[name],
+	LEFT([name],22),
 	[parent_table_name],
 	[type],
 	[column_name],
@@ -462,7 +463,7 @@ FROM
 	#TEMP_CONSTRAINTS_LOAD
 EXCEPT
 SELECT
-	[name],
+	LEFT([name],22),
 	[parent_table_name],
 	[type],
 	[column_name],
@@ -475,6 +476,7 @@ DROP TABLE #TEMP_CONSTRAINTS;
 DROP TABLE #TEMP_CONSTRAINTS_LOAD;
 
 END	
+
 
 
 GO

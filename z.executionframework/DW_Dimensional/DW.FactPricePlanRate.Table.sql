@@ -18,8 +18,8 @@ CREATE TABLE [DW].[FactPricePlanRate](
 	[InvoiceDescription] [nvarchar](100) NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
 	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NOT NULL
-) ON [data]
+) ON [DATA]
 
 GO
-CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactPricePlanRate] ON [DW].[FactPricePlanRate] WITH (DROP_EXISTING = OFF) ON [data]
+CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactPricePlanRate] ON [DW].[FactPricePlanRate] WITH (DROP_EXISTING = OFF) ON [DATA]
 GO

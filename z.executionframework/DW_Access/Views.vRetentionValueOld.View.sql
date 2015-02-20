@@ -315,4 +315,5 @@ theRating
               DW_Dimensional.DW.DimCustomer INNER JOIN theRating
               ON theRating.CustomerCode = DimCustomer.CustomerCode
          WHERE DimCustomer.Meta_IsCurrent = 1;
+
 GO

@@ -10,8 +10,8 @@ CREATE TABLE [DW].[FactCustomerValue](
 	[ValueRating] [nvarchar](8) NOT NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
 	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NOT NULL
-) ON [data]
+) ON [INDEX]
 
 GO
-CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactCustomerValue] ON [DW].[FactCustomerValue] WITH (DROP_EXISTING = OFF) ON [data]
+CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-FactCustomerValue] ON [DW].[FactCustomerValue] WITH (DROP_EXISTING = OFF) ON [INDEX]
 GO

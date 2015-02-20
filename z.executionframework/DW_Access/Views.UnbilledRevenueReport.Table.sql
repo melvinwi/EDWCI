@@ -1,5 +1,11 @@
+USE [DW_Access]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE TABLE [Views].[UnbilledRevenueReport](
-[FinancialMonth] [tinyint] NULL,
+	[FinancialMonth] [tinyint] NULL,
 	[ReportDate] [date] NULL,
 	[AccountingPeriod] [int] NULL,
 	[AccountNumber] [int] NULL,
@@ -8,7 +14,6 @@ CREATE TABLE [Views].[UnbilledRevenueReport](
 	[ContractStatus] [nchar](10) NULL,
 	[BillingCycle] [nchar](10) NULL,
 	[TNICode] [nvarchar](20) NULL,
-	[TransmissionLossFactor] [decimal](25, 15) NULL,
 	[DistrictState] [nchar](3) NULL,
 	[MarketIdentifier] [nvarchar](30) NULL,
 	[ServiceStatus] [nvarchar](30) NULL,
@@ -28,7 +33,6 @@ CREATE TABLE [Views].[UnbilledRevenueReport](
 	[RegisterMultiplier] [decimal](18, 6) NULL,
 	[MeterRegisterBillingTypeCode] [nvarchar](100) NULL,
 	[MeterRegisterReadDirection] [nchar](6) NULL,
-	[MeterRegisterSystemIdentifier] [nchar](10) NULL,
 	[MeterRegisterStatus] [nchar](8) NULL,
 	[MeterRegisterActiveStartDate] [date] NULL,
 	[MeterRegisterActiveEndDate] [date] NULL,
@@ -59,17 +63,18 @@ CREATE TABLE [Views].[UnbilledRevenueReport](
 	[EstimatedUsage] [decimal](18, 7) NULL,
 	[TotalUnbilledUsage] [decimal](18, 7) NULL,
 	[TotalUnbilledRevenue] [money] NULL,
+	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL,
 	[LastBilledReadType] [nchar](9) NULL,
+	[MeterRegisterSystemIdentifier] [nchar](10) NULL,
 	[EstimatedUsageEndDate] [date] NULL,
+	[TransmissionLossFactor] [decimal](25, 15) NULL,
 	[BilledEstimatedDays] [int] NULL,
 	[BilledEstimatedUsage] [decimal](18, 7) NULL,
 	[BilledEstimatedRevenue] [money] NULL,
 	[LastBilledActualRead] [decimal](18, 4) NULL,
-	[LastBilledActualReadDate] [date] NULL,
-	[Meta_Insert_TaskExecutionInstanceId] [int] NOT NULL
+	[LastBilledActualReadDate] [date] NULL
 ) ON [data]
 
 GO
-
-CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-UnbilledRevenueReport] ON [Views].[UnbilledRevenueReport] WITH (DROP_EXISTING = OFF)
+CREATE CLUSTERED COLUMNSTORE INDEX [ClusteredColumnStoreIndex-UnbilledRevenueReport] ON [Views].[UnbilledRevenueReport] WITH (DROP_EXISTING = OFF) ON [data]
 GO

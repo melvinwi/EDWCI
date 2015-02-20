@@ -360,7 +360,7 @@ CROSS JOIN (SELECT COUNT(1) AS SourceRowCount FROM AEMO_temp.v_Level2_CSVData_Ne
         DTS:Name="Connection">@[User::BatchConnection]</DTS:PropertyExpression>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="OLEDB_DW_Staging"
+          SQLTask:Connection="{3EFAE4C8-8FCD-474D-B745-0146C4DE44A9}"
           SQLTask:SqlStmtSourceType="Variable"
           SQLTask:SqlStatementSource="User::GetBatchingVariablesSQL"
           SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">

@@ -20,9 +20,7 @@ CREATE TABLE [DW].[DimDate](
 	[Qtr] [nchar](2) NOT NULL,
 	[QtrAndYear] [nchar](7) NOT NULL,
 	[FiscalMonthNumber] [tinyint] NOT NULL,
-	[FiscalQtr] [nchar](2) NOT NULL,
 	[FiscalYear] [char](9) NULL,
-	[FiscalQtrAndYear] [nchar](9) NOT NULL,
 	[FirstDayOfWeekIndicator] [nchar](3) NOT NULL,
 	[FirstDayOfMonthIndicator] [nchar](3) NOT NULL,
 	[LastDayofWeekIndicator] [nchar](3) NOT NULL,
@@ -35,11 +33,12 @@ CREATE TABLE [DW].[DimDate](
 	[Season] [nchar](6) NOT NULL,
 	[Meta_Insert_TaskExecutionInstanceId] [int] NULL,
 	[Meta_LatestUpdate_TaskExecutionInstanceId] [int] NULL,
+	[AccountingPeriod] [int] NULL,
  CONSTRAINT [PK_dbo.DimDate] PRIMARY KEY CLUSTERED 
 (
 	[DateId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [data]
-) ON [data]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [DATA]
+) ON [DATA]
 
 GO
 SET ANSI_PADDING OFF
@@ -50,5 +49,5 @@ CREATE NONCLUSTERED INDEX [_dta_index_DimDate_9_82099333__K9_K2_K6_K7] ON [DW].[
 	[Date] ASC,
 	[Year] ASC,
 	[MonthNumberInYear] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [index]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [INDEX]
 GO

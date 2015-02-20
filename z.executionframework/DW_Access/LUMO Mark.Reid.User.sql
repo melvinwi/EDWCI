@@ -1,8 +1,0 @@
-USE [DW_Access]
-GO
-CREATE USER [LUMO\Mark.Reid] FOR LOGIN [LUMO\Mark.Reid] WITH DEFAULT_SCHEMA=[dbo]
-GO
-ALTER ROLE [DW_FullAccess] ADD MEMBER [LUMO\Mark.Reid]
-GO
-ALTER ROLE [db_datareader] ADD MEMBER [LUMO\Mark.Reid]
-GO

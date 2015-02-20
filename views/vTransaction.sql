@@ -50,6 +50,7 @@ SELECT -- DimAccount
        DimProductCurrent.VariableTariffAdjustPercentage,
        -- DimFinancialAccount
        DimFinancialAccountCurrent.FinancialAccountName,
+       DimFinancialAccount.FinancialAccountNumber,
        DimFinancialAccountCurrent.FinancialAccountType,
        DimFinancialAccountCurrent.Level1Name,
        DimFinancialAccountCurrent.Level2Name,

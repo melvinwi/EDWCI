@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE VIEW [Views].[vSurvey]
 AS
 SELECT -- DimCustomer
@@ -41,10 +42,17 @@ SELECT -- DimCustomer
        DimQuestionCurrent.Question,
        -- FactSurvey
        CONVERT(DATE, CAST(FactSurvey.ResponseDateId AS NCHAR(8)), 120) AS ResponseDate,
-       FactSurvey.Response
+       FactSurvey.Response,
+       FactSurvey.RespondentKey,
+       FactSurvey.Segment,
+       FactSurvey.ResearchProjectName
 FROM   DW_Dimensional.DW.FactSurvey
 LEFT   JOIN DW_Dimensional.DW.DimCustomer ON DimCustomer.CustomerId = FactSurvey.CustomerId
 LEFT   JOIN DW_Dimensional.DW.DimCustomer AS DimCustomerCurrent ON DimCustomerCurrent.CustomerKey = DimCustomer.CustomerKey AND DimCustomerCurrent.Meta_IsCurrent = 1
 LEFT   JOIN DW_Dimensional.DW.DimQuestion ON DimQuestion.QuestionId = FactSurvey.QuestionId
-LEFT   JOIN DW_Dimensional.DW.DimQuestion AS DimQuestionCurrent ON DimQuestionCurrent.QuestionKey = DimQuestion.QuestionKey AND DimQuestionCurrent.Meta_IsCurrent = 1;
+LEFT   JOIN DW_Dimensional.DW.DimQuestion AS DimQuestionCurrent ON DimQuestionCurrent.QuestionKey = DimQuestion.QuestionKey AND DimQuestionCurrent.Meta_IsCurrent = 1
+
+WHERE	DimQuestionCurrent.Question IS NOT NULL;
+
+
 GO

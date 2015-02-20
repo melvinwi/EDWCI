@@ -1,0 +1,19 @@
+# design artefact							
+# ARTEFACT: utl_account_history							
+# DESCRIPTION: utl_account_history table from Orion							
+COLUMN	DESC	TYPE	LENGTH	DEFAULT	NOT_NULL	PK	AUTO_INCREMENT
+Meta_ChangeFlag	Meta: Row Change flag	bit			FALSE	FALSE	FALSE
+Meta_Insert_TaskExecutionInstanceId	Meta: Insert Audit ID	int			FALSE	FALSE	FALSE
+Meta_LatestUpdate_TaskExecutionInstanceId	Meta: Update Audit ID	int			FALSE	FALSE	FALSE
+account_history_id	account_history_id	numeric	"18,0"		FALSE	FALSE	FALSE
+accnt_status_id	accnt_status_id	numeric	"18,0"		FALSE	FALSE	FALSE
+event_date	event_date	datetime			FALSE	FALSE	FALSE
+reference	reference	varchar	60		FALSE	FALSE	FALSE
+active	active	char	1		FALSE	FALSE	FALSE
+insert_datetime	insert_datetime	datetime			FALSE	FALSE	FALSE
+insert_user	insert_user	varchar	20		FALSE	FALSE	FALSE
+insert_process	insert_process	varchar	20		FALSE	FALSE	FALSE
+update_datetime	update_datetime	datetime			FALSE	FALSE	FALSE
+update_user	update_user	varchar	20		FALSE	FALSE	FALSE
+update_process	update_process	varchar	20		FALSE	FALSE	FALSE
+seq_product_item_id	seq_product_item_id	numeric	"18,0"		FALSE	FALSE	FALSE

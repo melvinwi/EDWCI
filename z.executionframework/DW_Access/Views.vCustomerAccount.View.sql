@@ -4,7 +4,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE VIEW [Views].[vCustomerAccount]
 AS
 WITH   factSalesActivity
@@ -32,7 +31,8 @@ SELECT -- DimAccount
        DimAccountCurrent.ACN,
        DimAccountCurrent.ABN,
        DimAccountCurrent.AccountType,
-	  DimAccountCurrent.BillCycleCode,
+       DimAccountCurrent.BillCycleCode,
+       DimAccountCurrent.DistrictState,
        -- DimCustomer
        DimCustomerCurrent.CustomerCode,
        DimCustomerCurrent.Title,
@@ -72,5 +72,7 @@ FROM   DW_Dimensional.DW.FactCustomerAccount
 INNER  JOIN DW_Dimensional.DW.DimAccount AS DimAccountCurrent ON DimAccountCurrent.AccountId = FactCustomerAccount.AccountId AND DimAccountCurrent.Meta_IsCurrent = 1
 INNER  JOIN DW_Dimensional.DW.DimCustomer AS DimCustomerCurrent ON DimCustomerCurrent.CustomerId = FactCustomerAccount.CustomerId AND DimCustomerCurrent.Meta_IsCurrent = 1
 LEFT   JOIN factSalesActivity ON factSalesActivity.AccountKey = DimAccountCurrent.AccountKey AND factSalesActivity.Instance = 1;
+
+
 
 GO
