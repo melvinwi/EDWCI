@@ -21,7 +21,7 @@ END
 		FactSalesActivity.PricePlanId,
 		FactSalesActivity.RepresentativeId,
 		FactSalesActivity.OrganisationId,
-		FactSalesActivity.SalesActivityType,
+		FactSalesActivity.SalesActivityTypeID,
 		FactSalesActivity.SalesActivityDateId,
 		FactSalesActivity.SalesActivityTime,
 		FactSalesActivity.SalesActivityKey)
@@ -32,7 +32,7 @@ END
 		COALESCE( _DimPricePlan.PricePlanId , -1),
 		COALESCE( _DimRepresentative.RepresentativeId , -1),
 		COALESCE( _DimOrganisation.OrganisationId , -1),
-		nc_involvement_type.involve_type_desc,
+		nc_involvement_type.seq_involve_type_id,
 		CONVERT(NCHAR(8), nc_sales_involvement.sales_complete , 112),
 		CAST( nc_sales_involvement.sales_complete AS TIME),
 		CAST( nc_sales_involvement.seq_party_id AS NVARCHAR(10)) + '.' + CAST(nc_sales_involvement.seq_involve_type_id AS NVARCHAR(10)) + '.' + CAST(nc_sales_involvement.seq_product_id AS NVARCHAR(10)) + '.' + CAST(nc_sales_involvement.seq_product_item_id AS NVARCHAR(10)) + '.' + CONVERT(NCHAR(23), nc_sales_involvement.sales_complete, 126)

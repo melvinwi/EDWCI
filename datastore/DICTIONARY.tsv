@@ -208,3 +208,7 @@ Type	suffix	Type	NA
 ValueRatio	suffix	Value Ratio	NA
 VirtualStartDate	suffix	Virtual Status Date		NA
 VirtualType	suffix	Virtual Type		NA
+SalesActivityTypeId	suffix	SalesActivityTypeId	NA
+SalesActivityDateId	suffix	SalesActivityDateId	NA
+SalesActivityTime	suffix	SalesActivityTime	NA
+SalesActivityKey	suffix	SalesActivityKey	NA

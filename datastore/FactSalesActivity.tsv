@@ -8,7 +8,7 @@ ProductId	Foreign key to DimProduct	int		-1	TRUE		FALSE
 PricePlanId	Foreign key to DimPricePlan	int		-1	TRUE		FALSE
 RepresentativeId	Foreign key to DimRepresentative	int		-1	TRUE		FALSE
 OrganisationId	Foreign key to DimOrganisation	int		-1	TRUE		FALSE
-SalesActivityType	Sales Activity Date	nvarchar	100		TRUE		FALSE
+SalesActivityTypeId	Sales Activity Type ID	int		-1	TRUE		FALSE
 SalesActivityDateId	Sales Activity Date	int		99991231	TRUE		FALSE
 SalesActivityTime	Sales Activity Time	time			TRUE		FALSE
 SalesActivityKey	Sales Activity Key	nvarchar	100		TRUE		FALSE
