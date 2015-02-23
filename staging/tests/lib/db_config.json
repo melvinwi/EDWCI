@@ -22,7 +22,7 @@
 		"SQLSERVER": [
 			{
 				"DBType": "SQLSERVER",
-				"DBServer": "54.66.183.141",
+				"DBServer": "54.153.138.54",
 				"DBPort": "1433",
 				"DBUsername": "leigh",
 				"DBPassword": "1tsaPassword",
