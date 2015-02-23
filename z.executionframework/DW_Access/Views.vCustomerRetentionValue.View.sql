@@ -14,9 +14,9 @@ WITH   customerValue AS (SELECT DimCustomer.CustomerCode,
                          FROM   DW_Dimensional.DW.DimCustomer
                          INNER  JOIN DW_Dimensional.DW.FactCustomerValue ON FactCustomerValue.CustomerId = DimCustomer.CustomerId)
 SELECT customerValue.CustomerCode,
-       customerValue.ValueRating AS Rating,
-       customerValue.PartyName AS PartyName,
-       customerValue.ResidentialState AS ResidentialState
+       COALESCE(customerValue.ValueRating, '') AS Rating,
+       COALESCE(customerValue.PartyName, '') AS PartyName,
+       COALESCE(customerValue.ResidentialState, '') AS ResidentialState
 FROM   customerValue
 WHERE  customerValue.recency = 1
 
