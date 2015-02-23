@@ -1048,6 +1048,11 @@ AND    t.ServiceKey = UnbilledRevenue.ServiceKey
 AND    t.MeterRegisterKey = UnbilledRevenue.MeterRegisterKey
 AND    t.recency = 1;
 
+UPDATE #UnbilledRevenue
+SET    LastBilledReadType = N'Actual'
+WHERE  #UnbilledRevenue.LastBilledReadDate = #UnbilledRevenue.LastBilledActualReadDate
+AND    #UnbilledRevenue.LastBilledReadType <> N'Actual';
+
 -- 7s, 639,718 rows
 -- =========================================================
 
