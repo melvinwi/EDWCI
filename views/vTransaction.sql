@@ -79,6 +79,7 @@ SELECT -- DimAccount
        DimMeterRegisterCurrent.RegisterVirtualType,
        --FactTransaction
        CONVERT(DATE, CAST(FactTransaction.TransactionDateId AS NCHAR(8)), 112) AS TransactionDate,
+       CONVERT(DATE, CAST(FactTransaction.PostedDateId AS NCHAR(8)), 112) AS PostedDate,
        FactTransaction.Units,
        FactTransaction.Value,
        FactTransaction.Currency,
@@ -92,7 +93,8 @@ SELECT -- DimAccount
        FactTransaction.EndRead,
        FactTransaction.AccountingPeriod,
        CONVERT(DATE, CAST(FactTransaction.StartDateId AS NCHAR(8)), 112) AS StartDate,
-       CONVERT(DATE, CAST(FactTransaction.EndDateId AS NCHAR(8)), 112) AS EndDate
+       CONVERT(DATE, CAST(FactTransaction.EndDateId AS NCHAR(8)), 112) AS EndDate,
+       FactTransaction.ReceiptBatch
 FROM   DW_Dimensional.DW.FactTransaction
 LEFT   JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactTransaction.AccountId
 LEFT   JOIN DW_Dimensional.DW.DimAccount AS DimAccountCurrent ON DimAccountCurrent.AccountKey = DimAccount.AccountKey AND DimAccountCurrent.Meta_IsCurrent = 1

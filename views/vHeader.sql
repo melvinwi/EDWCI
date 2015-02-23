@@ -21,10 +21,16 @@ SELECT -- DimAccount
        DimAccountCurrent.BillCycleCode,
        DimAccountCurrent.DistrictState,
        -- FactHeader
+       CONVERT(DATE, CAST(FactHeader.PostedDateId AS NCHAR(8)), 112) AS PostedDate,
        CONVERT(DATE, CAST(FactHeader.IssueDateId AS NCHAR(8)), 112) AS IssueDate,
        CONVERT(DATE, CAST(FactHeader.DueDateId AS NCHAR(8)), 112) AS DueDate,
        FactHeader.HeaderType,
        FactHeader.PaidOnTime,
+       FactHeader.Invoice,
+       FactHeader.Tax,
+       FactHeader.PromptPaymentDiscount,
+       FactHeader.Reversal,
+       FactHeader.InvoiceBatch,
        FactHeader.HeaderKey
 FROM   DW_Dimensional.DW.FactHeader
 INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountId = FactHeader.AccountId
