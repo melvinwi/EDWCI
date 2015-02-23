@@ -59,6 +59,10 @@ BEGIN
              WHEN #notifications.TransactionType IN (N'DPRTInitChangeOfUser', N'DPRTNotifyChangeOfUsertoUser') THEN #notifications.TransactionDateId
              ELSE _previousNotification.TransactionDateId
            END AS RequestDateId,
+           CASE
+             WHEN #notifications.TransactionType IN (N'DPRTInitChangeOfUser', N'DPRTNotifyChangeOfUsertoUser') THEN #notifications.TransactionTime
+             ELSE _previousNotification.TransactionTime
+           END AS RequestTime,
            #notifications.TransactionTime,
            #notifications.TransactionStatus,
            #notifications.ParticipantCode,
@@ -256,7 +260,7 @@ BEGIN
            '' AS [PREVIOUSCONTACT],
            '' AS [JOB],
            ISNULL(DimCustomerCurrent.PrivacyPreferredStatus, '') AS [Privacy],
-           ROW_NUMBER() OVER (PARTITION BY DimCustomerCurrent.CustomerCode ORDER BY #latestNotification.TransactionDateId DESC, #latestNotification.TransactionTime DESC) AS RC
+           ROW_NUMBER() OVER (PARTITION BY DimCustomerCurrent.CustomerCode ORDER BY #latestNotification.RequestDateId, #latestNotification.RequestTime) AS RC
     INTO   #CallList
     FROM   #latestNotification
     INNER  JOIN DW_Dimensional.DW.DimAccount ON DimAccount.AccountKey = #latestNotification.AccountKey AND DimAccount.Meta_IsCurrent = 1
