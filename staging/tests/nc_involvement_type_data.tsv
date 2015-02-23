@@ -1,0 +1,2 @@
+seq_involve_type_id	involve_type	involve_type_desc	active	insert_datetime	insert_user	insert_process	update_datetime	update_user	update_process	Meta_Insert_TaskExecutionInstanceId	Meta_LatestUpdate_TaskExecutionInstanceId
+1	SALE	Sale	Y	NULL	NULL	NULL	NULL	NULL	NULL	44401	44401

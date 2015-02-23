@@ -13,18 +13,17 @@ EXEC DW_Utility.config.GetLatestSuccessfulTaskExecutionInstanceID
 END
 --/
 
-	;WITH _nit AS ( SELECT _nit.seq_involve_type_id ,_nit.involve_type_desc ,_nit.Meta_LatestUpdate_TaskExecutionInstanceId FROM lumo.[nc_involvement_type] _nit ) , _categories AS ( SELECT _categories.Code ,_categories.name ,_categories.Meta_LatestUpdate_TaskExecutionInstanceId  FROM lumo.[tbl_3_131_EN] _categories )
 	INSERT INTO lumo.DimActivityType (
 		DimActivityType.ActivityTypeKey,
 		DimActivityType.ActivityTypeCode,
 		DimActivityType.ActivityTypeDesc,
 		DimActivityType.ActivityCategory)
 	  SELECT
-		CAST('SAT'+''+CAST( _reference_daily_sales_and_cancellations_entity.[uda_132_2922] AS NVARCHAR(20))AS nvarchar(20)),
-		CAST( _reference_daily_sales_and_cancellations_entity.[uda_132_2922] AS nvarchar(20)),
-		CAST( _nit.involve_type_desc AS nvarchar(100)),
-		CAST( _categories.name AS nvarchar(100))
-	  FROM  lumo.[tbl_3_132_EN] _reference_daily_sales_and_cancellations_entity INNER JOIN _nit                   ON _reference_daily_sales_and_cancellations_entity.[uda_132_2922] = _nit.seq_involve_type_id LEFT JOIN _categories                  ON _reference_daily_sales_and_cancellations_entity.[uda_132_2923] = _categories.Code  WHERE  _reference_daily_sales_and_cancellations_entity.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID  OR   _categories.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR   _nit.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID;;
+		CAST('SAT'+''+CAST( tbl_3_132_EN.[uda_132_2922] AS NVARCHAR(20))AS nvarchar(20)),
+		CAST( tbl_3_132_EN.[uda_132_2922] AS nvarchar(20)),
+		CAST( nc_involvement_type.involve_type_desc AS nvarchar(100)),
+		CAST( tbl_3_131_EN.name AS nvarchar(100))
+	  FROM lumo.tbl_3_132_EN INNER JOIN lumo.nc_involvement_type ON tbl_3_132_EN.uda_132_2922 = nc_involvement_type.seq_involve_type_id LEFT JOIN lumo.tbl_3_131_EN ON tbl_3_132_EN.uda_132_2923 = tbl_3_131_EN.Code WHERE tbl_3_132_EN.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR tbl_3_131_EN.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nc_involvement_type.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID;
 
 SELECT 0 AS ExtractRowCount,
 @@ROWCOUNT AS InsertRowCount,

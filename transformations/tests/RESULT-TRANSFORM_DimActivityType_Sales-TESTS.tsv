@@ -1,0 +1,9 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_DimActivityType_Sales
+# CREATED DATE: 2015-02-24T105538
+
+2015-02-24 10:55:38	2	PASSED	source.length.should.equal(destination.length)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}
+2015-02-24 10:55:38	3	PASSED	('SAT'+source[0].uda_132_2922.toString()).should.equal(destination[0].ActivityTypeKey)	{"obj":"SAT1","params":{"operator":"to be","expected":"SAT1","showDiff":true},"negate":false}
+2015-02-24 10:55:38	4	PASSED	source[0].uda_132_2922.toString().should.equal(destination[0].ActivityTypeCode)	{"obj":"1","params":{"operator":"to be","expected":"1","showDiff":true},"negate":false}
+2015-02-24 10:55:38	5	PASSED	source[0].involve_type_desc.should.equal(destination[0].ActivityTypeDesc)	{"obj":"Sale","params":{"operator":"to be","expected":"Sale","showDiff":true},"negate":false}
+2015-02-24 10:55:38	6	PASSED	source[0].name.should.equal(destination[0].ActivityCategory)	{"obj":"Sale","params":{"operator":"to be","expected":"Sale","showDiff":true},"negate":false}

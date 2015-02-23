@@ -1,0 +1,10 @@
+# design test artefact                      	                                   	                                                                     	
+# ARTEFACT: TRANSFORM_DimActivityType_tests      	                                   	                                                                     	
+# DESCRIPTION: Test each transformation rule	                                   	                                                                     	
+SOURCE_SELECTION_CRITERIA                   	DESTINATION_SELECTION_CRITERIA     	TEST                                                                 	DESCRIPTION
+REUSE_SQL                                   	FROM lumo.tbl_3_132_EN INNER JOIN lumo.nc_involvement_type ON tbl_3_132_EN.uda_132_2922 = nc_involvement_type.seq_involve_type_id LEFT JOIN lumo.tbl_3_131_EN ON tbl_3_132_EN.uda_132_2923 = tbl_3_131_EN.Code 	                                                                     	
+[REUSE_SQL]                                 	                                   	source.length.should.equal(destination.length)                       	row counts should match
+[REUSE_SQL]                                 		('SAT'+source[0].uda_132_2922.toString()).should.equal(destination[0].ActivityTypeKey)	1:1 map rule plus nvarchar cast
+[REUSE_SQL]                                 		source[0].uda_132_2922.toString().should.equal(destination[0].ActivityTypeCode)	1:1 map rule plus nvarchar cast
+[REUSE_SQL]                                 		source[0].involve_type_desc.should.equal(destination[0].ActivityTypeDesc)	1:1 map rule
+[REUSE_SQL]                                 		source[0].name.should.equal(destination[0].ActivityCategory)	1:1 map rule

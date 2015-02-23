@@ -1,0 +1,12 @@
+
+h2. ARTEFACT: TRANSFORM_DimActivityType_Sales
+
+DESCRIPTION: Promote DimActivityType_Sales from Orion tables to DataStore
+
+|*SOURCE_FUNCTION_PREFIX*	|*SOURCE*	|*SOURCE_FUNCTION_SUFFIX*	|*DESTINATION*	|*DESCRIPTION*	|
+|CAST('SAT'+''+CAST(	|"tbl_3_132_EN":../staging/tbl_3_132_EN.textile .[uda_132_2922]	|AS NVARCHAR(20))AS nvarchar(20))	|"DimActivityType":../datastore/DimActivityType.textile .ActivityTypeKey	|One to one mapping	|
+|CAST(	|"tbl_3_132_EN":../staging/tbl_3_132_EN.textile .[uda_132_2922]	|AS nvarchar(20))	|"DimActivityType":../datastore/DimActivityType.textile .ActivityTypeCode	|One to one mapping	|
+|CAST(	|"nc_involvement_type":../staging/nc_involvement_type.textile .involve_type_desc	|AS nvarchar(100))	|"DimActivityType":../datastore/DimActivityType.textile .ActivityTypeDesc	|One to one mapping	|
+|CAST(	|"tbl_3_131_EN":../staging/tbl_3_131_EN.textile .name 	|AS nvarchar(100))	|"DimActivityType":../datastore/DimActivityType.textile .ActivityCategory	|One to one mapping	|
+|SELECTION_CRITERIA	|FROM lumo."tbl_3_132_EN":../staging/tbl_3_132_EN.textile  INNER JOIN lumo."nc_involvement_type":../staging/nc_involvement_type.textile  ON "tbl_3_132_EN":../staging/tbl_3_132_EN.textile .uda_132_2922 = "nc_involvement_type":../staging/nc_involvement_type.textile .seq_involve_type_id LEFT JOIN lumo."tbl_3_131_EN":../staging/tbl_3_131_EN.textile  ON "tbl_3_132_EN":../staging/tbl_3_132_EN.textile .uda_132_2923 = "tbl_3_131_EN":../staging/tbl_3_131_EN.textile .Code WHERE "tbl_3_132_EN":../staging/tbl_3_132_EN.textile .Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR "tbl_3_131_EN":../staging/tbl_3_131_EN.textile .Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR "nc_involvement_type":../staging/nc_involvement_type.textile .Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID|
+
