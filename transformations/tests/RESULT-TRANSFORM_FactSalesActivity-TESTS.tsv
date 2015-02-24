@@ -1,0 +1,5 @@
+# transformation test result artefact
+# ARTEFACT: TRANSFORM_FactSalesActivity
+# CREATED DATE: 2015-02-24T150314
+
+2015-02-24 15:03:14	2	PASSED	source.length.should.equal(destination.length)	{"obj":1,"params":{"operator":"to be","expected":1,"showDiff":true},"negate":false}

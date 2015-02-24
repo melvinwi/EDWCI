@@ -1,0 +1,2 @@
+contract_term_id	contract_term_code	contract_term_desc	no_of_months	open_term	active	insert_datetime	insert_user	insert_process	update_datetime	update_user	update_process	default_option	isp_ft_charge_item_id	isp_nc_charge_item_id	Meta_Insert_TaskExecutionInstanceId	Meta_LatestUpdate_TaskExecutionInstanceId
+1	OPEN	Open Contract	NULL	Y	Y	NULL	NULL	NULL	NULL	NULL	NULL	N	NULL	NULL	-1	-1

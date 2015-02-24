@@ -1,0 +1,7 @@
+price_category_id	price_category_code	price_category_desc	active	insert_datetime	insert_user	insert_process	update_datetime	update_user	update_process	Meta_Insert_TaskExecutionInstanceId	Meta_LatestUpdate_TaskExecutionInstanceId
+1	STANDARD	Standard Offering	Y	19:54.1	ADMIN	INIT Price Class	NULL	NULL	NULL	-1	-1
+3	GREEN	Green Product	Y	19:54.4	ADMIN	INIT Price Class	NULL	NULL	NULL	-1	-1
+4	RATE_CARD	Rate Card	Y	18:03.7	UMBRIA	V7200	NULL	NULL	NULL	-1	-1
+5	NMI_BASED	NMI Based	Y	18:03.8	UMBRIA	V7200	NULL	NULL	NULL	-1	-1
+6	OCCUPIER	Occupier Rate Card	Y	18:03.8	UMBRIA	V7200	NULL	NULL	NULL	-1	-1
+7	NETWORK	Network Cost	Y	18:03.8	UMBRIA	V7200	NULL	NULL	NULL	-1	-1

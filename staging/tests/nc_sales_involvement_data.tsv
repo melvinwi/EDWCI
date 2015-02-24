@@ -1,0 +1,2 @@
+seq_party_id	seq_involve_type_id	seq_product_id	active	insert_datetime	insert_user	insert_process	update_datetime	update_user	update_process	seq_product_item_id	voice_ver_date	voice_ver_extn	sales_complete	sales_team_leader_id	contract_signature	pr_campaign_id	Meta_Insert_TaskExecutionInstanceId	Meta_LatestUpdate_TaskExecutionInstanceId
+63080	1	44482	Y	2015-02-01 16:24:00.000	TAOUKT	ADD_PREMISE	NULL	NULL	NULL	153531	2015-02-01 16:24:00.000	signature	2015-02-01 16:24:00.000	NULL	Y	NULL	-1	-1
