@@ -2,8 +2,8 @@
 # ARTEFACT: TRANSFORM_DimActivityType_Sales				
 # DESCRIPTION: Promote DimActivityType_Sales from Orion tables to DataStore				
 SOURCE_FUNCTION_PREFIX	SOURCE	SOURCE_FUNCTION_SUFFIX	DESTINATION	DESCRIPTION
-CAST('SAT'+''+CAST(	tbl_3_132_EN.[uda_132_2922]	AS NVARCHAR(20))AS nvarchar(20))	DimActivityType.ActivityTypeKey	One to one mapping
-CAST(	tbl_3_132_EN.[uda_132_2922]	AS nvarchar(20))	DimActivityType.ActivityTypeCode	One to one mapping
+CAST('SAT'+''+CAST(	nc_involvement_type.seq_involve_type_id	AS NVARCHAR(20))AS nvarchar(20))	DimActivityType.ActivityTypeKey	One to one mapping
+CAST(	nc_involvement_type.seq_involve_type_id	AS nvarchar(20))	DimActivityType.ActivityTypeCode	One to one mapping
 CAST(	nc_involvement_type.involve_type_desc	AS nvarchar(100))	DimActivityType.ActivityTypeDesc	One to one mapping
-CAST(	tbl_3_131_EN.name 	AS nvarchar(100))	DimActivityType.ActivityCategory	One to one mapping
-SELECTION_CRITERIA	FROM lumo.tbl_3_132_EN INNER JOIN lumo.nc_involvement_type ON tbl_3_132_EN.uda_132_2922 = nc_involvement_type.seq_involve_type_id LEFT JOIN lumo.tbl_3_131_EN ON tbl_3_132_EN.uda_132_2923 = tbl_3_131_EN.Code WHERE tbl_3_132_EN.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR tbl_3_131_EN.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nc_involvement_type.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID			
+CAST(ISNULL(	tbl_3_131_EN.name 	",'Undefined')AS nvarchar(100))"	DimActivityType.ActivityCategory	One to one mapping
+SELECTION_CRITERIA	FROM lumo.nc_involvement_type LEFT JOIN lumo.tbl_3_132_EN ON nc_involvement_type.seq_involve_type_id = tbl_3_132_EN.uda_132_2922 LEFT JOIN lumo.tbl_3_131_EN ON tbl_3_132_EN.uda_132_2923 = tbl_3_131_EN.Code WHERE tbl_3_132_EN.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR tbl_3_131_EN.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID OR nc_involvement_type.Meta_LatestUpdate_TaskExecutionInstanceId > @LatestSuccessfulTaskExecutionInstanceID			
